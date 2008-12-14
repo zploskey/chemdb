@@ -28,27 +28,27 @@
 |	['dbcollat'] The character collation used in communicating with the database
 |
 | The $active_group variable lets you choose which connection group to
-| make active.  By default there is only one group (the "default" group).
+| make active.  By base_chem there is only one group (the "base_chem" group).
 |
 | The $active_record variables lets you determine whether or not to load
 | the active record class
 */
 
-$active_group = "default";
+$active_group = "base_chem";
 $active_record = TRUE;
 
-$db['default']['hostname'] = "ovid.u.washington.edu:23457";
-$db['default']['username'] = "lab_user";
-$db['default']['password'] = "***REMOVED***";
-$db['default']['database'] = "base_chem";
-$db['default']['dbdriver'] = "mysql";
-$db['default']['dbprefix'] = "";
-$db['default']['pconnect'] = TRUE;
-$db['default']['db_debug'] = TRUE;
-$db['default']['cache_on'] = FALSE;
-$db['default']['cachedir'] = "";
-$db['default']['char_set'] = "utf8";
-$db['default']['dbcollat'] = "utf8_general_ci";
+$db['base_chem']['hostname'] = "ovid.u.washington.edu:23457";
+$db['base_chem']['username'] = "lab_user";
+$db['base_chem']['password'] = "***REMOVED***";
+$db['base_chem']['database'] = "base_chem";
+$db['base_chem']['dbdriver'] = "mysql";
+$db['base_chem']['dbprefix'] = "";
+$db['base_chem']['pconnect'] = TRUE;
+$db['base_chem']['db_debug'] = TRUE;
+$db['base_chem']['cache_on'] = FALSE;
+$db['base_chem']['cachedir'] = "";
+$db['base_chem']['char_set'] = "utf8";
+$db['base_chem']['dbcollat'] = "utf8_general_ci";
 
 
 /* End of file database.php */
