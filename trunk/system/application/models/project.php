@@ -14,6 +14,7 @@ class Project extends Model {
 	function Project() {
 		parent::Model();
 		$this->load->database('base_chem');
+		$this->load->helper('query');
 	}
 	
 	/**
@@ -57,10 +58,17 @@ class Project extends Model {
 	 * @return void
 	 **/
 	function insert_project($data) {
+		$q = $this->db->get_where('projects', array('name' => $data->name), 1);
+		if ($this->db->num_results() < 0) {
+			$this->db->insert('projects', $data);
+		} else {
+			// already exists
+		}
 		
-		$this->db->insert('projects', $data);
 	}
 	
 }
 
-?>
+/* End of file project.php */
+/* Location: ./system/application/controllers/project.php */
+
