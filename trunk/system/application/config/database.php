@@ -37,10 +37,10 @@
 $active_group = "default";
 $active_record = TRUE;
 
-$db['default']['hostname'] = "localhost";
-$db['default']['username'] = "";
-$db['default']['password'] = "";
-$db['default']['database'] = "";
+$db['default']['hostname'] = "ovid.u.washington.edu:23457";
+$db['default']['username'] = "lab_user";
+$db['default']['password'] = "aL__26";
+$db['default']['database'] = "base_chem";
 $db['default']['dbdriver'] = "mysql";
 $db['default']['dbprefix'] = "";
 $db['default']['pconnect'] = TRUE;
