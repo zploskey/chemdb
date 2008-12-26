@@ -38,8 +38,8 @@ $active_group = "base_chem";
 $active_record = TRUE;
 
 $db['base_chem']['hostname'] = "ovid.u.washington.edu:23457";
-$db['base_chem']['username'] = "lab_user";
-$db['base_chem']['password'] = "***REMOVED***";
+$db['base_chem']['username'] = "root";
+$db['base_chem']['password'] = "password";
 $db['base_chem']['database'] = "base_chem";
 $db['base_chem']['dbdriver'] = "mysql";
 $db['base_chem']['dbprefix'] = "";
