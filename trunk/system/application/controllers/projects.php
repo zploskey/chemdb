@@ -9,15 +9,22 @@ class Projects extends Controller {
 	
 	function index() {
 		$data['projects'] = $this->project->get_all();
-		$this->load->view('projects_view', $data);
+		$this->load->view('projects/list', $data);
 	}
 	
-	function edit($id) {
-		
+	function edit($id = null) {
+		if ($id != null) {
+			$data['id'] = $id;
+			$this->load->view('projects/edit', $data);
+		}
 	}
 	
-	function delete($id) {
-	
+	function delete($id = null) {
+		if ($id == null) {
+			// error msg
+		} else {
+			// request delete from DB
+		}
 	}
 }
 
