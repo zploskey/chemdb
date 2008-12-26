@@ -45,9 +45,9 @@ code {
 
 <h1>Cosmogenic Nuclide Lab Database</h1>
 
-<p><?php echo anchor('projects', 'Manage Projects'); ?></p>
-<p><?php echo anchor('samples', 'Manage Samples'); ?></p>
-<p><?php echo anchor('qchem','Quartz Chemistry'); ?></p>
+<p><?php echo anchor('projects/list', 'Manage Projects'); ?></p>
+<p><?php echo anchor('samples/list', 'Manage Samples'); ?></p>
+<p><?php echo anchor('qchem/options','Quartz Chemistry'); ?></p>
 
 
 <p><br />Page rendered in {elapsed_time} seconds</p>
