@@ -11,7 +11,7 @@
 |	http://example.com/
 |
 */
-$config['base_url']	= "http://depts.washington.edu/cosmolab/dev_chemdb/";
+$config['base_url']	= "http://localhost:8888/chem_db/trunk";
 
 /*
 |--------------------------------------------------------------------------
