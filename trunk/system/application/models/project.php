@@ -14,7 +14,6 @@ class Project extends Model {
 	function Project() {
 		parent::Model();
 		$this->load->database('base_chem');
-		$this->load->helper('query');
 	}
 	
 	/**
@@ -23,9 +22,8 @@ class Project extends Model {
 	 * @return object
 	 **/
 	function get_all() {
-		$data = array();
 		$q = $this->db->get('projects');
-		if ($record->num_rows() > 0) {
+		if ($q->num_rows() > 0) {
 			$data = $q->result();
 		}
 		
@@ -40,8 +38,6 @@ class Project extends Model {
 	 * @return void
 	 */
 	function get_project($id) {
-		$data = array();
-
 		$q = $this->db->get_where('projects', array('id' => $id), 1);
 		if ($q->num_rows() > 0) {
 			$data = $q->row();
