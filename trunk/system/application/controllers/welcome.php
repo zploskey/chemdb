@@ -2,13 +2,11 @@
 
 class Welcome extends Controller {
 
-	function Welcome()
-	{
-		parent::Controller();	
+	function Welcome() {
+		parent::Controller();
 	}
 	
-	function index()
-	{
+	function index(){
 		$this->load->view('welcome_message');
 	}
 }
