@@ -7,7 +7,12 @@ function Welcome() {
 	}
 	
 	function index(){
-		$this->load->view('welcome');
+		$data = array(
+			'main' => 'welcome',
+			'title' => 'CNL Database'		
+		);
+
+		$this->load->view('template', $data);
 	}
 }
 
