@@ -11,8 +11,14 @@
 |	http://example.com/
 |
 */
-$config['base_url']	= "http://localhost:8888/chem_db/trunk";
 
+// Branching for development environment:
+if($_SERVER['SERVER_NAME'] == 'localhost') {
+	$config['base_url']	= 'http://localhost:8888/ci_chemdb';
+	$_SERVER['REMOTE_USER'] = 'testuser';
+} else {
+	$config['base_url'] = 'http://depts.washington.edu/cosmolab/dev_chemdb';
+}
 /*
 |--------------------------------------------------------------------------
 | Index File
