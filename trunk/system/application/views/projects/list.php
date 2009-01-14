@@ -1,73 +1,27 @@
-<html>
-<head>
-<title>CNL Database</title>
+<p>
+<span id="actionbar"><ul>
+	<li><?php echo anchor('projects/add','Add Project'); ?> |</li>
+	<li><?php echo anchor('welcome', 'Return to Main Menu'); ?></li>
+</ul></span>
+</p>
 
-<style type="text/css">
-
-body {
- background-color: #fff;
- margin: 40px;
- font-family: Lucida Grande, Verdana, Sans-serif;
- font-size: 14px;
- color: #4F5155;
-}
-
-a {
- color: #003399;
- background-color: transparent;
- font-weight: normal;
-}
-
-h1 {
- color: #444;
- background-color: transparent;
- border-bottom: 1px solid #D0D0D0;
- font-size: 16px;
- font-weight: bold;
- margin: 24px 0 2px 0;
- padding: 5px 0 6px 0;
-}
-
-code {
- font-family: Monaco, Verdana, Sans-serif;
- font-size: 12px;
- background-color: #f9f9f9;
- border: 1px solid #D0D0D0;
- color: #002166;
- display: block;
- margin: 14px 0 14px 0;
- padding: 12px 10px 12px 10px;
-}
-
-</style>
-</head>
-<body>
-
-<h1>Manage Projects</h1>
-
-<table>
+<div class="data">
+<table style="width: 500px; align: center;">
 <tr><th>Name</th><th>Actions</th></tr>
 
-<?php foreach($projects as $proj): ?>
-<tr>
+<?php foreach($projects->result() as $proj): ?>
+<tr align="center">
 	<td><?php echo $proj->name; ?></td>
 	<td>
-		<ul>
-			<li><?php echo anchor('projects/edit/'.$proj->id, 'Edit'); ?></li>
-			<li><?php echo anchor('projects/delete/'.$proj->id, 'Delete'); ?></li>
-		</ul>
+		<span id="actionbar">
+			<ul>
+				<li><?php echo anchor('projects/edit/'.$proj->id, 'Edit'); ?></li>
+				<li><?php echo anchor('projects/delete/'.$proj->id, 'Delete'); ?></li>
+			</ul>
+		</span>
 	</td>
 </tr>
 <?php endforeach; ?>
+</div>
 
 </table>
-<ul>
-<li><?php echo anchor('projects/add','Add Project'); ?></li>
-<li><?php echo anchor('welcome', 'Return to Main Menu'); ?></li>
-</ul>
-
-
-<p><br />Page rendered in {elapsed_time} seconds</p>
-
-</body>
-</html>
