@@ -39,7 +39,7 @@
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('ignitedrecord/ignitedrecord');
+$autoload['libraries'] = array('form_validation');
 
 
 /*
@@ -51,7 +51,7 @@ $autoload['libraries'] = array('ignitedrecord/ignitedrecord');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('url','form','html');
+$autoload['helper'] = array('url','form','html','snippets');
 
 
 /*
