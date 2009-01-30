@@ -34,8 +34,21 @@
 | the active record class
 */
 
-$active_group = "chem";
+$active_group = "quartz_chem";
 $active_record = TRUE;
+
+$db['quartz_chem']['hostname'] = "ovid.u.washington.edu:23457";
+$db['quartz_chem']['username'] = "root";
+$db['quartz_chem']['password'] = "password";
+$db['quartz_chem']['database'] = "dev_al_be_quartz_chem";
+$db['quartz_chem']['dbdriver'] = "mysql";
+$db['quartz_chem']['dbprefix'] = "";
+$db['quartz_chem']['pconnect'] = TRUE;
+$db['quartz_chem']['db_debug'] = TRUE;
+$db['quartz_chem']['cache_on'] = FALSE;
+$db['quartz_chem']['cachedir'] = "";
+$db['quartz_chem']['char_set'] = "latin1";
+$db['quartz_chem']['dbcollat'] = "latin1_general_ci";
 
 $db['chem']['hostname'] = "ovid.u.washington.edu:23457";
 $db['chem']['username'] = "root";
@@ -49,7 +62,6 @@ $db['chem']['cache_on'] = FALSE;
 $db['chem']['cachedir'] = "";
 $db['chem']['char_set'] = "latin1";
 $db['chem']['dbcollat'] = "latin1_general_ci";
-
 
 /* End of file database.php */
 /* Location: ./system/application/config/database.php */
