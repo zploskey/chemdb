@@ -1,3 +1,5 @@
+<!-- This file isn't used, use index.php instead. -->
+
 <p>
 <span id="actionbar"><ul>
 	<li><?php echo anchor('projects/add','Add Project'); ?> |</li>
@@ -6,22 +8,23 @@
 </p>
 
 <div class="data">
-<table style="width: 500px; align: center;">
-<tr><th>Name</th><th>Actions</th></tr>
+    <table style="width: 500px">
+        <tr><th>Name</th><th>Actions</th></tr>
 
-<?php foreach($projects->result() as $proj): ?>
-<tr align="center">
-	<td><?php echo $proj->name; ?></td>
-	<td>
-		<span id="actionbar">
-			<ul>
-				<li><?php echo anchor('projects/edit/'.$proj->id, 'Edit'); ?></li>
-				<li><?php echo anchor('projects/delete/'.$proj->id, 'Delete'); ?></li>
-			</ul>
-		</span>
-	</td>
-</tr>
-<?php endforeach; ?>
+        <p><?php echo 'count was='.$this->project->where('name', 'testing2')->count(); ?></p>
+
+        <?php foreach($projects->result() as $proj): ?>
+        <tr align="center">
+            <td><?php echo $proj->name; ?></td>
+            <td>
+                <span id="actionbar">
+                    <ul>
+                        <li><?php echo anchor('projects/edit/'.$proj->id, 'Edit'); ?></li>
+                        <li><?php echo anchor('projects/delete/'.$proj->id, 'Delete'); ?></li>
+                    </ul>
+                </span>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+    </table>
 </div>
-
-</table>
