@@ -1,16 +1,17 @@
-<?=print_r($project)?>
-<?=anchor('welcome','Main')?> | <?=anchor('projects','Projects')?>
-<p><h2>Editing <?=$project->name?>, ID=<?=$project->id?></h2></p>
+<div id="navbar">
+	<?=anchor('welcome','Return to Main Menu')?> | <?=anchor('projects','Projects')?>
+</div>
 
-<p><?php echo validation_errors(); ?></p>
+<p><h2><?=$subtitle?></h2></p>
 
-<?=form_open('projects/edit_action')?>
+<?=form_open(site_url("projects/edit/$arg"))?>
+	<div class="formblock">
+		<label>Name:</label>
+		<input type="text" name="name" value="<?=$proj->name?>"/><br>
 
-<?=form_hidden('id', $this->uri->segment(3)) ?>
-<?=form_hidden('submit', true) ?>
-
-<p>Name: <input type="text" name="name" value="<?=$project->name?>" size="50" />
-
-<input type="submit" value="Submit" />
+		<label>Description:</label>
+		<textarea name="description" rows="5" cols="50" wrap="soft"><?=$proj->description?></textarea><br>
+	</div>
+	<p><?=form_error('name')?></p>
+	<p><input type="submit" value="Submit" /></p>
 </form>
-<p\>

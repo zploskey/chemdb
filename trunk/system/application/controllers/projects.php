@@ -1,127 +1,147 @@
 <?php
 
-class Projects extends Controller
+class Projects extends MY_Controller
 {
+	var $table = 'projects';
 	
 	/**
-	 * Contructs object, connects to model, and loads necessary libraries.
+	 * Contructs the class object, connects to database, and loads necessary libraries.
 	 * 
 	 **/
 	function Projects()
 	{
-		parent::Controller();
-		$this->load->model('project');	
-		$this->load->library('form_validation', 'session');
+		parent::MY_Controller();
+		$this->load->model('project');
+		$this->load->library('form_validation');
 	}
 
 	/**
-	 * Loads page listing projects.
+	 * Loads a page listing projects.
+	 *
+	 * Uses pagination if there are many projects.
 	 *
 	 * @return void
 	 **/
 	function index()
 	{
-		$data = array(
-			'projects'  => $this->project->read_all(),
-			'title'    => 'Manage Projects',
-			'main'     => 'projects/index'
-		);
-
-		$this->load->view('template', $data);
-	}
-
-	/**
-	 * 
-	 *
-	 * @return void
-	 **/
-	function add() 
-	{
-		$this->_validate_project();
+		// Pagination url: projects/index/sort_by/sort_dir/page
+		//     URI number:     1   /  2  /   3   /    4   / 5
+		//       Defaults: projects/index/  name /   asc  / 0
 		
-		if ($this->form_validation->run() == FALSE) 
-		{	
-			// (re)display form
-			$data = array(
-				'title' => 'Add Project',
-				'main' => 'projects/add'
-			);
+		// set database pagination settings
+		$sort_by = $this->uri->segment(3,'name');
+		$sort_dir = strtolower($this->uri->segment(4,'ASC'));
+		$page = $this->uri->segment(5,0);
+		$num_per_page = 5;
+		$projects = $this->project->get_page($page, $num_per_page, $sort_by, $sort_dir);
+		
+		// set pagination options
+		$this->load->library('pagination');
+		$config['base_url'] = site_url("projects/index/$sort_by/$sort_dir");
+		$config['total_rows'] = $this->project->count();
+		$config['per_page'] = $num_per_page;
+		$config['uri_segment'] = 5;
+		$this->pagination->initialize($config);
 			
-			$this->load->view('template', $data);
-		}
-		else
-		{
-			$data['name'] = $this->input->post(name);
-			$this->project->insert($data);
-		}
+		$data = array(
+			'title'        => 'Manage Projects',
+			'main'         => 'projects/index',
+			'projects'     => $projects,
+			'pagination'   => 'Go to page: '.$this->pagination->create_links(),
+			'alt_sort_dir' => switch_sort($sort_dir),  // a little trick I put in the snippet helper
+			'sort_by'      => $sort_by,
+			'page'         => $page
+		);
+	
+		$this->load->view('template', $data);
 	}
 
 	/**
 	 * Displays the edit form and evaluates submits. If the submit validates properly, 
 	 * it makes change to project in database and redirects.
 	 *
+	 * @param int id The id of the project to edit. Default is zero for a new project.
 	 */
-	function edit() 
-	{
-		$id = (int) $this->uri->segment(3);
+	function edit($id = 0) 
+	{	
+		// are we editing an existing project?
+		if ($id)
+		{
+			// Get the project data.
+			$proj = $this->project->get($id);
 
-		// display (or redisplay) the edit form
-		$data = array('project' => $this->project->read($id),
-		              'title'   => 'Edit Project',
-		              'main'    => 'projects/edit'
-		);
+			// If the project doesn't exist we 404.
+			if ( ! $proj) 
+			{
+				show_404('page');
+			}
+			
+			// there is a project, set the display values
+			$data->title = 'Edit Project';
+			$data->subtitle = 'Editing '.$proj->name;
+			$data->arg = $id;
+		}
+		else // it's a new project, create a new record object and other display values
+		{
+			$proj = new stdClass();
+
+			$data->title = 'Add Project';
+			$data->subtitle = 'Enter Project Information:';
+			$data->arg = '';
+		}
+			
+		// validate anything that was submitted
+		if ($this->form_validation->run('projects') == FALSE)
+		{
+			// reset form values
+			$proj->name = set_value('name', $proj->name);
+			$proj->description = set_value('description', $proj->description);
+			
+			$data->proj = $proj;
+			$data->main = 'projects/edit';
+			$this->load->view('template', $data);
+		}
+		else // inputs are valid, save changes and redirect
+		{
+			$proj->name        = $this->input->post('name');
+			$proj->description = $this->input->post('description');
+			$this->project->save($proj);
+			redirect('projects');
+		}
+	}
+	
+	/**
+	 * Shows the project information.
+	 *
+	 * @return void
+	 */
+	function view($id)
+	{
+		$project = $this->project->get($id);
+			
+		if ( ! $project)
+		{
+			show_404('page');
+		}
 		
+		$data->title = 'View Project';
+		$data->subtitle = 'Viewing '.$project->name;
+		$data->arg = '/'.$id;
+		$data->project  = $project;
+		$data->main  = 'projects/view';
 		$this->load->view('template', $data);
 	}
 	
-	/**
-	 * 
-	 *
-	 * @return void
-	 **/
-	function edit_action() 
-	{	
-		$data['id']   = $this->input->post('id');
-		$data['name'] = $this->input->post('name');
-		
-		if ($this->form_validation == FALSE)
-		{
-			$data['main'] = 'projects/edit'.$data['id'];
-			$this->load->view('template', $data);
-		}
-		else
-		{
-			// edit is valid, change the information
-			$this->project->update($data);
-			// $this->session->set_flashdata('message', '<div id="message">Edited successfully.</div>');
-			redirect('projects');
-		}
-		
-	}
+	// ----------
+	// CALLBACKS:
+	// ----------
 	
-	
-	// VALIDATION SECTION
-
-	/**
-	 * Callback: Returns true if the name exists
-	 *
-	 * @param string $name
-	 * @return boolean
-	 */
-	function name_exists($name) 
+	function is_unique($value, $field)
 	{
-		if ($this->project->count_named($name))
-		{
-			return TRUE;
-		}
-		else 
-		{
-			$this->validation->set_message('name_exists', 'The project %s aly exists.');
-			return FALSE;
-		}
+		return $this->project->is_unique($value, $field);
 	}
-}
 
+}
 
 /* End of file projects.php */
 /* Location: ./system/application/controllers/projects.php */
