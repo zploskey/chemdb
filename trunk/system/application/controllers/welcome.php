@@ -1,12 +1,14 @@
 <?php
 
-class Welcome extends Controller {
+class Welcome extends MY_Controller {
 
-function Welcome() {
-		parent::Controller();
+function Welcome() 
+	{
+		parent::MY_Controller();
 	}
 	
-	function index(){
+	function index()
+	{
 		$data = array(
 			'main' => 'welcome',
 			'title' => 'CNL Database'		

@@ -1,30 +1,40 @@
+<div id="navbar">
+	<ul>
+		<li><?=anchor('welcome', 'Return to Main Menu')?></li> | 
+		<li><?=anchor('projects/edit', 'Add Project')?> </li>
+	</ul>
+</div>
 
-<p>
-<span id="actionbar"><ul>
-	<li><?php echo anchor('projects/add','Add Project'); ?> |</li>
-	<li><?php echo anchor('welcome', 'Return to Main Menu'); ?></li>
-</ul></span>
-</p>
-
+<div class="pagination">
+	<?=$pagination?>
+</div>
 <div class="data">
-<table style="width: 500px; align: center;">
-<tr><th>Name</th><th>Actions</th></tr>
-
-<?php foreach($projects->result() as $proj): ?>
-
-<tr align="center">
-	<td><?php echo $proj->name; ?></td>
-	<td>
-		<span id="actionbar">
-			<ul>
-				<li><?php echo anchor('projects/edit/'.$proj->id, 'Edit'); ?></li>
-				<li><?php echo anchor('projects/delete/'.$proj->id, 'Delete'); ?></li>
-			</ul>
-		</span>
-	</td>
-</tr>
-
-<?php endforeach; ?>
-
-</table>
+	<p>
+		<table class="itemlist">		
+			<tr>
+				<th><?=anchor("projects/index/$sort_by/$alt_sort_dir/$page", 'Name')?></th>
+				<th>Actions</th>
+			</tr>
+	
+			<?php foreach($projects as $p): ?>
+		
+				<tr>
+					<td id="name"><?=$p->name?></td>
+					<td>
+						<span id="actionbar">
+							<ul>
+								<li><?=anchor('projects/view/'.$p->id, 'View')?></li>
+								<li><?=anchor('projects/edit/'.$p->id, 'Edit')?></li>
+							</ul>
+						</span>
+					</td>
+				</tr>
+		
+			<?php endforeach; ?>
+		
+		</table>
+	</p>
+</div>
+<div class="pagination">
+	<?=$pagination?>
 </div>
