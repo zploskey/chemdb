@@ -41,6 +41,20 @@ class MY_Model extends Model
 		return $this->db->where($field, $value)->count_all_results();
 	}
 	
+	/**
+	 * Finds the number of records returned by a query where field = value.
+	 * Supports limit and offset.
+	 *
+	 * @param array associative array, fieldname => value
+	 * @param int maximum number of records to return
+	 * @param int record to offset the page to
+	 * @return int number of records
+	 **/
+	function get_where($where, $limit = null, $offset = null)
+	{
+		return $this->db->get_where($this->table, $where, $limit, $offset);
+	}
+	
 	function get($id = null)
 	{
 		if ($id == null)
@@ -107,7 +121,7 @@ class MY_Model extends Model
 	function list_fields()
 	{
 		$fields = $this->list_all_fields();
-		unset($fields[0]);
+		unset($fields[0]);  // take off the id field
 		return $fields;
 	}
 	/**
