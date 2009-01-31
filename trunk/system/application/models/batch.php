@@ -16,7 +16,7 @@ class Batch extends MY_Model
 
 	function get_open_batches()
 	{
-		return $this->db->select('id, owner, desc, start_date')
+		return $this->db->select('id, owner, description, start_date')
 			             ->from($this->table)
 			             ->where('completed', 'n')
 			             ->order_by('start_date', 'desc')
@@ -25,7 +25,7 @@ class Batch extends MY_Model
 	
 	function get_all_batches()
 	{
-		return $this->db->select('id, owner, desc, start_date')
+		return $this->db->select('id, owner, description, start_date')
 			             ->from($this->table)
 			             ->order_by('start_date', 'desc')
 			             ->get()->result();
