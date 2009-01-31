@@ -117,12 +117,6 @@ class Samples extends MY_Controller
 		}
 	}
 	
-	function testing()
-	{
-		$fields = $this->sample->list_fields();
-		print_r($fields);
-	}
-	
 	/**
 	 * Shows the data for a sample.
 	 *
