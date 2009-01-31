@@ -17,8 +17,8 @@ $lang['numeric']			= "The %s field must contain only numbers.";
 $lang['is_numeric']			= "The %s field must contain only numeric characters.";
 $lang['integer']			= "The %s field must contain an integer.";
 $lang['matches']			= "The %s field does not match the %s field.";
-$lang['is_natural']			= "The %s field must contain only positive numbers.";
-$lang['is_natural_no_zero']	= "The %s field must contain a number greater than zero.";
+$lang['is_natural']			= "The %s field must contain only positive integers.";
+$lang['is_natural_no_zero']	= "The %s field must contain an integer greater than zero.";
 
 // custom messages
 $lang['unique']             = "The %s field is not unique. Please choose another.";
