@@ -1,7 +1,7 @@
 <table>
 	<!--- CREATE A NEW BATCH -->
 	<!-- action=start_new_quartz_prep.php -->
-	<?=form_open('quartz_chem/new')?>
+	<?=form_open('quartz_chem/new_batch')?>
 		<tr>
 			<td><i><b>Create a new batch</td></i><b>
 			<td align=center>
