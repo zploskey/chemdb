@@ -55,5 +55,23 @@ $config['samples'] = array(
 		'label' => 'Density',
 		'rules' => 'trim|numeric'));
 
+$config['batches'] = array(
+	array(
+		'field' => 'id',
+		'label' => 'ID',
+		'rules' => 'trim|is_natural_no_zero'),
+	array(
+		'field' => 'description',
+		'label' => 'Description',
+		'rules' => 'trim|htmlspecialchars'),
+	array(
+		'field' => 'owner',
+		'label' => 'Initials',
+		'rules' => 'trim|htmlspecialchars'),
+	array(
+		'field' => 'numsamples',
+		'label' => '# of Samples',
+		'rules' => 'is_natural_no_zero'));
+
 /* End of file form_validation.php */
 /* Location: ./system/application/config/form_validation.php */
