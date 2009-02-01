@@ -1,11 +1,10 @@
 <p><?=validation_errors()?></p>
 
 <table width="800" class="arial10">
-	
+
 	<?=form_open(site_url('quartz_chem/new_batch'))?>
-	
-	<input type=hidden name="id" value="<?=$batch->id?>">
-	<input type=hidden name="is_refresh" value="true">
+		<input type=hidden name="id" value="<?=$batch->id?>">
+		<input type=hidden name="start_date" value="<?=$batch->start_date?>">
 	
 		<tr>
 			<td width="400"> Batch ID </td>
@@ -54,8 +53,8 @@
 
 	<tr>
 		<?=form_open(site_url('quartz_chem/load_samples'))?>
-			<input type=hidden name="id" value="<?=$batch->id?>">
-			<td colspan=2 align=center>
+			<input type="hidden" name="id" value="<?=$batch->id?>">
+			<td colspan="2" align="center">
 				<p/>
 				<input type=submit value="Onward to sample loading and carrier addition">
 				<hr>

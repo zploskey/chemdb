@@ -4,7 +4,7 @@
  * Business logic for the quartz chemistry pages.
  * 
  * Methods are listed in the same order as they appear in the front page for
- * the section (index).
+ * the Quartz Chemistry section (the index function).
  */
 
 class Quartz_chem extends MY_Controller
@@ -12,14 +12,18 @@ class Quartz_chem extends MY_Controller
 	/**
 	 * Contructs the class object, connects to database, and loads necessary
 	 * libraries.
-	 * 
 	 **/
 	function Quartz_chem()
 	{
 		parent::MY_Controller();
 		$this->load->model('batch');
+		$this->load->model('analysis');
 	}
 	
+	/**
+	 * The main quartz chemistry page. Contains a series of select boxes and
+	 * links to the other pages.
+	 */
 	function index()
 	{	
 		// build strings of html for the select boxes
@@ -39,58 +43,72 @@ class Quartz_chem extends MY_Controller
 		$this->load->view('template', $data);
 	}
 
-	
+	/**
+	 * Form for adding a batch or editing the batch information.
+	 */
 	function new_batch()
 	{
 		$id = $this->input->post('id');
 		$is_edit = (bool) $id;
-		$data->allow_num_edit = ! $is_edit;
+		$data->allow_num_edit = ( ! $is_edit);
 		
 		if ($is_edit)
 		{
 			// it's an existing batch, get it
-			echo 'we\'re here'.$id;
 			$batch = $this->batch->get($id);
+			
+			if ( ! $batch)
+			{
+				show_404('page');
+			}
 
 			$data->numsamples = $batch->count();
 		}
 		else // it's a new batch
 		{
 			$batch = new stdClass();
-			$batch->start_date = date('Y-m-d');
 			$data->numsamples = null;
 		}
-		
 
-		
-		$fields = array('id', 'owner', 'description');
-		
 		if ($this->form_validation->run('batches') == FALSE)
-		{
-			$default = null;
-			// (re)set the form values
-			foreach ($fields as $f)
+		{	
+			if ($is_edit)
 			{
-				if ($is_edit)
-				{
-					$default = $batch->{$f};
-				}
-				$batch->{$f} = set_value($f, $default);
-				
-				echo ' '.$batch->{$f}.' ';
+				$batch->id          = set_value('id', $batch->id);
+				$batch->owner       = set_value('owner', $batch->owner);
+				$batch->description = set_value('description', $batch->description);
+				$batch->start_date  = set_value('start_date', $batch->start_date);
+			}
+			else
+			{
+				$batch->id          = set_value('id');
+				$batch->owner       = set_value('owner');
+				$batch->description = set_value('description');
+				$batch->start_date  = date('Y-m-d');
 			}
 
 		}
 		else // inputs are valid, save changes
 		{
-			$fields[] = 'start_date';
+			// grab batch info from post and save it to the db
+			$fields = array('id', 'owner', 'description', 'start_date');
 			foreach ($fields as $f)
 			{
 				$batch->{$f} = $this->input->post($f);
 			}
-			echo print_r($batch);
-			$this->batch->save($batch);
+			
+			$query = $this->batch->save($batch);
+			
+			if ( ! $batch->id)
+			{
+				// we just did an insert, grab that id
+				$batch->id = $this->batch->insert_id();
+				// create the analyses linked to this batch
+				$numsamples = $this->input->post('numsamples');
+				$this->analysis->insert_stubs($batch->id, $numsamples);
+			}
 		}
+
 		// set the rest of the view data
 		$data->numsamples = $this->input->post('numsamples');
 		$data->title = 'Add a batch';
