@@ -19,11 +19,11 @@
 	</tr>
 
 	<!-- action=quartz_sample_loading.php -->
-	<?=form_open('quartz_chem/sample_loading')?>
+	<?=form_open(site_url('quartz_chem/load_samples'))?>
 		<tr>
 			<td align=center>
 				<i>Batch:</i>
-				<select name="this_batch_id_html">
+				<select name="batch_id">
 					<?=$open_batches?>
 				</select>
 
@@ -45,7 +45,7 @@
 		<tr>
 			<td align=center>
 				<i>Batch:</i>
-				<select name="this_batch_id_html">
+				<select name="batch_id">
 					<?=$open_batches?>
 				</select>
 			</td>
@@ -66,7 +66,7 @@
 		<tr>
 			<td align=center>
 				<i>Batch:</i>
-				<select name="this_batch_id_html">
+				<select name="batch_id">
 					<?=$open_batches?>
 				</select>
 			</td>
@@ -89,7 +89,7 @@
 		<tr>
 			<td align=center>
 				<i>Batch:</i>   
-				<select name="this_batch_id_html">
+				<select name="batch_id">
 					<?=$open_batches?>
 				</select>
 			</td>
@@ -112,7 +112,7 @@
 		<tr>
 			<td align=center>
 				<i>Batch:</i>   
-				<select name="this_batch_id_html">
+				<select name="batch_id">
 					<?=$open_batches?>
 				</select>
 			</td>
@@ -135,7 +135,7 @@
 		<tr>
 			<td align=center>
 				<i>Batch:</i>   
-				<select name="this_batch_id_html">
+				<select name="batch_id">
 					<?=$open_batches?>
 				</select>
 			</td>
@@ -153,12 +153,12 @@
 			<i><b>Final report</i></b>
 		</td>
 	</tr>
-	<?=form_open('quartz_chem/final_report')?>
 	<!-- action=final_report.php -->
+	<?=form_open('quartz_chem/final_report')?>
 		<tr>
 			<td align=center>
 				<i>Batch:</i>
-				<select name="this_batch_id_html">
+				<select name="batch_id">
 					<?=$all_batches?>
 				</select>
 
@@ -181,7 +181,7 @@
 		<tr>
 			<td align=center>
 				<i>Batch:</i>   
-				<select name="this_batch_id_html">
+				<select name="batch_id">
 					<?=$open_batches?>
 				</select>
 			</td>

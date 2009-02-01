@@ -10,9 +10,7 @@ class MY_Model extends Model
 {
 	
 	/**
-	 * The associated database table--override this with the table name.
-	 *
-	 * @var string Table name
+	 * @var string Associated database table--override this with real table name.
 	 **/
 	var $table = '';
 
@@ -45,9 +43,9 @@ class MY_Model extends Model
 	 * Finds the number of records returned by a query where field = value.
 	 * Supports limit and offset.
 	 *
-	 * @param array associative array, fieldname => value
-	 * @param int maximum number of records to return
-	 * @param int record to offset the page to
+	 * @param  array (associative) fieldname => value
+	 * @param  int maximum number of records to return
+	 * @param  int record to offset the page to
 	 * @return int number of records
 	 **/
 	function get_where($where, $limit = null, $offset = null)
@@ -71,21 +69,6 @@ class MY_Model extends Model
 	function get_all()
 	{
 		return $this->db->get_all($this->table);
-	}
-	
-	function save($obj)
-	{
-		if (isset($obj->id) AND ($obj->id > 0))
-		{
-			$id = $obj->id;
-			unset($obj->id);
-			
-			$this->db->where('id', $id)->update($this->table, $obj);
-		}
-		else // insert a new record
-		{
-			return $this->db->insert($this->table, $obj);
-		}
 	}
 	
 	/**
@@ -112,26 +95,10 @@ class MY_Model extends Model
 		return $this->db->from($this->table)->offset($offset)->limit($limit)
 			             ->order_by($sort_by, $sort_dir)->get()->result();
 	}
-	/**
-	 * Returns an array of strings, not including first field, which is
-	 * usually the ID field.
-	 *
-	 * @return array of strings 
-	 **/
-	function list_fields()
+	
+	function insert_id()
 	{
-		$fields = $this->list_all_fields();
-		unset($fields[0]);  // take off the id field
-		return $fields;
-	}
-	/**
-	 * Same as list_fields() except it includes the id field.
-	 *
-	 * @return array of strings
-	 **/
-	function list_all_fields()
-	{
-		return $this->db->list_fields($this->table);
+		return $this->db->insert_id();
 	}
 	
 	/**
@@ -174,7 +141,45 @@ class MY_Model extends Model
 			return TRUE;
 		}
 	}
-
+	
+	
+	/**
+	 * Returns an array of strings, not including first field, which is
+	 * usually the ID field.
+	 *
+	 * @return array of strings 
+	 **/
+	function list_fields()
+	{
+		$fields = $this->list_all_fields();
+		unset($fields[0]);  // take off the id field
+		return $fields;
+	}
+	
+	/**
+	 * Same as list_fields() except it includes the id field.
+	 *
+	 * @return array of strings
+	 **/
+	function list_all_fields()
+	{
+		return $this->db->list_fields($this->table);
+	}
+	
+	function save($obj)
+	{
+		if (isset($obj->id) AND ($obj->id > 0))
+		{
+			$id = $obj->id;
+			unset($obj->id);
+			
+			$this->db->where('id', $id)->update($this->table, $obj);
+		}
+		else // insert a new record
+		{
+			return $this->db->insert($this->table, $obj);
+		}
+	}
 }
 
 /* End of file MY_Model.php */
