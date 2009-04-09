@@ -1,4 +1,5 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
 /**
  * Reverses the sort direction.
  *
@@ -7,7 +8,6 @@
  *
  * @return string
  **/
-// 
 function switch_sort($cur, $default = 'asc')
 {
 	$cur = strtolower($cur);
@@ -29,3 +29,4 @@ function switch_sort($cur, $default = 'asc')
 	
 	return $default;
 }
+
