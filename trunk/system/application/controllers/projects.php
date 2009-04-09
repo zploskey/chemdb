@@ -1,9 +1,12 @@
 <?php
 
 class Projects extends MY_Controller
-{
-	var $table = 'projects';
-	
+{	
+	/**
+	 * @var Doctrine_Table corresponding table
+	 */
+	var $project;
+
 	/**
 	 * Contructs the class object, connects to database, and loads necessary libraries.
 	 * 
@@ -11,8 +14,7 @@ class Projects extends MY_Controller
 	function Projects()
 	{
 		parent::MY_Controller();
-		$this->load->model('project');
-		$this->load->library('form_validation');
+		$this->project = Doctrine::getTable('Project');
 	}
 
 	/**
@@ -33,12 +35,15 @@ class Projects extends MY_Controller
 		$sort_dir = strtolower($this->uri->segment(4,'ASC'));
 		$page = $this->uri->segment(5,0);
 		$num_per_page = 5;
-		$projects = $this->project->get_page($page, $num_per_page, $sort_by, $sort_dir);
+		$query = Doctrine_Query::create()->from('Project')->orderBy("$sort_by $sort_dir");
+		$pager = new Doctrine_Pager($query, $page, $num_per_page);
+		$projects = $pager->execute();
+		//$projects = $this->project->get_page($page, $num_per_page, $sort_by, $sort_dir);
 		
 		// set pagination options
 		$this->load->library('pagination');
 		$config['base_url'] = site_url("projects/index/$sort_by/$sort_dir");
-		$config['total_rows'] = $this->project->count();
+		$config['total_rows'] = $pager->getNumResults(); //$this->project->count();
 		$config['per_page'] = $num_per_page;
 		$config['uri_segment'] = 5;
 		$this->pagination->initialize($config);
@@ -65,14 +70,12 @@ class Projects extends MY_Controller
 	function edit($id = 0) 
 	{	
 		// are we editing an existing project?
-		if ($id)
-		{
+		if ($id) {
 			// Get the project data.
-			$proj = $this->project->get($id);
+			$proj = $this->project->find($id);
 
 			// If the project doesn't exist we 404.
-			if ( ! $proj) 
-			{
+			if ( ! $proj) {
 				show_404('page');
 			}
 			
@@ -80,19 +83,16 @@ class Projects extends MY_Controller
 			$data->title = 'Edit Project';
 			$data->subtitle = 'Editing '.$proj->name;
 			$data->arg = $id;
-		}
-		else // it's a new project, create a new record object and other display values
-		{
-			$proj = new stdClass();
-
+		} else {
+			// it's a new project, create a new record object and other display values
+			$proj = new Project();
 			$data->title = 'Add Project';
 			$data->subtitle = 'Enter Project Information:';
 			$data->arg = '';
 		}
 			
 		// validate anything that was submitted
-		if ($this->form_validation->run('projects') == FALSE)
-		{
+		if ($this->form_validation->run('projects') == FALSE) {
 			// reset form values
 			$proj->name = set_value('name', $proj->name);
 			$proj->description = set_value('description', $proj->description);
@@ -100,12 +100,11 @@ class Projects extends MY_Controller
 			$data->proj = $proj;
 			$data->main = 'projects/edit';
 			$this->load->view('template', $data);
-		}
-		else // inputs are valid, save changes and redirect
-		{
-			$proj->name        = $this->input->post('name');
+		} else {
+			// inputs are valid, save changes and redirect
+			$proj->name = $this->input->post('name');
 			$proj->description = $this->input->post('description');
-			$this->project->save($proj);
+			$proj->save();
 			redirect('projects');
 		}
 	}
@@ -117,10 +116,9 @@ class Projects extends MY_Controller
 	 */
 	function view($id)
 	{
-		$project = $this->project->get($id);
-			
-		if ( ! $project)
-		{
+		$project = $this->project->find($id);
+		
+		if ( ! $project) {
 			show_404('page');
 		}
 		
@@ -135,10 +133,10 @@ class Projects extends MY_Controller
 	// ----------
 	// CALLBACKS:
 	// ----------
-	
 	function is_unique($value, $field)
 	{
-		return $this->project->is_unique($value, $field);
+		$id = $this->uri->segment(3, null);
+		return $this->form_validation->is_unique($value, $field, $id);
 	}
 
 }

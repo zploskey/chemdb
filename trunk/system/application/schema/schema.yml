@@ -1,0 +1,355 @@
+detect_relations: true
+AlCarrier:
+  tableName: al_carrier
+  columns:
+    id:
+      type: integer(1)
+      primary: true
+      autoincrement: true
+    name: string(2147483647)
+    al_conc: float(2147483647)
+    del_al_conc: float(2147483647)
+    in_service_date: date(25)
+    mfg_lot_no: string(2147483647)
+    notes: string(2147483647)
+    in_use: string(2147483647)
+AlcheckAnalysis:
+  tableName: alcheck_analysis
+  columns:
+    id:
+      type: integer(3)
+      unsigned: 1
+      primary: true
+      autoincrement: true
+    alcheck_batch_id:
+      type: integer(2)
+      unsigned: 1
+      default: '00000'
+      notnull: true
+    number_within_batch:
+      type: integer(1)
+      unsigned: 1
+      default: '0'
+      notnull: true
+    sample_name:
+      type: string(2147483647)
+      default: ''
+      notnull: true
+    bkr_number:
+      type: string(2147483647)
+      default: ''
+      notnull: true
+    wt_bkr_tare:
+      type: float(2147483647)
+      default: '0'
+      notnull: true
+    flag_bkr_tare_avg:
+      type: integer(1)
+      unsigned: 1
+      default: '0'
+      notnull: true
+    wt_bkr_sample:
+      type: float(2147483647)
+      default: '0'
+      notnull: true
+    wt_bkr_soln:
+      type: float(2147483647)
+      default: '0'
+    icp_al:
+      type: float(2147483647)
+      default: '0'
+    icp_ba:
+      type: float(2147483647)
+      default: '0'
+    icp_be:
+      type: float(2147483647)
+      default: '0'
+    icp_ca:
+      type: float(2147483647)
+      default: '0'
+    icp_fe:
+      type: float(2147483647)
+      default: '0'
+    icp_k:
+      type: float(2147483647)
+      default: '0'
+    icp_mg:
+      type: float(2147483647)
+      default: '0'
+    icp_mn:
+      type: float(2147483647)
+      default: '0'
+    icp_na:
+      type: float(2147483647)
+      default: '0'
+    icp_ti:
+      type: float(2147483647)
+      default: '0'
+    addl_dil_factor:
+      type: float(2147483647)
+      default: '1'
+      notnull: true
+    notes: string(2147483647)
+    analysis_id: integer(4)
+AlcheckBatch:
+  tableName: alcheck_batch
+  columns:
+    id:
+      type: integer(2)
+      unsigned: 1
+      primary: true
+      autoincrement: true
+    owner: string(2147483647)
+    prep_date: date(25)
+    icp_date: date(25)
+    description: string(2147483647)
+    notes: string(2147483647)
+Analysis:
+  tableName: analysis
+  columns:
+    id:
+      type: integer(2)
+      unsigned: 1
+      primary: true
+      autoincrement: true
+    batch_id:
+      type: integer(2)
+      default: '0'
+      notnull: true
+    number_within_batch:
+      type: integer(1)
+      default: '0'
+      notnull: true
+    sample_name:
+      type: string(2147483647)
+      default: ''
+      notnull: true
+    sample_type:
+      type: string(2147483647)
+      default: ''
+      notnull: true
+    diss_bottle_number:
+      type: string(2147483647)
+      default: ''
+      notnull: true
+    wt_diss_bottle_tare:
+      type: float(2147483647)
+      default: '0'
+      notnull: true
+    wt_diss_bottle_sample:
+      type: float(2147483647)
+      default: '0'
+      notnull: true
+    wt_be_carrier:
+      type: float(2147483647)
+      default: '0'
+      notnull: true
+    wt_al_carrier:
+      type: float(2147483647)
+      default: '0'
+      notnull: true
+    wt_diss_bottle_total:
+      type: float(2147483647)
+      default: '0'
+      notnull: true
+    notes:
+      type: string(2147483647)
+      default: ''
+      notnull: true
+    diss_bottle_id: integer(4)
+Batch:
+  tableName: batch
+  columns:
+    id:
+      type: integer(2)
+      unsigned: 1
+      primary: true
+      autoincrement: true
+    start_date:
+      type: date(25)
+      default: '0000-00-00'
+      notnull: true
+    split_date:
+      type: date(25)
+      default: '0000-00-00'
+      notnull: true
+    icp_date:
+      type: date(25)
+      default: '0000-00-00'
+      notnull: true
+    be_carrier_name:
+      type: string(2147483647)
+      default: ''
+      notnull: true
+    wt_be_carrier_init:
+      type: float(2147483647)
+      default: '0'
+      notnull: true
+    wt_be_carrier_final:
+      type: float(2147483647)
+      default: '0'
+      notnull: true
+    al_carrier_name:
+      type: string(2147483647)
+      default: ''
+      notnull: true
+    completed:
+      type: enum(1)
+      values: ['y', 'n']
+      default: 'n'
+      notnull: true
+    owner: string(2147483647)
+    description: string(2147483647)
+    wt_al_carrier_init: float(2147483647)
+    wt_al_carrier_final: float(2147483647)
+    notes: string(2147483647)
+    spreadsheet_name: string(2147483647)
+    csv_name: string(2147483647)
+    al_carrier_id: integer(4)
+    be_carrier_id: integer(4)
+BeCarrier:
+  tableName: be_carrier
+  columns:
+    id:
+      type: integer(1)
+      primary: true
+      autoincrement: true
+    name:
+      type: string(2147483647)
+      default: ''
+      notnull: true
+    be_conc: float(2147483647)
+    del_be_conc: float(2147483647)
+    al_conc: float(2147483647)
+    del_al_conc: float(2147483647)
+    in_service_date: date(25)
+    mfg_lot_no: string(2147483647)
+    owner: string(2147483647)
+    notes: string(2147483647)
+    in_use: string(2147483647)
+DissBottle:
+  tableName: diss_bottle
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 1
+      primary: true
+      autoincrement: true
+    bottle_number: string(2147483647)
+IcpRun:
+  tableName: icp_run
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 1
+      primary: true
+      autoincrement: true
+    split_id:
+      type: integer(4)
+      unsigned: 1
+      default: ''
+      notnull: true
+    use_al:
+      type: enum(1)
+      values: ['y', 'n']
+      default: 'y'
+      notnull: true
+    use_be:
+      type: enum(1)
+      values: ['y', 'n']
+      default: 'y'
+      notnull: true
+    al_result: float(2147483647)
+    be_result: float(2147483647)
+Project:
+  tableName: project
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 1
+      primary: true
+      autoincrement: true
+    name:
+      type: string(255)
+      default: ''
+      notnull: true
+    date_added: timestamp(25)
+    description: string(2147483647)
+ProjectSample:
+  tableName: project_sample
+  columns:
+    id:
+      type: integer(8)
+      autoincrement: true
+      primary: true
+    project_id:
+      type: integer(4)
+      unsigned: 1
+      default: ''
+      notnull: true
+    sample_id:
+      type: integer(4)
+      unsigned: 1
+      default: ''
+      notnull: true
+Sample:
+  tableName: sample
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 1
+      primary: true
+      autoincrement: true
+    name:
+      type: string(255)
+      default: ''
+      notnull: true
+    latitude: float(2147483647)
+    longitude: float(2147483647)
+    altitude: float(2147483647)
+    shield_factor: float(2147483647)
+    depth_top: float(2147483647)
+    depth_bottom: float(2147483647)
+    density: float(2147483647)
+    notes: string(2147483647)
+    erosion_rate: float(2147483647)
+Split:
+  tableName: split
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 1
+      primary: true
+      autoincrement: true
+    analysis_id:
+      type: integer(2)
+      unsigned: 1
+      default: ''
+      notnull: true
+    split_bkr_id:
+      type: integer(4)
+      unsigned: 1
+      default: ''
+      notnull: true
+    wt_split_bkr_tare:
+      type: float(2147483647)
+      default: '0'
+      notnull: true
+    wt_split_bkr_split:
+      type: float(2147483647)
+      default: '0'
+      notnull: true
+    wt_split_bkr_icp:
+      type: float(2147483647)
+      default: '0'
+      notnull: true
+    split_bkr_name: string(2147483647)
+SplitBkr:
+  tableName: split_bkr
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 1
+      primary: true
+      autoincrement: true
+    bkr_number: string(2147483647)
