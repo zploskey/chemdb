@@ -55,12 +55,10 @@ class MY_Model extends Model
 	
 	function get($id = null)
 	{
-		if ($id == null)
-		{
+		if ($id == null) {
 			return $this->db->get($this->table)->result();
 		}
-		else
-		{
+		else {
 			// SELECT * FROM $table WHERE ID = $id LIMIT 1
 			return $this->db->get_where($this->table, array('id' => $id), 1)->row();
 		}
@@ -86,10 +84,10 @@ class MY_Model extends Model
 	{
 		$sort_dir = strtoupper($sort_dir);
 		
-		if ($sort_dir != 'DESC' AND $sort_dir != 'ASC')
-		{
-			throw new InvalidArgumentException('Invalid parameter. The 4th '
-				.'parameter should be "DESC" or "ASC".');
+		if ($sort_dir != 'DESC' AND $sort_dir != 'ASC') {
+			// a valid sort parameter wasn't passed
+			throw new InvalidArgumentException('Invalid parameter. The sort '
+				.'direction should be either "DESC" or "ASC".');
 		}
 		
 		return $this->db->from($this->table)->offset($offset)->limit($limit)
@@ -114,26 +112,21 @@ class MY_Model extends Model
 		list($table, $column) = explode('.', $field);
 		$id = $this->uri->segment(3, 0);
 		
-		if ($id == 0)
-		{
+		if ($id == 0) {
 			return FALSE; // our indices begin at 1
 		}
 		
 		$query = $this->db->select('id')->from($this->table)->where($column, $value)->get();
 		
-		if ($query->num_rows() == 0)
-		{
-			return TRUE; // it's a unique name, sweet!
-		}
-		else // matched, find out if it is just the submitted item or a dupe
-		{
-			// Assuming that the database had just 1 match, this loop
+		if ($query->num_rows() == 0) {
+			return TRUE; // it's a unique name
+		} else {
+			// There was a match, find out if it is just the submitted item or
+			// a dupe. Assuming that the database had just 1 match, this loop
 			// should only execute once, but let's be safe just in case.
-			foreach ($query->result() as $row)
-			{
-				if ($row->id != $id)
-				{
-					// id mismatch, this would have created a multiple: FAIL
+			foreach ($query->result() as $row) {
+				if ($row->id != $id) {
+					// id mismatch, this would have created a multiple
 					return FALSE;
 				}
 			}
@@ -166,17 +159,25 @@ class MY_Model extends Model
 		return $this->db->list_fields($this->table);
 	}
 	
-	function save($obj)
-	{
-		if (isset($obj->id) AND ($obj->id > 0))
-		{
-			$id = $obj->id;
-			unset($obj->id);
-			
-			$this->db->where('id', $id)->update($this->table, $obj);
+	function save($rec)
+	{	
+		$obj = is_object($rec);
+		$arr = is_array($rec);
+		
+		if ( ! ($obj OR $arr)) {
+			die('Error: Save parameter must be an object or an array.');
 		}
-		else // insert a new record
-		{
+		
+		if ($obj AND isset($rec->id) AND ($rec->id > 0)) {
+			$id = $rec->id;
+			unset($rec->id);
+			$this->db->where('id', $id)->update($this->table, $rec);
+		} else if ($arr AND isset($rec['id']) AND ($rec['id'] > 0)) {
+			$id = $rec['id'];
+			unset($rec['id']);
+			$this->db->where('id', $id)->update($this->table, $rec);
+		} else {
+			// insert a new record
 			return $this->db->insert($this->table, $obj);
 		}
 	}

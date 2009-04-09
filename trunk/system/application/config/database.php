@@ -34,34 +34,49 @@
 | the active record class
 */
 
-$active_group = "quartz_chem";
-$active_record = TRUE;
+$active_group = 'default';
+//$active_record = TRUE;
+$active_record = FALSE;
 
-$db['quartz_chem']['hostname'] = "ovid.u.washington.edu:23457";
-$db['quartz_chem']['username'] = "root";
-$db['quartz_chem']['password'] = "password";
-$db['quartz_chem']['database'] = "dev_al_be_quartz_chem";
-$db['quartz_chem']['dbdriver'] = "mysql";
-$db['quartz_chem']['dbprefix'] = "";
-$db['quartz_chem']['pconnect'] = TRUE;
-$db['quartz_chem']['db_debug'] = TRUE;
-$db['quartz_chem']['cache_on'] = FALSE;
-$db['quartz_chem']['cachedir'] = "";
-$db['quartz_chem']['char_set'] = "latin1";
-$db['quartz_chem']['dbcollat'] = "latin1_general_ci";
+// quartz_chem
+$db['default']['hostname'] = "ovid.u.washington.edu:23457";
+$db['default']['username'] = "root";
+$db['default']['password'] = "password";
+$db['default']['database'] = "dev_al_be_quartz_chem";
+$db['default']['dbdriver'] = "mysql";
+$db['default']['dbprefix'] = "";
+$db['default']['pconnect'] = TRUE;
+$db['default']['db_debug'] = TRUE;
+$db['default']['cache_on'] = FALSE;
+$db['default']['cachedir'] = "";
+$db['default']['char_set'] = "latin1";
+$db['default']['dbcollat'] = "latin1_general_ci";
 
-$db['chem']['hostname'] = "ovid.u.washington.edu:23457";
-$db['chem']['username'] = "root";
-$db['chem']['password'] = "password";
-$db['chem']['database'] = "base_chem";
-$db['chem']['dbdriver'] = "mysql";
-$db['chem']['dbprefix'] = "";
-$db['chem']['pconnect'] = TRUE;
-$db['chem']['db_debug'] = TRUE;
-$db['chem']['cache_on'] = FALSE;
-$db['chem']['cachedir'] = "";
-$db['chem']['char_set'] = "latin1";
-$db['chem']['dbcollat'] = "latin1_general_ci";
+// Doctrine configuration
+
+// Create dsn from the info above
+$db[$active_group]['dsn'] = $db[$active_group]['dbdriver'] .
+				'://' . $db[$active_group]['username'] .
+				':' . $db[$active_group]['password'].
+				'@' . $db[$active_group]['hostname'] .
+				'/' . $db[$active_group]['database'];
+
+// Require Doctrine.php
+require_once(realpath(dirname(__FILE__) . '/..') . DIRECTORY_SEPARATOR . 'libraries/Doctrine1/Doctrine.php');
+
+// Set the autoloader
+spl_autoload_register(array('Doctrine', 'autoload'));
+
+// Load the Doctrine connection
+Doctrine_Manager::connection($db[$active_group]['dsn'], $db[$active_group]['database']);
+
+// Set the model loading to conservative/lazy loading
+$manager = Doctrine_Manager::getInstance();
+$manager->setAttribute('model_loading', 'conservative');
+$manager->setAttribute(Doctrine::ATTR_AUTOLOAD_TABLE_CLASSES, true);
+
+// Load the models for the autoloader
+Doctrine::loadModels(realpath(dirname(__FILE__) . '/..') . DIRECTORY_SEPARATOR . 'models');
 
 /* End of file database.php */
 /* Location: ./system/application/config/database.php */
