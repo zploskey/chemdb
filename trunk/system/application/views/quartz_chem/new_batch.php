@@ -43,22 +43,24 @@
 				<textarea name="description" rows=2 cols=50><?=$batch->description?></textarea>
 			</td>
 		</tr>
+		<tr>
 			<td colspan=2 align=center><hr>
-				</p><input type=submit value="Save and refresh">
-				</p><hr>
+				<p><input type=submit value="Save and refresh"></p>
+				<hr>
 			</td>
 		</tr>
-	</form>
+	<?=form_close()?>
  
 
 	<tr>
 		<?=form_open(site_url('quartz_chem/load_samples'))?>
 			<input type="hidden" name="id" value="<?=$batch->id?>">
 			<td colspan="2" align="center">
-				<p/>
-				<input type=submit value="Onward to sample loading and carrier addition">
+				<p>
+					<input type="submit" value="Onward to sample loading and carrier addition">
+				</p>
 				<hr>
 			</td>
-		</form>
+		<?=form_close()?>
 	</tr>
 </table>
