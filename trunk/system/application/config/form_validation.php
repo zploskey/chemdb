@@ -7,7 +7,8 @@ if they relate to validation, or in
 ./system/application/libraries/MY_Model.php
 if they require post information.
 
-Config sections are *named for the controller they are used to validate*.
+Config sections are named for the controller they are used to validate, or the
+function in the controller they validate.
 
 */
 
@@ -15,7 +16,7 @@ $config['projects'] = array(
 	array(
 		'field' => 'name',
 		'label' => 'Name',
-		'rules' => 'trim|required|alpha_dash|callback_is_unique[projects.name]'),
+		'rules' => 'trim|required|alpha_dash|callback_is_unique[project.name]'),
 	array(
 		'field' => 'description',
 		'label' => 'Description',
@@ -25,7 +26,7 @@ $config['samples'] = array(
 	array(
 		'field' => 'name',
 		'label' => 'Name',
-		'rules' => 'trim|required|alpha_dash|callback_is_unique[samples.name]'),
+		'rules' => 'trim|required|alpha_dash|callback_is_unique[sample.name]'),
 	array(
 		'field' => 'latitude',
 		'label' => 'Latitude',
@@ -72,6 +73,16 @@ $config['batches'] = array(
 		'field' => 'numsamples',
 		'label' => '# of Samples',
 		'rules' => 'is_natural_no_zero'));
+
+$config['load_samples'] = array(
+	array(
+		'field' => 'be_carrier_name',
+		'label' => 'Beryllium Carrier Name',
+		'rules' => 'alphanumeric'),
+	array(
+		'field' => 'batch_notes',
+		'label' => 'Notes',
+		'rules' => 'trim|htmlspecialchars'));
 
 /* End of file form_validation.php */
 /* Location: ./system/application/config/form_validation.php */
