@@ -153,12 +153,22 @@ class Samples extends MY_Controller
 	 */
 	function valid_latlong($value)
 	{
-		return (abs($value) <= 180);
+		if (abs($value) <= 180) {
+			return TRUE;
+		}
+
+		$this->form_validation->set_message('valid_latlong', 'The %s field must be from -180 to 180.');
+		return FALSE;
 	}
 
 	function valid_shield_factor($value)
 	{
-		return ($value <= 1 && $value >= 0);
+		if ($value <= 1 && $value >= 0) {
+			return TRUE;
+		}
+
+		$this->form_validation->set_message('valid_shield_factor', 'The %s field must be from 0 to 1.');
+		return FALSE;
 	}
 
 }
