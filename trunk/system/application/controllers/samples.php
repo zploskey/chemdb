@@ -148,6 +148,19 @@ class Samples extends MY_Controller
 		return $this->form_validation->is_unique($value, $field, $id);
 	}
 
+	/*
+	 * Returns true if value is not greater than 180.
+	 */
+	function valid_latlong($value)
+	{
+		return (abs($value) <= 180);
+	}
+
+	function valid_shield_factor($value)
+	{
+		return ($value <= 1 && $value >= 0);
+	}
+
 }
 
 /* End of file samples.php */
