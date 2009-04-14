@@ -30,11 +30,11 @@ $config['samples'] = array(
 	array(
 		'field' => 'latitude',
 		'label' => 'Latitude',
-		'rules' => 'trim|numeric'),
+		'rules' => 'trim|numeric|callback_valid_latlong'),
 	array(
 		'field' => 'longitude',
 		'label' => 'Longitude',
-		'rules' => 'trim|numeric'),
+		'rules' => 'trim|numeric|callback_valid_latlong'),
 	array(
 		'field' => 'altitude',
 		'label' => 'Altitude',
@@ -42,7 +42,7 @@ $config['samples'] = array(
 	array(
 		'field' => 'shield_factor',
 		'label' => 'Shield Factor',
-		'rules' => 'trim|numeric'),
+		'rules' => 'trim|numeric|callback_valid_shield_factor'),
 	array(
 		'field' => 'depth_top',
 		'label' => 'Depth Top',
