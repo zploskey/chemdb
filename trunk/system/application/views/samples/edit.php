@@ -14,10 +14,10 @@
 		<?=form_input('name', $sample->name)?><br>
 				
 		<label>Latitude:</label>
-		<input type="text" name="latitude" value="<?=$sample->latitude?>" size="10" /><br>
+		<input type="text" name="latitude" value="<?=$sample->latitude?>" size="10" /> <br>
 
 		<label>Longitude:</label>
-		<input type="text" name="longitude" value="<?=$sample->longitude?>" size="10" /><br>
+		<input type="text" name="longitude" value="<?=$sample->longitude?>" size="10" /> &nbsp;Northern hemisphere = positive<br>
 		
 		<label>Altitude:</label>
 		<input type="text" name="altitude" value="<?=$sample->altitude?>" size="10" /> &nbsp;m<br>

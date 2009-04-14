@@ -11,36 +11,44 @@
 <div id="data">
 	<table>
 		<tr>
-			<td align="right">Name:</td>
+			<td align="right">Name: &nbsp;</td>
 			<td><?=$sample->name?></td>
 		</tr>
 		<tr>
-			<td align="right">Latitude:</td>
+			<td align="right">Latitude: &nbsp;</td>
 			<td><?=$sample->latitude?></td>
 		</tr>
 		<tr>
-			<td align="right">Longitude:</td>
+			<td align="right">Longitude: &nbsp;</td>
 			<td><?=$sample->longitude?></td>
 		</tr>
 		<tr>
-			<td align="right">Altitude (m):</td>
+			<td align="right">Altitude (m): &nbsp;</td>
 			<td><?=$sample->altitude?></td>
 		</tr>
 		<tr>
-			<td align="right">Shield factor:</td>
+			<td align="right">Shield factor: &nbsp;</td>
 			<td><?=$sample->shield_factor?></td>
 		</tr>
 		<tr>
-			<td align="right">Depth Top (m):</td>
+			<td align="right">Depth Top (cm): &nbsp;</td>
 			<td><?=$sample->depth_top?></td>
 		</tr>
 		<tr>
-			<td align="right">Depth Bottom (m):</td>
+			<td align="right">Depth Bottom (cm): &nbsp;</td>
 			<td><?=$sample->depth_bottom?></td>
 		</tr>
 		<tr>
-			<td align="right">Density (kg/m^3):</td>
+			<td align="right">Density (g/cm^3): &nbsp;</td>
 			<td><?=$sample->density?></td>
+		</tr>
+		<tr>
+			<td align="right">Erosion Rate (cm/y): &nbsp;</td>
+			<td><?=$sample->erosion_rate?></td>
+		</tr>
+		<tr>
+			<td align="right">Notes: &nbsp;</td>
+			<td><?=$sample->notes?></td>
 		</tr>
 	</table>
 </div>
