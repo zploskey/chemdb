@@ -34,14 +34,17 @@ class Samples extends MY_Controller
 		$sort_dir = strtolower($this->uri->segment(4,'ASC'));
 		$page = $this->uri->segment(5,0);
 		$num_per_page = 5;
-		$query = Doctrine_Query::create()->from('Sample')->orderBy("$sort_by $sort_dir");
-		$pager = new Doctrine_Pager($query, $page, $num_per_page);
-		$samples = $pager->execute();
+		$samples = Doctrine_Query::create()
+			->from('Sample')
+			->orderBy("$sort_by $sort_dir")
+			->limit($num_per_page)
+			->offset($page)
+			->execute();
 
 		// set pagination options
 		$this->load->library('pagination');
-		$config['base_url'] = site_url("projects/index/$sort_by/$sort_dir");
-		$config['total_rows'] = $pager->getNumResults();
+		$config['base_url'] = site_url("samples/index/$sort_by/$sort_dir");
+		$config['total_rows'] = $this->sample->count();
 		$config['per_page'] = $num_per_page;
 		$config['uri_segment'] = 5;
 		$this->pagination->initialize($config);
