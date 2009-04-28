@@ -20,7 +20,7 @@ class MY_Form_validation extends CI_Form_validation
 		$result = Doctrine_Query::create()
 			->select('id')
 			->from($table)
-			->where("$column = ", $value)
+			->where("$column = ?", $value)
 			->execute();
 		
 		if ($result->count() == 0) {
