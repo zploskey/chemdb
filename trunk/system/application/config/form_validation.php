@@ -24,35 +24,35 @@ $config['projects'] = array(
 
 $config['samples'] = array(
 	array(
-		'field' => 'name',
+		'field' => 'sample[name]',
 		'label' => 'Name',
 		'rules' => 'trim|required|alpha_dash|callback_is_unique[sample.name]'),
 	array(
-		'field' => 'latitude',
+		'field' => 'sample[latitude]',
 		'label' => 'Latitude',
 		'rules' => 'trim|numeric|callback_valid_latlong'),
 	array(
-		'field' => 'longitude',
+		'field' => 'sample[longitude]',
 		'label' => 'Longitude',
 		'rules' => 'trim|numeric|callback_valid_latlong'),
 	array(
-		'field' => 'altitude',
+		'field' => 'sample[altitude]',
 		'label' => 'Altitude',
 		'rules' => 'trim|numeric'),
 	array(
-		'field' => 'shield_factor',
+		'field' => 'sample[shield_factor]',
 		'label' => 'Shield Factor',
 		'rules' => 'trim|numeric|callback_valid_shield_factor'),
 	array(
-		'field' => 'depth_top',
+		'field' => 'sample[depth_top]',
 		'label' => 'Depth Top',
 		'rules' => 'trim|numeric'),
 	array(
-		'field' => 'depth_bottom',
+		'field' => 'sample[depth_bottom]',
 		'label' => 'Depth Bottom',
 		'rules' => 'trim|numeric'),
 	array(
-		'field' => 'density',
+		'field' => 'sample[density]',
 		'label' => 'Density',
 		'rules' => 'trim|numeric'));
 
