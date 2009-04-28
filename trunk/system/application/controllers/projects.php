@@ -57,7 +57,7 @@ class Projects extends MY_Controller
 			'pagination'   => 'Go to page: '.$this->pagination->create_links(),
 			'alt_sort_dir' => switch_sort($sort_dir),  // a little trick I put in the snippet helper
 			'sort_by'      => $sort_by,
-			'page'         => $page // * $config['per_page']
+			'page'         => $page
 		);
 
 		$this->load->view('template', $data);
