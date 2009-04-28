@@ -31,19 +31,21 @@ class Projects extends MY_Controller
 		//       Defaults: projects/index/  name /   asc  / 0
 		
 		// set database pagination settings
-		$sort_by = $this->uri->segment(3,'name');
-		$sort_dir = strtolower($this->uri->segment(4,'ASC'));
-		$page = $this->uri->segment(5,0);
+		$sort_by = $this->uri->segment(3, 'name');
+		$sort_dir = strtolower($this->uri->segment(4, 'ASC'));
 		$num_per_page = 5;
-		$query = Doctrine_Query::create()->from('Project')->orderBy("$sort_by $sort_dir");
-		$pager = new Doctrine_Pager($query, $page, $num_per_page);
-		$projects = $pager->execute();
-		//$projects = $this->project->get_page($page, $num_per_page, $sort_by, $sort_dir);
-		
+		$page = $this->uri->segment(5, 0);
+		$projects = Doctrine_Query::create()
+			->from('Project')
+			->orderBy("$sort_by $sort_dir")
+			->limit($num_per_page)
+			->offset($page)
+			->execute();
+				
 		// set pagination options
 		$this->load->library('pagination');
 		$config['base_url'] = site_url("projects/index/$sort_by/$sort_dir");
-		$config['total_rows'] = $pager->getNumResults(); //$this->project->count();
+		$config['total_rows'] = $this->project->count();
 		$config['per_page'] = $num_per_page;
 		$config['uri_segment'] = 5;
 		$this->pagination->initialize($config);
@@ -55,9 +57,9 @@ class Projects extends MY_Controller
 			'pagination'   => 'Go to page: '.$this->pagination->create_links(),
 			'alt_sort_dir' => switch_sort($sort_dir),  // a little trick I put in the snippet helper
 			'sort_by'      => $sort_by,
-			'page'         => $page
+			'page'         => $page // * $config['per_page']
 		);
-	
+
 		$this->load->view('template', $data);
 	}
 
