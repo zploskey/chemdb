@@ -68,13 +68,16 @@ class Samples extends MY_Controller
 	 *
 	 */
 	function edit($id = 0) 
-	{	
+	{
+		$is_refresh = $this->input->post('is_refresh');
+
 		if ($id) {
 			// edit an existing sample
 			$sample = $this->sample->find($id);
 
 			if (!$sample)
 			{
+				// couldn't find the sample, so we 404 (probably change later)
 				show_404('page');
 			}
 			
@@ -89,32 +92,18 @@ class Samples extends MY_Controller
 			$data->subtitle = 'Enter Sample Information:';
 			$data->arg = '';
 		}
-		
-		$is_edit = (bool) $id;
-		$fields = $this->sample->getFieldNames();
-		unset($fields[0]); // unset the id
-				
+
 		// validate anything that was submitted
 		if ($this->form_validation->run('samples') == FALSE) {
-			$default = null;
-			
-			foreach ($fields as $f) {
-				if ($is_edit) {
-					$default = $sample->{$f};
-				}
-				
-				$sample->{$f} = set_value($f, $default);
+			if ($is_refresh) {
+				$sample->merge($this->input->post('sample'));
 			}
 
 			$data->sample = $sample;
-			$data->main   = 'samples/edit';
+			$data->main = 'samples/edit';
 			$this->load->view('template', $data);
 		} else {
-			// everything was valid, save changes to db and redirect
-			foreach ($fields as $f) {
-				$sample->{$f} = $this->input->post($f);
-			}
-			
+			$sample->merge($this->input->post('sample'));
 			$sample->save();
 			redirect('samples');
 		}
