@@ -86,15 +86,15 @@ class Quartz_chem extends MY_Controller
 		if ($this->form_validation->run('batches') == FALSE) {
 			// validation failed, redisplay the form
 			if ($is_edit) {
-				$batch->id          = set_value('id', $batch->id);
-				$batch->owner       = set_value('owner', $batch->owner);
+				$batch->id = set_value('id', $batch->id);
+				$batch->owner = set_value('owner', $batch->owner);
 				$batch->description = set_value('description', $batch->description);
-				$batch->start_date  = set_value('start_date', $batch->start_date);
+				$batch->start_date = set_value('start_date', $batch->start_date);
 			} else {
-				$batch->id          = set_value('id');
-				$batch->owner       = set_value('owner');
+				$batch->id = set_value('id');
+				$batch->owner = set_value('owner');
 				$batch->description = set_value('description');
-				$batch->start_date  = date('Y-m-d');
+				$batch->start_date = date('Y-m-d');
 			}
 		} else {
 			// inputs are valid
@@ -293,6 +293,67 @@ class Quartz_chem extends MY_Controller
 		$data->title = 'Sample weighing and carrier addition';
 		$data->main = 'quartz_chem/load_samples';
 		$this->load->view('template', $data);
+	}
+
+	function print_tracking_sheet() {
+		$batch_id = $this->input->post('batch_id');
+		$batch = Doctrine_Query::create()
+			->from('Batch b')
+			->leftJoin('b.Analysis a')
+			->leftJoin('b.AlCarrier ac')
+			->leftJoin('b.BeCarrier bc')
+            ->leftJoin('a.DissBottle db')
+			->where('b.id = ?', $batch_id)
+            ->limit(1)
+			->fetchOne();
+
+		for ($i = 0; $i < $batch->Analysis->count(); $i++) {
+
+			$precheck = Doctrine_Query::create()
+				->from('AlcheckAnalysis a')
+				->leftJoin('a.AlcheckBatch b')
+				->select('a.sample_name, a.icp_al, a.icp_fe, a.icp_ti, a.wt_bkr_tare, a.wt_bkr_sample, a.wt_bkr_soln, b.prep_date')
+				->where('a.sample_name = ?', $batch->Analysis[$i]->sample_name)
+                ->andWhere('a.alcheck_batch_id = b.id')
+				->orderBy('b.prep_date DESC')
+				->limit(1)
+				->fetchOne();
+
+			$tmpa[$i]['tmpSampleWt'] = $batch->Analysis[$i]->wt_diss_bottle_sample
+                - $batch->Analysis[$i]->wt_diss_bottle_tare;
+			$tmpa[$i]['mlHf'] = round($tmpa[$i]['tmpSampleWt']) * 5 + 5;
+
+			$tmpa[$i]['inAlDb'] = TRUE;
+			if ($precheck) {
+				$sampleWt = ($precheck['wt_bkr_sample'] - $precheck['wt_bkr_tare']);
+				if ($sampleWt != 0) {
+					$temp_df = ($precheck['wt_bkr_soln'] - $precheck['wt_bkr_tare']) / $sampleWt;
+				} else {
+					$temp_df = 0;
+				}
+
+				$temp_al = $precheck['icp_al'] * $temp_df * $tmpa[$i]['tmpSampleWt'] / 1000;
+				$tmpa[$i]['tot_fe'] = sprintf('%.2f', $precheck['icp_fe'] * $temp_df * $tmpa[$i]['tmpSampleWt'] / 1000);
+				$tmpa[$i]['tot_ti'] = sprintf('%.2f', $precheck['icp_ti'] * $temp_df * $tmpa[$i]['tmpSampleWt'] / 1000);
+				$tmpa[$i]['tot_al'] = sprintf('%.2f', $temp_al + ($batch->Analysis[$i]->wt_al_carrier * $batch->AlCarrier->al_conc) / 1000);
+			} elseif ($batch->Analysis[$i]->sample_type == 'BLANK') {
+				if ($batch->Analysis[$i]->wt_al_carrier > 0) {
+					$tmpa[$i]['tot_al'] = sprintf('%.2f', ($batch->Analysis[$i]->wt_al_carrier * $batch->AlCarrier->al_conc) / 1000);
+				}
+				else {
+					$tmpa[$i]['tot_al'] = ' -- ';
+				}
+				$tmpa[$i]['tot_ti'] = ' -- ';
+				$tmpa[$i]['tot_fe'] = ' -- ';
+			} else {
+				// sample isn't in the Alchecks database
+				$tmpa[$i]['inAlDb'] = FALSE;
+			}
+		}
+		
+		$data->batch = $batch;
+        $data->tmpa = $tmpa;
+		$this->load->view('quartz_chem/print_tracking_sheet', $data);
 	}
 
 }
