@@ -62,7 +62,7 @@
 	<!--- ADD TOTAL SOLUTION WEIGHTS -->
 
 	<tr>
-		<td colspan=2><i><b>Add total solution weights</i></b></td>
+		<td colspan=2><i><b>Add total solution weights</b></i></td>
 	</tr>
 	<!-- action=add_total_weights.php -->
 	<?=form_open('quartz_chem/add_total_weights')?>
@@ -156,7 +156,7 @@
 
 	<tr>
 		<td colspan=2 class=xl25>
-			<i><b>Final report</i></b>
+			<i><b>Final report</b></i>
 		</td>
 	</tr>
 	<!-- action=final_report.php -->
