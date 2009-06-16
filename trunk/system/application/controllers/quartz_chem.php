@@ -2,8 +2,8 @@
 /**
  * Business logic for the quartz chemistry pages.
  * 
- * Methods are listed in the same order as they appear in the front page for
- * the Quartz Chemistry section (the index function).
+ * Methods appear in the same order as they are listed in the front page for
+ * the Quartz Chemistry section.
  */
 
 class Quartz_chem extends MY_Controller
@@ -355,6 +355,40 @@ class Quartz_chem extends MY_Controller
         $data->tmpa = $tmpa;
 		$this->load->view('quartz_chem/print_tracking_sheet', $data);
 	}
+
+    function add_solution_weights() {
+        $batch_id = (int)$this->input->post('batch_id');
+        $is_refresh = (bool)$this->input->post('is_refresh');
+
+        $batch = Doctrine_Query::create()
+            ->from('Batch b')
+            ->leftJoin('b.Analysis a')
+            ->leftJoin('a.DissBottle db')
+            ->where('b.id = ?', $batch_id)
+            ->limit(1)
+            ->fetchOne();
+        
+        if ($is_refresh) {
+            $batch->merge($this->input->post('batch'));
+        }
+
+        $errors = FALSE;
+        if ($is_refresh) {
+            $is_valid = $this->form_validation->run('add_solution_weights');
+            if ($is_valid) {
+                $batch->save();
+            } else {
+                $errors = TRUE;
+            }
+        }
+        
+        $data->errors = $errors;
+        $data->numsamples = $batch->Analysis->count();
+		$data->title = 'Add total solution weights';
+		$data->main = 'quartz_chem/add_solution_weights';
+		$data->batch = $batch;
+		$this->load->view('template', $data);
+    }
 
 }
 
