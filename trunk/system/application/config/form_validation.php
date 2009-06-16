@@ -20,7 +20,8 @@ $config['projects'] = array(
 	array(
 		'field' => 'description',
 		'label' => 'Description',
-		'rules' => 'trim|htmlentities'));
+		'rules' => 'trim|htmlentities'),
+);
 
 $config['samples'] = array(
 	array(
@@ -54,7 +55,8 @@ $config['samples'] = array(
 	array(
 		'field' => 'sample[density]',
 		'label' => 'Density',
-		'rules' => 'trim|numeric'));
+		'rules' => 'trim|numeric'),
+);
 
 $config['batches'] = array(
 	array(
@@ -72,17 +74,30 @@ $config['batches'] = array(
 	array(
 		'field' => 'numsamples',
 		'label' => '# of Samples',
-		'rules' => 'is_natural_no_zero'));
+		'rules' => 'trim|is_natural_no_zero'),
+);
 
 $config['load_samples'] = array(
 	array(
 		'field' => 'be_carrier_name',
 		'label' => 'Beryllium Carrier Name',
-		'rules' => 'alphanumeric'),
+		'rules' => 'trim|alphanumeric'),
 	array(
 		'field' => 'batch_notes',
 		'label' => 'Notes',
-		'rules' => 'trim|htmlspecialchars'));
+		'rules' => 'trim|htmlspecialchars')
+);
+
+$config['add_solution_weights'] = array(
+    array(
+        'field' => 'batch[Analysis][][wt_diss_bottle_total]',
+        'label' => 'Total weight',
+        'rules' => 'trim|numeric'),
+    array(
+        'field' => 'batch[notes]',
+        'label' => 'Batch Notes',
+        'rules' => 'trim|htmlentities'),
+);
 
 /* End of file form_validation.php */
 /* Location: ./system/application/config/form_validation.php */

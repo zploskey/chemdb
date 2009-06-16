@@ -65,7 +65,7 @@
 		<td colspan=2><i><b>Add total solution weights</b></i></td>
 	</tr>
 	<!-- action=add_total_weights.php -->
-	<?=form_open('quartz_chem/add_total_weights')?>
+	<?=form_open('quartz_chem/add_solution_weights')?>
 		<tr>
 			<td align=center>
 				<i>Batch:</i>
