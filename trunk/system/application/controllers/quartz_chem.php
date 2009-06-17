@@ -23,6 +23,11 @@ class Quartz_chem extends MY_Controller
 	 */
 	var $al_carrier;
 
+    /**
+     * @var Doctrine_Table Split beaker table
+     */
+     var $split_bkr;
+
 	/**
 	 * Contructs the class object, connects to database, and loads necessary
 	 * libraries.
@@ -34,6 +39,7 @@ class Quartz_chem extends MY_Controller
 		//$this->analysis = Doctrine::getTable('Analysis');
 		$this->be_carrier = Doctrine::getTable('BeCarrier');
 		$this->al_carrier = Doctrine::getTable('AlCarrier');
+        $this->split_bkr = Doctrine::getTable('SplitBkr');
 	}
 	
 	/**
@@ -367,17 +373,18 @@ class Quartz_chem extends MY_Controller
             ->where('b.id = ?', $batch_id)
             ->limit(1)
             ->fetchOne();
-        
-        if ($is_refresh) {
-            $weights = $this->input->post('wt_diss_bottle_total');
-            $count = count($weights);
-            for ($i = 0; $i < $count; $i++) {
-                $batch->Analysis[$i]->wt_diss_bottle_total = $weights[$i];
-            }
-        }
 
         $errors = FALSE;
         if ($is_refresh) {
+            $batch->merge($this->input->post('batch'));
+
+            $weights = $this->input->post('wt_diss_bottle_total');
+            $count = count($weights);
+
+            for ($i = 0; $i < $count; $i++) {
+                $batch->Analysis[$i]->wt_diss_bottle_total = $weights[$i];
+            }
+
             $is_valid = $this->form_validation->run('add_solution_weights');
             if ($is_valid) {
                 $batch->save();
@@ -394,7 +401,57 @@ class Quartz_chem extends MY_Controller
 		$this->load->view('template', $data);
     }
 
-    function 
+    function add_split_weights() {
+        $batch_id = (int)$this->input->post('batch_id');
+        $is_refresh = (bool)$this->input->post('is_refresh');
+        
+        $batch = Doctrine_Query::create()
+            ->from('Batch b')
+            ->leftJoin('b.Analysis a')
+            ->leftJoin('a.DissBottle db')
+            ->leftJoin('a.Split s')
+            ->leftJoin('s.SplitBkr sb')
+            ->where('b.id = ?', $batch_id)
+            ->limit(1)
+            ->fetchOne();
+
+        $numsamples = $batch->Analysis->count();
+
+        $errors = FALSE;
+        if ($is_refresh) {
+            // change the object data
+            $batch->merge($this->input->post('batch'));
+
+            $bkr_ids = $this->input->post('split_bkr');
+            $tares_wts = $this->input->post('bkr_tare');
+            $split_wts = $this->input->post('bkr_split');
+            
+            $ind = 0; // index for post variable arrays
+            for ($a = 0; $a < $numsamples; $a++) { // analysis loop
+                $nsplits = $batch->Analysis[$a]->Split->count();
+                for ($s = 0; $s < $nsplits; $s++, $ind++) { // split loop
+                    $batch->Analysis[$a]->Split[$s]->split_bkr_id = $bkr_ids[$ind];
+                    $batch->Analysis[$a]->Split[$s]->wt_split_bkr_tare = $tares_wts[$ind];
+                    $batch->Analysis[$a]->Split[$s]->wt_split_bkr_split = $split_wts[$ind];
+                }
+            }
+
+            // validate the form
+            if ($this->form_validation->run('add_split_weights')) {
+                $batch->save();
+            } else {
+                $errors = TRUE;
+            }
+        }
+
+        $data->errors = $errors;
+        $data->numsamples = $numsamples;
+        $data->bkr_list = $this->split_bkr->getList();
+		$data->title = 'Add split weights';
+		$data->main = 'quartz_chem/add_split_weights';
+		$data->batch = $batch;
+		$this->load->view('template', $data);
+    }
 }
 
 /* End of file quartz_chem.php */
