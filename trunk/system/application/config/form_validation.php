@@ -95,9 +95,27 @@ $config['add_solution_weights'] = array(
         'rules' => 'trim|numeric'),
     array(
         'field' => 'batch[notes]',
-        'label' => 'Batch Notes',
+        'label' => 'batch notes',
         'rules' => 'trim|htmlentities'),
 );
 
+$config['add_split_weights'] = array(
+    array(
+        'field' => 'batch[notes]',
+        'label' => 'batch notes',
+        'rules' => 'trim|htmlentities'),
+    array(
+        'field' => 'split_bkr[]',
+        'label' => 'split beaker ID',
+        'rules' => 'trim|is_natural'),
+    array(
+        'field' => 'bkr_tare[]',
+        'label' => 'beaker tare wt.',
+        'rules' => 'trim|numeric'),
+    array(
+        'field' => 'bkr_split[]',
+        'label' => 'beaker + split wt.',
+        'rules' => 'trim|numeric'),
+);
 /* End of file form_validation.php */
 /* Location: ./system/application/config/form_validation.php */
