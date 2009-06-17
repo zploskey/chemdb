@@ -48,7 +48,15 @@
             <tr>
             <?php if ($s == 0): ?>
                 <td><?=$batch->Analysis[$i]->id?></td>
-                <td><?=$batch->Analysis[$i]->sample_name?></td>
+                <td>
+                <?php
+                if ($batch->Analysis[$i]->Sample->name != NULL) {
+                    echo $batch->Analysis[$i]->Sample->name;
+                } else {
+                    echo $batch->Analysis[$i]->sample_name;
+                }
+                ?>
+                </td>
                 <td><?=$batch->Analysis[$i]->DissBottle->bottle_number?></td>
             <?php else: ?>
                 <td colspan=3></td>
@@ -93,29 +101,9 @@
     <input type=submit value="Save and refresh">
     </td>
     </tr>
+    <tr><td><hr></td></tr>
+</table>
 
 <?=form_close()?>
 
-    <tr><td><hr></td></tr>
-
-    <?=form_open(site_url('quartz_chem/intermediate_report'),
-        array('target' => '_blank'),
-        array('batch_id' => $batch->id)) ?>
-        <tr>
-            <td align=center>
-                <input type=submit value="Print hardcopy backup of weights in a new window">
-            </td>
-        </tr>
-        <tr><td><hr></td></tr>
-    <?=form_close()?>
-
-    <?=form_open(site_url('quartz_chem/index'))?>
-        <tr>
-            <td align=center>
-            <input type=submit value="I'm done -- back to main menu">
-            </td>
-        </tr>
-        <tr><td><hr></td></tr>
-    <?=form_close()?>
-
-</table>
+<?=$this->load->view('quartz_chem/bottom_links')?>

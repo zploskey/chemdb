@@ -1,4 +1,9 @@
 detect_relations: true
+detect_relations: true
+detect_relations: true
+detect_relations: true
+detect_relations: true
+detect_relations: true
 AlCarrier:
   tableName: al_carrier
   columns:
