@@ -394,6 +394,7 @@ class Quartz_chem extends MY_Controller
 		$this->load->view('template', $data);
     }
 
+    function 
 }
 
 /* End of file quartz_chem.php */
