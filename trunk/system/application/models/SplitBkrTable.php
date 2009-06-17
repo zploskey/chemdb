@@ -4,5 +4,17 @@
  */
 class SplitBkrTable extends Doctrine_Table
 {
+    /**
+	 *
+	 * @return Doctrine_Collection
+	 */
+	public function getList()
+	{
+		return Doctrine_Query::create()
+			->from('SplitBkr b')
+			->select('b.id, b.bkr_number')
+			->orderBy('b.id asc')
+			->execute();
+	}
 
 }
