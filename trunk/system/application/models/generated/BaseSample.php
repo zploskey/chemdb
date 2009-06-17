@@ -45,5 +45,6 @@ abstract class BaseSample extends Doctrine_Record
     {
         $this->hasMany('ProjectSample', array('local' => 'id',
                                               'foreign' => 'sample_id'));
+        $this->hasMany('Analysis', array('local' => 'id', 'foreign' => 'sample_id'));
     }
 }
