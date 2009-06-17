@@ -369,7 +369,11 @@ class Quartz_chem extends MY_Controller
             ->fetchOne();
         
         if ($is_refresh) {
-            $batch->merge($this->input->post('batch'));
+            $weights = $this->input->post('wt_diss_bottle_total');
+            $count = count($weights);
+            for ($i = 0; $i < $count; $i++) {
+                $batch->Analysis[$i]->wt_diss_bottle_total = $weights[$i];
+            }
         }
 
         $errors = FALSE;
