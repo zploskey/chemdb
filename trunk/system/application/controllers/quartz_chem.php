@@ -446,10 +446,10 @@ class Quartz_chem extends MY_Controller
 
         $data->errors = $errors;
         $data->numsamples = $numsamples;
+        $data->batch = $batch;
         $data->bkr_list = $this->split_bkr->getList();
 		$data->title = 'Add split weights';
 		$data->main = 'quartz_chem/add_split_weights';
-		$data->batch = $batch;
 		$this->load->view('template', $data);
     }
 }
