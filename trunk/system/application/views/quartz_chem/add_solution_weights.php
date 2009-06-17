@@ -72,32 +72,8 @@
                 <input type="submit" value="Save and refresh">
             </td>
         </tr>
-<?=form_close()?>
-
-        <tr><td><hr></td></tr>
-
-        <?=form_open('quartz_chem/intermediate_report',
-            array('target' => '_blank'), // add target option
-            array('batch_id', $batch->id)); // hidden field
-        ?>
-            <tr>
-                <td align=center>
-                <input type="submit" value="Print hardcopy backup of weights in a new window">
-                </td>
-            </tr>
-        <?=form_close()?>
-        
-        <tr><td><hr></td></tr>
-
-        <?=form_open('quartz_chem/index'); ?>
-            <tr>
-                <td align=center>
-                    <input type="submit" value="I'm done -- back to main menu">
-                </td>
-            </tr>
-        <?=form_close()?>
-
         <tr><td><hr></td></tr>
     </table>
-</body>
-</html>
+<?=form_close()?>
+
+<?=$this->load->view('quartz_chem/bottom_links')?>

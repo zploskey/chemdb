@@ -117,5 +117,21 @@ $config['add_split_weights'] = array(
         'label' => 'beaker + split wt.',
         'rules' => 'trim|numeric'),
 );
+
+$config['add_icp_weights'] = array(
+    array(
+        'field' => 'batch[notes]',
+        'label' => 'batch notes',
+        'rules' => 'trim|htmlentities'),
+    array(
+        'field' => 'batch[icp_date]',
+        'label' => 'ICP date',
+        'rules' => 'trim|alpha_dash|callback_valid_date'),
+    array(
+        'field' => 'tot_wts[]',
+        'label' => 'beaker + ICP solution wt.',
+        'rules' => 'trim|numeric'),
+);
+
 /* End of file form_validation.php */
 /* Location: ./system/application/config/form_validation.php */
