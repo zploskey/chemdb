@@ -39,4 +39,12 @@ class MY_Form_validation extends CI_Form_validation
 			return TRUE;
 		}
 	}
+
+    function valid_date($date_string) {
+        if (substr_count($date_string, '-') != 2) {
+            return FALSE;
+        }
+        list($year, $month, $day) = explode('-', $date_string);
+        return checkdate($month, $day, $year);
+    }
 }

@@ -57,7 +57,7 @@ $db['default']['dbcollat'] = "latin1_general_ci";
 // Create dsn from the info above
 $db[$active_group]['dsn'] = $db[$active_group]['dbdriver'] .
 				'://' . $db[$active_group]['username'] .
-				':' . $db[$active_group]['password'].
+				':' . $db[$active_group]['password'] .
 				'@' . $db[$active_group]['hostname'] .
 				'/' . $db[$active_group]['database'];
 

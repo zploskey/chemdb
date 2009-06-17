@@ -266,7 +266,7 @@ class Quartz_chem extends MY_Controller
 			$is_valid = $this->form_validation->run('load_samples');
 
 			// grab the submitted data
-			$batch->merge($this->input->post('batch'));
+			$batch = $batch->merge($this->input->post('batch'));
 			$batch->id = $batch_id;
 
 			if ($is_valid) {
@@ -376,7 +376,7 @@ class Quartz_chem extends MY_Controller
 
         $errors = FALSE;
         if ($is_refresh) {
-            $batch->merge($this->input->post('batch'));
+            $batch = $batch->merge($this->input->post('batch'));
 
             $weights = $this->input->post('wt_diss_bottle_total');
             $count = count($weights);
@@ -420,7 +420,7 @@ class Quartz_chem extends MY_Controller
         $errors = FALSE;
         if ($is_refresh) {
             // change the object data
-            $batch->merge($this->input->post('batch'));
+            $batch = $batch->merge($this->input->post('batch'));
 
             $bkr_ids = $this->input->post('split_bkr');
             $tares_wts = $this->input->post('bkr_tare');
@@ -451,6 +451,71 @@ class Quartz_chem extends MY_Controller
 		$data->title = 'Add split weights';
 		$data->main = 'quartz_chem/add_split_weights';
 		$this->load->view('template', $data);
+    }
+
+    function add_icp_weights() {
+        $batch_id = (int)$this->input->post('batch_id');
+        $is_refresh = (bool)$this->input->post('is_refresh');
+
+        $batch = Doctrine_Query::create()
+            ->from('Batch b')
+            ->leftJoin('b.Analysis a')
+            ->leftJoin('a.DissBottle db')
+            ->leftJoin('a.Sample sa')
+            ->leftJoin('a.Split sp')
+            ->leftJoin('sp.SplitBkr sb')
+            ->where('b.id = ?', $batch_id)
+            ->limit(1)
+            ->fetchOne();
+
+        $numsamples = $batch->Analysis->count();
+
+        // For the case when it's a new icp run, change from the default to today's date.
+        // It will be saved when valid data is submitted on the form.
+        if ($batch->icp_date == '0000-00-00') {
+            $batch->icp_date = date(Y-m-d);
+        }
+
+        $errors = FALSE;
+        if ($is_refresh) {
+            // change the object data
+            $batch = $batch->merge($this->input->post('batch'));
+            $tot_wts = $this->input->post('tot_wts');
+            $ind = 0; // index for post variable arrays
+            for ($a = 0; $a < $numsamples; $a++) { // analysis loop
+                $nsplits = $batch->Analysis[$a]->Split->count();
+                for ($s = 0; $s < $nsplits; $s++, $ind++) { // split loop
+                    $batch->Analysis[$a]->Split[$s]->wt_split_bkr_icp = $tot_wts[$ind];
+                }
+            }
+
+            // validate the form
+            if ($this->form_validation->run('add_split_weights')) {
+                $batch->save();
+            } else {
+                $errors = TRUE;
+            }
+        }
+
+        $data->errors = $errors;
+        $data->numsamples = $numsamples;
+        $data->batch = $batch;
+		$data->title = 'Add ICP solution weights';
+		$data->main = 'quartz_chem/add_icp_weights';
+		$this->load->view('template', $data);
+    }
+
+    // ----------
+	// CALLBACKS:
+	// ----------
+
+    function valid_date($date_string) {
+        if ($this->form_validation->valid_date($date_string)) {
+            return TRUE;
+        }
+
+        $this->form_validation->set_message('valid_date', 'The %s field must be in the format YYYY-MM-DD.');
+        return FALSE;
     }
 }
 
