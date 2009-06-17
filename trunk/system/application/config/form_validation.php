@@ -15,46 +15,46 @@ function in the controller they validate.
 $config['projects'] = array(
 	array(
 		'field' => 'name',
-		'label' => 'Name',
+		'label' => 'name',
 		'rules' => 'trim|required|alpha_dash|callback_is_unique[project.name]'),
 	array(
 		'field' => 'description',
-		'label' => 'Description',
+		'label' => 'description',
 		'rules' => 'trim|htmlentities'),
 );
 
 $config['samples'] = array(
 	array(
 		'field' => 'sample[name]',
-		'label' => 'Name',
+		'label' => 'name',
 		'rules' => 'trim|required|alpha_dash|callback_is_unique[sample.name]'),
 	array(
 		'field' => 'sample[latitude]',
-		'label' => 'Latitude',
+		'label' => 'latitude',
 		'rules' => 'trim|numeric|callback_valid_latlong'),
 	array(
 		'field' => 'sample[longitude]',
-		'label' => 'Longitude',
+		'label' => 'longitude',
 		'rules' => 'trim|numeric|callback_valid_latlong'),
 	array(
 		'field' => 'sample[altitude]',
-		'label' => 'Altitude',
+		'label' => 'altitude',
 		'rules' => 'trim|numeric'),
 	array(
 		'field' => 'sample[shield_factor]',
-		'label' => 'Shield Factor',
+		'label' => 'shield factor',
 		'rules' => 'trim|numeric|callback_valid_shield_factor'),
 	array(
 		'field' => 'sample[depth_top]',
-		'label' => 'Depth Top',
+		'label' => 'depth top',
 		'rules' => 'trim|numeric'),
 	array(
 		'field' => 'sample[depth_bottom]',
-		'label' => 'Depth Bottom',
+		'label' => 'depth bottom',
 		'rules' => 'trim|numeric'),
 	array(
 		'field' => 'sample[density]',
-		'label' => 'Density',
+		'label' => 'density',
 		'rules' => 'trim|numeric'),
 );
 
@@ -65,7 +65,7 @@ $config['batches'] = array(
 		'rules' => 'trim|is_natural_no_zero'),
 	array(
 		'field' => 'description',
-		'label' => 'Description',
+		'label' => 'description',
 		'rules' => 'trim|htmlspecialchars'),
 	array(
 		'field' => 'owner',
@@ -73,7 +73,7 @@ $config['batches'] = array(
 		'rules' => 'trim|htmlspecialchars'),
 	array(
 		'field' => 'numsamples',
-		'label' => '# of Samples',
+		'label' => '# of samples',
 		'rules' => 'trim|is_natural_no_zero'),
 );
 
@@ -84,14 +84,14 @@ $config['load_samples'] = array(
 		'rules' => 'trim|alphanumeric'),
 	array(
 		'field' => 'batch_notes',
-		'label' => 'Notes',
+		'label' => 'notes',
 		'rules' => 'trim|htmlspecialchars')
 );
 
 $config['add_solution_weights'] = array(
     array(
-        'field' => 'batch[Analysis][][wt_diss_bottle_total]',
-        'label' => 'Total weight',
+        'field' => 'wt_diss_bottle_total[]',
+        'label' => 'total weight',
         'rules' => 'trim|numeric'),
     array(
         'field' => 'batch[notes]',
