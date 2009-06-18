@@ -475,7 +475,7 @@ class Quartz_chem extends MY_Controller
 
         // For the case when it's a new icp run, change from the default to today's date.
         // It will be saved when valid data is submitted on the form.
-        if (strcmp($batch->icp_date,'0000-00-00') == 0)  {
+        if (strcmp($batch->icp_date, '0000-00-00') == 0)  {
             $batch->icp_date = date(Y-m-d);
         }
 
