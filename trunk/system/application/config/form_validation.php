@@ -78,14 +78,62 @@ $config['batches'] = array(
 );
 
 $config['load_samples'] = array(
+    array(
+        'field' => 'batch[notes]',
+        'label' => 'notes',
+        'rules' => 'trim|htmlspecialchars'),
+    array(
+        'field' => 'batch[be_carrier_id]',
+        'label' => 'beryllium carrier id',
+        'rules' => 'trim|is_natural'),
 	array(
-		'field' => 'be_carrier_name',
-		'label' => 'Beryllium Carrier Name',
-		'rules' => 'trim|alphanumeric'),
-	array(
-		'field' => 'batch_notes',
-		'label' => 'notes',
-		'rules' => 'trim|htmlspecialchars')
+		'field' => 'batch[al_carrier_id]',
+		'label' => 'aluminum carrier id',
+		'rules' => 'trim|is_natural'),
+    array(
+        'field' => 'batch[wt_be_carrier_init]',
+        'label' => 'Be carrier intial weight',
+        'rules' => 'trim|numeric|abs'),
+    array(
+        'field' => 'batch[wt_be_carrier_final]',
+        'label' => 'Be carrier final weight',
+        'rules' => 'trim|numeric|abs'),
+    array(
+        'field' => 'batch[wt_al_carrier_init]',
+        'label' => 'Al carrier intial weight ',
+        'rules' => 'trim|numeric|abs'),
+    array(
+        'field' => 'batch[wt_al_carrier_final]',
+        'label' => 'Al carrier final wt',
+        'rules' => 'trim|numeric|abs'),
+    array(
+        'field' => 'sample_name[]',
+        'label' => 'sample name',
+        'rules' => 'trim|alpha_dash'),
+    array(
+        'field' => 'sample_type[]',
+        'label' => 'sample type',
+        'rules' => 'trim|alphanumeric'),
+    array(
+        'field' => 'diss_bottle_id[]',
+        'label' => 'diss bottle id',
+        'rules' => 'trim|is_natural'),
+    array(
+        'field' => 'wt_diss_bottle_tare[]',
+        'label' => 'Wt. bottle tare',
+        'rules' => 'trim|numeric|abs'),
+    array(
+        'field' => 'wt_diss_bottle_sample[]',
+        'label' => 'Wt. bottle + sample',
+        'rules' => 'trim|numeric|abs'),
+    array(
+        'field' => 'wt_be_carrier[]',
+        'label' => 'Wt. Be carrier soln.',
+        'rules' => 'trim|alpha_dash'),
+    array(
+        'field' => 'wt_al_carrier[]',
+        'label' => 'Wt. Al carrier soln.',
+        'rules' => 'trim|numeric|abs'),
 );
 
 $config['add_solution_weights'] = array(
