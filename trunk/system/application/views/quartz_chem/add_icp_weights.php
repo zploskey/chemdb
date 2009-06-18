@@ -22,10 +22,13 @@
         </center>
     </td></tr>
 	<tr><td><hr></td></tr>
-    <?php if ($errors): ?>
-        <tr><td><?=validation_errors()?></td></tr>
-    <?php endif; ?>
 </table>
+
+<?php
+if ($errors) {
+    echo validation_errors();
+}
+?>
 
 <table width=800 class=arial8>
 
@@ -72,7 +75,7 @@
                 <?php
                 $icp_wt = $batch->Analysis[$i]->Split[$s]->wt_split_bkr_icp
                     - $batch->Analysis[$i]->Split[$s]->wt_split_bkr_tare;
-                printf('%.4f',$icp_wt);
+                printf('%.4f', $icp_wt);
                 ?>
             </td>
         </tr>
