@@ -39,18 +39,18 @@ $active_group = 'default';
 $active_record = FALSE;
 
 // quartz_chem
-$db['default']['hostname'] = "ovid.u.washington.edu:23457";
-$db['default']['username'] = "root";
-$db['default']['password'] = "***REMOVED***";
-$db['default']['database'] = "dev_al_be_quartz_chem";
-$db['default']['dbdriver'] = "mysql";
-$db['default']['dbprefix'] = "";
+$db['default']['hostname'] = 'ovid.u.washington.edu:23457';
+$db['default']['username'] = 'root';
+$db['default']['password'] = '***REMOVED***';
+$db['default']['database'] = 'dev_al_be_quartz_chem';
+$db['default']['dbdriver'] = 'mysql';
+$db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
 $db['default']['db_debug'] = TRUE;
 $db['default']['cache_on'] = FALSE;
-$db['default']['cachedir'] = "";
-$db['default']['char_set'] = "latin1";
-$db['default']['dbcollat'] = "latin1_general_ci";
+$db['default']['cachedir'] = '';
+$db['default']['char_set'] = 'latin1';
+$db['default']['dbcollat'] = 'latin1_general_ci';
 
 // Doctrine configuration
 
