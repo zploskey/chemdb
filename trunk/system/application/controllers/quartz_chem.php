@@ -150,22 +150,57 @@ class Quartz_chem extends MY_Controller
 		$batch_id = $this->input->post('batch_id');
 
 		// grab the batch
-		$q = Doctrine_Query::create()
+		$batch = Doctrine_Query::create()
 			->from('Batch b')
 			->leftJoin('b.Analysis a')
 			->leftJoin('b.BeCarrier bec')
 			->leftJoin('b.AlCarrier alc')
-			->where('b.id = ?', $batch_id);
-
-		$batch = $q->fetchOne();
+			->where('b.id = ?', $batch_id)
+            ->fetchOne();
 
 		if ( ! $batch) {
-			echo 'Batch query failed. ';
+			die('Batch query failed.');
 		} 
 
 		$num_analyses = $batch->Analysis->count();
+		$errors = FALSE;
 
-		// create the lists of carrier options
+		// if this is a refresh we need to validate the data
+		if ($is_refresh) {
+			$is_valid = $this->form_validation->run('load_samples');
+
+			// grab the submitted data
+			$batch->merge($this->input->post('batch'));
+			$batch->id = $batch_id;
+
+            $sample_name = $this->input->post('sample_name');
+            $sample_type = $this->input->post('sample_type');
+            $diss_bottle_id = $this->input->post('diss_bottle_id');
+            $wt_diss_bottle_tare = $this->input->post('wt_diss_bottle_tare');
+            $wt_diss_bottle_sample = $this->input->post('wt_diss_bottle_sample');
+            $wt_be_carrier = $this->input->post('wt_be_carrier');
+            $wt_al_carrier = $this->input->post('wt_al_carrier');
+
+            for ($a = 0; $a < $num_analyses; $a++) { // analysis loop
+                $batch->Analysis[$a]->sample_name = $sample_name[$a];
+                $batch->Analysis[$a]->sample_type = $sample_type[$a];
+                $batch->Analysis[$a]->diss_bottle_id = $diss_bottle_id[$a];
+                $batch->Analysis[$a]->wt_diss_bottle_tare = $wt_diss_bottle_tare[$a];
+                $batch->Analysis[$a]->wt_diss_bottle_sample = $wt_diss_bottle_sample[$a];
+                $batch->Analysis[$a]->wt_be_carrier = $wt_be_carrier[$a];
+                $batch->Analysis[$a]->wt_al_carrier = $wt_al_carrier[$a];
+            }
+
+			if ($is_valid) {
+				// valid info, save changes to the database and reload
+				$batch->save();
+			} else {
+				// validation failed
+				$errors = TRUE;
+			}
+		}
+
+        // create the lists of carrier options
 		foreach ($this->be_carrier->getList() as $c) {
 			$data->be_carrier_options .= "<option value=$c->id ";
 			if ($batch->BeCarrier != null AND $c->id == $batch->BeCarrier->id) {
@@ -182,19 +217,19 @@ class Quartz_chem extends MY_Controller
 			$data->al_carrier_options .= "> $c->name";
 		}
 
-		// create diss bottle dropdown options for each sample
+		// initialize carrier weights and Alcheck data arrays
+		$be_tot_wt = 0;
+		$al_tot_wt = 0;
+		$diss_bottle_options = array();
+		$prechecks = array();
+
+        // get all the dissolution bottle numbers
 		$diss_bottles = Doctrine_Query::create()
 			->from('DissBottle d')
 			->execute();
 
-		// initialize carrier total weights
-		$be_tot_wt = 0;
-		$al_tot_wt = 0;
-
-		$diss_bottle_options = array();
-		$prechecks = array();
-
-		for($i = 0; $i < count($batch->Analysis); $i++) {
+		for($i = 0; $i < $num_analyses; $i++) {
+            // create diss bottle dropdown options for each sample
 			$html = '';
 			foreach($diss_bottles as $bottle) {
 				$html .= '<option value='.$bottle->id;
@@ -210,11 +245,12 @@ class Quartz_chem extends MY_Controller
 
 			// get cations while we're at it
 			$precheck = Doctrine_Query::create()
-				->from('AlcheckAnalysis a, AlcheckBatch b')
+				->from('AlcheckAnalysis a, a.AlcheckBatch b')
 				->select('a.icp_al, a.icp_fe, a.icp_ti, a.wt_bkr_tare, a.wt_bkr_sample, a.wt_bkr_soln, b.prep_date')
-				->where('a.alcheck_batch_id = ?', $batch->id)
+				->where('a.analysis_id = ?', $batch->Analysis[$i]->id)
 				->orderBy('b.prep_date DESC')
-				->execute();
+				->limit(1)
+                ->fetchOne();
 
 			if($precheck AND $batch->AlCarrier) {
 				// there's data, calculate the concentrations
@@ -232,7 +268,7 @@ class Quartz_chem extends MY_Controller
 				$temp_ti = $precheck['icp_ti'] * $temp_df * $temp_sample_wt / 1000;
 				$temp_tot_al = $temp_al + ($batch->Analysis[$i]->wt_al_carrier
 					* $batch->AlCarrier->al_conc) / 1000;
-				
+
 				$prechecks[$i]['conc_al'] = sprintf('%.1f', $precheck['icp_al'] * $temp_df);
 				$prechecks[$i]['conc_fe'] = sprintf('%.1f', $precheck['icp_fe'] * $temp_df);
 				$prechecks[$i]['conc_ti'] = sprintf('%.1f', $precheck['icp_ti'] * $temp_df);
@@ -243,7 +279,7 @@ class Quartz_chem extends MY_Controller
 				$temp_tot_al = '--';
 
 				if ($batch->AlCarrier AND $batch->Analysis[$i]->wt_al_carrier > 0) {
-						$temp_tot_al = $batch->Analysis[$i]->wt_al_carrier * $batch->AlCarrier->al_conc / 1000;
+                    $temp_tot_al = $batch->Analysis[$i]->wt_al_carrier * $batch->AlCarrier->al_conc / 1000;
 				}
 			}
 
@@ -253,7 +289,6 @@ class Quartz_chem extends MY_Controller
 
 			$be_tot_wt += $batch->Analysis[$i]->wt_be_carrier;
 			$al_tot_wt += $batch->Analysis[$i]->wt_al_carrier;
-
 		}
 
 		// get previous carrier weights
@@ -264,46 +299,27 @@ class Quartz_chem extends MY_Controller
 			$data->al_prev = $this->batch->findPrevAlCarrierWt($batch->AlCarrier->id, $batch->start_date);
 		}
 
-		$errors = FALSE;
-
-		// if this is a refresh we need to validate the data
-		if ($is_refresh) {
-			$is_valid = $this->form_validation->run('load_samples');
-
-			// grab the submitted data
-			$batch = $batch->merge($this->input->post('batch'));
-			$batch->id = $batch_id;
-
-			if ($is_valid) {
-				// valid info, save changes to the database and reload
-				$batch->save();
-				$_POST['is_refresh'] = FALSE;
-				//redirect('quartz_chem/load_samples');
-			} else {
-				// validation failed
-				$errors = TRUE;
-			}
-
-		}
-
-		// it was not a refresh, reset fields from the database
-		$data->batch = $batch;
-
-		// perform remaining calculations for displaying
+		// set display variables
+        $data->batch = $batch;
+        $data->num_analyses = $num_analyses;
+        $data->prechecks = $prechecks;
+		$data->diss_bottle_options = $diss_bottle_options;
+        $data->errors = $errors;
+        
+        // and calculated metadata for display
 		$data->be_diff_wt = $batch->wt_be_carrier_init - $batch->wt_be_carrier_final;
 		$data->al_diff_wt = $batch->wt_al_carrier_init - $batch->wt_al_carrier_final;
-		$data->be_tot_wt = $be_tot_wt;
+        $data->be_diff = $data->be_diff_wt - $be_tot_wt;
+		$data->al_diff = $data->al_diff_wt - $al_tot_wt;
+        $data->be_tot_wt = $be_tot_wt;
 		$data->al_tot_wt = $al_tot_wt;
-		$data->be_diff = $data->be_diff_wt - $data->be_tot_wt;
-		$data->al_diff = $data->al_diff_wt - $data->al_tot_wt;
 
-		$data->prechecks = $prechecks;
-		$data->diss_bottle_options = $diss_bottle_options;
-		$data->num_analyses = $num_analyses;
+        // template info
 		$data->title = 'Sample weighing and carrier addition';
 		$data->main = 'quartz_chem/load_samples';
 		$this->load->view('template', $data);
 	}
+    
 	function print_tracking_sheet() {
 		$batch_id = $this->input->post('batch_id');
 		$batch = Doctrine_Query::create()
@@ -317,7 +333,6 @@ class Quartz_chem extends MY_Controller
 			->fetchOne();
 
 		for ($i = 0; $i < $batch->Analysis->count(); $i++) {
-
 			$precheck = Doctrine_Query::create()
 				->from('AlcheckAnalysis a')
 				->leftJoin('a.AlcheckBatch b')
@@ -379,7 +394,7 @@ class Quartz_chem extends MY_Controller
 
         $errors = FALSE;
         if ($is_refresh) {
-            $batch = $batch->merge($this->input->post('batch'));
+            $batch->merge($this->input->post('batch'));
 
             $weights = $this->input->post('wt_diss_bottle_total');
             $count = count($weights);
@@ -423,7 +438,7 @@ class Quartz_chem extends MY_Controller
         $errors = FALSE;
         if ($is_refresh) {
             // change the object data
-            $batch = $batch->merge($this->input->post('batch'));
+            $batch->merge($this->input->post('batch'));
 
             $bkr_ids = $this->input->post('split_bkr');
             $tares_wts = $this->input->post('bkr_tare');
@@ -476,13 +491,13 @@ class Quartz_chem extends MY_Controller
         // For the case when it's a new icp run, change from the default to today's date.
         // It will be saved when valid data is submitted on the form.
         if (strcmp($batch->icp_date, '0000-00-00') == 0)  {
-            $batch->icp_date = date(Y-m-d);
+            $batch->icp_date = date('Y-m-d');
         }
 
         $errors = FALSE;
         if ($is_refresh) {
             // change the object data
-            $batch = $batch->merge($this->input->post('batch'));
+            $batch->merge($this->input->post('batch'));
             $tot_wts = $this->input->post('tot_wts');
             $ind = 0; // index for post variable arrays
             for ($a = 0; $a < $numsamples; $a++) { // analysis loop
