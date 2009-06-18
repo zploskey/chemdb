@@ -22,6 +22,9 @@
         </center>
     </td></tr>
 	<tr><td><hr></td></tr>
+    <?php if ($errors): ?>
+        <tr><td><?=validation_errors()?></td></tr>
+    <?php endif; ?>
 </table>
 
 <table width=800 class=arial8>
