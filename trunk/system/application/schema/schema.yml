@@ -1,9 +1,4 @@
 detect_relations: true
-detect_relations: true
-detect_relations: true
-detect_relations: true
-detect_relations: true
-detect_relations: true
 AlCarrier:
   tableName: al_carrier
   columns:
@@ -129,6 +124,9 @@ Analysis:
       type: string(2147483647)
       default: ''
       notnull: true
+    sample_id:
+      type: integer(4)
+      unsigned: 1
     sample_type:
       type: string(2147483647)
       default: ''
@@ -316,8 +314,8 @@ Sample:
     depth_top: float(2147483647)
     depth_bottom: float(2147483647)
     density: float(2147483647)
-    notes: string(2147483647)
     erosion_rate: float(2147483647)
+    notes: string(2147483647)
 Split:
   tableName: split
   columns:
