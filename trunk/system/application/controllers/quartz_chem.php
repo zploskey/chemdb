@@ -246,7 +246,8 @@ class Quartz_chem extends MY_Controller
 			// get cations while we're at it
 			$precheck = Doctrine_Query::create()
 				->from('AlcheckAnalysis a, a.AlcheckBatch b')
-				->select('a.icp_al, a.icp_fe, a.icp_ti, a.wt_bkr_tare, a.wt_bkr_sample, a.wt_bkr_soln, b.prep_date')
+				->select('a.icp_al, a.icp_fe, a.icp_ti, a.wt_bkr_tare, a.wt_bkr_sample, '
+                    .'a.wt_bkr_soln, b.prep_date')
 				->where('a.analysis_id = ?', $batch->Analysis[$i]->id)
 				->orderBy('b.prep_date DESC')
 				->limit(1)
@@ -279,7 +280,8 @@ class Quartz_chem extends MY_Controller
 				$temp_tot_al = '--';
 
 				if ($batch->AlCarrier AND $batch->Analysis[$i]->wt_al_carrier > 0) {
-                    $temp_tot_al = $batch->Analysis[$i]->wt_al_carrier * $batch->AlCarrier->al_conc / 1000;
+                    $temp_tot_al = $batch->Analysis[$i]->wt_al_carrier
+                        * $batch->AlCarrier->al_conc / 1000;
 				}
 			}
 
@@ -293,10 +295,12 @@ class Quartz_chem extends MY_Controller
 
 		// get previous carrier weights
 		if ($batch->BeCarrier) {
-			$data->be_prev = $this->batch->findPrevBeCarrierWt($batch->BeCarrier->id, $batch->start_date);
+			$data->be_prev = $this->batch->findPrevBeCarrierWt($batch->BeCarrier->id,
+                $batch->start_date);
 		}
 		if ($batch->AlCarrier) {
-			$data->al_prev = $this->batch->findPrevAlCarrierWt($batch->AlCarrier->id, $batch->start_date);
+			$data->al_prev = $this->batch->findPrevAlCarrierWt($batch->AlCarrier->id,
+                $batch->start_date);
 		}
 
 		// set display variables
@@ -336,7 +340,8 @@ class Quartz_chem extends MY_Controller
 			$precheck = Doctrine_Query::create()
 				->from('AlcheckAnalysis a')
 				->leftJoin('a.AlcheckBatch b')
-				->select('a.sample_name, a.icp_al, a.icp_fe, a.icp_ti, a.wt_bkr_tare, a.wt_bkr_sample, a.wt_bkr_soln, b.prep_date')
+				->select('a.sample_name, a.icp_al, a.icp_fe, a.icp_ti, a.wt_bkr_tare, '
+                    .'a.wt_bkr_sample, a.wt_bkr_soln, b.prep_date')
 				->where('a.sample_name = ?', $batch->Analysis[$i]->sample_name)
                 ->andWhere('a.alcheck_batch_id = b.id')
 				->orderBy('b.prep_date DESC')
@@ -357,12 +362,16 @@ class Quartz_chem extends MY_Controller
 				}
 
 				$temp_al = $precheck['icp_al'] * $temp_df * $tmpa[$i]['tmpSampleWt'] / 1000;
-				$tmpa[$i]['tot_fe'] = sprintf('%.2f', $precheck['icp_fe'] * $temp_df * $tmpa[$i]['tmpSampleWt'] / 1000);
-				$tmpa[$i]['tot_ti'] = sprintf('%.2f', $precheck['icp_ti'] * $temp_df * $tmpa[$i]['tmpSampleWt'] / 1000);
-				$tmpa[$i]['tot_al'] = sprintf('%.2f', $temp_al + ($batch->Analysis[$i]->wt_al_carrier * $batch->AlCarrier->al_conc) / 1000);
-			} elseif ($batch->Analysis[$i]->sample_type == 'BLANK') {
+				$tmpa[$i]['tot_fe'] = sprintf('%.2f',
+                    $precheck['icp_fe'] * $temp_df * $tmpa[$i]['tmpSampleWt'] / 1000);
+				$tmpa[$i]['tot_ti'] = sprintf('%.2f',
+                    $precheck['icp_ti'] * $temp_df * $tmpa[$i]['tmpSampleWt'] / 1000);
+				$tmpa[$i]['tot_al'] = sprintf('%.2f', $temp_al
+                    + ($batch->Analysis[$i]->wt_al_carrier * $batch->AlCarrier->al_conc) / 1000);
+			} elseif (strcmp($batch->Analysis[$i]->sample_type, 'BLANK') == 0) {
 				if ($batch->Analysis[$i]->wt_al_carrier > 0) {
-					$tmpa[$i]['tot_al'] = sprintf('%.2f', ($batch->Analysis[$i]->wt_al_carrier * $batch->AlCarrier->al_conc) / 1000);
+					$tmpa[$i]['tot_al'] = sprintf('%.2f',
+                        ($batch->Analysis[$i]->wt_al_carrier * $batch->AlCarrier->al_conc) / 1000);
 				}
 				else {
 					$tmpa[$i]['tot_al'] = ' -- ';
@@ -532,7 +541,8 @@ class Quartz_chem extends MY_Controller
             return TRUE;
         }
 
-        $this->form_validation->set_message('valid_date', 'The %s field must be in the format YYYY-MM-DD.');
+        $this->form_validation->set_message('valid_date',
+            'The %s field must be in the format YYYY-MM-DD.');
         return FALSE;
     }
 }
