@@ -38,20 +38,32 @@
 		</tr>
 		<tr><td></td>
 			<td>
-				[Be]: <?=$batch->BeCarrier->be_conc?> +/- <?=$batch->BeCarrier->del_be_conc?>
-				ug/g
+				[Be]: 
+				<? if($batch->BeCarrier): ?>
+					<?=$batch->BeCarrier->be_conc?> +/- <?=$batch->BeCarrier->del_be_conc?> ug/g
+				<? endif; ?>
 			</td><td></td>
 			<td>
-				[Al]: <?=$batch->AlCarrier->al_conc?> +/- <?=$batch->AlCarrier->del_al_conc?>
-				ug/g
+				[Al]: 
+				<? if($batch->AlCarrier): ?>
+					<?=$batch->AlCarrier->al_conc?> +/- <?=$batch->AlCarrier->del_al_conc?> ug/g
+				<? endif; ?>
 			</td>
 		</tr>
 		<tr>
 			<td>Be carrier previous wt:</td>
-			<td><?=$be_prev->wt_be_carrier_final?> ( <?=$be_prev->start_date?> )</td>
+			<td>
+				<? if($batch->BeCarrier): ?>
+					<?=$be_prev->wt_be_carrier_final?> ( <?=$be_prev->start_date?> )
+				<? endif; ?>
+			</td>
 
 			<td>Al carrier previous wt:</td>
-			<td><?=$al_prev->wt_al_carrier_final?> ( <?=$al_prev->start_date?> )</td>
+			<td>
+				<? if($batch->AlCarrier): ?>
+					<?=$al_prev->wt_al_carrier_final?> ( <?=$al_prev->start_date?> )
+				<? endif; ?>
+			</td>
 		</tr>
 		<tr>
 			<td>
@@ -159,7 +171,14 @@
 
 				<!-- Column 9. Be mass -->
 				<td>
-					<?=sprintf('%.1f', ($a->wt_be_carrier * $batch->BeCarrier->be_conc))?>
+					<?php
+						if ($batch->BeCarrier) {
+							$be_mass = ($a->wt_be_carrier * $batch->BeCarrier->be_conc);
+						} else {
+							$be_mass = 0;
+						}
+						printf('%.1f', $be_mass);
+					?>
 				</td>
 
 				<!-- Column 10. Al carrier wt -->
@@ -190,7 +209,7 @@
 			</tr>
 		
 			<!-- Print save and refresh button every two rows -->
-			<?php if ( ($i % 2) != 0): ?>
+			<? if ( ($i % 2) != 0): ?>
 				<tr>
 					<td colspan=11><hr></td>
 				</tr>
@@ -199,8 +218,8 @@
 						<input type=submit value="Save and refresh">
 					</td>
 				</tr>
-			<?php endif; ?>
-			<?php $i++; ?>
+			<? endif; ?>
+			<? $i++; ?>
 		<?php endforeach; // main display loop ?>
 			
 		<tr><td colspan=10><hr></td></tr>
@@ -224,11 +243,11 @@
 		<tr class=arial10>
 			<td>Al carrier: </td>
 			<td> Final less initial wt:</td>
-			<td><?php printf('%.4f',$al_diff_wt); ?></td>
+			<td><? printf('%.4f',$al_diff_wt) ?></td>
 			<td> Sum of indiv. wts.:</td>
-			<td><?php printf('%.4f',$al_tot_wt); ?></td>
+			<td><? printf('%.4f',$al_tot_wt) ?></td>
 			<td> Difference:</td>
-			<td><?php printf('%.4f',$al_diff); ?></td>
+			<td><? printf('%.4f',$al_diff) ?></td>
 		</tr>
 	</table>
 

@@ -88,6 +88,7 @@ class Projects extends MY_Controller
 		} else {
 			// it's a new project, create a new record object and other display values
 			$proj = new Project();
+			$proj->date_added = date('Y-m-d');
 			$data->title = 'Add Project';
 			$data->subtitle = 'Enter Project Information:';
 			$data->arg = '';

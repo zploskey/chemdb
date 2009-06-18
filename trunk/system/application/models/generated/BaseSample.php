@@ -14,8 +14,9 @@
  * @property float $depth_top
  * @property float $depth_bottom
  * @property float $density
- * @property string $notes
  * @property float $erosion_rate
+ * @property string $notes
+ * @property Doctrine_Collection $Analysis
  * @property Doctrine_Collection $ProjectSample
  * 
  * @package    ##PACKAGE##
@@ -37,14 +38,16 @@ abstract class BaseSample extends Doctrine_Record
         $this->hasColumn('depth_top', 'float', 2147483647, array('type' => 'float', 'length' => '2147483647'));
         $this->hasColumn('depth_bottom', 'float', 2147483647, array('type' => 'float', 'length' => '2147483647'));
         $this->hasColumn('density', 'float', 2147483647, array('type' => 'float', 'length' => '2147483647'));
-        $this->hasColumn('notes', 'string', 2147483647, array('type' => 'string', 'length' => '2147483647'));
         $this->hasColumn('erosion_rate', 'float', 2147483647, array('type' => 'float', 'length' => '2147483647'));
+        $this->hasColumn('notes', 'string', 2147483647, array('type' => 'string', 'length' => '2147483647'));
     }
 
     public function setUp()
     {
+        $this->hasMany('Analysis', array('local' => 'id',
+                                         'foreign' => 'sample_id'));
+
         $this->hasMany('ProjectSample', array('local' => 'id',
                                               'foreign' => 'sample_id'));
-        $this->hasMany('Analysis', array('local' => 'id', 'foreign' => 'sample_id'));
     }
 }
