@@ -39,3 +39,7 @@ INSERT INTO alcheck_batch SELECT * FROM alchecks.batches;
 ALTER TABLE `alcheck_analysis` CHANGE `analysis_ID` `id` mediumint(8) UNSIGNED ZEROFILL NOT NULL auto_increment;
 ALTER TABLE `alcheck_batch` CHANGE `batch_ID` `id` smallint(5) UNSIGNED ZEROFILL NOT NULL auto_increment;
 ALTER TABLE `alcheck_analysis` CHANGE `batch_id` `alcheck_batch_id` smallint(5) UNSIGNED ZEROFILL NOT NULL DEFAULT '00000' ;
+
+/* Relate to regular analysis */
+ALTER TABLE `alcheck_analysis` ADD `analysis_id` int(11) UNSIGNED default NULL;
+UPDATE alcheck_analysis,analysis SET alcheck_analysis.analysis_id = analysis.id WHERE analysis.sample_name = alcheck_analysis.sample_name;
