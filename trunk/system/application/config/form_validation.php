@@ -92,7 +92,7 @@ $config['load_samples'] = array(
 		'rules' => 'trim|is_natural'),
     array(
         'field' => 'batch[wt_be_carrier_init]',
-        'label' => 'Be carrier intial weight',
+        'label' => 'Be carrier initial weight',
         'rules' => 'trim|numeric|abs'),
     array(
         'field' => 'batch[wt_be_carrier_final]',
@@ -100,7 +100,7 @@ $config['load_samples'] = array(
         'rules' => 'trim|numeric|abs'),
     array(
         'field' => 'batch[wt_al_carrier_init]',
-        'label' => 'Al carrier intial weight ',
+        'label' => 'Al carrier initial weight ',
         'rules' => 'trim|numeric|abs'),
     array(
         'field' => 'batch[wt_al_carrier_final]',

@@ -13,16 +13,16 @@
  * @property float $wt_be_carrier_init
  * @property float $wt_be_carrier_final
  * @property string $al_carrier_name
- * @property enum $completed
- * @property string $owner
- * @property string $description
  * @property float $wt_al_carrier_init
  * @property float $wt_al_carrier_final
+ * @property enum $completed
+ * @property integer $al_carrier_id
+ * @property integer $be_carrier_id
+ * @property string $owner
+ * @property string $description
  * @property string $notes
  * @property string $spreadsheet_name
  * @property string $csv_name
- * @property integer $al_carrier_id
- * @property integer $be_carrier_id
  * @property AlCarrier $AlCarrier
  * @property BeCarrier $BeCarrier
  * @property Doctrine_Collection $Analysis
@@ -45,16 +45,16 @@ abstract class BaseBatch extends Doctrine_Record
         $this->hasColumn('wt_be_carrier_init', 'float', 2147483647, array('type' => 'float', 'default' => '0', 'notnull' => true, 'length' => '2147483647'));
         $this->hasColumn('wt_be_carrier_final', 'float', 2147483647, array('type' => 'float', 'default' => '0', 'notnull' => true, 'length' => '2147483647'));
         $this->hasColumn('al_carrier_name', 'string', 2147483647, array('type' => 'string', 'default' => '', 'notnull' => true, 'length' => '2147483647'));
+        $this->hasColumn('wt_al_carrier_init', 'float', 2147483647, array('type' => 'float', 'default' => '0', 'notnull' => true, 'length' => '2147483647'));
+        $this->hasColumn('wt_al_carrier_final', 'float', 2147483647, array('type' => 'float', 'default' => '0', 'notnull' => true, 'length' => '2147483647'));
         $this->hasColumn('completed', 'enum', 1, array('type' => 'enum', 'values' => array(0 => 'y', 1 => 'n'), 'default' => 'n', 'notnull' => true, 'length' => '1'));
+        $this->hasColumn('al_carrier_id', 'integer', 1, array('type' => 'integer', 'length' => '1'));
+        $this->hasColumn('be_carrier_id', 'integer', 1, array('type' => 'integer', 'length' => '1'));
         $this->hasColumn('owner', 'string', 2147483647, array('type' => 'string', 'length' => '2147483647'));
         $this->hasColumn('description', 'string', 2147483647, array('type' => 'string', 'length' => '2147483647'));
-        $this->hasColumn('wt_al_carrier_init', 'float', 2147483647, array('type' => 'float', 'length' => '2147483647'));
-        $this->hasColumn('wt_al_carrier_final', 'float', 2147483647, array('type' => 'float', 'length' => '2147483647'));
         $this->hasColumn('notes', 'string', 2147483647, array('type' => 'string', 'length' => '2147483647'));
         $this->hasColumn('spreadsheet_name', 'string', 2147483647, array('type' => 'string', 'length' => '2147483647'));
         $this->hasColumn('csv_name', 'string', 2147483647, array('type' => 'string', 'length' => '2147483647'));
-        $this->hasColumn('al_carrier_id', 'integer', 1, array('type' => 'integer', 'length' => '1'));
-        $this->hasColumn('be_carrier_id', 'integer', 1, array('type' => 'integer', 'length' => '1'));
     }
 
     public function setUp()
