@@ -110,3 +110,10 @@ UPDATE analysis a, diss_bottle SET a.diss_bottle_id = diss_bottle.id WHERE a.dis
 
 ALTER TABLE `batch` CHANGE `Al_carrier_id` `al_carrier_id` int(11) DEFAULT NULL;
 ALTER TABLE `batch` CHANGE `Be_carrier_id` `be_carrier_id` int(11) DEFAULT NULL;
+
+ALTER TABLE `batch` CHANGE `wt_Al_carrier_init` `wt_al_carrier_init` double NOT NULL DEFAULT '0';
+ALTER TABLE `batch` CHANGE `wt_Al_carrier_final` `wt_al_carrier_final` double NOT NULL DEFAULT '0';
+ALTER TABLE `batch` CHANGE `wt_Be_carrier_init` `wt_be_carrier_init` double NOT NULL DEFAULT '0';
+ALTER TABLE `batch` CHANGE `wt_Be_carrier_final` `wt_be_carrier_final` double NOT NULL DEFAULT '0';
+ALTER TABLE `batch` MODIFY COLUMN `al_carrier_id` int(11) DEFAULT NULL AFTER `id`;
+ALTER TABLE `batch` MODIFY COLUMN `be_carrier_id` int(11) DEFAULT NULL AFTER `al_carrier_id`;

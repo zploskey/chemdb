@@ -21,6 +21,9 @@ AlcheckAnalysis:
       unsigned: 1
       primary: true
       autoincrement: true
+    analysis_id:
+      type: integer(4)
+      unsigned: 1
     alcheck_batch_id:
       type: integer(2)
       unsigned: 1
@@ -90,7 +93,6 @@ AlcheckAnalysis:
       default: '1'
       notnull: true
     notes: string(2147483647)
-    analysis_id: integer(4)
 AlcheckBatch:
   tableName: alcheck_batch
   columns:
@@ -196,20 +198,26 @@ Batch:
       type: string(2147483647)
       default: ''
       notnull: true
+    wt_al_carrier_init:
+      type: float(2147483647)
+      default: '0'
+      notnull: true
+    wt_al_carrier_final:
+      type: float(2147483647)
+      default: '0'
+      notnull: true
     completed:
       type: enum(1)
       values: ['y', 'n']
       default: 'n'
       notnull: true
+    al_carrier_id: integer(4)
+    be_carrier_id: integer(4)
     owner: string(2147483647)
     description: string(2147483647)
-    wt_al_carrier_init: float(2147483647)
-    wt_al_carrier_final: float(2147483647)
     notes: string(2147483647)
     spreadsheet_name: string(2147483647)
     csv_name: string(2147483647)
-    al_carrier_id: integer(4)
-    be_carrier_id: integer(4)
 BeCarrier:
   tableName: be_carrier
   columns:
