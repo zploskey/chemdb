@@ -1,4 +1,4 @@
-<?=form_open(site_url('quartz_chem/load_samples'))?>
+<?=form_open('quartz_chem/load_samples')?>
 <input type="hidden" name="batch_id" value="<?=$batch->id?>">
 <input type="hidden" name="is_refresh" value="TRUE">
 
