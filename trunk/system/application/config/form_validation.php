@@ -129,7 +129,7 @@ $config['load_samples'] = array(
     array(
         'field' => 'wt_be_carrier[]',
         'label' => 'Wt. Be carrier soln.',
-        'rules' => 'trim|alpha_dash'),
+        'rules' => 'trim|numeric|abs'),
     array(
         'field' => 'wt_al_carrier[]',
         'label' => 'Wt. Al carrier soln.',
