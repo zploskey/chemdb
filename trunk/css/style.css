@@ -8,6 +8,29 @@ body {
  color: black;
 }
 
+table {}
+.xl24
+	{font-family:Arial;
+	font-size:10.0pt;}
+.xl25
+	{font-family:Arial;
+	text-align:center;}
+.xl26
+	{font-family:Arial;
+	text-align:right;}
+.xl27
+	{font-family:Arial;
+	text-align:right;}
+.options {
+ font-family:Arial;
+ text-align:left;
+}
+
+.option_button {
+ font-family:Arial;
+ text-align:center;   
+}
+
 td {
 	border-top: 0px;
 	border-left: 0px;
