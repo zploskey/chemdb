@@ -319,7 +319,8 @@ class Quartz_chem extends MY_Controller
 		$this->load->view('template', $data);
 	}
     
-	function print_tracking_sheet() {
+	function print_tracking_sheet()
+	{
 		$batch_id = $this->input->post('batch_id');
 		$batch = Doctrine_Query::create()
 			->from('Batch b')
@@ -386,7 +387,8 @@ class Quartz_chem extends MY_Controller
 		$this->load->view('quartz_chem/print_tracking_sheet', $data);
 	}
 
-    function add_solution_weights() {
+    function add_solution_weights() 
+    {
         $batch_id = (int)$this->input->post('batch_id');
         $is_refresh = (bool)$this->input->post('is_refresh');
 
@@ -425,7 +427,8 @@ class Quartz_chem extends MY_Controller
 		$this->load->view('template', $data);
     }
 
-    function add_split_weights() {
+    function add_split_weights() 
+    {
         $batch_id = (int)$this->input->post('batch_id');
         $is_refresh = (bool)$this->input->post('is_refresh');
         
@@ -477,7 +480,8 @@ class Quartz_chem extends MY_Controller
 		$this->load->view('template', $data);
     }
 
-    function add_icp_weights() {
+    function add_icp_weights() 
+    {
         $batch_id = (int)$this->input->post('batch_id');
         $is_refresh = (bool)$this->input->post('is_refresh');
 
@@ -533,7 +537,8 @@ class Quartz_chem extends MY_Controller
     // REPORTS:
     // --------
 
-    function intermediate_report() {
+    function intermediate_report() 
+    {
         $batch_id = $this->input->post('batch_id');
 		$batch = Doctrine_Query::create()
 			->from('Batch b')
@@ -723,13 +728,21 @@ class Quartz_chem extends MY_Controller
         $this->load->view('quartz_chem/intermediate_report', $data);
     }
     
+    function add_icp_results() 
+    {
+        
+        $data->batch = $batch;
+        $this->load->view('quartz_chem/add_icp_results', $data);
+    }
+    
     /*
      * Helper function to calculate a mean without division by zero.
      * @param double total
      * @param int n, number of samples
      * @return double mean
      */
-    function mean($total, $n) {
+    function mean($total, $n) 
+    {
         if ($n == 0) {
             return 0;
         } else {
@@ -741,7 +754,8 @@ class Quartz_chem extends MY_Controller
 	// CALLBACKS:
 	// ----------
 
-    function valid_date($date_string) {
+    function valid_date($date_string) 
+    {
         if ($this->form_validation->valid_date($date_string)) {
             return TRUE;
         }
