@@ -552,17 +552,18 @@ class Quartz_chem extends MY_Controller
         $numsamples = $batch->Analysis->count();
 
         // Let's do some math for the derived weights
-        $wt_be_carrier_tot = 0;
-        $wt_al_carrier_tot = 0;
+        $wt_be_carrier_disp = 0;
+        $wt_al_carrier_disp = 0;
+        
         $max_nsplits = 0;
-
         for ($i = 0 ; $i < $numsamples; $i++) {
             $analysis = $batch->Analysis[$i];
-            $sample_name[$i] = $analysis->sample_name;
-
-            $wt_sample[$i] = $analysis['wt_diss_bottle_sample'] - $analysis['wt_diss_bottle_tare'];
-            $wt_HF_soln[$i] = $analysis['wt_diss_bottle_total'] - $analysis['wt_diss_bottle_tare'];
             
+            $sample_name[$i] = $analysis->sample_name;
+            $wt_sample[$i] = $analysis->wt_diss_bottle_sample - $analysis->wt_diss_bottle_tare;
+            $wt_HF_soln[$i] = $analysis->wt_diss_bottle_total - $analysis->wt_diss_bottle_tare;
+            $wt_al_carrier_disp += $analysis->wt_al_carrier;  
+            $wt_be_carrier_disp += $analysis->wt_be_carrier;   
             $numsplits = $batch->Analysis[$i]->Split->count();
             $nsplits[$i] = $numsplits;
             
@@ -707,8 +708,8 @@ class Quartz_chem extends MY_Controller
         // carrier information
         $data->wt_be_carrier_diff = $batch->wt_be_carrier_init - $batch->wt_be_carrier_final;
         $data->wt_al_carrier_diff = $batch->wt_al_carrier_init - $batch->wt_al_carrier_final;
-        $data->wt_be_carrier_tot = $wt_be_carrier_tot;
-        $data->wt_al_carrier_tot = $wt_al_carrier_tot;
+        $data->wt_be_carrier_disp = $wt_be_carrier_disp;
+        $data->wt_al_carrier_disp = $wt_al_carrier_disp;
         // derived sample data
         $data->wt_sample = $wt_sample;
         $data->wt_HF_soln = $wt_HF_soln;
