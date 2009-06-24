@@ -112,8 +112,8 @@
 			<i><b>Add ICP solution weights</b></i>
 		</td>
 	</tr>
-	<!-- action=add_ICP_weights.php -->
-	<?=form_open('quartz_chem/add_ICP_weights')?>
+	
+	<?=form_open('quartz_chem/add_icp_weights')?>
 		<tr>
 			<td align=center>
 				<i>Batch:</i>   
@@ -136,8 +136,8 @@
 			<i><b>Enter ICP results</b></i>
 		</td>
 	</tr>
-	<!-- action=add_ICP_results.php -->
-	<?=form_open('quartz_chem/add_ICP_weights')?>	
+	
+	<?=form_open('quartz_chem/add_icp_results')?>	
 		<tr>
 			<td align=center>
 				<i>Batch:</i>   
@@ -159,7 +159,7 @@
 			<i><b>Final report</b></i>
 		</td>
 	</tr>
-	<!-- action=final_report.php -->
+
 	<?=form_open('quartz_chem/final_report')?>
 		<tr>
 			<td align=center>
