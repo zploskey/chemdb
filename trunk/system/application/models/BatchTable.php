@@ -51,12 +51,12 @@ class BatchTable extends Doctrine_Table
 	 * @param date $start_date
 	 * @return Doctrine_Collection
 	 */
-	public function findPrevBeCarrierWt($carrier_id, $start_date)
+	public function findPrevBeCarrierWt($batch_id, $carrier_id)
 	{
 		return $this->createQuery('b')
 			->select('b.wt_be_carrier_final, b.start_date')
 			->where('b.be_carrier_id = ?', $carrier_id)
-			->addWhere('b.start_date <= ?', $start_date)
+            ->addWhere('b.id != ?', $batch_id)
 			->orderBy('b.start_date desc')
 			->limit(1)
 			->fetchOne();
@@ -68,12 +68,12 @@ class BatchTable extends Doctrine_Table
 	 * @param date $start_date
 	 * @return Doctrine_Collection
 	 */
-	public function findPrevAlCarrierWt($carrier_id, $start_date)
+	public function findPrevAlCarrierWt($batch_id, $carrier_id)
 	{
 		return $this->createQuery('b')
 			->select('b.wt_al_carrier_final, b.start_date')
 			->where('b.al_carrier_id = ?', $carrier_id)
-			->addWhere('b.start_date <= ?', $start_date)
+            ->addWhere('b.id != ?', $batch_id)
 			->orderBy('b.start_date desc')
 			->limit(1)
 			->fetchOne();
