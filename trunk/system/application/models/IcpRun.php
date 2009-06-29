@@ -5,14 +5,5 @@
  */
 class IcpRun extends BaseIcpRun
 {
-	public function setUp()
-	{
-		parent::setUp();
 
-		$this->hasOne('Split', array(
-				'local' => 'split_id',
-				'foreign' => 'id'
-			)
-		);
-	}
 }
