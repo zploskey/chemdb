@@ -13,68 +13,68 @@ function in the controller they validate.
 */
 
 $config['projects'] = array(
-	array(
-		'field' => 'name',
-		'label' => 'name',
-		'rules' => 'trim|required|alpha_dash|callback_is_unique[project.name]'),
-	array(
-		'field' => 'description',
-		'label' => 'description',
-		'rules' => 'trim|htmlentities'),
+    array(
+        'field' => 'name',
+        'label' => 'name',
+        'rules' => 'trim|required|alpha_dash|callback_is_unique[project.name]'),
+    array(
+        'field' => 'description',
+        'label' => 'description',
+        'rules' => 'trim|htmlentities'),
 );
 
 $config['samples'] = array(
-	array(
-		'field' => 'sample[name]',
-		'label' => 'name',
-		'rules' => 'trim|required|alpha_dash|callback_is_unique[sample.name]'),
-	array(
-		'field' => 'sample[latitude]',
-		'label' => 'latitude',
-		'rules' => 'trim|numeric|callback_valid_latlong'),
-	array(
-		'field' => 'sample[longitude]',
-		'label' => 'longitude',
-		'rules' => 'trim|numeric|callback_valid_latlong'),
-	array(
-		'field' => 'sample[altitude]',
-		'label' => 'altitude',
-		'rules' => 'trim|numeric'),
-	array(
-		'field' => 'sample[shield_factor]',
-		'label' => 'shield factor',
-		'rules' => 'trim|numeric|callback_valid_shield_factor'),
-	array(
-		'field' => 'sample[depth_top]',
-		'label' => 'depth top',
-		'rules' => 'trim|numeric'),
-	array(
-		'field' => 'sample[depth_bottom]',
-		'label' => 'depth bottom',
-		'rules' => 'trim|numeric'),
-	array(
-		'field' => 'sample[density]',
-		'label' => 'density',
-		'rules' => 'trim|numeric'),
+    array(
+        'field' => 'sample[name]',
+        'label' => 'name',
+        'rules' => 'trim|required|alpha_dash|callback_is_unique[sample.name]'),
+    array(
+        'field' => 'sample[latitude]',
+        'label' => 'latitude',
+        'rules' => 'trim|numeric|callback_valid_latlong'),
+    array(
+        'field' => 'sample[longitude]',
+        'label' => 'longitude',
+        'rules' => 'trim|numeric|callback_valid_latlong'),
+    array(
+        'field' => 'sample[altitude]',
+        'label' => 'altitude',
+        'rules' => 'trim|numeric'),
+    array(
+        'field' => 'sample[shield_factor]',
+        'label' => 'shield factor',
+        'rules' => 'trim|numeric|callback_valid_shield_factor'),
+    array(
+        'field' => 'sample[depth_top]',
+        'label' => 'depth top',
+        'rules' => 'trim|numeric'),
+    array(
+        'field' => 'sample[depth_bottom]',
+        'label' => 'depth bottom',
+        'rules' => 'trim|numeric'),
+    array(
+        'field' => 'sample[density]',
+        'label' => 'density',
+        'rules' => 'trim|numeric'),
 );
 
 $config['batches'] = array(
-	array(
-		'field' => 'id',
-		'label' => 'ID',
-		'rules' => 'trim|is_natural_no_zero'),
-	array(
-		'field' => 'description',
-		'label' => 'description',
-		'rules' => 'trim|htmlspecialchars'),
-	array(
-		'field' => 'owner',
-		'label' => 'Initials',
-		'rules' => 'trim|htmlspecialchars'),
-	array(
-		'field' => 'numsamples',
-		'label' => '# of samples',
-		'rules' => 'trim|is_natural_no_zero'),
+    array(
+        'field' => 'id',
+        'label' => 'ID',
+        'rules' => 'trim|is_natural_no_zero'),
+    array(
+        'field' => 'description',
+        'label' => 'description',
+        'rules' => 'trim|htmlspecialchars'),
+    array(
+        'field' => 'owner',
+        'label' => 'Initials',
+        'rules' => 'trim|htmlspecialchars'),
+    array(
+        'field' => 'numsamples',
+        'label' => '# of samples',
+        'rules' => 'trim|is_natural_no_zero'),
 );
 
 $config['load_samples'] = array(
@@ -86,10 +86,10 @@ $config['load_samples'] = array(
         'field' => 'batch[be_carrier_id]',
         'label' => 'beryllium carrier id',
         'rules' => 'trim|is_natural'),
-	array(
-		'field' => 'batch[al_carrier_id]',
-		'label' => 'aluminum carrier id',
-		'rules' => 'trim|is_natural'),
+    array(
+        'field' => 'batch[al_carrier_id]',
+        'label' => 'aluminum carrier id',
+        'rules' => 'trim|is_natural'),
     array(
         'field' => 'batch[wt_be_carrier_init]',
         'label' => 'Be carrier initial weight',
@@ -179,6 +179,56 @@ $config['add_icp_weights'] = array(
         'field' => 'tot_wts[]',
         'label' => 'beaker + ICP solution wt.',
         'rules' => 'trim|numeric'),
+);
+
+$config['al_new_batch'] = array(
+    array(
+        'field' => 'batch[prep_date]',
+        'label' => 'date',
+        'rules' => 'required|trim|alpha_dash|callback_valid_date'),
+    array(
+        'field' => 'numsamples',
+        'label' => 'number of samples',
+        'rules' => 'required|is_natural_no_zero'),
+    array(
+        'field' => 'batch[owner]',
+        'label' => 'batch owner',
+        'rules' => 'required|trim|alpha_dash'),
+    array(
+        'field' => 'batch[description]',
+        'label' => 'description',
+        'rules' => 'trim|htmlspecialchars'),
+);
+
+$config['al_sample_loading'] = array(
+    array(
+		'field' => 'number_within_batch[]',
+		'label' => 'number within batch',
+		'rules' => 'required|is_natural_no_zero'),
+	array(
+		'field' => 'analysis_id[]',
+		'label' => 'analysis id',
+		'rules' => 'required|is_natural_no_zero'),
+	array(
+		'field' => 'sample_name[]',
+		'label' => 'sample name',
+		'rules' => 'trim|alpha_dash'),
+	array(
+		'field' => 'bkr_number[]',
+		'label' => 'beaker number',
+		'rules' => 'trim|htmlspecialchars'), // this is a string in the db...
+	array(
+		'field' => 'wt_bkr_tare[]',
+		'label' => 'beaker tare weight',
+		'rules' => 'trim|numeric'),
+	array(
+		'field' => 'wt_bkr_sample[]',
+		'label' => 'beaker + sample weight',
+		'rules' => 'trim|numeric'),
+	array(
+		'field' => 'notes[]',
+		'label' => 'notes',
+		'rules' => 'trim|htmlspecialchars'),
 );
 
 /* End of file form_validation.php */

@@ -8,164 +8,164 @@
 
 class Quartz_chem extends MY_Controller
 {
-	/**
-	 * @var Doctrine_Table batch table
-	 */
-	var $batch;
+    /**
+     * @var Doctrine_Table batch table
+     */
+    var $batch;
 
-	/**
-	 * @var Doctrine_Table Beryllium carrier table
-	 */
-	var $be_carrier;
+    /**
+     * @var Doctrine_Table Beryllium carrier table
+     */
+    var $be_carrier;
 
-	/**
-	 * @var Doctrine_Table Aluminum carrier table
-	 */
-	var $al_carrier;
+    /**
+     * @var Doctrine_Table Aluminum carrier table
+     */
+    var $al_carrier;
 
     /**
      * @var Doctrine_Table Split beaker table
      */
      var $split_bkr;
 
-	/**
-	 * Contructs the class object, connects to database, and loads necessary
-	 * libraries.
-	 **/
-	function Quartz_chem()
-	{
-		parent::MY_Controller();
-		$this->batch = Doctrine::getTable('Batch');
-		$this->be_carrier = Doctrine::getTable('BeCarrier');
-		$this->al_carrier = Doctrine::getTable('AlCarrier');
+    /**
+     * Contructs the class object, connects to database, and loads necessary
+     * libraries.
+     **/
+    function Quartz_chem()
+    {
+        parent::MY_Controller();
+        $this->batch = Doctrine::getTable('Batch');
+        $this->be_carrier = Doctrine::getTable('BeCarrier');
+        $this->al_carrier = Doctrine::getTable('AlCarrier');
         $this->split_bkr = Doctrine::getTable('SplitBkr');
-	}
-	
-	/**
-	 * The main quartz chemistry page. Contains a series of select boxes and
-	 * links to the other pages.
-	 */
-	function index()
-	{
-		// build option tags for the select boxes
-		foreach ($this->batch->findOpenBatches() as $b) {
-			$data->open_batches .= "<option value=$b->id>$b->start_date $b->owner $b->description";
-		}
-		
-		foreach ($this->batch->findAllBatches() as $b) {
-			$data->all_batches .= "<option value=$b->id>$b->start_date $b->owner $b->description";
-		}
-		
-		$data->title = 'Quartz Al-Be chemistry';
-		$data->subtitle = 'Al-Be extraction from quartz:';
-		$data->main = 'quartz_chem/index';
-		$this->load->view('template', $data);
-	}
+    }
+    
+    /**
+     * The main quartz chemistry page. Contains a series of select boxes and
+     * links to the other pages.
+     */
+    function index()
+    {
+        // build option tags for the select boxes
+        foreach ($this->batch->findOpenBatches() as $b) {
+            $data->open_batches .= "<option value=$b->id>$b->start_date $b->owner $b->description";
+        }
+        
+        foreach ($this->batch->findAllBatches() as $b) {
+            $data->all_batches .= "<option value=$b->id>$b->start_date $b->owner $b->description";
+        }
+        
+        $data->title = 'Quartz Al-Be chemistry';
+        $data->subtitle = 'Al-Be extraction from quartz:';
+        $data->main = 'quartz_chem/index';
+        $this->load->view('template', $data);
+    }
 
-	/**
-	 * Form for adding a batch or editing the batch information.
-	 */
-	function new_batch()
-	{
-		$id = $this->input->post('batch_id');
-		$is_edit = (bool) $id;
-		$data->allow_num_edit = ( ! $is_edit);
-		
-		if ($is_edit) {
-			// it's an existing batch, get it
-			$batch = $this->batch->find($id);
-			
-			if ( ! $batch) {
-				show_404('page');
-			}
+    /**
+     * Form for adding a batch or editing the batch information.
+     */
+    function new_batch()
+    {
+        $id = $this->input->post('batch_id');
+        $is_edit = (bool) $id;
+        $data->allow_num_edit = ( ! $is_edit);
+        
+        if ($is_edit) {
+            // it's an existing batch, get it
+            $batch = $this->batch->find($id);
+            
+            if ( ! $batch) {
+                show_404('page');
+            }
 
-			$data->numsamples = $this->batch->findNumSamples($id);
+            $data->numsamples = $this->batch->findNumSamples($id);
 
-		} else {
-			// it's a new batch
-			$batch = new Batch();
-			// number of samples is not known
-			$data->numsamples = null;
-		}
+        } else {
+            // it's a new batch
+            $batch = new Batch();
+            // number of samples is not known
+            $data->numsamples = null;
+        }
 
-		if ($this->form_validation->run('batches') == FALSE) {
-			// validation failed, redisplay the form
-			if ($is_edit) {
-				$batch->id = set_value('id', $batch->id);
-				$batch->owner = set_value('owner', $batch->owner);
-				$batch->description = set_value('description', $batch->description);
-				$batch->start_date = set_value('start_date', $batch->start_date);
-			} else {
-				$batch->id = set_value('id');
-				$batch->owner = set_value('owner');
-				$batch->description = set_value('description');
-				$batch->start_date = date('Y-m-d');
-			}
-		} else {
-			// inputs are valid
-			// grab batch info from post and save it to the db
+        if ($this->form_validation->run('batches') == FALSE) {
+            // validation failed, redisplay the form
+            if ($is_edit) {
+                $batch->id = set_value('id', $batch->id);
+                $batch->owner = set_value('owner', $batch->owner);
+                $batch->description = set_value('description', $batch->description);
+                $batch->start_date = set_value('start_date', $batch->start_date);
+            } else {
+                $batch->id = set_value('id');
+                $batch->owner = set_value('owner');
+                $batch->description = set_value('description');
+                $batch->start_date = date('Y-m-d');
+            }
+        } else {
+            // inputs are valid
+            // grab batch info from post and save it to the db
             $batch->merge($this->input->post('batch'));
-			
-			$new_batch = ( ! ((bool)$batch->id));
+            
+            $new_batch = ( ! ((bool)$batch->id));
 
-			$batch->save();
-			
-			if ($new_batch) {
-				// new batch: create the analyses linked to this batch
-				$numsamples = $this->input->post('numsamples');
+            $batch->save();
+            
+            if ($new_batch) {
+                // new batch: create the analyses linked to this batch
+                $numsamples = $this->input->post('numsamples');
 
-				$conn = Doctrine_Manager::connection();
-				$conn->beginTransaction();
-				for ($i = 0; $i < $numsamples; $i++) {
-					$analysis = new Analysis();
-					$analysis->batch_id = $batch->id;
-					$analysis->number_within_batch = $i + 1;
-					$analysis->save();
-				}
-				$conn->commit();
-			}
-		}
+                $conn = Doctrine_Manager::connection();
+                $conn->beginTransaction();
+                for ($i = 0; $i < $numsamples; $i++) {
+                    $analysis = new Analysis();
+                    $analysis->batch_id = $batch->id;
+                    $analysis->number_within_batch = $i + 1;
+                    $analysis->save();
+                }
+                $conn->commit();
+            }
+        }
 
-		// set the rest of the view data
-		$data->numsamples = $this->input->post('numsamples');
-		$data->title = 'Add a batch';
-		$data->main = 'quartz_chem/new_batch';
-		$data->batch = $batch;
-		$this->load->view('template', $data);
-	}
-	
-	/**
-	 * Shows the sample loading page.
-	 * @return void
-	 **/
-	function load_samples()
-	{
-		$is_refresh = (bool)$this->input->post('is_refresh');
-		$batch_id = $this->input->post('batch_id');
+        // set the rest of the view data
+        $data->numsamples = $this->input->post('numsamples');
+        $data->title = 'Add a batch';
+        $data->main = 'quartz_chem/new_batch';
+        $data->batch = $batch;
+        $this->load->view('template', $data);
+    }
+    
+    /**
+     * Shows the sample loading page.
+     * @return void
+     **/
+    function load_samples()
+    {
+        $is_refresh = (bool)$this->input->post('is_refresh');
+        $batch_id = $this->input->post('batch_id');
 
-		// grab the batch
-		$batch = Doctrine_Query::create()
-			->from('Batch b')
-			->leftJoin('b.Analysis a')
-			->leftJoin('b.BeCarrier bec')
-			->leftJoin('b.AlCarrier alc')
-			->where('b.id = ?', $batch_id)
+        // grab the batch
+        $batch = Doctrine_Query::create()
+            ->from('Batch b')
+            ->leftJoin('b.Analysis a')
+            ->leftJoin('b.BeCarrier bec')
+            ->leftJoin('b.AlCarrier alc')
+            ->where('b.id = ?', $batch_id)
             ->fetchOne();
 
-		if ( ! $batch) {
-			die('Batch query failed.');
-		} 
+        if ( ! $batch) {
+            die('Batch query failed.');
+        } 
 
-		$num_analyses = $batch->Analysis->count();
-		$errors = FALSE;
+        $num_analyses = $batch->Analysis->count();
+        $errors = FALSE;
 
-		// if this is a refresh we need to validate the data
-		if ($is_refresh) {
-			$is_valid = $this->form_validation->run('load_samples');
+        // if this is a refresh we need to validate the data
+        if ($is_refresh) {
+            $is_valid = $this->form_validation->run('load_samples');
 
-			// grab the submitted data
-			$batch->merge($this->input->post('batch'));
-			$batch->id = $batch_id;
+            // grab the submitted data
+            $batch->merge($this->input->post('batch'));
+            $batch->id = $batch_id;
 
             $sample_name = $this->input->post('sample_name');
             $sample_type = $this->input->post('sample_type');
@@ -176,216 +176,218 @@ class Quartz_chem extends MY_Controller
             $wt_al_carrier = $this->input->post('wt_al_carrier');
 
             for ($a = 0; $a < $num_analyses; $a++) { // analysis loop
-                $batch->Analysis[$a]->sample_name = $sample_name[$a];
-                $batch->Analysis[$a]->sample_type = $sample_type[$a];
-                $batch->Analysis[$a]->diss_bottle_id = $diss_bottle_id[$a];
-                $batch->Analysis[$a]->wt_diss_bottle_tare = $wt_diss_bottle_tare[$a];
-                $batch->Analysis[$a]->wt_diss_bottle_sample = $wt_diss_bottle_sample[$a];
-                $batch->Analysis[$a]->wt_be_carrier = $wt_be_carrier[$a];
-                $batch->Analysis[$a]->wt_al_carrier = $wt_al_carrier[$a];
+                $analysis = $batch->Analysis[$a];
+                $analysis->sample_name = $sample_name[$a];
+                $analysis->sample_type = $sample_type[$a];
+                $analysis->diss_bottle_id = $diss_bottle_id[$a];
+                $analysis->wt_diss_bottle_tare = $wt_diss_bottle_tare[$a];
+                $analysis->wt_diss_bottle_sample = $wt_diss_bottle_sample[$a];
+                $analysis->wt_be_carrier = $wt_be_carrier[$a];
+                $analysis->wt_al_carrier = $wt_al_carrier[$a];
+                $batch->Analysis[$a] = $analysis;
             }
 
-			if ($is_valid) {
-				// valid info, save changes to the database and reload
-				$batch->save();
-			} else {
-				// validation failed
-				$errors = TRUE;
-			}
-		}
+            if ($is_valid) {
+                // valid info, save changes to the database and reload
+                $batch->save();
+            } else {
+                // validation failed
+                $errors = TRUE;
+            }
+        }
 
         // create the lists of carrier options
         $be_list = $this->be_carrier->getList();
         $al_list = $this->al_carrier->getList();
 
-		foreach ($be_list as $c) {
-			$data->be_carrier_options .= "<option value=$c->id ";
-			if ($batch->BeCarrier != null AND $c->id == $batch->BeCarrier->id) {
-				$data->be_carrier_options .= 'selected';
-			}
-			$data->be_carrier_options .= "> $c->name";
-		}
+        foreach ($be_list as $c) {
+            $data->be_carrier_options .= "<option value=$c->id ";
+            if ($batch->BeCarrier != null AND $c->id == $batch->BeCarrier->id) {
+                $data->be_carrier_options .= 'selected';
+            }
+            $data->be_carrier_options .= "> $c->name";
+        }
 
-		foreach($al_list as $c) {
-			$data->al_carrier_options .= "<option value=$c->id ";
-			if ($batch->BeCarrier != null AND $c->id == $batch->AlCarrier->id) {
-				$data->al_carrier_options .= 'selected';
-			}
-			$data->al_carrier_options .= "> $c->name";
-		}
+        foreach($al_list as $c) {
+            $data->al_carrier_options .= "<option value=$c->id ";
+            if ($batch->BeCarrier != null AND $c->id == $batch->AlCarrier->id) {
+                $data->al_carrier_options .= 'selected';
+            }
+            $data->al_carrier_options .= "> $c->name";
+        }
 
-		// initialize carrier weights and Alcheck data arrays
-		$be_tot_wt = 0;
-		$al_tot_wt = 0;
-		$diss_bottle_options = array();
-		$prechecks = array();
+        // initialize carrier weights and Alcheck data arrays
+        $be_tot_wt = 0;
+        $al_tot_wt = 0;
+        $diss_bottle_options = array();
+        $prechecks = array();
 
         // get all the dissolution bottle numbers
-		$diss_bottles = Doctrine_Query::create()
-			->from('DissBottle d')
-			->execute();
+        $diss_bottles = Doctrine_Query::create()
+            ->from('DissBottle d')
+            ->execute();
 
-		for($i = 0; $i < $num_analyses; $i++) {
+        for($i = 0; $i < $num_analyses; $i++) {
             // create diss bottle dropdown options for each sample
-			$html = '';
-			foreach($diss_bottles as $bottle) {
-				$html .= '<option value='.$bottle->id;
-				if ($bottle->id == $batch->Analysis[$i]->diss_bottle_id) {
-					$html .= ' selected';
-				}
-				$html .= "> $bottle->bottle_number";
-			}
-			$diss_bottle_options[$i] = $html;
+            $html = '';
+            foreach($diss_bottles as $bottle) {
+                $html .= '<option value='.$bottle->id;
+                if ($bottle->id == $batch->Analysis[$i]->diss_bottle_id) {
+                    $html .= ' selected';
+                }
+                $html .= "> $bottle->bottle_number";
+            }
+            $diss_bottle_options[$i] = $html;
 
-			$temp_sample_wt = $batch->Analysis[$i]->wt_diss_bottle_sample -
-				$batch->Analysis[$i]->wt_diss_bottle_tare;
+            $temp_sample_wt = $batch->Analysis[$i]->wt_diss_bottle_sample -
+                $batch->Analysis[$i]->wt_diss_bottle_tare;
 
-			// get cations while we're at it
-			$precheck = Doctrine_Query::create()
-				->from('AlcheckAnalysis a, a.AlcheckBatch b')
-				->select('a.icp_al, a.icp_fe, a.icp_ti, a.wt_bkr_tare, a.wt_bkr_sample, '
+            // get cations while we're at it
+            $precheck = Doctrine_Query::create()
+                ->from('AlcheckAnalysis a, a.AlcheckBatch b')
+                ->select('a.icp_al, a.icp_fe, a.icp_ti, a.wt_bkr_tare, a.wt_bkr_sample, '
                     .'a.wt_bkr_soln, b.prep_date')
-				->where('a.analysis_id = ?', $batch->Analysis[$i]->id)
-				->orderBy('b.prep_date DESC')
-				->limit(1)
+                ->where('a.analysis_id = ?', $batch->Analysis[$i]->id)
+                ->orderBy('b.prep_date DESC')
+                ->limit(1)
                 ->fetchOne();
 
-			if($precheck AND $batch->AlCarrier) {
-				// there's data, calculate the concentrations
-				$prechecks[$i]['show'] = TRUE;
+            if($precheck AND $batch->AlCarrier) {
+                // there's data, calculate the concentrations
+                $prechecks[$i]['show'] = TRUE;
 
-				if ($precheck['wt_bkr_sample'] == 0 AND $precheck['wt_bkr_tare'] == 0) {
-					$temp_df = 0;
-				} else {
-					$temp_df = ($precheck['wt_bkr_soln'] - $precheck['wt_bkr_tare'])
-							/ ($precheck['wt_bkr_sample'] - $precheck['wt_bkr_tare']);
-				}
+                if ($precheck['wt_bkr_sample'] == 0 AND $precheck['wt_bkr_tare'] == 0) {
+                    $temp_df = 0;
+                } else {
+                    $temp_df = ($precheck['wt_bkr_soln'] - $precheck['wt_bkr_tare'])
+                            / ($precheck['wt_bkr_sample'] - $precheck['wt_bkr_tare']);
+                }
 
-				$temp_al = $precheck['icp_al'] * $temp_df * $temp_sample_wt / 1000;
-				$temp_fe = $precheck['icp_fe'] * $temp_df * $temp_sample_wt / 1000;
-				$temp_ti = $precheck['icp_ti'] * $temp_df * $temp_sample_wt / 1000;
-				$temp_tot_al = $temp_al + ($batch->Analysis[$i]->wt_al_carrier
-					* $batch->AlCarrier->al_conc) / 1000;
+                $temp_al = $precheck['icp_al'] * $temp_df * $temp_sample_wt / 1000;
+                $temp_fe = $precheck['icp_fe'] * $temp_df * $temp_sample_wt / 1000;
+                $temp_ti = $precheck['icp_ti'] * $temp_df * $temp_sample_wt / 1000;
+                $temp_tot_al = $temp_al + ($batch->Analysis[$i]->wt_al_carrier
+                    * $batch->AlCarrier->al_conc) / 1000;
 
-				$prechecks[$i]['conc_al'] = sprintf('%.1f', $precheck['icp_al'] * $temp_df);
-				$prechecks[$i]['conc_fe'] = sprintf('%.1f', $precheck['icp_fe'] * $temp_df);
-				$prechecks[$i]['conc_ti'] = sprintf('%.1f', $precheck['icp_ti'] * $temp_df);
-			} else {
-				$prechecks[$i]['show'] = FALSE;
-				$temp_fe = '--';
-				$temp_ti = '--';
-				$temp_tot_al = '--';
+                $prechecks[$i]['conc_al'] = sprintf('%.1f', $precheck['icp_al'] * $temp_df);
+                $prechecks[$i]['conc_fe'] = sprintf('%.1f', $precheck['icp_fe'] * $temp_df);
+                $prechecks[$i]['conc_ti'] = sprintf('%.1f', $precheck['icp_ti'] * $temp_df);
+            } else {
+                $prechecks[$i]['show'] = FALSE;
+                $temp_fe = '--';
+                $temp_ti = '--';
+                $temp_tot_al = '--';
 
-				if ($batch->AlCarrier AND $batch->Analysis[$i]->wt_al_carrier > 0) {
+                if ($batch->AlCarrier AND $batch->Analysis[$i]->wt_al_carrier > 0) {
                     $temp_tot_al = $batch->Analysis[$i]->wt_al_carrier
                         * $batch->AlCarrier->al_conc / 1000;
-				}
-			}
+                }
+            }
 
-			$prechecks[$i]['m_al'] = $temp_tot_al;
-			$prechecks[$i]['m_fe'] = $temp_fe;
-			$prechecks[$i]['m_ti'] = $temp_ti;
+            $prechecks[$i]['m_al'] = $temp_tot_al;
+            $prechecks[$i]['m_fe'] = $temp_fe;
+            $prechecks[$i]['m_ti'] = $temp_ti;
 
-			$be_tot_wt += $batch->Analysis[$i]->wt_be_carrier;
-			$al_tot_wt += $batch->Analysis[$i]->wt_al_carrier;
-		}
+            $be_tot_wt += $batch->Analysis[$i]->wt_be_carrier;
+            $al_tot_wt += $batch->Analysis[$i]->wt_al_carrier;
+        }
 
-		// get previous carrier weights
-		if ($batch->BeCarrier) {
-			$data->be_prev = $this->batch->findPrevBeCarrierWt($batch->id, $batch->be_carrier_id);
-		}
-		if ($batch->AlCarrier) {
-			$data->al_prev = $this->batch->findPrevAlCarrierWt($batch->id, $batch->al_carrier_id);
-		}
+        // get previous carrier weights
+        if ($batch->BeCarrier) {
+            $data->be_prev = $this->batch->findPrevBeCarrierWt($batch->id, $batch->be_carrier_id);
+        }
+        if ($batch->AlCarrier) {
+            $data->al_prev = $this->batch->findPrevAlCarrierWt($batch->id, $batch->al_carrier_id);
+        }
 
-		// set display variables
+        // set display variables
         $data->batch = $batch;
         $data->num_analyses = $num_analyses;
         $data->prechecks = $prechecks;
-		$data->diss_bottle_options = $diss_bottle_options;
+        $data->diss_bottle_options = $diss_bottle_options;
         $data->errors = $errors;
         
         // and calculated metadata for display
-		$data->be_diff_wt = $batch->wt_be_carrier_init - $batch->wt_be_carrier_final;
-		$data->al_diff_wt = $batch->wt_al_carrier_init - $batch->wt_al_carrier_final;
+        $data->be_diff_wt = $batch->wt_be_carrier_init - $batch->wt_be_carrier_final;
+        $data->al_diff_wt = $batch->wt_al_carrier_init - $batch->wt_al_carrier_final;
         $data->be_diff = $data->be_diff_wt - $be_tot_wt;
-		$data->al_diff = $data->al_diff_wt - $al_tot_wt;
+        $data->al_diff = $data->al_diff_wt - $al_tot_wt;
         $data->be_tot_wt = $be_tot_wt;
-		$data->al_tot_wt = $al_tot_wt;
+        $data->al_tot_wt = $al_tot_wt;
 
         // template info
-		$data->title = 'Sample weighing and carrier addition';
-		$data->main = 'quartz_chem/load_samples';
-		$this->load->view('template', $data);
-	}
+        $data->title = 'Sample weighing and carrier addition';
+        $data->main = 'quartz_chem/load_samples';
+        $this->load->view('template', $data);
+    }
     
-	function print_tracking_sheet()
-	{
-		$batch_id = $this->input->post('batch_id');
-		$batch = Doctrine_Query::create()
-			->from('Batch b')
-			->leftJoin('b.Analysis a')
-			->leftJoin('b.AlCarrier ac')
-			->leftJoin('b.BeCarrier bc')
+    function print_tracking_sheet()
+    {
+        $batch_id = $this->input->post('batch_id');
+        $batch = Doctrine_Query::create()
+            ->from('Batch b')
+            ->leftJoin('b.Analysis a')
+            ->leftJoin('b.AlCarrier ac')
+            ->leftJoin('b.BeCarrier bc')
             ->leftJoin('a.DissBottle db')
-			->where('b.id = ?', $batch_id)
+            ->where('b.id = ?', $batch_id)
             ->limit(1)
-			->fetchOne();
+            ->fetchOne();
 
         $numsamples = $batch->Analysis->count();
 
-		for ($i = 0; $i < $numsamples; $i++) {
-			$precheck = Doctrine_Query::create()
-				->from('AlcheckAnalysis a')
-				->leftJoin('a.AlcheckBatch b')
-				->select('a.sample_name, a.icp_al, a.icp_fe, a.icp_ti, a.wt_bkr_tare, '
+        for ($i = 0; $i < $numsamples; $i++) {
+            $precheck = Doctrine_Query::create()
+                ->from('AlcheckAnalysis a')
+                ->leftJoin('a.AlcheckBatch b')
+                ->select('a.sample_name, a.icp_al, a.icp_fe, a.icp_ti, a.wt_bkr_tare, '
                     .'a.wt_bkr_sample, a.wt_bkr_soln, b.prep_date')
-				->where('a.sample_name = ?', $batch->Analysis[$i]->sample_name)
+                ->where('a.sample_name = ?', $batch->Analysis[$i]->sample_name)
                 ->andWhere('a.alcheck_batch_id = b.id')
-				->orderBy('b.prep_date DESC')
-				->limit(1)
-				->fetchOne();
+                ->orderBy('b.prep_date DESC')
+                ->limit(1)
+                ->fetchOne();
 
-			$tmpa[$i]['tmpSampleWt'] = $batch->Analysis[$i]->wt_diss_bottle_sample
+            $tmpa[$i]['tmpSampleWt'] = $batch->Analysis[$i]->wt_diss_bottle_sample
                 - $batch->Analysis[$i]->wt_diss_bottle_tare;
-			$tmpa[$i]['mlHf'] = round($tmpa[$i]['tmpSampleWt']) * 5 + 5;
+            $tmpa[$i]['mlHf'] = round($tmpa[$i]['tmpSampleWt']) * 5 + 5;
 
-			$tmpa[$i]['inAlDb'] = TRUE;
-			if ($precheck) {
-				$sampleWt = ($precheck['wt_bkr_sample'] - $precheck['wt_bkr_tare']);
-				if ($sampleWt != 0) {
-					$temp_df = ($precheck['wt_bkr_soln'] - $precheck['wt_bkr_tare']) / $sampleWt;
-				} else {
-					$temp_df = 0;
-				}
+            $tmpa[$i]['inAlDb'] = TRUE;
+            if ($precheck) {
+                $sampleWt = ($precheck['wt_bkr_sample'] - $precheck['wt_bkr_tare']);
+                if ($sampleWt != 0) {
+                    $temp_df = ($precheck['wt_bkr_soln'] - $precheck['wt_bkr_tare']) / $sampleWt;
+                } else {
+                    $temp_df = 0;
+                }
 
-				$temp_al = $precheck['icp_al'] * $temp_df * $tmpa[$i]['tmpSampleWt'] / 1000;
-				$tmpa[$i]['tot_fe'] = sprintf('%.2f',
+                $temp_al = $precheck['icp_al'] * $temp_df * $tmpa[$i]['tmpSampleWt'] / 1000;
+                $tmpa[$i]['tot_fe'] = sprintf('%.2f',
                     $precheck['icp_fe'] * $temp_df * $tmpa[$i]['tmpSampleWt'] / 1000);
-				$tmpa[$i]['tot_ti'] = sprintf('%.2f',
+                $tmpa[$i]['tot_ti'] = sprintf('%.2f',
                     $precheck['icp_ti'] * $temp_df * $tmpa[$i]['tmpSampleWt'] / 1000);
-				$tmpa[$i]['tot_al'] = sprintf('%.2f', $temp_al
+                $tmpa[$i]['tot_al'] = sprintf('%.2f', $temp_al
                     + ($batch->Analysis[$i]->wt_al_carrier * $batch->AlCarrier->al_conc) / 1000);
-			} elseif (strcmp($batch->Analysis[$i]->sample_type, 'BLANK') == 0) {
-				if ($batch->Analysis[$i]->wt_al_carrier > 0) {
-					$tmpa[$i]['tot_al'] = sprintf('%.2f',
+            } elseif (strcmp($batch->Analysis[$i]->sample_type, 'BLANK') == 0) {
+                if ($batch->Analysis[$i]->wt_al_carrier > 0) {
+                    $tmpa[$i]['tot_al'] = sprintf('%.2f',
                         ($batch->Analysis[$i]->wt_al_carrier * $batch->AlCarrier->al_conc) / 1000);
-				}
-				else {
-					$tmpa[$i]['tot_al'] = ' -- ';
-				}
-				$tmpa[$i]['tot_ti'] = ' -- ';
-				$tmpa[$i]['tot_fe'] = ' -- ';
-			} else {
-				// sample isn't in the Alchecks database
-				$tmpa[$i]['inAlDb'] = FALSE;
-			}
-		}
-		
-		$data->batch = $batch;
+                }
+                else {
+                    $tmpa[$i]['tot_al'] = ' -- ';
+                }
+                $tmpa[$i]['tot_ti'] = ' -- ';
+                $tmpa[$i]['tot_fe'] = ' -- ';
+            } else {
+                // sample isn't in the Alchecks database
+                $tmpa[$i]['inAlDb'] = FALSE;
+            }
+        }
+        
+        $data->batch = $batch;
         $data->tmpa = $tmpa;
-		$this->load->view('quartz_chem/print_tracking_sheet', $data);
-	}
+        $this->load->view('quartz_chem/print_tracking_sheet', $data);
+    }
 
     function add_solution_weights() 
     {
@@ -421,10 +423,10 @@ class Quartz_chem extends MY_Controller
         
         $data->errors = $errors;
         $data->numsamples = $batch->Analysis->count();
-		$data->title = 'Add total solution weights';
-		$data->main = 'quartz_chem/add_solution_weights';
-		$data->batch = $batch;
-		$this->load->view('template', $data);
+        $data->title = 'Add total solution weights';
+        $data->main = 'quartz_chem/add_solution_weights';
+        $data->batch = $batch;
+        $this->load->view('template', $data);
     }
 
     function add_split_weights() 
@@ -475,9 +477,9 @@ class Quartz_chem extends MY_Controller
         $data->numsamples = $numsamples;
         $data->batch = $batch;
         $data->bkr_list = $this->split_bkr->getList();
-		$data->title = 'Add split weights';
-		$data->main = 'quartz_chem/add_split_weights';
-		$this->load->view('template', $data);
+        $data->title = 'Add split weights';
+        $data->main = 'quartz_chem/add_split_weights';
+        $this->load->view('template', $data);
     }
 
     function add_icp_weights() 
@@ -528,9 +530,9 @@ class Quartz_chem extends MY_Controller
         $data->errors = $errors;
         $data->numsamples = $numsamples;
         $data->batch = $batch;
-		$data->title = 'Add ICP solution weights';
-		$data->main = 'quartz_chem/add_icp_weights';
-		$this->load->view('template', $data);
+        $data->title = 'Add ICP solution weights';
+        $data->main = 'quartz_chem/add_icp_weights';
+        $this->load->view('template', $data);
     }
 
     // --------
@@ -540,19 +542,19 @@ class Quartz_chem extends MY_Controller
     function intermediate_report() 
     {
         $batch_id = $this->input->post('batch_id');
-		$batch = Doctrine_Query::create()
-			->from('Batch b')
-			->leftJoin('b.Analysis a')
+        $batch = Doctrine_Query::create()
+            ->from('Batch b')
+            ->leftJoin('b.Analysis a')
             ->leftJoin('a.Sample sa')
-			->leftJoin('b.AlCarrier ac')
-			->leftJoin('b.BeCarrier bc')
+            ->leftJoin('b.AlCarrier ac')
+            ->leftJoin('b.BeCarrier bc')
             ->leftJoin('a.DissBottle db')
             ->leftJoin('a.Split sp')
             ->leftJoin('sp.IcpRun run')
             ->leftJoin('sp.SplitBkr spb')
-			->where('b.id = ?', $batch_id)
+            ->where('b.id = ?', $batch_id)
             ->limit(1)
-			->fetchOne();
+            ->fetchOne();
 
         $numsamples = $batch->Analysis->count();
 
@@ -563,7 +565,6 @@ class Quartz_chem extends MY_Controller
         $max_nsplits = 0;
         for ($i = 0 ; $i < $numsamples; $i++) {
             $analysis = $batch->Analysis[$i];
-            
             $sample_name[$i] = $analysis->sample_name;
             $wt_sample[$i] = $analysis->wt_diss_bottle_sample - $analysis->wt_diss_bottle_tare;
             $wt_HF_soln[$i] = $analysis->wt_diss_bottle_total - $analysis->wt_diss_bottle_tare;
@@ -579,7 +580,8 @@ class Quartz_chem extends MY_Controller
             for ($s = 0; $s < $numsplits; $s++) {
                 $wt_split[$i][$s] = $analysis->Split[$s]->wt_split_bkr_split 
                     - $analysis->Split[$s]->wt_split_bkr_tare;
-                $wt_icp[$i][$s] = $analysis->Split[$s]->wt_split_bkr_icp - $analysis->Split[$s]->wt_split_bkr_tare;
+                $wt_icp[$i][$s] = $analysis->Split[$s]->wt_split_bkr_icp
+                    - $analysis->Split[$s]->wt_split_bkr_tare;
                 if ($wt_split[$i][$s] > 0) {
                     $tot_df[$i][$s] = ($wt_icp[$i][$s] / $wt_split[$i][$s]) * $wt_HF_soln[$i];
                 }
@@ -593,15 +595,16 @@ class Quartz_chem extends MY_Controller
             // Attempt to obtain Al/Fe/Ti concentrations
 
             $precheck = Doctrine_Query::create()
-				->from('AlcheckAnalysis a')
-				->leftJoin('a.AlcheckBatch b')
-				->select('a.sample_name, a.icp_al, a.icp_fe, a.icp_ti, a.wt_bkr_tare, '
+                ->from('AlcheckAnalysis a')
+                ->leftJoin('a.AlcheckBatch b')
+                ->select('a.sample_name, a.icp_al, a.icp_fe, a.icp_ti, a.wt_bkr_tare, '
                     .'a.wt_bkr_sample, a.wt_bkr_soln, b.prep_date')
-				->where('a.sample_name = ?', $batch->Analysis[$i]->sample_name)
+                ->where('a.sample_name = ?', $batch->Analysis[$i]->sample_name)
                 ->andWhere('a.alcheck_batch_id = b.id')
-				->orderBy('b.prep_date DESC')
-				->limit(1)
-				->fetchOne();
+                ->orderBy('b.prep_date DESC')
+                ->limit(1)
+                ->fetchOne();
+                
             if ($precheck) {
                 $al_check_df = ($precheck['wt_bkr_soln'] - $precheck['wt_bkr_tare'])
                     / ($precheck['wt_bkr_sample'] - $precheck['wt_bkr_tare']);
@@ -649,10 +652,10 @@ class Quartz_chem extends MY_Controller
                 }
             }
 
-            $al_tot_avg[$i] = $this->mean($temp_tot_al[$i], $n_al[$i]);
-            $be_tot_avg[$i] = $this->mean($temp_tot_be[$i], $n_be[$i]);
+            $al_tot_avg[$i] = $this->divide($temp_tot_al[$i], $n_al[$i]);
+            $be_tot_avg[$i] = $this->divide($temp_tot_be[$i], $n_be[$i]);
 
-            // calculate the Standard Deviation
+            // Calculate the standard deviations
             for($s = 0; $s < $numsplits; $s++) {
                 $temp_sd_al[] = 0;
                 $temp_sd_be[] = 0;
@@ -666,43 +669,16 @@ class Quartz_chem extends MY_Controller
                     }
                 }
             }
-
-            if ($n_al[$i] > 1) {
-                $al_tot_sd[$i] = sqrt($temp_sd_al[$i] / ($n_al[$i] - 1));
-            } else {
-                $al_tot_sd[$i] = 0;
-            }
-
-            if ($n_be[$i] > 1) {
-                $be_tot_sd[$i] = sqrt($temp_sd_be[$i] / ($n_be[$i] - 1));
-            } else {
-                $be_tot_sd[$i] = 0;
-            }
+            $al_tot_sd[$i] = sqrt($this->divide($temp_sd_al[$i], $n_al[$i] - 1));
+            $be_tot_sd[$i] = sqrt($this->divide($temp_sd_be[$i], $n_be[$i] - 1));
 
             // Calculate the percentage errors
-            if ($al_tot_avg[$i] > 0) {
-                $al_pct_sd[$i] = 100 * ($al_tot_sd[$i] / $al_tot_avg[$i]);
-            } else {
-                $al_pct_sd[$i] = 0;
-            }
-            
-            if ($be_tot_avg[$i] > 0) {
-                $be_pct_sd[$i] = 100 * ($be_tot_sd[$i] / $be_tot_avg[$i]);
-            } else {
-                $be_pct_sd[$i] = 0;
-            }
+            $al_pct_sd[$i] = 100 * $this->divide($al_tot_sd[$i], $al_tot_avg[$i]);
+            $be_pct_sd[$i] = 100 * $this->divide($be_tot_sd[$i], $be_tot_avg[$i]);
 
             // Calculate the recoveries
-            if ($wt_be[$i] > 0) {
-                $be_recovery[$i] = 100 * $be_tot_avg[$i] / $wt_be[$i];
-            } else {
-                $be_recovery[$i] = 0;
-            }
-            if ($check_tot_al[$i] > 0) {
-                $al_recovery[$i] = 100 * $al_tot_avg[$i] / $check_tot_al[$i];
-            } else {
-                $al_recovery[$i] = 0;
-            }
+            $be_recovery[$i] = 100 * $this->divide($be_tot_avg[$i], $wt_be[$i]);
+            $al_recovery[$i] = 100 * $this->divide($al_tot_avg[$i], $check_tot_al[$i]);
         }
 
         $data->todays_date = date('Y-m-d');
@@ -730,9 +706,83 @@ class Quartz_chem extends MY_Controller
     
     function add_icp_results() 
     {
+        $submit = $this->input->post('submit');
+        $batch_id = $this->input->post('batch_id');
+                
+        $batch = Doctrine_Query::create()
+            ->from('Batch b')
+            ->where('b.id = ?', $batch_id)
+            ->leftJoin('b.Analysis a')
+            ->leftJoin('a.Split s')
+            ->leftJoin('s.SplitBkr sb')
+            ->leftJoin('s.IcpRun r')
+            ->fetchOne();
+                    
+        if ($submit == TRUE) {
+            $raw_al = $this->input->post('al_text');
+            $raw_be = $this->input->post('be_text');
+            
+            $al_lines = split("[\n]", $raw_al);
+            $be_lines = split("[\n]", $raw_be);
         
+            // match a word followed by floating point numbers
+            $valid_regexp = '/[\w-]+\s+?([-+]?[0-9]*\.?[0-9]+)+/i';
+            // validate and split on whitespace
+            $split_regex = '/\s+/';
+            foreach ($al_lines as $al) {
+                if (preg_match($valid_regexp, $al)) {
+                    $al_arr[] = preg_split($split_regex, $al);
+                } else {
+                    die("Error in aluminum input on line: $al");
+                }
+            }
+            foreach ($be_lines as $be) {
+                if (preg_match($valid_regexp, $be)) {
+                    $be_arr[] = preg_split($split_regex, $be);  
+                } else {
+                    die("Error in beryllium input on line: $be");
+                }
+            }
+            
+            $nSplits = 0;
+            $nAnalyses = $batch->Analysis->count();
+            for ($i = 0; $i < $nAnalyses; $i++) {
+                $nSplits += $batch->Analysis[$i]->Split->count();
+            }
+            $nSubmittedSplits = max(count($be_arr), count($al_arr));
+            if ( $nSubmittedSplits != $nSplits ) {
+                die("The number of splits in the database ($nSplits) does not match the number submitted ($nSubmittedSplits)");
+            }
+            // data looks good, insert it into the database
+            
+        }
+        
+        // recreate input boxes from database
+        $al_text = '';
+        $be_text = '';
+        foreach ($batch->Analysis as $a) {
+            foreach ($a->Split as $s) {
+                $bkr_text = "\n" . $s->SplitBkr->bkr_number;
+                $al_text .= $bkr_text;
+                $be_text .= $bkr_text;
+                foreach ($s->IcpRun as $r) {
+                    $al_text .= ' ' . $r->al_result;
+                    $be_text .= ' ' . $r->be_result;
+                }
+            }
+        }
+        $data->al_text = $al_text;
+        $data->be_text = $be_text;
+
         $data->batch = $batch;
-        $this->load->view('quartz_chem/add_icp_results', $data);
+        $data->title = 'ICP Results Uploading';
+        $data->main = 'quartz_chem/add_icp_results';
+        $this->load->view('template', $data);
+    }
+    
+    function icp_quality_control()
+    {
+        // TODO: implement quality control page
     }
     
     /*
@@ -741,7 +791,7 @@ class Quartz_chem extends MY_Controller
      * @param int n, number of samples
      * @return double mean
      */
-    function mean($total, $n) 
+    function divide($total, $n) 
     {
         if ($n == 0) {
             return 0;
@@ -751,8 +801,8 @@ class Quartz_chem extends MY_Controller
     }
 
     // ----------
-	// CALLBACKS:
-	// ----------
+    // CALLBACKS:
+    // ----------
 
     function valid_date($date_string) 
     {
