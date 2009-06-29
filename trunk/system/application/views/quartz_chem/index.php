@@ -84,7 +84,7 @@
 	<!--- ADD SPLIT WEIGHTS -->
 
 	<tr>
-		<td colspan=2 class=xl25>
+		<td colspan=2>
 			<b><i>Add split weights</i></b>
 		</td>
 	</tr>
@@ -108,7 +108,7 @@
 	<!--- ADD ICP WEIGHTS -->
 
 	<tr>
-		<td colspan=2 class=xl25>
+		<td colspan=2>
 			<i><b>Add ICP solution weights</b></i>
 		</td>
 	</tr>
@@ -132,7 +132,7 @@
 	<!--- ADD ICP RESULTS -->
 
 	<tr>
-		<td colspan=2 class=xl25>
+		<td colspan=2>
 			<i><b>Enter ICP results</b></i>
 		</td>
 	</tr>
@@ -155,7 +155,7 @@
 	<!--- FINAL REPORT -->
 
 	<tr>
-		<td colspan=2 class=xl25>
+		<td colspan=2>
 			<i><b>Final report</b></i>
 		</td>
 	</tr>
@@ -174,7 +174,7 @@
 			</td>
 		</tr>
 	<?=form_close()?>
-	<tr><td colspan=2 ><hr></td></tr>
+	<tr><td colspan=2><hr></td></tr>
 
 	<tr>
 		<td colspan=2>
