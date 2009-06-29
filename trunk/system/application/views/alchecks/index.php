@@ -9,19 +9,13 @@
 <?=form_close()?>
 	
 <!--- REVISIT INITIAL WEIGHINGS FOR EXISTING BATCH -->
-<?=form_open('alchecks/load_samples')?>
-<input type=hidden name="is_retrieval" value="true">
+<?=form_open('alchecks/load_samples', '', array('retrieval' => 'true')?>
     <tr>
-   		<td><i><b>Revisit initial weighings for existing batch</b></i>
-   		</td>
+   		<td><i><b>Revisit initial weighings for existing batch</b></i></td>
    	</tr>
    	<tr>
-   		<td class="options">
-   			<select name="batch_id"><?=$recentBatchOptions?></select>
-   		</td>
-   		<td class="option_button">
-   			<input type=submit value="Sample loading for this batch">
-   		</td>
+   		<td class="options"><select name="batch_id"><?=$recentBatchOptions?></select></td>
+   		<td class="option_button"><?=form_input('Sample loading for this batch')?></td>
    	</tr>
    	<tr><td colspan=2><hr></p></td></tr>
 <?=form_close()?>
@@ -29,17 +23,11 @@
 	<!--- ADD ICP SOLUTION WEIGHTS -->
 <?=form_open('alchecks/add_solution_weights')?>
     <tr>
-    	<td>
-    		<i><b>Add ICP solution weights to existing batch</i></b>
-    	</td>
+    	<td><i><b>Add ICP solution weights to existing batch</i></b></td>
     </tr>
     <tr>
-    	<td class="options">
-    		<select name="batch_id"><?=$recentBatchOptions?></select>
-    	</td>
-    	<td class="option_button">
-    		<input type=submit value="Add ICP solution weights for this batch">
-    	</td>
+    	<td class="options"><select name="batch_id"><?=$recentBatchOptions?></select></td>
+    	<td class="option_button"><?=form_input('Add ICP solution weights for this batch')?></td>
     </tr>
     <tr><td colspan=2><hr></p></td></tr>
 <?=form_close()?>
@@ -47,17 +35,11 @@
 <!--- ADD AL-BE-FE-TI-MG CONCENTRATIONS -->
 <?=form_open('alchecks/add_icp_data')?>
     <tr>
-    	<td>
-    		<i><b>Add Al-Be-Fe-Ti-Mg measurements to existing batch</i></b>
-    	</td>
+    	<td><i><b>Add Al-Be-Fe-Ti-Mg measurements to existing batch</i></b></td>
     </tr>
     <tr>
-    	<td class="options">
-    		<select name="batch_id"><?=$recentBatchOptions?></select>
-    	</td>
-    	<td class="option_button">
-    		<input type=submit value="Add ICP results for this batch">
-    	</td>
+    	<td class="options"><select name="batch_id"><?=$recentBatchOptions?></select></td>
+    	<td class="option_button"><?=form_input('Add ICP results for this batch')?></td>
     </tr>
     <tr><td colspan=2><hr></p></td></tr>
 <?=form_close()?>
@@ -65,17 +47,11 @@
 <!--- FINAL REPORT -->
 <?=form_open('alchecks/report_results')?>
     <tr>
-    	<td>
-    		<i><b>Report Al check results</i></b>
-    	</td>
+    	<td><i><b>Report Al check results</i></b></td>
     </tr>
     <tr>
-    	<td class="options">
-    		<select name="batch_id"><?=$allBatchOptions?></select>
-    	</td>
-    	<td class="option_button">
-    		<input type=submit value="Report Al check results for this batch">
-    	</td>
+    	<td class="options"><select name="batch_id"><?=$allBatchOptions?></select></td>
+    	<td class="option_button"><?=form_input('Report Al check results for this batch')?></td>
     </tr>
     <tr><td colspan=2><hr></p></td></tr>
 <?=form_close()?>
