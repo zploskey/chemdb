@@ -2,6 +2,22 @@
 
 class BatchTable extends Doctrine_Table
 {
+    public function countSplits($batch_id)
+    {
+        $batch = $this->createQuery('b')
+          //  ->select('b.id, a.id, s.id')
+            ->where('b.id = ?', $batch_id)
+            ->leftJoin('b.Analysis a')
+            ->leftJoin('a.Split s')
+            ->fetchOne();
+        die(print_r($batch->toArray()));
+        $count = 0;
+        foreach ($batch->Analysis as $a) {
+            $count += $batch->Split->count();
+        }
+        return $count;
+    }
+    
 	/**
 	 *
 	 * @return Doctrine_Collection
