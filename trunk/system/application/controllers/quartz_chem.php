@@ -27,6 +27,11 @@ class Quartz_chem extends MY_Controller
      * @var Doctrine_Table Split beaker table
      */
      var $split_bkr;
+     
+     /**
+      * @var Doctrine_Table Split table
+      **/
+     var $split;
 
     /**
      * Contructs the class object, connects to database, and loads necessary
@@ -39,6 +44,7 @@ class Quartz_chem extends MY_Controller
         $this->be_carrier = Doctrine::getTable('BeCarrier');
         $this->al_carrier = Doctrine::getTable('AlCarrier');
         $this->split_bkr = Doctrine::getTable('SplitBkr');
+        $this->split = Doctrine::getTable('Split');
     }
     
     /**
@@ -721,29 +727,33 @@ class Quartz_chem extends MY_Controller
         if ($submit == TRUE) {
             $raw_al = $this->input->post('al_text');
             $raw_be = $this->input->post('be_text');
-            
             $al_lines = split("[\n]", $raw_al);
-            $be_lines = split("[\n]", $raw_be);
-        
-            // match a word followed by floating point numbers
-            $valid_regexp = '/[\w-]+\s+?([-+]?[0-9]*\.?[0-9]+)+/i';
-            // validate and split on whitespace
+            $be_lines = split("[\n]", $raw_be);         
+            // Validate our entries
+            // regexp to match a word followed by floating point numbers
+            $valid_regexp = '/[\w-]+\s+([-+]?[0-9]*\.?[0-9]+)+/i';
+            // we'll split on whitespace if valid
             $split_regex = '/\s+/';
             foreach ($al_lines as $al) {
                 if (preg_match($valid_regexp, $al)) {
-                    $al_arr[] = preg_split($split_regex, $al);
+                    $tmp = preg_split($split_regex, $al);
+                    $key = array_shift($tmp);
+                    $al_arr[$key] = $tmp;
                 } else {
                     die("Error in aluminum input on line: $al");
                 }
             }
             foreach ($be_lines as $be) {
                 if (preg_match($valid_regexp, $be)) {
-                    $be_arr[] = preg_split($split_regex, $be);  
+                    $tmp = preg_split($split_regex, $be);
+                    $key = array_shift($tmp);
+                    $be_arr[$key] = $tmp;
                 } else {
                     die("Error in beryllium input on line: $be");
                 }
             }
             
+            // make sure our number of splits matches the number created in last page
             $nSplits = 0;
             $nAnalyses = $batch->Analysis->count();
             for ($i = 0; $i < $nAnalyses; $i++) {
@@ -753,8 +763,22 @@ class Quartz_chem extends MY_Controller
             if ( $nSubmittedSplits != $nSplits ) {
                 die("The number of splits in the database ($nSplits) does not match the number submitted ($nSubmittedSplits)");
             }
-            // data looks good, insert it into the database
             
+            // test that all submitted split beakers exist
+            $bkrs = array_unique(array_keys(array_merge($al_arr, $be_arr)));
+            $missing = $this->split_bkr->findMissingBkrs($bkrs);
+            $nMissing = count($missing);
+            if ($nMissing != 0) {
+                echo "The beakers ";
+                // comma separated list, true indicates we want an 'and' before last element
+                echo comma_str($missing, true); 
+                die(' were not found in the database.<br>'
+                    .'Please ensure that you have spelled all'
+                    .' their names correctly or add them to the database.');
+            }
+            
+            // data looks good, insert it into the database
+            $this->split->insertIcpResults($al_arr, $be_arr, $batch_id);
         }
         
         // recreate input boxes from database
@@ -773,7 +797,6 @@ class Quartz_chem extends MY_Controller
         }
         $data->al_text = $al_text;
         $data->be_text = $be_text;
-
         $data->batch = $batch;
         $data->title = 'ICP Results Uploading';
         $data->main = 'quartz_chem/add_icp_results';

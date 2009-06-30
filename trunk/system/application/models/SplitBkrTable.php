@@ -16,5 +16,29 @@ class SplitBkrTable extends Doctrine_Table
 			->orderBy('b.id asc')
 			->execute();
 	}
+	
+	/**
+	 * Finds and returns an array of beakers missing from the database.
+	 *
+	 * @return array missing beaker names
+	 **/
+	public function findMissingBkrs($bkrList)
+	{
+	    $query = $this->createQuery('b');
+	    foreach ($bkrList as $bkr) {
+	        $query->orWhere('b.bkr_number = ?', $bkr);
+	    }
+	    $result = $query->execute();
+	    $found = $result->toArray();
+	    foreach ($found as $entry) {
+	        $dbBkrs[] = $entry['bkr_number'];
+	    }
+        $ret = array();
+	    $diff = array_diff($bkrList, $dbBkrs);
+	    foreach ($diff as $value) {
+	        $ret[] = $value;
+	    }
+	    return $ret;
+	}
 
 }
