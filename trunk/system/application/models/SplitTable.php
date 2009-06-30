@@ -4,5 +4,36 @@
  */
 class SplitTable extends Doctrine_Table
 {
+    
+	/**
+	 * Inserts ICP results into database.
+	 *
+	 * @return void boolean true if successful, false if insert failed
+	 **/
+	public function insertIcpResults($al_arr, $be_arr, $batch_id)
+	{
+	    $al_count = count($al_arr);
+	    $be_count = count($be_arr);
+	    
+	    $batch = Doctrine_Query::create()
+	        ->from('Batch b, b.Analysis a, a.Split s, s.SplitBkr sb, s.IcpRun r')
+	        ->select('b.id, a.id, s.id, sb.id, sb.bkr_number, r.id, r.be_result, r.al_result')
+	        ->where('b.id = ?', $batch_id)
+	        ->fetchOne();
+	    
+	    // change the batch
+	    foreach ($batch->Analysis as $a) {
+	        foreach ($a->Split as $s) {
+	            $nRuns = $s->IcpRun->count();
+	            for ($r = 0; $r < $nRuns; $r++) {
+	                $bkr_num = $s->SplitBkr->bkr_number;
+	                $s->IcpRun[$r]->al_result = $al_arr[$bkr_num][$r];
+	                $s->IcpRun[$r]->be_result = $be_arr[$bkr_num][$r];
+	            }
+	        }
+	    }
+	    
+	    return $batch->save();
+	}
 
 }
