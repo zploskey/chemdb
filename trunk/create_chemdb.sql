@@ -98,7 +98,6 @@ ALTER TABLE `batch` ADD `Be_carrier_id` int DEFAULT NULL ;
 
 ALTER TABLE `al_carrier` CHANGE `Al_carrier_name` `name` tinytext DEFAULT NULL ;
 
-
 /* switch from storing names to storing ids of the carriers in batch */
 UPDATE batch b, be_carrier bec SET b.Be_carrier_id = bec.id WHERE b.Be_carrier_name = bec.name;
 UPDATE batch b, al_carrier alc SET b.Al_carrier_id = alc.id WHERE b.Al_carrier_name = alc.name;
@@ -106,6 +105,10 @@ UPDATE batch b, al_carrier alc SET b.Al_carrier_id = alc.id WHERE b.Al_carrier_n
 ALTER TABLE `analysis` CHANGE `diss_bottle_ID` `diss_bottle_number` tinytext NOT NULL DEFAULT '' ;
 ALTER TABLE `analysis` ADD `diss_bottle_id` int(11) UNSIGNED ZEROFILL DEFAULT NULL;
 ALTER TABLE `analysis` MODIFY COLUMN `diss_bottle_id` int(11) AFTER `sample_type`;
+
+/* foreign key to sample table */
+ALTER TABLE `analysis` ADD `sample_id` int unsigned DEFAULT NULL;
+
 UPDATE analysis a, diss_bottle SET a.diss_bottle_id = diss_bottle.id WHERE a.diss_bottle_number = diss_bottle.bottle_number;
 
 ALTER TABLE `batch` CHANGE `Al_carrier_id` `al_carrier_id` int(11) DEFAULT NULL;
