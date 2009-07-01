@@ -231,5 +231,12 @@ $config['al_sample_loading'] = array(
 		'rules' => 'trim|htmlspecialchars'),
 );
 
+$config['add_icp_results'] = array(
+    array(
+        'field' => 'notes',
+        'label' => 'notes',
+        'rules' => 'trim|htmlspecialchars'),
+);
+
 /* End of file form_validation.php */
 /* Location: ./system/application/config/form_validation.php */

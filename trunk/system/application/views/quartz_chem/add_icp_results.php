@@ -14,7 +14,7 @@
 		<td colspan=4>
 			Batch notes:<br>
 			<center>
-			<textarea name="batch_notes" rows="5" cols="100"><?=$batch->notes?></textarea>
+			<textarea name="notes" rows="5" cols="100"><?=$batch->notes?></textarea>
 			</center>
 		</td>
 	</tr>
@@ -27,7 +27,7 @@
     i.e.:<br>
     AB1 100.2 98.34 99.56<br>
     AB2 68.34 45.32 56.34<br><br>
-    This is most easily done by pasting from Excel. No blank lines, please.<br>
+    This is most easily done by pasting from Excel.<br>
 </p>
 <table width="800">
     <tr>
