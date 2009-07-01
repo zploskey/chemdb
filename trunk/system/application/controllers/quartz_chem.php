@@ -710,6 +710,11 @@ class Quartz_chem extends MY_Controller
         $this->load->view('quartz_chem/intermediate_report', $data);
     }
     
+   /**
+    * Form to input ICP results.
+    *
+    * @return void
+    **/
     function add_icp_results() 
     {
         $submit = $this->input->post('submit');
@@ -725,6 +730,10 @@ class Quartz_chem extends MY_Controller
             ->fetchOne();
                     
         if ($submit == TRUE) {
+            
+            $valid = $this->form_validation->run('add_icp_results');
+            $batch->notes = $this->input->post('notes');
+            
             $raw_al = $this->input->post('al_text');
             $raw_be = $this->input->post('be_text');
             $al_lines = split("[\n]", $raw_al);
@@ -734,23 +743,32 @@ class Quartz_chem extends MY_Controller
             $valid_regexp = '/[\w-]+\s+([-+]?[0-9]*\.?[0-9]+)+/i';
             // we'll split on whitespace if valid
             $split_regex = '/\s+/';
-            foreach ($al_lines as $al) {
-                if (preg_match($valid_regexp, $al)) {
-                    $tmp = preg_split($split_regex, $al);
-                    $key = array_shift($tmp);
-                    $al_arr[$key] = $tmp;
+            $is_al = true;
+            foreach (array($al_lines, $be_lines) as $lines) {
+                if ($is_al) {
+                    $element = 'aluminum';
+                    $arr = 'al_arr';
                 } else {
-                    die("Error in aluminum input on line: $al");
+                    $element = 'beryllium';
+                    $arr = 'be_arr';
                 }
+                foreach ($lines as $ln) {
+                    if (preg_match($valid_regexp, $ln)) {
+                        $tmp = preg_split($split_regex, $ln);
+                        $key = array_shift($tmp);
+                        // make the key of the final array the beaker number, one for be and one for al
+                        ${$arr}[$key] = $tmp; 
+                    } elseif ($ln !== "") {
+                        die("Error in $element input on line: $ln");
+                    } 
+                }
+                $is_al = false;
             }
-            foreach ($be_lines as $be) {
-                if (preg_match($valid_regexp, $be)) {
-                    $tmp = preg_split($split_regex, $be);
-                    $key = array_shift($tmp);
-                    $be_arr[$key] = $tmp;
-                } else {
-                    die("Error in beryllium input on line: $be");
-                }
+            
+            $len_be = count($be_arr);
+            $len_al = count($al_arr);
+            if ($len_be != $len_al) {
+                die('There must be the same number of measurements for aluminum and beryllium.');
             }
             
             // make sure our number of splits matches the number created in last page
@@ -759,9 +777,9 @@ class Quartz_chem extends MY_Controller
             for ($i = 0; $i < $nAnalyses; $i++) {
                 $nSplits += $batch->Analysis[$i]->Split->count();
             }
-            $nSubmittedSplits = max(count($be_arr), count($al_arr));
-            if ( $nSubmittedSplits != $nSplits ) {
-                die("The number of splits in the database ($nSplits) does not match the number submitted ($nSubmittedSplits)");
+
+            if ($len_be != $nSplits) {
+                die("The number of splits in the database ($nSplits) does not match the number submitted ($len_be)");
             }
             
             // test that all submitted split beakers exist
@@ -779,6 +797,7 @@ class Quartz_chem extends MY_Controller
             
             // data looks good, insert it into the database
             $this->split->insertIcpResults($al_arr, $be_arr, $batch_id);
+            $batch->save();
         }
         
         // recreate input boxes from database
@@ -803,23 +822,190 @@ class Quartz_chem extends MY_Controller
         $this->load->view('template', $data);
     }
     
+   /**
+    * Page to select whether to use an icp result in calculations or not.
+    * @return void
+    */
     function icp_quality_control()
     {
-        // TODO: implement quality control page
+        $batch_id = (int)$this->input->post('batch_id');
+        $refresh = (bool)$this->input->post('refresh');
+        
+        $batch = Doctrine_Query::create()
+            ->from('Batch b')
+            ->leftJoin('b.Analysis a')
+            ->leftJoin('a.Sample sa')
+            ->leftJoin('b.AlCarrier ac')
+            ->leftJoin('b.BeCarrier bc')
+            ->leftJoin('a.DissBottle db')
+            ->leftJoin('a.Split sp')
+            ->leftJoin('sp.IcpRun run')
+            ->leftJoin('sp.SplitBkr spb')
+            ->where('b.id = ?', $batch_id)
+            ->limit(1)
+            ->fetchOne();
+
+        $numsamples = $batch->Analysis->count();
+
+        // Let's do some math for the derived weights
+        $wt_be_carrier_disp = 0;
+        $wt_al_carrier_disp = 0;
+        
+        $max_nsplits = 0;
+        for ($i = 0 ; $i < $numsamples; $i++) {
+            $analysis = $batch->Analysis[$i];
+            $sample_name[$i] = $analysis->sample_name;
+            $wt_sample[$i] = $analysis->wt_diss_bottle_sample - $analysis->wt_diss_bottle_tare;
+            $wt_HF_soln[$i] = $analysis->wt_diss_bottle_total - $analysis->wt_diss_bottle_tare;
+            $wt_al_carrier_disp += $analysis->wt_al_carrier;  
+            $wt_be_carrier_disp += $analysis->wt_be_carrier;   
+            $numsplits = $batch->Analysis[$i]->Split->count();
+            $nsplits[$i] = $numsplits;
+            
+            if ($numsplits > $max_nsplits) {
+                $max_nsplits = $numsplits;
+            }
+            
+            for ($s = 0; $s < $numsplits; $s++) {
+                $wt_split[$i][$s] = $analysis->Split[$s]->wt_split_bkr_split 
+                    - $analysis->Split[$s]->wt_split_bkr_tare;
+                $wt_icp[$i][$s] = $analysis->Split[$s]->wt_split_bkr_icp
+                    - $analysis->Split[$s]->wt_split_bkr_tare;
+                if ($wt_split[$i][$s] > 0) {
+                    $tot_df[$i][$s] = ($wt_icp[$i][$s] / $wt_split[$i][$s]) * $wt_HF_soln[$i];
+                }
+            }
+
+            $wt_be[$i] = $analysis['wt_be_carrier'] * $batch->BeCarrier->be_conc;
+
+            $wt_al_fromc[$i] = $analysis['wt_al_carrier'] * $batch->AlCarrier->al_conc;
+
+            // Do the usual thing with the Al checks database --
+            // Attempt to obtain Al/Fe/Ti concentrations
+
+            $precheck = Doctrine_Query::create()
+                ->from('AlcheckAnalysis a')
+                ->leftJoin('a.AlcheckBatch b')
+                ->select('a.sample_name, a.icp_al, a.icp_fe, a.icp_ti, a.wt_bkr_tare, '
+                    .'a.wt_bkr_sample, a.wt_bkr_soln, b.prep_date')
+                ->where('a.sample_name = ?', $batch->Analysis[$i]->sample_name)
+                ->andWhere('a.alcheck_batch_id = b.id')
+                ->orderBy('b.prep_date DESC')
+                ->limit(1)
+                ->fetchOne();
+                
+            if ($precheck) {
+                $al_check_df = ($precheck['wt_bkr_soln'] - $precheck['wt_bkr_tare'])
+                    / ($precheck['wt_bkr_sample'] - $precheck['wt_bkr_tare']);
+                $check_al = $precheck['icp_al'] * $al_check_df * $wt_sample[$i];
+                $check_fe[$i] = $precheck['icp_fe'] * $al_check_df * $wt_sample[$i];
+                $check_ti[$i] = $precheck['icp_ti'] * $al_check_df * $wt_sample[$i];
+                $check_tot_al[$i] = $check_al + ($analysis['wt_al_carrier'] * $batch->AlCarrier->al_conc);
+            } elseif (strcmp($analysis->sample_type, 'BLANK') == 0) {
+                if ($analysis['wt_al_carrier'] > 0) {
+                    $check_tot_al[$i] = ($analysis['wt_al_carrier'] * $batch->AlCarrier->al_conc);
+                } else {
+                    $check_tot_al[$i] = 0;
+                }
+                $check_Fe[$i] = 0;
+                $check_Ti[$i] = 0;
+            } else {
+                $check_tot_al[$i] = 0;
+                $check_fe[$i] = 0;
+                $check_ti[$i] = 0;
+            }
+
+            for($s = 0; $s < $numsplits; $s++) {
+                $temp_tot_al[] = 0;
+                $temp_tot_be[] = 0;
+                $n_al[] = 0;
+                $n_be[] = 0;  
+                $nRuns = $analysis->Split[$s]->IcpRun->count();
+                for ($r = 0; $r < $nRuns; $r++) {
+                    $icp_al[$i][$s][$r] = $analysis->Split[$s]->IcpRun[$r]->al_result;
+                    $icp_be[$i][$s][$r] = $analysis->Split[$s]->IcpRun[$r]->be_result;
+                    $icp_use_al[$i][$s][$r] = $analysis->Split[$s]->IcpRun[$r]->use_al;
+                    $icp_use_be[$i][$s][$r] = $analysis->Split[$s]->IcpRun[$r]->use_be;
+                    $al_tot[$i][$s][$r] = $icp_al[$i][$s][$r] * $tot_df[$i][$s];
+                    $be_tot[$i][$s][$r] = $icp_be[$i][$s][$r] * $tot_df[$i][$s];
+
+                    // record info for calculating the mean
+                    if (strcmp($icp_use_al[$i][$s][$r], 'y') == 0) {
+                        $temp_tot_al[$i] += $al_tot[$i][$s][$r];
+                        $n_al[$i] += 1;
+                    }
+                    if (strcmp($icp_use_be[$i][$s][$r], 'y') == 0) {
+                        $temp_tot_be[$i] += $be_tot[$i][$s][$r];
+                        $n_be[$i] += 1;
+                    }
+                }
+            }
+
+            $al_tot_avg[$i] = $this->divide($temp_tot_al[$i], $n_al[$i]);
+            $be_tot_avg[$i] = $this->divide($temp_tot_be[$i], $n_be[$i]);
+
+            // Calculate the standard deviations
+            for($s = 0; $s < $numsplits; $s++) {
+                $temp_sd_al[] = 0;
+                $temp_sd_be[] = 0;
+                $nRuns = $analysis->Split[$s]->IcpRun->count();
+                for ($r = 0; $r < $nRuns; $r++) {
+                    if (strcmp($icp_use_al[$i][$s][$r], 'y') == 0) {
+                        $temp_sd_al[$i] += pow(($al_tot[$i][$s][$r] - $al_tot_avg[$i]), 2);
+                    }
+                    if (strcmp($icp_use_be[$i][$s][$r], 'y') == 0) {
+                        $temp_sd_be[$i] += pow(($be_tot[$i][$s][$r] - $be_tot_avg[$i]), 2);
+                    }
+                }
+            }
+            $al_tot_sd[$i] = sqrt($this->divide($temp_sd_al[$i], $n_al[$i] - 1));
+            $be_tot_sd[$i] = sqrt($this->divide($temp_sd_be[$i], $n_be[$i] - 1));
+
+            // Calculate the percentage errors
+            $al_pct_sd[$i] = 100 * $this->divide($al_tot_sd[$i], $al_tot_avg[$i]);
+            $be_pct_sd[$i] = 100 * $this->divide($be_tot_sd[$i], $be_tot_avg[$i]);
+
+            // Calculate the recoveries
+            $be_recovery[$i] = 100 * $this->divide($be_tot_avg[$i], $wt_be[$i]);
+            $al_recovery[$i] = 100 * $this->divide($al_tot_avg[$i], $check_tot_al[$i]);
+        }
+
+        $data->max_nsplits = $max_nsplits;
+        $data->numsamples = $numsamples;
+        $data->nsplits = $nsplits;
+        $data->batch = $batch;
+        // carrier information
+        $data->wt_be_carrier_diff = $batch->wt_be_carrier_init - $batch->wt_be_carrier_final;
+        $data->wt_al_carrier_diff = $batch->wt_al_carrier_init - $batch->wt_al_carrier_final;
+        $data->wt_be_carrier_disp = $wt_be_carrier_disp;
+        $data->wt_al_carrier_disp = $wt_al_carrier_disp;
+        // derived sample data
+        $data->wt_sample = $wt_sample;
+        $data->wt_HF_soln = $wt_HF_soln;
+        $data->wt_be = $wt_be;
+        $data->wt_al_fromc = $wt_al_fromc;
+        $data->check_tot_al = $check_tot_al;
+        $data->wt_split = $wt_split;
+        $data->wt_icp = $wt_icp;
+        $data->tot_df = $tot_df;
+        
+        $data->title = 'ICP Quality Control';
+        $data->main = 'quartz_chem/icp_quality_control';
+        $this->load->view('template', $data);
     }
     
     /*
-     * Helper function to calculate a mean without division by zero.
+     * Helper function to divide without division by zero.
      * @param double total
      * @param int n, number of samples
      * @return double mean
      */
-    function divide($total, $n) 
+    function divide($num, $den) 
     {
-        if ($n == 0) {
+        if ($den == 0) {
             return 0;
         } else {
-            return $total / $n;
+            return $num / $den;
         }
     }
 
