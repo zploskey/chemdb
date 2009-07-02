@@ -22,11 +22,11 @@
 </table>
 <p>
     Data should be input as:<br><br>
-    BeakerID1 run1 run2 run3 ... runN<br>
-    BeakerID2 run1 run2 run3 ... runN<br><br>
+    Beaker#1 icprun1 run2 run3 ... runN<br>
+    Beaker#2 icprun1 run2 run3 ... runN<br><br>
     i.e.:<br>
-    AB1 100.2 98.34 99.56<br>
-    AB2 68.34 45.32 56.34<br><br>
+    AB1 0.8363 0.8387 0.8356<br>
+    AB2 0.9878 0.9504 0.9764 <br><br>
     This is most easily done by pasting from Excel.<br>
 </p>
 <table width="800">

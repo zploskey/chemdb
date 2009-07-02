@@ -32,6 +32,9 @@ class Quartz_chem extends MY_Controller
       * @var Doctrine_Table Split table
       **/
      var $split;
+     
+     var $default_num_splits;
+     var $default_num_runs;
 
     /**
      * Contructs the class object, connects to database, and loads necessary
@@ -45,6 +48,8 @@ class Quartz_chem extends MY_Controller
         $this->al_carrier = Doctrine::getTable('AlCarrier');
         $this->split_bkr = Doctrine::getTable('SplitBkr');
         $this->split = Doctrine::getTable('Split');
+        $this->default_num_splits = 2;
+        $this->default_num_runs = 2;
     }
     
     /**
@@ -74,7 +79,7 @@ class Quartz_chem extends MY_Controller
     function new_batch()
     {
         $id = $this->input->post('batch_id');
-        $is_edit = (bool) $id;
+        $is_edit = (bool)$id;
         $data->allow_num_edit = ( ! $is_edit);
         
         if ($is_edit) {
@@ -86,7 +91,6 @@ class Quartz_chem extends MY_Controller
             }
 
             $data->numsamples = $this->batch->findNumSamples($id);
-
         } else {
             // it's a new batch
             $batch = new Batch();
@@ -110,25 +114,23 @@ class Quartz_chem extends MY_Controller
         } else {
             // inputs are valid
             // grab batch info from post and save it to the db
-            $batch->merge($this->input->post('batch'));
-            
             $new_batch = ( ! ((bool)$batch->id));
-
+            $batch->owner = $this->input->post('owner');
+            $batch->description = $this->input->post('description');
+            if ($new_batch) {
+                $batch->start_date = date('Y-m-d');
+            }
             $batch->save();
-            
+
             if ($new_batch) {
                 // new batch: create the analyses linked to this batch
                 $numsamples = $this->input->post('numsamples');
-
-                $conn = Doctrine_Manager::connection();
-                $conn->beginTransaction();
-                for ($i = 0; $i < $numsamples; $i++) {
+                for ($i = 1; $i <= $numsamples; $i++) {
                     $analysis = new Analysis();
-                    $analysis->batch_id = $batch->id;
-                    $analysis->number_within_batch = $i + 1;
-                    $analysis->save();
+                    $analysis->number_within_batch = $i;
+                    $batch->Analysis[] = $analysis;
                 }
-                $conn->commit();
+                $batch->save();
             }
         }
 
@@ -147,7 +149,7 @@ class Quartz_chem extends MY_Controller
     function load_samples()
     {
         $is_refresh = (bool)$this->input->post('is_refresh');
-        $batch_id = $this->input->post('batch_id');
+        $batch_id = (int)$this->input->post('batch_id');
 
         // grab the batch
         $batch = Doctrine_Query::create()
@@ -170,9 +172,14 @@ class Quartz_chem extends MY_Controller
             $is_valid = $this->form_validation->run('load_samples');
 
             // grab the submitted data
-            $batch->merge($this->input->post('batch'));
-            $batch->id = $batch_id;
-
+            $batch->notes = $this->input->post('notes');
+            $batch->be_carrier_id = $this->input->post('be_carrier_id');
+            $batch->al_carrier_id = $this->input->post('al_carrier_id');
+            $batch->wt_be_carrier_init = $this->input->post('wt_be_carrier_init');
+            $batch->wt_al_carrier_init = $this->input->post('wt_al_carrier_init');
+            $batch->wt_be_carrier_final = $this->input->post('wt_be_carrier_final');
+            $batch->wt_al_carrier_final = $this->input->post('wt_al_carrier_final');     
+            // fields for each analysis
             $sample_name = $this->input->post('sample_name');
             $sample_type = $this->input->post('sample_type');
             $diss_bottle_id = $this->input->post('diss_bottle_id');
@@ -194,8 +201,9 @@ class Quartz_chem extends MY_Controller
             }
 
             if ($is_valid) {
-                // valid info, save changes to the database and reload
+                // valid info, save changes to the database
                 $batch->save();
+                $batch->refreshRelated();
             } else {
                 // validation failed
                 $errors = TRUE;
@@ -207,17 +215,17 @@ class Quartz_chem extends MY_Controller
         $al_list = $this->al_carrier->getList();
 
         foreach ($be_list as $c) {
-            $data->be_carrier_options .= "<option value=$c->id ";
-            if ($batch->BeCarrier != null AND $c->id == $batch->BeCarrier->id) {
-                $data->be_carrier_options .= 'selected';
+            $data->be_carrier_options .= "<option value=$c->id";
+            if (isset($batch->BeCarrier) AND $c->id == $batch->BeCarrier->id) {
+                $data->be_carrier_options .= ' selected';
             }
             $data->be_carrier_options .= "> $c->name";
         }
 
-        foreach($al_list as $c) {
-            $data->al_carrier_options .= "<option value=$c->id ";
-            if ($batch->BeCarrier != null AND $c->id == $batch->AlCarrier->id) {
-                $data->al_carrier_options .= 'selected';
+        foreach ($al_list as $c) {
+            $data->al_carrier_options .= "<option value=$c->id";
+            if (isset($batch->BeCarrier) AND $c->id == $batch->AlCarrier->id) {
+                $data->al_carrier_options .= ' selected';
             }
             $data->al_carrier_options .= "> $c->name";
         }
@@ -374,7 +382,7 @@ class Quartz_chem extends MY_Controller
                     $precheck['icp_ti'] * $temp_df * $tmpa[$i]['tmpSampleWt'] / 1000);
                 $tmpa[$i]['tot_al'] = sprintf('%.2f', $temp_al
                     + ($batch->Analysis[$i]->wt_al_carrier * $batch->AlCarrier->al_conc) / 1000);
-            } elseif (strcmp($batch->Analysis[$i]->sample_type, 'BLANK') == 0) {
+            } elseif ($batch->Analysis[$i]->sample_type === 'BLANK') {
                 if ($batch->Analysis[$i]->wt_al_carrier > 0) {
                     $tmpa[$i]['tot_al'] = sprintf('%.2f',
                         ($batch->Analysis[$i]->wt_al_carrier * $batch->AlCarrier->al_conc) / 1000);
@@ -464,6 +472,22 @@ class Quartz_chem extends MY_Controller
             $ind = 0; // index for post variable arrays
             for ($a = 0; $a < $numsamples; $a++) { // analysis loop
                 $nsplits = $batch->Analysis[$a]->Split->count();
+                if ($nsplits === 0) {
+                    // no splits in db, add the splits and their icp runs too
+                    for ($s = 1; $s <= $this->default_num_splits; $s++) {
+                         $newsplit = new Split();
+                         $newsplit->analysis_id = $batch->Analysis[$a]->id;
+                         $newsplit->split_num = $s;
+                         $newsplit->save();
+                         for ($r = 1; $r <= $this->default_num_runs; $r++) {
+                             $newrun = new IcpRun();
+                             $newrun->split_id = $newsplit->id;
+                             $newrun->run_num = $r;
+                             $newrun->save();
+                         }
+                    }
+                    $nsplits = $this->default_num_splits;
+                }
                 for ($s = 0; $s < $nsplits; $s++, $ind++) { // split loop
                     $batch->Analysis[$a]->Split[$s]->split_bkr_id = $bkr_ids[$ind];
                     $batch->Analysis[$a]->Split[$s]->wt_split_bkr_tare = $tares_wts[$ind];
@@ -508,7 +532,7 @@ class Quartz_chem extends MY_Controller
 
         // For the case when it's a new icp run, change from the default to today's date.
         // It will be saved when valid data is submitted on the form.
-        if (strcmp($batch->icp_date, '0000-00-00') == 0)  {
+        if ($batch->icp_date === '0000-00-00')  {
             $batch->icp_date = date('Y-m-d');
         }
 
@@ -618,7 +642,7 @@ class Quartz_chem extends MY_Controller
                 $check_fe[$i] = $precheck['icp_fe'] * $al_check_df * $wt_sample[$i];
                 $check_ti[$i] = $precheck['icp_ti'] * $al_check_df * $wt_sample[$i];
                 $check_tot_al[$i] = $check_al + ($analysis['wt_al_carrier'] * $batch->AlCarrier->al_conc);
-            } elseif (strcmp($analysis->sample_type, 'BLANK') == 0) {
+            } elseif ($analysis->sample_type === 'BLANK') {
                 if ($analysis['wt_al_carrier'] > 0) {
                     $check_tot_al[$i] = ($analysis['wt_al_carrier'] * $batch->AlCarrier->al_conc);
                 } else {
@@ -647,11 +671,11 @@ class Quartz_chem extends MY_Controller
                     $be_tot[$i][$s][$r] = $icp_be[$i][$s][$r] * $tot_df[$i][$s];
 
                     // record info for calculating the mean
-                    if (strcmp($icp_use_al[$i][$s][$r], 'y') == 0) {
+                    if ($icp_use_al[$i][$s][$r] === 'y') {
                         $temp_tot_al[$i] += $al_tot[$i][$s][$r];
                         $n_al[$i] += 1;
                     }
-                    if (strcmp($icp_use_be[$i][$s][$r], 'y') == 0) {
+                    if ($icp_use_be[$i][$s][$r] === 'y') {
                         $temp_tot_be[$i] += $be_tot[$i][$s][$r];
                         $n_be[$i] += 1;
                     }
@@ -667,10 +691,10 @@ class Quartz_chem extends MY_Controller
                 $temp_sd_be[] = 0;
                 $nRuns = $analysis->Split[$s]->IcpRun->count();
                 for ($r = 0; $r < $nRuns; $r++) {
-                    if (strcmp($icp_use_al[$i][$s][$r], 'y') == 0) {
+                    if ($icp_use_al[$i][$s][$r] === 'y') {
                         $temp_sd_al[$i] += pow(($al_tot[$i][$s][$r] - $al_tot_avg[$i]), 2);
                     }
-                    if (strcmp($icp_use_be[$i][$s][$r], 'y') == 0) {
+                    if ($icp_use_be[$i][$s][$r] === 'y') {
                         $temp_sd_be[$i] += pow(($be_tot[$i][$s][$r] - $be_tot_avg[$i]), 2);
                     }
                 }
@@ -901,7 +925,7 @@ class Quartz_chem extends MY_Controller
                 $check_fe[$i] = $precheck['icp_fe'] * $al_check_df * $wt_sample[$i];
                 $check_ti[$i] = $precheck['icp_ti'] * $al_check_df * $wt_sample[$i];
                 $check_tot_al[$i] = $check_al + ($analysis['wt_al_carrier'] * $batch->AlCarrier->al_conc);
-            } elseif (strcmp($analysis->sample_type, 'BLANK') == 0) {
+            } elseif ($analysis->sample_type === 'BLANK') {
                 if ($analysis['wt_al_carrier'] > 0) {
                     $check_tot_al[$i] = ($analysis['wt_al_carrier'] * $batch->AlCarrier->al_conc);
                 } else {
@@ -930,11 +954,11 @@ class Quartz_chem extends MY_Controller
                     $be_tot[$i][$s][$r] = $icp_be[$i][$s][$r] * $tot_df[$i][$s];
 
                     // record info for calculating the mean
-                    if (strcmp($icp_use_al[$i][$s][$r], 'y') == 0) {
+                    if ($icp_use_al[$i][$s][$r] === 'y') {
                         $temp_tot_al[$i] += $al_tot[$i][$s][$r];
                         $n_al[$i] += 1;
                     }
-                    if (strcmp($icp_use_be[$i][$s][$r], 'y') == 0) {
+                    if ($icp_use_be[$i][$s][$r] === 'y') {
                         $temp_tot_be[$i] += $be_tot[$i][$s][$r];
                         $n_be[$i] += 1;
                     }
@@ -950,10 +974,10 @@ class Quartz_chem extends MY_Controller
                 $temp_sd_be[] = 0;
                 $nRuns = $analysis->Split[$s]->IcpRun->count();
                 for ($r = 0; $r < $nRuns; $r++) {
-                    if (strcmp($icp_use_al[$i][$s][$r], 'y') == 0) {
+                    if ($icp_use_al[$i][$s][$r] === 'y') {
                         $temp_sd_al[$i] += pow(($al_tot[$i][$s][$r] - $al_tot_avg[$i]), 2);
                     }
-                    if (strcmp($icp_use_be[$i][$s][$r], 'y') == 0) {
+                    if ($icp_use_be[$i][$s][$r] === 'y') {
                         $temp_sd_be[$i] += pow(($be_tot[$i][$s][$r] - $be_tot_avg[$i]), 2);
                     }
                 }
