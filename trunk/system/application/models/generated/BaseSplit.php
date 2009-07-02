@@ -8,6 +8,7 @@
  * @property integer $id
  * @property integer $analysis_id
  * @property integer $split_bkr_id
+ * @property integer $split_num
  * @property float $wt_split_bkr_tare
  * @property float $wt_split_bkr_split
  * @property float $wt_split_bkr_icp
@@ -29,6 +30,7 @@ abstract class BaseSplit extends Doctrine_Record
         $this->hasColumn('id', 'integer', 4, array('type' => 'integer', 'unsigned' => '1', 'primary' => true, 'autoincrement' => true, 'length' => '4'));
         $this->hasColumn('analysis_id', 'integer', 2, array('type' => 'integer', 'unsigned' => '1', 'default' => '', 'notnull' => true, 'length' => '2'));
         $this->hasColumn('split_bkr_id', 'integer', 4, array('type' => 'integer', 'unsigned' => '1', 'default' => '', 'notnull' => true, 'length' => '4'));
+        $this->hasColumn('split_num', 'integer', 1, array('type' => 'integer', 'unsigned' => '1', 'default' => '1', 'notnull' => true, 'length' => '1'));
         $this->hasColumn('wt_split_bkr_tare', 'float', 2147483647, array('type' => 'float', 'default' => '0', 'notnull' => true, 'length' => '2147483647'));
         $this->hasColumn('wt_split_bkr_split', 'float', 2147483647, array('type' => 'float', 'default' => '0', 'notnull' => true, 'length' => '2147483647'));
         $this->hasColumn('wt_split_bkr_icp', 'float', 2147483647, array('type' => 'float', 'default' => '0', 'notnull' => true, 'length' => '2147483647'));

@@ -6,10 +6,9 @@ class AlCarrierTable extends Doctrine_Table
 {
 	public function getList()
 	{
-		$q = Doctrine_Query::create()
+	    return Doctrine_Query::create()
 			->from('AlCarrier alc')
 			->select('alc.id, alc.name')
 			->execute();
-		return $q;
 	}
 }

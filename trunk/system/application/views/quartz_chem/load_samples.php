@@ -16,7 +16,7 @@
         <td colspan=4>
             Batch notes:<br>
             <center>
-                <textarea name="batch[notes]" rows=5 cols=100><?=$batch->notes?></textarea>
+                <textarea name="notes" rows=5 cols=100><?=$batch->notes?></textarea>
             </center>
         </td>
     </tr>
@@ -25,13 +25,13 @@
             Be carrier:
         </td>
         <td>
-            <select name="batch[be_carrier_id]">
+            <select name="be_carrier_id">
                 <?=$be_carrier_options?>
             </select>
         </td>
         <td> Al carrier:</td>
         <td>
-            <select name="batch[al_carrier_id]">
+            <select name="al_carrier_id">
                 <?=$al_carrier_options?>
             </select>
         </td>
@@ -39,29 +39,43 @@
     <tr><td></td>
         <td>
             [Be]:
-            <? if($batch->BeCarrier): ?>
-                <?=$batch->BeCarrier->be_conc?> +/- <?=$batch->BeCarrier->del_be_conc?> ug/g
-            <? endif; ?>
+            <?
+            if ($batch->BeCarrier) {
+                if (isset($batch->BeCarrier->be_conc)) {
+                    echo $batch->BeCarrier->be_conc;
+                    if (isset($batch->BeCarrier->del_be_conc)) {
+                        echo ' +/- ', $batch->BeCarrier->del_be_conc;
+                    }
+                    echo ' ug/g';
+                }
+            } ?>
         </td><td></td>
         <td>
             [Al]:
-            <? if($batch->AlCarrier): ?>
-                <?=$batch->AlCarrier->al_conc?> +/- <?=$batch->AlCarrier->del_al_conc?> ug/g
-            <? endif; ?>
+            <? 
+            if($batch->AlCarrier) {
+                if (isset($batch->AlCarrier->al_conc)) {
+                    echo $batch->AlCarrier->al_conc;
+                    if (isset($batch->AlCarrier->del_al_conc)) {
+                        echo ' +/- ', $batch->AlCarrier->del_al_conc;
+                    }
+                    echo ' ug/g';
+                }
+            } ?>
         </td>
     </tr>
     <tr>
         <td>Be carrier previous wt:</td>
         <td>
-            <? if($batch->BeCarrier): ?>
-                <?=$be_prev->wt_be_carrier_final?> ( <?=$be_prev->start_date?> )
+            <? if (isset($be_prev)): ?>
+                <?=$be_prev->wt_be_carrier_final?> (<?=$be_prev->start_date?>)
             <? endif; ?>
         </td>
 
         <td>Al carrier previous wt:</td>
         <td>
-            <? if($batch->AlCarrier): ?>
-                <?=$al_prev->wt_al_carrier_final?> ( <?=$al_prev->start_date?> )
+            <? if (isset($al_prev)): ?>
+                <?=$al_prev->wt_al_carrier_final?> (<?=$al_prev->start_date?>)
             <? endif; ?>
         </td>
     </tr>
@@ -70,13 +84,13 @@
             Be carrier initial wt:
         </td>
         <td>
-            <input type=text name="batch[wt_be_carrier_init]" width=10 value="<?=$batch->wt_be_carrier_init?>">
+            <input type=text name="wt_be_carrier_init" width=10 value="<?=$batch->wt_be_carrier_init?>">
         </td>
         <td>
             Al carrier initial wt:
         </td>
         <td>
-            <input type=text name="batch[wt_al_carrier_init]" width=10 value="<?=$batch->wt_al_carrier_init?>">
+            <input type=text name="wt_al_carrier_init" width=10 value="<?=$batch->wt_al_carrier_init?>">
         </td>
     </tr>
     <tr>
@@ -84,23 +98,21 @@
             Be carrier final wt:
         </td>
         <td>
-            <input type=text name="batch[wt_be_carrier_final]" width=10 value="<?=$batch->wt_be_carrier_final?>">
+            <input type=text name="wt_be_carrier_final" width=10 value="<?=$batch->wt_be_carrier_final?>">
         </td>
         <td>
             Al carrier final wt:
         </td>
         <td>
-            <input type=text name="batch[wt_al_carrier_final]" width=10 value="<?=$batch->wt_al_carrier_final?>">
+            <input type=text name="wt_al_carrier_final" width=10 value="<?=$batch->wt_al_carrier_final?>">
         </td>
     </tr>
     <tr><td colspan=4><hr></td></tr>
 </table>
 
-<?php
-if ($errors) {
-echo validation_errors();
-}
-?>
+<? if ($errors) {
+    echo validation_errors();
+} ?>
 
 <table width=800 class=arial8>
     <tr>
