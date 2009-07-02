@@ -7,6 +7,7 @@
  * 
  * @property integer $id
  * @property integer $split_id
+ * @property integer $run_num
  * @property enum $use_al
  * @property enum $use_be
  * @property float $al_result
@@ -25,6 +26,7 @@ abstract class BaseIcpRun extends Doctrine_Record
         $this->setTableName('icp_run');
         $this->hasColumn('id', 'integer', 4, array('type' => 'integer', 'unsigned' => '1', 'primary' => true, 'autoincrement' => true, 'length' => '4'));
         $this->hasColumn('split_id', 'integer', 4, array('type' => 'integer', 'unsigned' => '1', 'default' => '', 'notnull' => true, 'length' => '4'));
+        $this->hasColumn('run_num', 'integer', 1, array('type' => 'integer', 'unsigned' => '1', 'default' => '1', 'notnull' => true, 'length' => '1'));
         $this->hasColumn('use_al', 'enum', 1, array('type' => 'enum', 'values' => array(0 => 'y', 1 => 'n'), 'default' => 'y', 'notnull' => true, 'length' => '1'));
         $this->hasColumn('use_be', 'enum', 1, array('type' => 'enum', 'values' => array(0 => 'y', 1 => 'n'), 'default' => 'y', 'notnull' => true, 'length' => '1'));
         $this->hasColumn('al_result', 'float', 2147483647, array('type' => 'float', 'length' => '2147483647'));
