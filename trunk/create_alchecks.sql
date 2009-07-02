@@ -21,7 +21,7 @@ CREATE TABLE `alcheck_analysis` (
   `addl_dil_factor` double NOT NULL default '1',
   `notes` text,
   PRIMARY KEY  (`analysis_ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 CREATE TABLE `alcheck_batch` (
   `batch_ID` smallint(5) unsigned zerofill NOT NULL auto_increment,
@@ -31,7 +31,7 @@ CREATE TABLE `alcheck_batch` (
   `description` text,
   `notes` text,
   PRIMARY KEY  (`batch_ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 INSERT INTO alcheck_analysis SELECT * FROM alchecks.analyses;
 INSERT INTO alcheck_batch SELECT * FROM alchecks.batches;

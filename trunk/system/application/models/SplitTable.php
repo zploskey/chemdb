@@ -17,16 +17,25 @@ class SplitTable extends Doctrine_Table
 	    
 	    $batch = Doctrine_Query::create()
 	        ->from('Batch b, b.Analysis a, a.Split s, s.SplitBkr sb, s.IcpRun r')
-	        ->select('b.id, a.id, s.id, sb.id, sb.bkr_number, r.id, r.be_result, r.al_result')
+	        ->select('b.id, a.id, s.id, s.split_num, sb.id, sb.bkr_number, r.id, r.be_result, r.al_result, r.run_num')
 	        ->where('b.id = ?', $batch_id)
+	        ->orderBy('s.split_num')
+	        ->addOrderBy('r.run_num')
 	        ->fetchOne();
+	        
+	    die(print_r($batch->toArray()));
 	    
 	    // change the batch
 	    foreach ($batch->Analysis as $a) {
 	        foreach ($a->Split as $s) {
+	            $bkr_num = $s->SplitBkr->bkr_number;
 	            $nRuns = $s->IcpRun->count();
-	            for ($r = 0; $r < $nRuns; $r++) {
-	                $bkr_num = $s->SplitBkr->bkr_number;
+	            $nRunsAl = count($al_arr[$bkr_num]);
+	            $nRunsBe = count($be_arr[$bkr_num]);
+	            for ($r = 0; $r < $nRunsAl; $r++) {
+	                if ($r >= $nRuns) {
+	                    // create new run
+	                }
 	                $s->IcpRun[$r]->al_result = $al_arr[$bkr_num][$r];
 	                $s->IcpRun[$r]->be_result = $be_arr[$bkr_num][$r];
 	            }
