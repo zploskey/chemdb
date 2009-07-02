@@ -9,7 +9,6 @@
  * @property integer $batch_id
  * @property integer $number_within_batch
  * @property string $sample_name
- * @property integer $sample_id
  * @property string $sample_type
  * @property string $diss_bottle_number
  * @property float $wt_diss_bottle_tare
@@ -18,6 +17,7 @@
  * @property float $wt_al_carrier
  * @property float $wt_diss_bottle_total
  * @property string $notes
+ * @property integer $sample_id
  * @property integer $diss_bottle_id
  * @property Batch $Batch
  * @property Sample $Sample
@@ -39,7 +39,6 @@ abstract class BaseAnalysis extends Doctrine_Record
         $this->hasColumn('batch_id', 'integer', 2, array('type' => 'integer', 'default' => '0', 'notnull' => true, 'length' => '2'));
         $this->hasColumn('number_within_batch', 'integer', 1, array('type' => 'integer', 'default' => '0', 'notnull' => true, 'length' => '1'));
         $this->hasColumn('sample_name', 'string', 2147483647, array('type' => 'string', 'default' => '', 'notnull' => true, 'length' => '2147483647'));
-        $this->hasColumn('sample_id', 'integer', 4, array('type' => 'integer', 'unsigned' => '1', 'length' => '4'));
         $this->hasColumn('sample_type', 'string', 2147483647, array('type' => 'string', 'default' => '', 'notnull' => true, 'length' => '2147483647'));
         $this->hasColumn('diss_bottle_number', 'string', 2147483647, array('type' => 'string', 'default' => '', 'notnull' => true, 'length' => '2147483647'));
         $this->hasColumn('wt_diss_bottle_tare', 'float', 2147483647, array('type' => 'float', 'default' => '0', 'notnull' => true, 'length' => '2147483647'));
@@ -48,6 +47,7 @@ abstract class BaseAnalysis extends Doctrine_Record
         $this->hasColumn('wt_al_carrier', 'float', 2147483647, array('type' => 'float', 'default' => '0', 'notnull' => true, 'length' => '2147483647'));
         $this->hasColumn('wt_diss_bottle_total', 'float', 2147483647, array('type' => 'float', 'default' => '0', 'notnull' => true, 'length' => '2147483647'));
         $this->hasColumn('notes', 'string', 2147483647, array('type' => 'string', 'default' => '', 'notnull' => true, 'length' => '2147483647'));
+        $this->hasColumn('sample_id', 'integer', 4, array('type' => 'integer', 'unsigned' => '1', 'length' => '4'));
         $this->hasColumn('diss_bottle_id', 'integer', 4, array('type' => 'integer', 'length' => '4'));
     }
 
