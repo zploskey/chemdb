@@ -79,31 +79,31 @@ $config['batches'] = array(
 
 $config['load_samples'] = array(
     array(
-        'field' => 'batch[notes]',
+        'field' => 'notes',
         'label' => 'notes',
         'rules' => 'trim|htmlspecialchars'),
     array(
-        'field' => 'batch[be_carrier_id]',
+        'field' => 'be_carrier_id',
         'label' => 'beryllium carrier id',
         'rules' => 'trim|is_natural'),
     array(
-        'field' => 'batch[al_carrier_id]',
+        'field' => 'al_carrier_id',
         'label' => 'aluminum carrier id',
         'rules' => 'trim|is_natural'),
     array(
-        'field' => 'batch[wt_be_carrier_init]',
+        'field' => 'wt_be_carrier_init',
         'label' => 'Be carrier initial weight',
         'rules' => 'trim|numeric|abs'),
     array(
-        'field' => 'batch[wt_be_carrier_final]',
+        'field' => 'wt_be_carrier_final',
         'label' => 'Be carrier final weight',
         'rules' => 'trim|numeric|abs'),
     array(
-        'field' => 'batch[wt_al_carrier_init]',
+        'field' => 'wt_al_carrier_init',
         'label' => 'Al carrier initial weight ',
         'rules' => 'trim|numeric|abs'),
     array(
-        'field' => 'batch[wt_al_carrier_final]',
+        'field' => 'wt_al_carrier_final',
         'label' => 'Al carrier final wt',
         'rules' => 'trim|numeric|abs'),
     array(

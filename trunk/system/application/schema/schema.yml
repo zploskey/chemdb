@@ -21,9 +21,6 @@ AlcheckAnalysis:
       unsigned: 1
       primary: true
       autoincrement: true
-    analysis_id:
-      type: integer(4)
-      unsigned: 1
     alcheck_batch_id:
       type: integer(2)
       unsigned: 1
@@ -92,6 +89,9 @@ AlcheckAnalysis:
       type: float(2147483647)
       default: '1'
       notnull: true
+    analysis_id:
+      type: integer(4)
+      unsigned: 1
     notes: string(2147483647)
 AlcheckBatch:
   tableName: alcheck_batch
@@ -126,9 +126,6 @@ Analysis:
       type: string(2147483647)
       default: ''
       notnull: true
-    sample_id:
-      type: integer(4)
-      unsigned: 1
     sample_type:
       type: string(2147483647)
       default: ''
@@ -161,6 +158,9 @@ Analysis:
       type: string(2147483647)
       default: ''
       notnull: true
+    sample_id:
+      type: integer(4)
+      unsigned: 1
     diss_bottle_id: integer(4)
 Batch:
   tableName: batch
@@ -260,6 +260,11 @@ IcpRun:
       unsigned: 1
       default: ''
       notnull: true
+    run_num:
+      type: integer(1)
+      unsigned: 1
+      default: '1'
+      notnull: true
     use_al:
       type: enum(1)
       values: ['y', 'n']
@@ -341,6 +346,11 @@ Split:
       type: integer(4)
       unsigned: 1
       default: ''
+      notnull: true
+    split_num:
+      type: integer(1)
+      unsigned: 1
+      default: '1'
       notnull: true
     wt_split_bkr_tare:
       type: float(2147483647)
