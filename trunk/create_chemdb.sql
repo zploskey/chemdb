@@ -4,6 +4,7 @@ CREATE TABLE `splits` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `analysis_id` smallint(5) unsigned zerofill NOT NULL,
   `split_bkr_id` int(10) unsigned zerofill NOT NULL,
+  `split_num` tinyint UNSIGNED NOT NULL DEFAULT '1',
   `split_bkr_name` tinytext,
   `wt_split_bkr_tare` double NOT NULL default '0',
   `wt_split_bkr_split` double NOT NULL default '0',
@@ -30,6 +31,7 @@ CREATE TABLE `splits` (
 CREATE TABLE `icp_runs` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `split_id` int(10) unsigned NOT NULL,
+  `run_num` tinyint UNSIGNED NOT NULL DEFAULT '1',
   `al_result` double default NULL,
   `be_result` double default NULL,
   `use_al` enum('y','n') NOT NULL default 'y',
@@ -38,25 +40,43 @@ CREATE TABLE `icp_runs` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 /* transfer beaker 1 data to splits  */
-insert into splits (analysis_id, split_bkr_name, wt_split_bkr_tare, wt_split_bkr_split, wt_split_bkr_icp, use_Be_b1_r1, use_Be_b1_r2, use_Al_b1_r1, use_Al_b1_r2, ICP_Al_split1_run1, ICP_Al_split1_run2, ICP_Be_split1_run1, ICP_Be_split1_run2) select analysis_ID, split_bkr_1_ID, wt_split_bkr_1_tare, wt_split_bkr_1_split, wt_split_bkr_1_ICP, use_Be_b1_r1, use_Be_b1_r2, use_Al_b1_r1, use_Al_b1_r2, ICP_Al_split1_run1, ICP_Al_split1_run2, ICP_Be_split1_run1, ICP_Be_split1_run2 from analyses;
+insert into splits 
+    (analysis_id, split_bkr_name, wt_split_bkr_tare, wt_split_bkr_split, wt_split_bkr_icp, use_Be_b1_r1, use_Be_b1_r2, use_Al_b1_r1, use_Al_b1_r2, ICP_Al_split1_run1, ICP_Al_split1_run2, ICP_Be_split1_run1, ICP_Be_split1_run2, split_num) 
+    select analysis_ID, split_bkr_1_ID, wt_split_bkr_1_tare, wt_split_bkr_1_split, wt_split_bkr_1_ICP, use_Be_b1_r1, use_Be_b1_r2, use_Al_b1_r1, use_Al_b1_r2, ICP_Al_split1_run1, ICP_Al_split1_run2, ICP_Be_split1_run1, ICP_Be_split1_run2, 1 
+    from analyses;
 
 /* transfer beaker 2 data to splits */
-insert into splits (analysis_id, split_bkr_name, wt_split_bkr_tare, wt_split_bkr_split, wt_split_bkr_icp, use_Be_b2_r1, use_Be_b2_r2, use_Al_b2_r1, use_Al_b2_r2, ICP_Al_split2_run1, ICP_Al_split2_run2, ICP_Be_split2_run1, ICP_Be_split2_run2) select analysis_ID, split_bkr_2_ID, wt_split_bkr_2_tare, wt_split_bkr_2_split, wt_split_bkr_2_ICP, use_Be_b2_r1, use_Be_b2_r2, use_Al_b2_r1, use_Al_b2_r2, ICP_Al_split2_run1, ICP_Al_split2_run2, ICP_Be_split2_run1, ICP_Be_split2_run2 from analyses;
+insert into splits 
+    (analysis_id, split_bkr_name, wt_split_bkr_tare, wt_split_bkr_split, wt_split_bkr_icp, use_Be_b2_r1, use_Be_b2_r2, use_Al_b2_r1, use_Al_b2_r2, ICP_Al_split2_run1, ICP_Al_split2_run2, ICP_Be_split2_run1, ICP_Be_split2_run2, split_num) 
+    select analysis_ID, split_bkr_2_ID, wt_split_bkr_2_tare, wt_split_bkr_2_split, wt_split_bkr_2_ICP, use_Be_b2_r1, use_Be_b2_r2, use_Al_b2_r1, use_Al_b2_r2, ICP_Al_split2_run1, ICP_Al_split2_run2, ICP_Be_split2_run1, ICP_Be_split2_run2, 2 
+    from analyses;
 
 /*set the correct split_bkr_id*/
 UPDATE splits,split_bkrs SET splits.split_bkr_id = split_bkrs.arbitrary_ID WHERE splits.split_bkr_name = split_bkrs.bkr_number;
 
 /* transfer beaker 1 run 1 icp_run data */
-insert into icp_runs (split_id, al_result, be_result, use_al, use_be) select id, ICP_Al_split1_run1, ICP_Be_split1_run1, use_Al_b1_r1, use_Be_b1_r1 from splits where ICP_Al_split2_run1 IS NULL;
+insert into icp_runs (split_id, run_num, al_result, be_result, use_al, use_be) 
+    select id, 1, ICP_Al_split1_run1, ICP_Be_split1_run1, use_Al_b1_r1, use_Be_b1_r1 
+    from splits 
+    where ICP_Al_split2_run1 IS NULL;
 
 /* transfer beaker 1 run 2 icp_run data */
-insert into icp_runs (split_id, al_result, be_result, use_al, use_be) select id, ICP_Al_split1_run2, ICP_Be_split1_run2, use_Al_b1_r2, use_Be_b1_r2 from splits where ICP_Al_split2_run1 IS NULL;
+insert into icp_runs (split_id, run_num, al_result, be_result, use_al, use_be) 
+    select id, 2, ICP_Al_split1_run2, ICP_Be_split1_run2, use_Al_b1_r2, use_Be_b1_r2 
+    from splits 
+    where ICP_Al_split2_run1 IS NULL;
 
 /* b2r1 */
-insert into icp_runs (split_id, al_result, be_result, use_al, use_be) select id, ICP_Al_split2_run1, ICP_Be_split2_run1, use_Al_b2_r1, use_Be_b2_r1 from splits where ICP_Al_split1_run1 IS NULL;
+insert into icp_runs (split_id, run_num, al_result, be_result, use_al, use_be) 
+    select id, 1, ICP_Al_split2_run1, ICP_Be_split2_run1, use_Al_b2_r1, use_Be_b2_r1 
+    from splits 
+    where ICP_Al_split1_run1 IS NULL;
 
 /* b2r2 */
-insert into icp_runs (split_id, al_result, be_result, use_al, use_be) select id, ICP_Al_split2_run2, ICP_Be_split2_run2, use_Al_b2_r2, use_Be_b2_r2 from splits where ICP_Al_split1_run1 IS NULL;
+insert into icp_runs (split_id, run_num, al_result, be_result, use_al, use_be) 
+    select id, 2, ICP_Al_split2_run2, ICP_Be_split2_run2, use_Al_b2_r2, use_Be_b2_r2 
+    from splits 
+    where ICP_Al_split1_run1 IS NULL;
 
 /* remove temporary and moved fields, also splits.split_bkr_name or make it keyed to split_bkrs */
 ALTER TABLE splits DROP use_Be_b1_r1, DROP use_Be_b1_r2, DROP use_Al_b1_r1, DROP use_Al_b1_r2, DROP ICP_Al_split1_run1, DROP ICP_Al_split1_run2, DROP ICP_Be_split1_run1, DROP ICP_Be_split1_run2, DROP use_Be_b2_r1, DROP use_Be_b2_r2, DROP use_Al_b2_r1, DROP use_Al_b2_r2, DROP ICP_Al_split2_run1, DROP ICP_Al_split2_run2, DROP ICP_Be_split2_run1, DROP ICP_Be_split2_run2;
@@ -80,7 +100,7 @@ ALTER TABLE `batches` CHANGE `Be_carrier_ID` `Be_carrier_name` tinytext NOT NULL
 ALTER TABLE `batches` CHANGE `Al_carrier_ID` `Al_carrier_name` tinytext NOT NULL DEFAULT '' ;
 ALTER TABLE `al_carriers` CHANGE `arbitrary_ID` `id` tinyint(4) NOT NULL auto_increment;
 ALTER TABLE `al_carriers` CHANGE `Al_carrier_ID` `Al_carrier_name` tinytext DEFAULT NULL ;
-ALTER TABLE `batch` CHANGE `batch_notes` `notes` text DEFAULT NULL ;
+ALTER TABLE `batches` CHANGE `batch_notes` `notes` text DEFAULT NULL ;
 
 /* singular table names */
 RENAME TABLE `analyses` TO `analysis`;
