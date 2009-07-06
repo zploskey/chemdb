@@ -42,7 +42,6 @@ class MY_Form_validation extends CI_Form_validation
 
     function valid_date($date) {
         if (!preg_match('/^\d\d\d\d[-]\d\d[-]\d\d$/', trim($date))) {
-            echo 'regex failed';
             return false;
         }
         list($year, $month, $day) = explode('-', $date);
