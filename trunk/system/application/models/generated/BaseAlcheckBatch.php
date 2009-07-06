@@ -16,24 +16,64 @@
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
  * @author     ##NAME## <##EMAIL##>
- * @version    SVN: $Id: Builder.php 5441 2009-01-30 22:58:43Z jwage $
+ * @version    SVN: $Id: Builder.php 5845 2009-06-09 07:36:57Z jwage $
  */
 abstract class BaseAlcheckBatch extends Doctrine_Record
 {
     public function setTableDefinition()
     {
         $this->setTableName('alcheck_batch');
-        $this->hasColumn('id', 'integer', 2, array('type' => 'integer', 'unsigned' => '1', 'primary' => true, 'autoincrement' => true, 'length' => '2'));
-        $this->hasColumn('owner', 'string', 2147483647, array('type' => 'string', 'length' => '2147483647'));
-        $this->hasColumn('prep_date', 'date', 25, array('type' => 'date', 'length' => '25'));
-        $this->hasColumn('icp_date', 'date', 25, array('type' => 'date', 'length' => '25'));
-        $this->hasColumn('description', 'string', 2147483647, array('type' => 'string', 'length' => '2147483647'));
-        $this->hasColumn('notes', 'string', 2147483647, array('type' => 'string', 'length' => '2147483647'));
+        $this->hasColumn('id', 'integer', 2, array(
+             'type' => 'integer',
+             'unsigned' => '1',
+             'primary' => true,
+             'autoincrement' => true,
+             'length' => '2',
+             ));
+        $this->hasColumn('owner', 'string', 2147483647, array(
+             'type' => 'string',
+             'fixed' => 0,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '2147483647',
+             ));
+        $this->hasColumn('prep_date', 'date', 25, array(
+             'type' => 'date',
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '25',
+             ));
+        $this->hasColumn('icp_date', 'date', 25, array(
+             'type' => 'date',
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '25',
+             ));
+        $this->hasColumn('description', 'string', 2147483647, array(
+             'type' => 'string',
+             'fixed' => 0,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '2147483647',
+             ));
+        $this->hasColumn('notes', 'string', 2147483647, array(
+             'type' => 'string',
+             'fixed' => 0,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '2147483647',
+             ));
     }
 
     public function setUp()
     {
-        $this->hasMany('AlcheckAnalysis', array('local' => 'id',
-                                                'foreign' => 'alcheck_batch_id'));
+        $this->hasMany('AlcheckAnalysis', array(
+             'local' => 'id',
+             'foreign' => 'alcheck_batch_id'));
     }
 }
