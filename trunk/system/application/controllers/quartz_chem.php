@@ -418,16 +418,15 @@ class Quartz_chem extends MY_Controller
 
         $errors = FALSE;
         if ($is_refresh) {
+            $is_valid = $this->form_validation->run('add_solution_weights');
+            
             $batch->merge($this->input->post('batch'));
-
             $weights = $this->input->post('wt_diss_bottle_total');
             $count = count($weights);
-
             for ($i = 0; $i < $count; $i++) {
                 $batch->Analysis[$i]->wt_diss_bottle_total = $weights[$i];
             }
 
-            $is_valid = $this->form_validation->run('add_solution_weights');
             if ($is_valid) {
                 $batch->save();
             } else {
@@ -457,11 +456,14 @@ class Quartz_chem extends MY_Controller
             ->where('b.id = ?', $batch_id)
             ->limit(1)
             ->fetchOne();
-
+            
+        // insert splits and runs if they don't yet exist in the database
+        $this->batch->initializeSplitsRuns($batch);
+        
         $numsamples = $batch->Analysis->count();
-
         $errors = FALSE;
         if ($is_refresh) {
+            $is_valid = $this->form_validation->run('add_split_weights');
             // change the object data
             $batch->merge($this->input->post('batch'));
 
@@ -472,22 +474,6 @@ class Quartz_chem extends MY_Controller
             $ind = 0; // index for post variable arrays
             for ($a = 0; $a < $numsamples; $a++) { // analysis loop
                 $nsplits = $batch->Analysis[$a]->Split->count();
-                if ($nsplits === 0) {
-                    // no splits in db, add the splits and their icp runs too
-                    for ($s = 1; $s <= $this->default_num_splits; $s++) {
-                         $newsplit = new Split();
-                         $newsplit->analysis_id = $batch->Analysis[$a]->id;
-                         $newsplit->split_num = $s;
-                         $newsplit->save();
-                         for ($r = 1; $r <= $this->default_num_runs; $r++) {
-                             $newrun = new IcpRun();
-                             $newrun->split_id = $newsplit->id;
-                             $newrun->run_num = $r;
-                             $newrun->save();
-                         }
-                    }
-                    $nsplits = $this->default_num_splits;
-                }
                 for ($s = 0; $s < $nsplits; $s++, $ind++) { // split loop
                     $batch->Analysis[$a]->Split[$s]->split_bkr_id = $bkr_ids[$ind];
                     $batch->Analysis[$a]->Split[$s]->wt_split_bkr_tare = $tares_wts[$ind];
@@ -495,12 +481,12 @@ class Quartz_chem extends MY_Controller
                 }
             }
 
-            // validate the form
-            if ($this->form_validation->run('add_split_weights')) {
+            if ($is_valid) {
                 $batch->save();
             } else {
-                $errors = TRUE;
+                $errors = true;
             }
+            $batch->refreshRelated();
         }
 
         $data->errors = $errors;
@@ -656,11 +642,11 @@ class Quartz_chem extends MY_Controller
                 $check_ti[$i] = 0;
             }
 
+            $temp_tot_al[] = 0;
+            $temp_tot_be[] = 0;
+            $n_al[] = 0;
+            $n_be[] = 0;
             for($s = 0; $s < $numsplits; $s++) {
-                $temp_tot_al[] = 0;
-                $temp_tot_be[] = 0;
-                $n_al[] = 0;
-                $n_be[] = 0;  
                 $nRuns = $analysis->Split[$s]->IcpRun->count();
                 for ($r = 0; $r < $nRuns; $r++) {
                     $icp_al[$i][$s][$r] = $analysis->Split[$s]->IcpRun[$r]->al_result;
@@ -681,34 +667,36 @@ class Quartz_chem extends MY_Controller
                     }
                 }
             }
-
+            
             $al_tot_avg[$i] = $this->divide($temp_tot_al[$i], $n_al[$i]);
             $be_tot_avg[$i] = $this->divide($temp_tot_be[$i], $n_be[$i]);
-
-            // Calculate the standard deviations
-            for($s = 0; $s < $numsplits; $s++) {
-                $temp_sd_al[] = 0;
-                $temp_sd_be[] = 0;
-                $nRuns = $analysis->Split[$s]->IcpRun->count();
-                for ($r = 0; $r < $nRuns; $r++) {
-                    if ($icp_use_al[$i][$s][$r] === 'y') {
-                        $temp_sd_al[$i] += pow(($al_tot[$i][$s][$r] - $al_tot_avg[$i]), 2);
-                    }
-                    if ($icp_use_be[$i][$s][$r] === 'y') {
-                        $temp_sd_be[$i] += pow(($be_tot[$i][$s][$r] - $be_tot_avg[$i]), 2);
+            
+            if ($numsplits != 0) {
+                // Calculate the standard deviations
+                for($s = 0; $s < $numsplits; $s++) {
+                    $temp_sd_al[] = 0;
+                    $temp_sd_be[] = 0;
+                    $nRuns = $analysis->Split[$s]->IcpRun->count();
+                    for ($r = 0; $r < $nRuns; $r++) {
+                        if ($icp_use_al[$i][$s][$r] === 'y') {
+                            $temp_sd_al[$i] += pow(($al_tot[$i][$s][$r] - $al_tot_avg[$i]), 2);
+                        }
+                        if ($icp_use_be[$i][$s][$r] === 'y') {
+                            $temp_sd_be[$i] += pow(($be_tot[$i][$s][$r] - $be_tot_avg[$i]), 2);
+                        }
                     }
                 }
-            }
-            $al_tot_sd[$i] = sqrt($this->divide($temp_sd_al[$i], $n_al[$i] - 1));
-            $be_tot_sd[$i] = sqrt($this->divide($temp_sd_be[$i], $n_be[$i] - 1));
+                $al_tot_sd[$i] = sqrt($this->divide($temp_sd_al[$i], $n_al[$i] - 1));
+                $be_tot_sd[$i] = sqrt($this->divide($temp_sd_be[$i], $n_be[$i] - 1));
 
-            // Calculate the percentage errors
-            $al_pct_sd[$i] = 100 * $this->divide($al_tot_sd[$i], $al_tot_avg[$i]);
-            $be_pct_sd[$i] = 100 * $this->divide($be_tot_sd[$i], $be_tot_avg[$i]);
+                // Calculate the percentage errors
+                $al_pct_sd[$i] = 100 * $this->divide($al_tot_sd[$i], $al_tot_avg[$i]);
+                $be_pct_sd[$i] = 100 * $this->divide($be_tot_sd[$i], $be_tot_avg[$i]);
 
-            // Calculate the recoveries
-            $be_recovery[$i] = 100 * $this->divide($be_tot_avg[$i], $wt_be[$i]);
-            $al_recovery[$i] = 100 * $this->divide($al_tot_avg[$i], $check_tot_al[$i]);
+                // Calculate the recoveries
+                $be_recovery[$i] = 100 * $this->divide($be_tot_avg[$i], $wt_be[$i]);
+                $al_recovery[$i] = 100 * $this->divide($al_tot_avg[$i], $check_tot_al[$i]);
+            } 
         }
 
         $data->todays_date = date('Y-m-d');
