@@ -22,27 +22,50 @@ class SplitTable extends Doctrine_Table
 	        ->orderBy('s.split_num')
 	        ->addOrderBy('r.run_num')
 	        ->fetchOne();
-	        
-	    die(print_r($batch->toArray()));
 	    
 	    // change the batch
-	    foreach ($batch->Analysis as $a) {
-	        foreach ($a->Split as $s) {
+	    foreach ($batch->Analysis as &$a) {
+	        foreach ($a->Split as &$s) {
 	            $bkr_num = $s->SplitBkr->bkr_number;
-	            $nRuns = $s->IcpRun->count();
-	            $nRunsAl = count($al_arr[$bkr_num]);
-	            $nRunsBe = count($be_arr[$bkr_num]);
-	            for ($r = 0; $r < $nRunsAl; $r++) {
-	                if ($r >= $nRuns) {
-	                    // create new run
+	            $nRunsDb = $s->IcpRun->count();
+	            $nRuns = count($al_arr[$bkr_num]);
+	            
+	            // what if a run was removed by the user
+                if ($nRunsDb > $nRuns) {
+                    $nDeleted = $this->removeExcessRuns($s, $nRuns);
+                    // update $nRunsDb to new value
+                    $nRunsDb = $nRuns;
+                    $batch->refreshRelated();
+                }
+	            
+	            for ($r = 0; $r < $nRuns; $r++) {
+	                if ($r >= $nRunsDb) {
+	                    $newRun = new IcpRun();
+	                    $newRun->run_num = $r + 1;
+	                    $s->IcpRun[] = $newRun;
 	                }
-	                $s->IcpRun[$r]->al_result = $al_arr[$bkr_num][$r];
-	                $s->IcpRun[$r]->be_result = $be_arr[$bkr_num][$r];
+	                if (isset($al_arr[$bkr_num][$r])) {
+	                    $s->IcpRun[$r]->al_result = $al_arr[$bkr_num][$r];
+	                    $s->IcpRun[$r]->use_al = 'y';
+	                }
+	                if (isset($be_arr[$bkr_num][$r])) {
+	                    $s->IcpRun[$r]->be_result = $be_arr[$bkr_num][$r];
+	                    $s->IcpRun[$r]->use_be = 'y';
+                    }
 	            }
 	        }
 	    }
-	    
-	    return $batch->save();
+	    $batch->refreshRelated();
+	    $batch->save();
+	}
+	
+	private function removeExcessRuns(&$split, $nRemainingRuns)
+	{
+	    return Doctrine_Query::create()
+	        ->delete('IcpRun')
+	        ->where('split_id = ?', $split->id)
+	        ->addWhere('run_num > ?', $nRemainingRuns)
+	        ->execute();
 	}
 
 }

@@ -10,7 +10,7 @@ class BatchTable extends Doctrine_Table
             ->leftJoin('b.Analysis a')
             ->leftJoin('a.Split s')
             ->fetchOne();
-        die(print_r($batch->toArray()));
+
         $count = 0;
         foreach ($batch->Analysis as $a) {
             $count += $batch->Split->count();
