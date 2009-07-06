@@ -40,11 +40,12 @@ class MY_Form_validation extends CI_Form_validation
 		}
 	}
 
-    function valid_date($date_string) {
-        if (substr_count($date_string, '-') != 2) {
-            return FALSE;
+    function valid_date($date) {
+        if (!preg_match('/^\d\d\d\d[-]\d\d[-]\d\d$/', trim($date))) {
+            echo 'regex failed';
+            return false;
         }
-        list($year, $month, $day) = explode('-', $date_string);
+        list($year, $month, $day) = explode('-', $date);
         return checkdate($month, $day, $year);
     }
 }
