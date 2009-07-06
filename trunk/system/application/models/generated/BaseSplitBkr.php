@@ -12,20 +12,34 @@
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
  * @author     ##NAME## <##EMAIL##>
- * @version    SVN: $Id: Builder.php 5441 2009-01-30 22:58:43Z jwage $
+ * @version    SVN: $Id: Builder.php 5845 2009-06-09 07:36:57Z jwage $
  */
 abstract class BaseSplitBkr extends Doctrine_Record
 {
     public function setTableDefinition()
     {
         $this->setTableName('split_bkr');
-        $this->hasColumn('id', 'integer', 4, array('type' => 'integer', 'unsigned' => '1', 'primary' => true, 'autoincrement' => true, 'length' => '4'));
-        $this->hasColumn('bkr_number', 'string', 2147483647, array('type' => 'string', 'length' => '2147483647'));
+        $this->hasColumn('id', 'integer', 4, array(
+             'type' => 'integer',
+             'unsigned' => '1',
+             'primary' => true,
+             'autoincrement' => true,
+             'length' => '4',
+             ));
+        $this->hasColumn('bkr_number', 'string', 2147483647, array(
+             'type' => 'string',
+             'fixed' => 0,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '2147483647',
+             ));
     }
 
     public function setUp()
     {
-        $this->hasMany('Split', array('local' => 'id',
-                                      'foreign' => 'split_bkr_id'));
+        $this->hasMany('Split', array(
+             'local' => 'id',
+             'foreign' => 'split_bkr_id'));
     }
 }
