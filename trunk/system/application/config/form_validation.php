@@ -159,11 +159,11 @@ $config['add_split_weights'] = array(
     array(
         'field' => 'bkr_tare[]',
         'label' => 'beaker tare wt.',
-        'rules' => 'trim|numeric'),
+        'rules' => 'trim|numeric|abs'),
     array(
         'field' => 'bkr_split[]',
         'label' => 'beaker + split wt.',
-        'rules' => 'trim|numeric'),
+        'rules' => 'trim|numeric|abs'),
 );
 
 $config['add_icp_weights'] = array(
@@ -178,7 +178,7 @@ $config['add_icp_weights'] = array(
     array(
         'field' => 'tot_wts[]',
         'label' => 'beaker + ICP solution wt.',
-        'rules' => 'trim|numeric'),
+        'rules' => 'trim|numeric|abs'),
 );
 
 $config['al_new_batch'] = array(

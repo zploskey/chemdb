@@ -12,7 +12,7 @@
 		Batch start date: <?=$batch->start_date?><br>
 		Batch owner: <?=$batch->owner?><br>
 		Batch description: <?=$batch->description?><p/>
-		ICP date: <?=form_input('batch[icp_date]', $batch->icp_date)?>
+		ICP date: <?=form_input('batch[icp_date]', $batch->icp_date)?> (Format = YYYY-MM-DD)
 		</td>
 	</tr>
 	<tr><td colspan=4>
@@ -26,7 +26,7 @@
 
 <?php
 if ($errors) {
-    echo validation_errors();
+    echo validation_errors() . '<hr>';
 }
 ?>
 
@@ -49,7 +49,7 @@ if ($errors) {
 <?php for ($i = 0; $i < $numsamples; $i++): ?>
 
     <tr><td colspan=8><hr></td></tr>
-    <?php for ($s = 0; $s < $batch->Analysis[$i]->Split->count(); $s++): ?>
+    <?php for ($s = 0, $nsplits = $batch->Analysis[$i]->Split->count(); $s < $nsplits; $s++): ?>
         <tr>
             <?php if ($s == 0): ?>
                 <td><?=$batch->Analysis[$i]->id?></td>
