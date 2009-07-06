@@ -92,4 +92,27 @@ class BatchTable extends Doctrine_Table
 			->limit(1)
 			->fetchOne();
 	}
+	
+	public function initializeSplitsRuns(&$batch)
+	{
+	    $nanalyses = $batch->Analysis->count();
+	    for ($a = 0; $a < $nanalyses; $a++) {
+	        $nsplits = $batch->Analysis[$a]->Split->count();
+            if ($nsplits == 0) {
+                // no splits in db, add the splits and their icp runs too
+                for ($s = 1; $s <= 2; $s++) {
+                     $newsplit = new Split();
+                     $newsplit->split_num = $s;
+                     for ($r = 1; $r <= 2; $r++) {
+                         $newrun = new IcpRun();
+                         $newrun->run_num = $r;
+                         $newsplit->IcpRun[] = $newrun;
+                     } // run loop
+                     $batch->Analysis[$a]->Split[] = $newsplit;
+                } // split loop
+            }
+	    } // analysis loop
+	    $batch->save();
+	}
+	
 }

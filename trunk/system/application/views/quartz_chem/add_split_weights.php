@@ -22,10 +22,11 @@
 		</td>
 	</tr>
 	<tr><td><hr></td></tr>
-    <?php if ($errors): ?>
-        <tr><td colspan="4"><?=validation_errors()?></td></tr>
-    <?php endif; ?>
 </table>
+
+<?php if ($errors): ?>
+    <?=validation_errors()?>
+<?php endif; ?>
 
 <table width=800 class=arial8>
     <tr>
