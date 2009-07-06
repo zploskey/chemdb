@@ -27,7 +27,8 @@
     i.e.:<br>
     AB1 0.8363 0.8387 0.8356<br>
     AB2 0.9878 0.9504 0.9764 <br><br>
-    This is most easily done by pasting from Excel.<br>
+    This is most easily done by pasting from Excel.<br><br>
+    <b>IMPORTANT NOTE:</b> If you make changes here you <em>must</em> redo ICP Quality Control if you want any of the icp results to be ignored in calculations.<br>
 </p>
 <table width="800">
     <tr>
@@ -35,9 +36,13 @@
         <td><b>Beryllium:</b></td>
     </tr>
     <tr> 
-        <td><textarea name="al_text" rows="20" cols="48"><?=$al_text?></textarea></td>
-        <td><textarea name="be_text" rows="20" cols="48"><?=$be_text?></textarea></td>
+        <td><textarea name="al_text" rows="<?=$nrows?>" cols="48"><?=$al_text?></textarea></td>
+        <td><textarea name="be_text" rows="<?=$nrows?>" cols="48"><?=$be_text?></textarea></td>
     </tr>
 </table>
-<p><?=form_submit('submit','Save and refresh')?></p>
+<hr>
+<p align="center"><?=form_submit('submit','Save and refresh')?></p>
+<hr>
 <?=form_close()?>
+
+<?=$this->load->view('quartz_chem/bottom_links')?>
