@@ -14,24 +14,47 @@
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
  * @author     ##NAME## <##EMAIL##>
- * @version    SVN: $Id: Builder.php 5441 2009-01-30 22:58:43Z jwage $
+ * @version    SVN: $Id: Builder.php 5845 2009-06-09 07:36:57Z jwage $
  */
 abstract class BaseProjectSample extends Doctrine_Record
 {
     public function setTableDefinition()
     {
         $this->setTableName('project_sample');
-        $this->hasColumn('id', 'integer', 8, array('type' => 'integer', 'autoincrement' => true, 'primary' => true, 'length' => '8'));
-        $this->hasColumn('project_id', 'integer', 4, array('type' => 'integer', 'unsigned' => '1', 'default' => '', 'notnull' => true, 'length' => '4'));
-        $this->hasColumn('sample_id', 'integer', 4, array('type' => 'integer', 'unsigned' => '1', 'default' => '', 'notnull' => true, 'length' => '4'));
+        $this->hasColumn('id', 'integer', 8, array(
+             'type' => 'integer',
+             'autoincrement' => true,
+             'primary' => true,
+             'length' => '8',
+             ));
+        $this->hasColumn('project_id', 'integer', 4, array(
+             'type' => 'integer',
+             'unsigned' => '1',
+             'primary' => false,
+             'default' => '',
+             'notnull' => true,
+             'autoincrement' => false,
+             'length' => '4',
+             ));
+        $this->hasColumn('sample_id', 'integer', 4, array(
+             'type' => 'integer',
+             'unsigned' => '1',
+             'primary' => false,
+             'default' => '',
+             'notnull' => true,
+             'autoincrement' => false,
+             'length' => '4',
+             ));
     }
 
     public function setUp()
     {
-        $this->hasOne('Project', array('local' => 'project_id',
-                                       'foreign' => 'id'));
+        $this->hasOne('Project', array(
+             'local' => 'project_id',
+             'foreign' => 'id'));
 
-        $this->hasOne('Sample', array('local' => 'sample_id',
-                                      'foreign' => 'id'));
+        $this->hasOne('Sample', array(
+             'local' => 'sample_id',
+             'foreign' => 'id'));
     }
 }
