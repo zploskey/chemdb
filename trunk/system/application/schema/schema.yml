@@ -4,15 +4,50 @@ AlCarrier:
   columns:
     id:
       type: integer(1)
+      unsigned: 0
       primary: true
       autoincrement: true
-    name: string(2147483647)
-    al_conc: float(2147483647)
-    del_al_conc: float(2147483647)
-    in_service_date: date(25)
-    mfg_lot_no: string(2147483647)
-    notes: string(2147483647)
-    in_use: string(2147483647)
+    name:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    al_conc:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    del_al_conc:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    in_service_date:
+      type: date(25)
+      primary: false
+      notnull: false
+      autoincrement: false
+    mfg_lot_no:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    notes:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    in_use:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
 AlcheckAnalysis:
   tableName: alcheck_analysis
   columns:
@@ -24,75 +59,148 @@ AlcheckAnalysis:
     alcheck_batch_id:
       type: integer(2)
       unsigned: 1
+      primary: false
       default: '00000'
       notnull: true
+      autoincrement: false
     number_within_batch:
       type: integer(1)
       unsigned: 1
+      primary: false
       default: '0'
       notnull: true
+      autoincrement: false
     sample_name:
       type: string(2147483647)
+      fixed: false
+      primary: false
       default: ''
       notnull: true
+      autoincrement: false
     bkr_number:
       type: string(2147483647)
+      fixed: false
+      primary: false
       default: ''
       notnull: true
+      autoincrement: false
     wt_bkr_tare:
       type: float(2147483647)
+      unsigned: 0
+      primary: false
       default: '0'
       notnull: true
+      autoincrement: false
     flag_bkr_tare_avg:
       type: integer(1)
       unsigned: 1
+      primary: false
       default: '0'
       notnull: true
+      autoincrement: false
     wt_bkr_sample:
       type: float(2147483647)
+      unsigned: 0
+      primary: false
       default: '0'
       notnull: true
+      autoincrement: false
     wt_bkr_soln:
       type: float(2147483647)
+      unsigned: 0
+      primary: false
       default: '0'
+      notnull: false
+      autoincrement: false
     icp_al:
       type: float(2147483647)
+      unsigned: 0
+      primary: false
       default: '0'
+      notnull: false
+      autoincrement: false
     icp_ba:
       type: float(2147483647)
+      unsigned: 0
+      primary: false
       default: '0'
+      notnull: false
+      autoincrement: false
     icp_be:
       type: float(2147483647)
+      unsigned: 0
+      primary: false
       default: '0'
+      notnull: false
+      autoincrement: false
     icp_ca:
       type: float(2147483647)
+      unsigned: 0
+      primary: false
       default: '0'
+      notnull: false
+      autoincrement: false
     icp_fe:
       type: float(2147483647)
+      unsigned: 0
+      primary: false
       default: '0'
+      notnull: false
+      autoincrement: false
     icp_k:
       type: float(2147483647)
+      unsigned: 0
+      primary: false
       default: '0'
+      notnull: false
+      autoincrement: false
     icp_mg:
       type: float(2147483647)
+      unsigned: 0
+      primary: false
       default: '0'
+      notnull: false
+      autoincrement: false
     icp_mn:
       type: float(2147483647)
+      unsigned: 0
+      primary: false
       default: '0'
+      notnull: false
+      autoincrement: false
     icp_na:
       type: float(2147483647)
+      unsigned: 0
+      primary: false
       default: '0'
+      notnull: false
+      autoincrement: false
     icp_ti:
       type: float(2147483647)
+      unsigned: 0
+      primary: false
       default: '0'
+      notnull: false
+      autoincrement: false
     addl_dil_factor:
       type: float(2147483647)
+      unsigned: 0
+      primary: false
       default: '1'
       notnull: true
+      autoincrement: false
+    notes:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
     analysis_id:
       type: integer(4)
       unsigned: 1
-    notes: string(2147483647)
+      primary: false
+      notnull: false
+      autoincrement: false
 AlcheckBatch:
   tableName: alcheck_batch
   columns:
@@ -101,11 +209,34 @@ AlcheckBatch:
       unsigned: 1
       primary: true
       autoincrement: true
-    owner: string(2147483647)
-    prep_date: date(25)
-    icp_date: date(25)
-    description: string(2147483647)
-    notes: string(2147483647)
+    owner:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    prep_date:
+      type: date(25)
+      primary: false
+      notnull: false
+      autoincrement: false
+    icp_date:
+      type: date(25)
+      primary: false
+      notnull: false
+      autoincrement: false
+    description:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    notes:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
 Analysis:
   tableName: analysis
   columns:
@@ -116,52 +247,93 @@ Analysis:
       autoincrement: true
     batch_id:
       type: integer(2)
+      unsigned: 0
+      primary: false
       default: '0'
       notnull: true
+      autoincrement: false
     number_within_batch:
       type: integer(1)
+      unsigned: 0
+      primary: false
       default: '0'
       notnull: true
+      autoincrement: false
     sample_name:
       type: string(2147483647)
+      fixed: false
+      primary: false
       default: ''
       notnull: true
+      autoincrement: false
     sample_type:
       type: string(2147483647)
+      fixed: false
+      primary: false
       default: ''
       notnull: true
+      autoincrement: false
+    diss_bottle_id:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
     diss_bottle_number:
       type: string(2147483647)
+      fixed: false
+      primary: false
       default: ''
       notnull: true
+      autoincrement: false
     wt_diss_bottle_tare:
       type: float(2147483647)
+      unsigned: 0
+      primary: false
       default: '0'
       notnull: true
+      autoincrement: false
     wt_diss_bottle_sample:
       type: float(2147483647)
+      unsigned: 0
+      primary: false
       default: '0'
       notnull: true
+      autoincrement: false
     wt_be_carrier:
       type: float(2147483647)
+      unsigned: 0
+      primary: false
       default: '0'
       notnull: true
+      autoincrement: false
     wt_al_carrier:
       type: float(2147483647)
+      unsigned: 0
+      primary: false
       default: '0'
       notnull: true
+      autoincrement: false
     wt_diss_bottle_total:
       type: float(2147483647)
+      unsigned: 0
+      primary: false
       default: '0'
       notnull: true
+      autoincrement: false
     notes:
       type: string(2147483647)
+      fixed: false
+      primary: false
       default: ''
       notnull: true
+      autoincrement: false
     sample_id:
       type: integer(4)
       unsigned: 1
-    diss_bottle_id: integer(4)
+      primary: false
+      notnull: false
+      autoincrement: false
 Batch:
   tableName: batch
   columns:
@@ -170,74 +342,184 @@ Batch:
       unsigned: 1
       primary: true
       autoincrement: true
+    al_carrier_id:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    be_carrier_id:
+      type: integer(4)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    owner:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    description:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
     start_date:
       type: date(25)
+      primary: false
       default: '0000-00-00'
       notnull: true
+      autoincrement: false
     split_date:
       type: date(25)
+      primary: false
       default: '0000-00-00'
       notnull: true
+      autoincrement: false
     icp_date:
       type: date(25)
+      primary: false
       default: '0000-00-00'
       notnull: true
+      autoincrement: false
     be_carrier_name:
       type: string(2147483647)
+      fixed: false
+      primary: false
       default: ''
       notnull: true
+      autoincrement: false
     wt_be_carrier_init:
       type: float(2147483647)
+      unsigned: 0
+      primary: false
       default: '0'
       notnull: true
+      autoincrement: false
     wt_be_carrier_final:
       type: float(2147483647)
+      unsigned: 0
+      primary: false
       default: '0'
       notnull: true
+      autoincrement: false
     al_carrier_name:
       type: string(2147483647)
+      fixed: false
+      primary: false
       default: ''
       notnull: true
+      autoincrement: false
     wt_al_carrier_init:
       type: float(2147483647)
+      unsigned: 0
+      primary: false
       default: '0'
       notnull: true
+      autoincrement: false
     wt_al_carrier_final:
       type: float(2147483647)
+      unsigned: 0
+      primary: false
       default: '0'
       notnull: true
+      autoincrement: false
+    notes:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
     completed:
       type: enum(1)
+      fixed: false
       values: ['y', 'n']
+      primary: false
       default: 'n'
       notnull: true
-    al_carrier_id: integer(4)
-    be_carrier_id: integer(4)
-    owner: string(2147483647)
-    description: string(2147483647)
-    notes: string(2147483647)
-    spreadsheet_name: string(2147483647)
-    csv_name: string(2147483647)
+      autoincrement: false
+    spreadsheet_name:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    csv_name:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
 BeCarrier:
   tableName: be_carrier
   columns:
     id:
       type: integer(1)
+      unsigned: 0
       primary: true
       autoincrement: true
     name:
       type: string(2147483647)
+      fixed: false
+      primary: false
       default: ''
       notnull: true
-    be_conc: float(2147483647)
-    del_be_conc: float(2147483647)
-    al_conc: float(2147483647)
-    del_al_conc: float(2147483647)
-    in_service_date: date(25)
-    mfg_lot_no: string(2147483647)
-    owner: string(2147483647)
-    notes: string(2147483647)
-    in_use: string(2147483647)
+      autoincrement: false
+    be_conc:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    del_be_conc:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    al_conc:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    del_al_conc:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    in_service_date:
+      type: date(25)
+      primary: false
+      notnull: false
+      autoincrement: false
+    mfg_lot_no:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    owner:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    notes:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    in_use:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
 DissBottle:
   tableName: diss_bottle
   columns:
@@ -246,7 +528,12 @@ DissBottle:
       unsigned: 1
       primary: true
       autoincrement: true
-    bottle_number: string(2147483647)
+    bottle_number:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
 IcpRun:
   tableName: icp_run
   columns:
@@ -258,25 +545,46 @@ IcpRun:
     split_id:
       type: integer(4)
       unsigned: 1
-      default: ''
-      notnull: true
+      primary: false
+      notnull: false
+      autoincrement: false
     run_num:
       type: integer(1)
       unsigned: 1
+      primary: false
       default: '1'
       notnull: true
+      autoincrement: false
+    al_result:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      default: '0'
+      notnull: true
+      autoincrement: false
+    be_result:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      default: '0'
+      notnull: true
+      autoincrement: false
     use_al:
       type: enum(1)
+      fixed: false
       values: ['y', 'n']
+      primary: false
       default: 'y'
       notnull: true
+      autoincrement: false
     use_be:
       type: enum(1)
+      fixed: false
       values: ['y', 'n']
+      primary: false
       default: 'y'
       notnull: true
-    al_result: float(2147483647)
-    be_result: float(2147483647)
+      autoincrement: false
 Project:
   tableName: project
   columns:
@@ -287,10 +595,22 @@ Project:
       autoincrement: true
     name:
       type: string(255)
+      fixed: false
+      primary: false
       default: ''
       notnull: true
-    date_added: timestamp(25)
-    description: string(2147483647)
+      autoincrement: false
+    date_added:
+      type: timestamp(25)
+      primary: false
+      notnull: false
+      autoincrement: false
+    description:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
 ProjectSample:
   tableName: project_sample
   columns:
@@ -301,13 +621,17 @@ ProjectSample:
     project_id:
       type: integer(4)
       unsigned: 1
+      primary: false
       default: ''
       notnull: true
+      autoincrement: false
     sample_id:
       type: integer(4)
       unsigned: 1
+      primary: false
       default: ''
       notnull: true
+      autoincrement: false
 Sample:
   tableName: sample
   columns:
@@ -318,17 +642,65 @@ Sample:
       autoincrement: true
     name:
       type: string(255)
+      fixed: false
+      primary: false
       default: ''
       notnull: true
-    latitude: float(2147483647)
-    longitude: float(2147483647)
-    altitude: float(2147483647)
-    shield_factor: float(2147483647)
-    depth_top: float(2147483647)
-    depth_bottom: float(2147483647)
-    density: float(2147483647)
-    erosion_rate: float(2147483647)
-    notes: string(2147483647)
+      autoincrement: false
+    latitude:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    longitude:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    altitude:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    shield_factor:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    depth_top:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    depth_bottom:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    density:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    erosion_rate:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    notes:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
 Split:
   tableName: split
   columns:
@@ -340,31 +712,51 @@ Split:
     analysis_id:
       type: integer(2)
       unsigned: 1
+      primary: false
       default: ''
       notnull: true
+      autoincrement: false
     split_bkr_id:
       type: integer(4)
       unsigned: 1
+      primary: false
       default: ''
       notnull: true
+      autoincrement: false
     split_num:
       type: integer(1)
       unsigned: 1
+      primary: false
       default: '1'
       notnull: true
+      autoincrement: false
+    split_bkr_name:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
     wt_split_bkr_tare:
       type: float(2147483647)
+      unsigned: 0
+      primary: false
       default: '0'
       notnull: true
+      autoincrement: false
     wt_split_bkr_split:
       type: float(2147483647)
+      unsigned: 0
+      primary: false
       default: '0'
       notnull: true
+      autoincrement: false
     wt_split_bkr_icp:
       type: float(2147483647)
+      unsigned: 0
+      primary: false
       default: '0'
       notnull: true
-    split_bkr_name: string(2147483647)
+      autoincrement: false
 SplitBkr:
   tableName: split_bkr
   columns:
@@ -373,4 +765,9 @@ SplitBkr:
       unsigned: 1
       primary: true
       autoincrement: true
-    bkr_number: string(2147483647)
+    bkr_number:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
