@@ -14,22 +14,50 @@
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
  * @author     ##NAME## <##EMAIL##>
- * @version    SVN: $Id: Builder.php 5441 2009-01-30 22:58:43Z jwage $
+ * @version    SVN: $Id: Builder.php 5845 2009-06-09 07:36:57Z jwage $
  */
 abstract class BaseProject extends Doctrine_Record
 {
     public function setTableDefinition()
     {
         $this->setTableName('project');
-        $this->hasColumn('id', 'integer', 4, array('type' => 'integer', 'unsigned' => '1', 'primary' => true, 'autoincrement' => true, 'length' => '4'));
-        $this->hasColumn('name', 'string', 255, array('type' => 'string', 'default' => '', 'notnull' => true, 'length' => '255'));
-        $this->hasColumn('date_added', 'timestamp', 25, array('type' => 'timestamp', 'length' => '25'));
-        $this->hasColumn('description', 'string', 2147483647, array('type' => 'string', 'length' => '2147483647'));
+        $this->hasColumn('id', 'integer', 4, array(
+             'type' => 'integer',
+             'unsigned' => '1',
+             'primary' => true,
+             'autoincrement' => true,
+             'length' => '4',
+             ));
+        $this->hasColumn('name', 'string', 255, array(
+             'type' => 'string',
+             'fixed' => 0,
+             'primary' => false,
+             'default' => '',
+             'notnull' => true,
+             'autoincrement' => false,
+             'length' => '255',
+             ));
+        $this->hasColumn('date_added', 'timestamp', 25, array(
+             'type' => 'timestamp',
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '25',
+             ));
+        $this->hasColumn('description', 'string', 2147483647, array(
+             'type' => 'string',
+             'fixed' => 0,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '2147483647',
+             ));
     }
 
     public function setUp()
     {
-        $this->hasMany('ProjectSample', array('local' => 'id',
-                                              'foreign' => 'project_id'));
+        $this->hasMany('ProjectSample', array(
+             'local' => 'id',
+             'foreign' => 'project_id'));
     }
 }
