@@ -25,51 +25,225 @@
  * @property float $icp_na
  * @property float $icp_ti
  * @property float $addl_dil_factor
- * @property integer $analysis_id
  * @property string $notes
+ * @property integer $analysis_id
  * @property AlcheckBatch $AlcheckBatch
  * @property Analysis $Analysis
  * 
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
  * @author     ##NAME## <##EMAIL##>
- * @version    SVN: $Id: Builder.php 5441 2009-01-30 22:58:43Z jwage $
+ * @version    SVN: $Id: Builder.php 5845 2009-06-09 07:36:57Z jwage $
  */
 abstract class BaseAlcheckAnalysis extends Doctrine_Record
 {
     public function setTableDefinition()
     {
         $this->setTableName('alcheck_analysis');
-        $this->hasColumn('id', 'integer', 3, array('type' => 'integer', 'unsigned' => '1', 'primary' => true, 'autoincrement' => true, 'length' => '3'));
-        $this->hasColumn('alcheck_batch_id', 'integer', 2, array('type' => 'integer', 'unsigned' => '1', 'default' => '00000', 'notnull' => true, 'length' => '2'));
-        $this->hasColumn('number_within_batch', 'integer', 1, array('type' => 'integer', 'unsigned' => '1', 'default' => '0', 'notnull' => true, 'length' => '1'));
-        $this->hasColumn('sample_name', 'string', 2147483647, array('type' => 'string', 'default' => '', 'notnull' => true, 'length' => '2147483647'));
-        $this->hasColumn('bkr_number', 'string', 2147483647, array('type' => 'string', 'default' => '', 'notnull' => true, 'length' => '2147483647'));
-        $this->hasColumn('wt_bkr_tare', 'float', 2147483647, array('type' => 'float', 'default' => '0', 'notnull' => true, 'length' => '2147483647'));
-        $this->hasColumn('flag_bkr_tare_avg', 'integer', 1, array('type' => 'integer', 'unsigned' => '1', 'default' => '0', 'notnull' => true, 'length' => '1'));
-        $this->hasColumn('wt_bkr_sample', 'float', 2147483647, array('type' => 'float', 'default' => '0', 'notnull' => true, 'length' => '2147483647'));
-        $this->hasColumn('wt_bkr_soln', 'float', 2147483647, array('type' => 'float', 'default' => '0', 'length' => '2147483647'));
-        $this->hasColumn('icp_al', 'float', 2147483647, array('type' => 'float', 'default' => '0', 'length' => '2147483647'));
-        $this->hasColumn('icp_ba', 'float', 2147483647, array('type' => 'float', 'default' => '0', 'length' => '2147483647'));
-        $this->hasColumn('icp_be', 'float', 2147483647, array('type' => 'float', 'default' => '0', 'length' => '2147483647'));
-        $this->hasColumn('icp_ca', 'float', 2147483647, array('type' => 'float', 'default' => '0', 'length' => '2147483647'));
-        $this->hasColumn('icp_fe', 'float', 2147483647, array('type' => 'float', 'default' => '0', 'length' => '2147483647'));
-        $this->hasColumn('icp_k', 'float', 2147483647, array('type' => 'float', 'default' => '0', 'length' => '2147483647'));
-        $this->hasColumn('icp_mg', 'float', 2147483647, array('type' => 'float', 'default' => '0', 'length' => '2147483647'));
-        $this->hasColumn('icp_mn', 'float', 2147483647, array('type' => 'float', 'default' => '0', 'length' => '2147483647'));
-        $this->hasColumn('icp_na', 'float', 2147483647, array('type' => 'float', 'default' => '0', 'length' => '2147483647'));
-        $this->hasColumn('icp_ti', 'float', 2147483647, array('type' => 'float', 'default' => '0', 'length' => '2147483647'));
-        $this->hasColumn('addl_dil_factor', 'float', 2147483647, array('type' => 'float', 'default' => '1', 'notnull' => true, 'length' => '2147483647'));
-        $this->hasColumn('analysis_id', 'integer', 2, array('type' => 'integer', 'unsigned' => '1', 'length' => '2'));
-        $this->hasColumn('notes', 'string', 2147483647, array('type' => 'string', 'length' => '2147483647'));
+        $this->hasColumn('id', 'integer', 3, array(
+             'type' => 'integer',
+             'unsigned' => '1',
+             'primary' => true,
+             'autoincrement' => true,
+             'length' => '3',
+             ));
+        $this->hasColumn('alcheck_batch_id', 'integer', 2, array(
+             'type' => 'integer',
+             'unsigned' => '1',
+             'primary' => false,
+             'default' => '00000',
+             'notnull' => true,
+             'autoincrement' => false,
+             'length' => '2',
+             ));
+        $this->hasColumn('number_within_batch', 'integer', 1, array(
+             'type' => 'integer',
+             'unsigned' => '1',
+             'primary' => false,
+             'default' => '0',
+             'notnull' => true,
+             'autoincrement' => false,
+             'length' => '1',
+             ));
+        $this->hasColumn('sample_name', 'string', 2147483647, array(
+             'type' => 'string',
+             'fixed' => 0,
+             'primary' => false,
+             'default' => '',
+             'notnull' => true,
+             'autoincrement' => false,
+             'length' => '2147483647',
+             ));
+        $this->hasColumn('bkr_number', 'string', 2147483647, array(
+             'type' => 'string',
+             'fixed' => 0,
+             'primary' => false,
+             'default' => '',
+             'notnull' => true,
+             'autoincrement' => false,
+             'length' => '2147483647',
+             ));
+        $this->hasColumn('wt_bkr_tare', 'float', 2147483647, array(
+             'type' => 'float',
+             'unsigned' => 0,
+             'primary' => false,
+             'default' => '0',
+             'notnull' => true,
+             'autoincrement' => false,
+             'length' => '2147483647',
+             ));
+        $this->hasColumn('flag_bkr_tare_avg', 'integer', 1, array(
+             'type' => 'integer',
+             'unsigned' => '1',
+             'primary' => false,
+             'default' => '0',
+             'notnull' => true,
+             'autoincrement' => false,
+             'length' => '1',
+             ));
+        $this->hasColumn('wt_bkr_sample', 'float', 2147483647, array(
+             'type' => 'float',
+             'unsigned' => 0,
+             'primary' => false,
+             'default' => '0',
+             'notnull' => true,
+             'autoincrement' => false,
+             'length' => '2147483647',
+             ));
+        $this->hasColumn('wt_bkr_soln', 'float', 2147483647, array(
+             'type' => 'float',
+             'unsigned' => 0,
+             'primary' => false,
+             'default' => '0',
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '2147483647',
+             ));
+        $this->hasColumn('icp_al', 'float', 2147483647, array(
+             'type' => 'float',
+             'unsigned' => 0,
+             'primary' => false,
+             'default' => '0',
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '2147483647',
+             ));
+        $this->hasColumn('icp_ba', 'float', 2147483647, array(
+             'type' => 'float',
+             'unsigned' => 0,
+             'primary' => false,
+             'default' => '0',
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '2147483647',
+             ));
+        $this->hasColumn('icp_be', 'float', 2147483647, array(
+             'type' => 'float',
+             'unsigned' => 0,
+             'primary' => false,
+             'default' => '0',
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '2147483647',
+             ));
+        $this->hasColumn('icp_ca', 'float', 2147483647, array(
+             'type' => 'float',
+             'unsigned' => 0,
+             'primary' => false,
+             'default' => '0',
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '2147483647',
+             ));
+        $this->hasColumn('icp_fe', 'float', 2147483647, array(
+             'type' => 'float',
+             'unsigned' => 0,
+             'primary' => false,
+             'default' => '0',
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '2147483647',
+             ));
+        $this->hasColumn('icp_k', 'float', 2147483647, array(
+             'type' => 'float',
+             'unsigned' => 0,
+             'primary' => false,
+             'default' => '0',
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '2147483647',
+             ));
+        $this->hasColumn('icp_mg', 'float', 2147483647, array(
+             'type' => 'float',
+             'unsigned' => 0,
+             'primary' => false,
+             'default' => '0',
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '2147483647',
+             ));
+        $this->hasColumn('icp_mn', 'float', 2147483647, array(
+             'type' => 'float',
+             'unsigned' => 0,
+             'primary' => false,
+             'default' => '0',
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '2147483647',
+             ));
+        $this->hasColumn('icp_na', 'float', 2147483647, array(
+             'type' => 'float',
+             'unsigned' => 0,
+             'primary' => false,
+             'default' => '0',
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '2147483647',
+             ));
+        $this->hasColumn('icp_ti', 'float', 2147483647, array(
+             'type' => 'float',
+             'unsigned' => 0,
+             'primary' => false,
+             'default' => '0',
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '2147483647',
+             ));
+        $this->hasColumn('addl_dil_factor', 'float', 2147483647, array(
+             'type' => 'float',
+             'unsigned' => 0,
+             'primary' => false,
+             'default' => '1',
+             'notnull' => true,
+             'autoincrement' => false,
+             'length' => '2147483647',
+             ));
+        $this->hasColumn('notes', 'string', 2147483647, array(
+             'type' => 'string',
+             'fixed' => 0,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '2147483647',
+             ));
+        $this->hasColumn('analysis_id', 'integer', 2, array(
+             'type' => 'integer',
+             'unsigned' => '1',
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '2',
+             ));
     }
 
     public function setUp()
     {
-        $this->hasOne('AlcheckBatch', array('local' => 'alcheck_batch_id',
-                                            'foreign' => 'id'));
+        $this->hasOne('AlcheckBatch', array(
+             'local' => 'alcheck_batch_id',
+             'foreign' => 'id'));
 
-        $this->hasOne('Analysis', array('local' => 'analysis_id',
-                                        'foreign' => 'id'));
+        $this->hasOne('Analysis', array(
+             'local' => 'analysis_id',
+             'foreign' => 'id'));
     }
 }
