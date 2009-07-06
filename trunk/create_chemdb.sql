@@ -140,3 +140,8 @@ ALTER TABLE `batch` CHANGE `wt_Be_carrier_init` `wt_be_carrier_init` double NOT 
 ALTER TABLE `batch` CHANGE `wt_Be_carrier_final` `wt_be_carrier_final` double NOT NULL DEFAULT '0';
 ALTER TABLE `batch` MODIFY COLUMN `al_carrier_id` int(11) DEFAULT NULL AFTER `id`;
 ALTER TABLE `batch` MODIFY COLUMN `be_carrier_id` int(11) DEFAULT NULL AFTER `al_carrier_id`;
+
+ALTER TABLE `icp_run` CHANGE `al_result` `al_result` double NOT NULL DEFAULT '0';
+ALTER TABLE `icp_run` CHANGE `be_result` `al_result` double NOT NULL DEFAULT '0';
+
+ALTER TABLE `icp_run` CHANGE `split_id` `split_id` int(10) UNSIGNED DEFAULT NULL;

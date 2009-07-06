@@ -560,19 +560,20 @@ class Quartz_chem extends MY_Controller
     **/
     function add_icp_results() 
     {
-        $submit = $this->input->post('submit');
-        $batch_id = $this->input->post('batch_id');
+        $submit = (bool)$this->input->post('submit');
+        $batch_id = (int)$this->input->post('batch_id');
                 
-        $batch = Doctrine_Query::create()
+        $query = Doctrine_Query::create()
             ->from('Batch b')
             ->where('b.id = ?', $batch_id)
             ->leftJoin('b.Analysis a')
             ->leftJoin('a.Split s')
             ->leftJoin('s.SplitBkr sb')
-            ->leftJoin('s.IcpRun r')
-            ->fetchOne();
+            ->leftJoin('s.IcpRun r');
+        $batch = $query->fetchOne();
+            
                     
-        if ($submit == TRUE) {
+        if ($submit == true) {
             
             $valid = $this->form_validation->run('add_icp_results');
             $batch->notes = $this->input->post('notes');
@@ -611,7 +612,7 @@ class Quartz_chem extends MY_Controller
             $len_be = count($be_arr);
             $len_al = count($al_arr);
             if ($len_be != $len_al) {
-                die('There must be the same number of measurements for aluminum and beryllium.');
+                die('There must be the same number of splits for aluminum and beryllium.');
             }
             
             // make sure our number of splits matches the number created in last page
@@ -620,9 +621,21 @@ class Quartz_chem extends MY_Controller
             for ($i = 0; $i < $nAnalyses; $i++) {
                 $nSplits += $batch->Analysis[$i]->Split->count();
             }
-
             if ($len_be != $nSplits) {
                 die("The number of splits in the database ($nSplits) does not match the number submitted ($len_be)");
+            }
+            
+            // the number of runs submitted must be the same
+            $nRunsAl = array();
+            $nRunsBe = array();
+            foreach ($be_arr as $split) {
+                $nRunsBe[] = count($split);
+            }
+            foreach ($al_arr as $split) {
+                $nRunsAl[] = count($split);
+            }
+            if ($nRunsAl !== $nRunsBe) {
+                die('There must be an equal number of ICP runs between Aluminum and Beryllium.');
             }
             
             // test that all submitted split beakers exist
@@ -639,13 +652,16 @@ class Quartz_chem extends MY_Controller
             }
             
             // data looks good, insert it into the database
+            $batch->save(); // for notes
             $this->split->insertIcpResults($al_arr, $be_arr, $batch_id);
-            $batch->save();
+            // grab batch back from db (refreshRelated() wasn't working for this for some reason)
+            $batch = $query->fetchOne();
         }
         
         // recreate input boxes from database
         $al_text = '';
         $be_text = '';
+        $nrows = 0;
         foreach ($batch->Analysis as $a) {
             foreach ($a->Split as $s) {
                 $bkr_text = "\n" . $s->SplitBkr->bkr_number;
@@ -655,10 +671,15 @@ class Quartz_chem extends MY_Controller
                     $al_text .= ' ' . $r->al_result;
                     $be_text .= ' ' . $r->be_result;
                 }
+                ++$nrows;
             }
+        }
+        if ($nrows == 0) {
+            $nrows = 10;
         }
         $data->al_text = $al_text;
         $data->be_text = $be_text;
+        $data->nrows= $nrows;
         $data->batch = $batch;
         $data->title = 'ICP Results Uploading';
         $data->main = 'quartz_chem/add_icp_results';
