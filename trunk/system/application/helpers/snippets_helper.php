@@ -1,5 +1,20 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+/*
+ * Helper function to divide without division by zero.
+ * @param double|int $num numerator
+ * @param double|int $den denominator
+ * @return double result
+ */
+function safe_divide($num, $den) 
+{
+    if ($den == 0) {
+        return 0;
+    } else {
+        return (double)$num / $den;
+    }
+}
+
 /**
  * Reverses the sort direction.
  *
