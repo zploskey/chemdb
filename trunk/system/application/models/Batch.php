@@ -13,7 +13,6 @@
 class Batch extends BaseBatch
 {
     /**
-	 * @param Doctrine_Record $batch batch to operate on
 	 * @param array $use_be array containing run id values for Be ICP results deemed OK
 	 * @param array $use_al array containing run id values for Al ICP results deemed OK	 
 	 */
