@@ -238,5 +238,20 @@ $config['add_icp_results'] = array(
         'rules' => 'trim|htmlspecialchars'),
 );
 
+$config['icp_quality_control'] = array(
+    array(
+        'field' => 'use_be[]',
+        'label' => 'Be OK?',
+        'rules' => 'is_natural'),
+    array(
+        'field' => 'use_al[]',
+        'label' => 'Al OK?',
+        'rules' => 'is_natural'),
+    array(
+        'field' => 'notes',
+        'label' => 'notes',
+        'rules' => 'trim|htmlspecialchars'),
+);
+
 /* End of file form_validation.php */
 /* Location: ./system/application/config/form_validation.php */

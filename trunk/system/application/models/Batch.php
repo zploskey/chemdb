@@ -12,5 +12,29 @@
  */
 class Batch extends BaseBatch
 {
-
+    /**
+	 * @param Doctrine_Record $batch batch to operate on
+	 * @param array $use_be array containing run id values for Be ICP results deemed OK
+	 * @param array $use_al array containing run id values for Al ICP results deemed OK	 
+	 */
+	public function setIcpOKs(&$use_be, &$use_al)
+	{
+        foreach ($this->Analysis as &$an) {
+            foreach ($an->Split as &$sp) {
+                foreach ($sp->IcpRun as &$run) {
+                    if (in_array($run->id, $use_be)) {
+                        $run->use_be = 'y';
+                    } else {
+                        $run->use_be = 'n';
+                    }
+                    if (in_array($run->id, $use_al)) {
+                        $run->use_al = 'y';
+                    } else {
+                        $run->use_al = 'n';
+                    }
+                }
+            }
+        }
+	}
+	
 }
