@@ -44,6 +44,39 @@ class BatchTable extends Doctrine_Table
 			->orderBy('b.start_date desc')
 			->execute();
 	}
+	
+	/**
+	 * Get batch collection for Icp Quality Control Page by the batch's id.
+	 *
+	 * @return Doctrine_Collection
+	 **/
+	public function findIcpQualityControl($batch_id)
+	{
+	    return Doctrine_Query::create()
+            ->from('Batch b')
+            ->leftJoin('b.Analysis a')
+            ->leftJoin('a.Sample sa')
+            ->leftJoin('b.AlCarrier ac')
+            ->leftJoin('b.BeCarrier bc')
+            ->leftJoin('a.DissBottle db')
+            ->leftJoin('a.Split sp')
+            ->leftJoin('sp.IcpRun run')
+            ->leftJoin('sp.SplitBkr spb')
+            ->where('b.id = ?', $batch_id)
+            ->limit(1)
+            ->fetchOne();
+	}
+	
+	/**
+	 * Find batch for the intermediate report by batch id.
+	 *
+	 * @return void
+	 **/
+	public function findIntermediateReport($batch_id)
+	{
+	    // these function both use the same collection
+        return $this->findIcpQualityControl($batch_id);
+	}
 
 	/**
 	 *
@@ -114,5 +147,5 @@ class BatchTable extends Doctrine_Table
 	    } // analysis loop
 	    $batch->save();
 	}
-	
+
 }
