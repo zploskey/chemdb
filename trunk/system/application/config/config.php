@@ -8,16 +8,16 @@
 | URL to your CodeIgniter root. Typically this will be your base URL,
 | WITH a trailing slash:
 |
-|	http://example.com/
+|   http://example.com/
 |
 */
 
 // Branching for development environment:
 if($_SERVER['SERVER_NAME'] == 'localhost') {
-	$config['base_url']	= 'http://localhost:8888/ci_chemdb';
-	$_SERVER['REMOTE_USER'] = 'testuser';
+    $config['base_url'] = 'http://localhost:8888/ci_chemdb';
+    $_SERVER['REMOTE_USER'] = 'testuser';
 } else {
-	$config['base_url'] = 'http://depts.washington.edu/cosmolab/dev_chemdb';
+    $config['base_url'] = 'http://depts.washington.edu/cosmolab/dev_chemdb';
 }
 /*
 |--------------------------------------------------------------------------
@@ -40,14 +40,14 @@ $config['index_page'] = "index.php";
 | URI string.  The default setting of "AUTO" works for most servers.
 | If your links do not seem to work, try one of the other delicious flavors:
 |
-| 'AUTO'			Default - auto detects
-| 'PATH_INFO'		Uses the PATH_INFO
-| 'QUERY_STRING'	Uses the QUERY_STRING
-| 'REQUEST_URI'		Uses the REQUEST_URI
-| 'ORIG_PATH_INFO'	Uses the ORIG_PATH_INFO
+| 'AUTO'            Default - auto detects
+| 'PATH_INFO'       Uses the PATH_INFO
+| 'QUERY_STRING'    Uses the QUERY_STRING
+| 'REQUEST_URI'     Uses the REQUEST_URI
+| 'ORIG_PATH_INFO'  Uses the ORIG_PATH_INFO
 |
 */
-$config['uri_protocol']	= "AUTO";
+$config['uri_protocol'] = "AUTO";
 
 /*
 |--------------------------------------------------------------------------
@@ -72,7 +72,7 @@ $config['url_suffix'] = "";
 | than english.
 |
 */
-$config['language']	= "english";
+$config['language'] = "english";
 
 /*
 |--------------------------------------------------------------------------
@@ -94,7 +94,7 @@ $config['charset'] = "UTF-8";
 | setting this variable to TRUE (boolean).  See the user guide for details.
 |
 */
-$config['enable_hooks'] = FALSE;
+$config['enable_hooks'] = false;
 
 
 /*
@@ -154,10 +154,10 @@ $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
 | use segment based URLs.
 |
 */
-$config['enable_query_strings'] = FALSE;
-$config['controller_trigger'] 	= 'c';
-$config['function_trigger'] 	= 'm';
-$config['directory_trigger'] 	= 'd'; // experimental not currently in use
+$config['enable_query_strings'] = false;
+$config['controller_trigger']   = 'c';
+$config['function_trigger']     = 'm';
+$config['directory_trigger']    = 'd'; // experimental not currently in use
 
 /*
 |--------------------------------------------------------------------------
@@ -169,11 +169,11 @@ $config['directory_trigger'] 	= 'd'; // experimental not currently in use
 | You can enable error logging by setting a threshold over zero. The
 | threshold determines what gets logged. Threshold options are:
 |
-|	0 = Disables logging, Error logging TURNED OFF
-|	1 = Error Messages (including PHP errors)
-|	2 = Debug Messages
-|	3 = Informational Messages
-|	4 = All Messages
+|   0 = Disables logging, Error logging TURNED OFF
+|   1 = Error Messages (including PHP errors)
+|   2 = Debug Messages
+|   3 = Informational Messages
+|   4 = All Messages
 |
 | For a live site you'll usually only enable Errors (1) to be logged otherwise
 | your log files will fill up very fast.
@@ -234,17 +234,17 @@ $config['encryption_key'] = "";
 | 'encrypt_sess_cookie' = TRUE/FALSE (boolean).  Whether to encrypt the cookie
 | 'session_expiration'  = the number of SECONDS you want the session to last.
 |  by default sessions last 7200 seconds (two hours).  Set to zero for no expiration.
-| 'time_to_update'		= how many seconds between CI refreshing Session Information
+| 'time_to_update'      = how many seconds between CI refreshing Session Information
 |
 */
-$config['sess_cookie_name']		= 'ci_session';
-$config['sess_expiration']		= 7200;
-$config['sess_encrypt_cookie']	= FALSE;
-$config['sess_use_database']	= FALSE;
-$config['sess_table_name']		= 'ci_sessions';
-$config['sess_match_ip']		= FALSE;
-$config['sess_match_useragent']	= TRUE;
-$config['sess_time_to_update'] 	= 300;
+$config['sess_cookie_name']     = 'ci_session';
+$config['sess_expiration']      = 7200;
+$config['sess_encrypt_cookie']  = false;
+$config['sess_use_database']    = false;
+$config['sess_table_name']      = 'ci_sessions';
+$config['sess_match_ip']        = false;
+$config['sess_match_useragent'] = true;
+$config['sess_time_to_update']  = 300;
 
 /*
 |--------------------------------------------------------------------------
@@ -256,9 +256,9 @@ $config['sess_time_to_update'] 	= 300;
 | 'cookie_path'   =  Typically will be a forward slash
 |
 */
-$config['cookie_prefix']	= "";
-$config['cookie_domain']	= "";
-$config['cookie_path']		= "/";
+$config['cookie_prefix']    = "";
+$config['cookie_domain']    = "";
+$config['cookie_path']      = "/";
 
 /*
 |--------------------------------------------------------------------------
@@ -269,7 +269,7 @@ $config['cookie_path']		= "/";
 | COOKIE data is encountered
 |
 */
-$config['global_xss_filtering'] = TRUE;
+$config['global_xss_filtering'] = true;
 
 /*
 |--------------------------------------------------------------------------
@@ -288,7 +288,7 @@ $config['global_xss_filtering'] = TRUE;
 | by the output class.  Do not "echo" any values with compression enabled.
 |
 */
-$config['compress_output'] = FALSE;
+$config['compress_output'] = false;
 
 /*
 |--------------------------------------------------------------------------
@@ -314,7 +314,7 @@ $config['time_reference'] = 'local';
 | in your view files.  Options are TRUE or FALSE (boolean)
 |
 */
-$config['rewrite_short_tags'] = FALSE;
+$config['rewrite_short_tags'] = false;
 
 /*
 |--------------------------------------------------------------------------
@@ -329,7 +329,7 @@ $config['rewrite_short_tags'] = FALSE;
 
 // setting 'show_profiler' to TRUE will cause profiler information to automatically 
 // load on the bottom of every page
-$config['show_profiler'] = TRUE;
+$config['show_profiler'] = true;
 
 
 
