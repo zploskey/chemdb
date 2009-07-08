@@ -13,27 +13,115 @@
 class Batch extends BaseBatch
 {
     /**
-	 * @param array $use_be array containing run id values for Be ICP results deemed OK
-	 * @param array $use_al array containing run id values for Al ICP results deemed OK	 
-	 */
-	public function setIcpOKs(&$use_be, &$use_al)
-	{
+     * 
+     */
+    public function initializeSplitsRuns()
+    {
+        $changes = false;
+        $nanalyses = $this->Analysis->count();
+        for ($a = 0; $a < $nanalyses; $a++) {
+            $nsplits = $this->Analysis[$a]->Split->count();
+            if ($nsplits == 0) {
+                // no splits in db, add the splits and their icp runs too
+                for ($s = 1; $s <= 2; $s++) {
+                     $newsplit = new Split();
+                     $newsplit->split_num = $s;
+                     for ($r = 1; $r <= 2; $r++) {
+                         $newrun = new IcpRun();
+                         $newrun->run_num = $r;
+                         $newsplit->IcpRun[] = $newrun;
+                     } // run loop
+                     $this->Analysis[$a]->Split[] = $newsplit;
+                } // split loop
+                $changes = true;
+            }
+        } // analysis loop
+        
+        if ($changes) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * Inserts ICP results into database.
+     *
+     * @param array @al_arr Al ICP results
+     * @param array @be_arr Be ICP results
+     * @return void boolean true if successful, false if insert failed
+     **/
+    public function saveIcpResults($al_arr, $be_arr)
+    {
+        $al_count = count($al_arr);
+        $be_count = count($be_arr);
+        
+        // change the batch
+        foreach ($this->Analysis as &$a) {
+            foreach ($a->Split as &$s) {
+                $bkr_num = $s->SplitBkr->bkr_number;
+                $nRunsDb = $s->IcpRun->count();
+                $nRuns = count($al_arr[$bkr_num]);
+                
+                // what if a run was removed by the user
+                if ($nRunsDb > $nRuns) {
+                    $nDeleted = Doctrine::getTable('IcpRun')->removeExcessRuns($s, $nRuns);
+                    // update $nRunsDb to new value
+                    $nRunsDb = $nRuns;
+                    $this->refreshRelated();
+                }
+                
+                for ($r = 0; $r < $nRuns; $r++) {
+                    if ($r >= $nRunsDb) {
+                        $newRun = new IcpRun();
+                        $newRun->run_num = $r + 1;
+                        $s->IcpRun[] = $newRun;
+                    }
+                    if (isset($al_arr[$bkr_num][$r])) {
+                        $s->IcpRun[$r]->al_result = $al_arr[$bkr_num][$r];
+                        $s->IcpRun[$r]->use_al = 'y';
+                    }
+                    if (isset($be_arr[$bkr_num][$r])) {
+                        $s->IcpRun[$r]->be_result = $be_arr[$bkr_num][$r];
+                        $s->IcpRun[$r]->use_be = 'y';
+                    }
+                }
+            }
+        }
+        $this->refreshRelated();
+        $this->save();
+    }
+    
+    /**
+     * @param array $use_be array containing run id values for Be ICP results deemed OK
+     * @param array $use_al array containing run id values for Al ICP results deemed OK
+     */
+    public function setIcpOKs(&$use_be, &$use_al)
+    {
+        if ( !is_array($use_be) || !is_array($use_al)) {
+            throw new InvalidArgumentException('Both arguments must be arrays.');
+        }
+        
         foreach ($this->Analysis as &$an) {
             foreach ($an->Split as &$sp) {
                 foreach ($sp->IcpRun as &$run) {
+                    
                     if (in_array($run->id, $use_be)) {
                         $run->use_be = 'y';
                     } else {
                         $run->use_be = 'n';
                     }
+                    
                     if (in_array($run->id, $use_al)) {
                         $run->use_al = 'y';
                     } else {
                         $run->use_al = 'n';
                     }
+                    
                 }
             }
         }
-	}
-	
+        
+        return true;
+    }
 }
