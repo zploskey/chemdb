@@ -1,0 +1,1 @@
+<?=$this->load->view('quartz_chem/intermediate_report')?>
