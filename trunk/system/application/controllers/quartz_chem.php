@@ -9,27 +9,27 @@
 class Quartz_chem extends MY_Controller
 {
     /**
-     * @var Doctrine_Table batch table
+     * @var Doctrine_Table $batch batch table
      */
     var $batch;
     
     /**
-     * @var Doctrine_Table Beryllium carrier table
+     * @var Doctrine_Table $be_carrier Beryllium carrier table
      */
     var $be_carrier;
     
     /**
-     * @var Doctrine_Table Aluminum carrier table
+     * @var Doctrine_Table $al_carrier Aluminum carrier table
      */
     var $al_carrier;
     
     /**
-     * @var Doctrine_Table Split beaker table
+     * @var Doctrine_Table $split_bkr Split beaker table
      */
      var $split_bkr;
      
      /**
-      * @var Doctrine_Table Split table
+      * @var Doctrine_Table $split Split table
       **/
      var $split;
      
@@ -591,12 +591,12 @@ class Quartz_chem extends MY_Controller
             $raw_al = $this->input->post('al_text');
             $raw_be = $this->input->post('be_text');
             $al_lines = split("[\n]", $raw_al);
-            $be_lines = split("[\n]", $raw_be);         
-            // Validate our entries
-            // regexp to match a word followed by floating point numbers
+            $be_lines = split("[\n]", $raw_be);
+            
+            // now validate our entries
+            // this regexp to match a word followed by floating point numbers, just what we want
             $valid_regexp = '/[\w-]+\s+([-+]?[0-9]*\.?[0-9]+)+/i';
-            // we'll split on whitespace if valid
-            $split_regex = '/\s+/';
+            $split_regexp = '/\s+/'; // we'll split on whitespace if it is valid
             $is_al = true;
             foreach (array($al_lines, $be_lines) as $lines) {
                 if ($is_al) {
@@ -608,7 +608,7 @@ class Quartz_chem extends MY_Controller
                 }
                 foreach ($lines as $ln) {
                     if (preg_match($valid_regexp, $ln)) {
-                        $tmp = preg_split($split_regex, trim($ln));
+                        $tmp = preg_split($split_regexp, trim($ln));
                         $key = array_shift($tmp);
                         // make the key of the final array the beaker number, one for be and one for al
                         ${$arr}[$key] = $tmp; 
@@ -619,20 +619,11 @@ class Quartz_chem extends MY_Controller
                 $is_al = false;
             }
             
+            // check that number of splits is equal
             $len_be = count($be_arr);
             $len_al = count($al_arr);
             if ($len_be != $len_al) {
                 die('There must be the same number of splits for aluminum and beryllium.');
-            }
-            
-            // make sure our number of splits matches the number created in last page
-            $nSplits = 0;
-            $nAnalyses = $batch->Analysis->count();
-            for ($a = 0; $a < $nAnalyses; $a++) {
-                $nSplits += $batch->Analysis[$a]->Split->count();
-            }
-            if ($len_be != $nSplits) {
-                die("The number of splits in the database ($nSplits) does not match the number submitted ($len_be)");
             }
             
             // the number of runs submitted must be the same
@@ -648,6 +639,16 @@ class Quartz_chem extends MY_Controller
                 die('There must be an equal number of ICP runs between Aluminum and Beryllium.');
             }
             
+            // make sure our number of splits matches the number created in last page
+            $nSplits = 0;
+            $nAnalyses = $batch->Analysis->count();
+            for ($a = 0; $a < $nAnalyses; $a++) {
+                $nSplits += $batch->Analysis[$a]->Split->count();
+            }
+            if ($len_be != $nSplits) {
+                die("The number of splits in the database ($nSplits) does not match the number submitted ($len_be)");
+            }
+            
             // test that all submitted split beakers exist
             $bkrs = array_unique(array_keys(array_merge($al_arr, $be_arr)));
             $missing = $this->split_bkr->findMissingBkrs($bkrs);
@@ -661,33 +662,17 @@ class Quartz_chem extends MY_Controller
             }
             
             // data looks good, insert it into the database
-            $batch->saveIcpResults($al_arr, $be_arr);
-            // grab batch back from db (refreshRelated() wasn't working for this for some reason)
-            $batch = $query->fetchOne();
+            $batch->setIcpResults($al_arr, $be_arr)->save();
         }
         
         // recreate input boxes from database
-        $al_text = '';
-        $be_text = '';
-        $nrows = 0;
-        foreach ($batch->Analysis as $a) {
-            foreach ($a->Split as $s) {
-                $bkr_text = "\n" . $s->SplitBkr->bkr_number;
-                $al_text .= $bkr_text;
-                $be_text .= $bkr_text;
-                foreach ($s->IcpRun as $r) {
-                    $al_text .= ' ' . $r->al_result;
-                    $be_text .= ' ' . $r->be_result;
-                }
-                ++$nrows;
-            }
+        list($data->al_text, $data->be_text, $data->nrows) = $batch->generateIcpResultsText();
+        
+        // in case there were no splits or runs, give it a default number of rows
+        if ($data->nrows == 0) {
+            $data->nrows = 10;
         }
-        if ($nrows == 0) {
-            $nrows = 10;
-        }
-        $data->al_text = $al_text;
-        $data->be_text = $be_text;
-        $data->nrows= $nrows;
+
         $data->batch = $batch;
         $data->title = 'ICP Results Uploading';
         $data->main = 'quartz_chem/add_icp_results';
@@ -835,11 +820,9 @@ class Quartz_chem extends MY_Controller
         }
         
         // load up the data to pass to the view
-        $fields = array(
-            'errors', 'batch', 'nsamples', 'nsplits', 'nruns',
-            'icp_al', 'icp_be','be_tot', 'al_tot', 'be_avg', 'al_avg', 
-            'be_sd', 'al_sd', 'be_pct_err', 'al_pct_err', 'be_recovery', 'al_recovery',
-        );
+        $fields = array('errors', 'batch', 'nsamples', 'nsplits', 'nruns',
+                        'icp_al', 'icp_be','be_tot', 'al_tot', 'be_avg', 'al_avg', 'be_sd', 'al_sd', 
+                        'be_pct_err', 'al_pct_err', 'be_recovery', 'al_recovery');
         foreach ($fields as $f) {
             $data->{$f} = ${$f};
         }
@@ -1010,7 +993,32 @@ class Quartz_chem extends MY_Controller
         $data->wt_split = $wt_split;
         $data->wt_icp = $wt_icp;
         $data->tot_df = $tot_df;
-        $this->load->view('quartz_chem/intermediate_report', $data);
+        $data->title = 'Intermediate hard copy of weighings -- Al - Be extraction from quartz';
+        $data->main = 'quartz_chem/intermediate_report';
+        $this->load->view('quartz_chem/report_template', $data);
+    }
+    
+    /**
+     * Generates the final report for the batch.
+     * @return void
+     */
+    function final_report()
+    {
+        $batch_id = (int)$this->input->post('batch_id');
+        $batch = $this->batch->findFinalReport($batch_id);
+        
+        if (! $batch) {
+            die('Batch not found.');
+        }
+        
+        // calculate things
+        
+        // put things onto data object
+        
+        $data->batch = $batch;
+        $data->title = 'Final report -- Al - Be extraction from quartz';
+        $data->main = 'quartz_chem/final_report';
+        $this->load->view('quartz_chem/report_template', $data);
     }
     
     // ----------

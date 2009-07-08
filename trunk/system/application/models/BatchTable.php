@@ -67,6 +67,11 @@ class BatchTable extends Doctrine_Table
             ->fetchOne();
     }
     
+    public function findFinalReport($batch_id)
+    {
+        return $this->findIcpQualityControl($batch_id);
+    }
+    
     /**
      * Find batch for the intermediate report by batch id.
      *
