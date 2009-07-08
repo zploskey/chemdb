@@ -4,5 +4,14 @@
  */
 class IcpRunTable extends Doctrine_Table
 {
+    
+    public function removeExcessRuns(&$split, $nRemainingRuns)
+    {
+        return Doctrine_Query::create()
+            ->delete('IcpRun')
+            ->where('split_id = ?', $split->id)
+            ->addWhere('run_num > ?', $nRemainingRuns)
+            ->execute();
+    }
 
 }
