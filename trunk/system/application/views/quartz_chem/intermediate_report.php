@@ -1,32 +1,7 @@
-
-<html>
-<head>
-<title>UW-CNL-DB</title>
-
-<style>
-table {}
-.arial10
-	{font-family:Arial;
-	font-size:10.0pt;}
-.arial8
-	{font-family:Arial;
-	font-size:8.0pt;}
-.arial14
-	{font-family:Arial;
-	font-size:14.0pt;}
-.arial12
-	{font-family:Arial;
-	font-size:12.0pt;}
-</style>
-
-</head>
-
-<body>
-
 <table width=800 class=arial10>
 	<tr>
 		<td colspan=3>
-			<h3>Intermediate hard copy of weighings -- Al - Be extraction from quartz</h3>
+			<h3><?=$title?></h3>
 		</td>
 	</tr>
 	<tr>
@@ -58,8 +33,14 @@ table {}
 	</tr>
 	<tr>
 		<td colspan=3>
-		<p>Batch description: <?=$batch->description?></p>
-		<p>Batch notes: <?=$batch->notes?></p>
+    		<p>Batch description: <?=$batch->description?></p>
+    		<p>Batch notes: <?=$batch->notes?></p>
+		
+    		<?php if (isset($final) && $final): ?>
+    	        <p>Spreadsheet: <?=$batch->spreadsheet_name?></p>
+    	        <p>CSV file: <?=$batch->csv_name?></p>
+    	    <?php endif; ?>
+    	    
 		</td>
 	</tr>
 	<tr><td colspan=3><hr><hr></td></tr>
@@ -287,7 +268,7 @@ table {}
 
     for ($s = 0; $s < $max_nsplits; $s++) {
         if ($s < $nsplits[$i]) {
-            echo '<td>', sprintf('%.1f',$tot_df[$i][$s]), '</td>';
+            echo '<td>', sprintf('%.1f', $tot_df[$i][$s]), '</td>';
         } else {
             echo '<td></td>';
         }
@@ -298,6 +279,3 @@ table {}
 
     <tr><td colspan=12><hr><hr></td></tr>
 </table>
-
-</body>
-</html>
