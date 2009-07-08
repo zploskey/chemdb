@@ -140,7 +140,7 @@ $config['add_solution_weights'] = array(
     array(
         'field' => 'wt_diss_bottle_total[]',
         'label' => 'total weight',
-        'rules' => 'trim|numeric'),
+        'rules' => 'trim|numeric|abs'),
     array(
         'field' => 'batch[notes]',
         'label' => 'batch notes',
