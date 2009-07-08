@@ -25,20 +25,20 @@ function safe_divide($num, $den)
  **/
 function switch_sort($cur, $default = 'asc')
 {
-	$cur = strtolower($cur);
-	$default = strtolower($default);
-	
-	if ($default == 'desc') {
-		$alt = 'asc';
-	} else {
-		$alt = 'desc';
-	}
-	
-	if ($cur == $default) {
-		return $alt;
-	}
-	
-	return $default;
+    $cur = strtolower($cur);
+    $default = strtolower($default);
+    
+    if ($default == 'desc') {
+        $alt = 'asc';
+    } else {
+        $alt = 'desc';
+    }
+    
+    if ($cur == $default) {
+        return $alt;
+    }
+    
+    return $default;
 }
 
 /**
