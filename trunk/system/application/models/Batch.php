@@ -13,7 +13,9 @@
 class Batch extends BaseBatch
 {
     /**
+     * Creates splits and runs for all the analyses in the batch if none exist yet.
      * 
+     * @return bool true if changes were made to the object
      */
     public function initializeSplitsRuns()
     {
@@ -37,11 +39,33 @@ class Batch extends BaseBatch
             }
         } // analysis loop
         
-        if ($changes) {
-            return true;
-        } else {
-            return false;
+        return $changes;
+    }
+    
+    /**
+     * Creates text for input boxes on the ICP results page.
+     *
+     * @return array of generated aluminum text, beryllium text, and the number of rows in the text
+     **/
+    public function generateIcpResultsText()
+    {   
+        $al_text = '';
+        $be_text = '';
+        $nrows = 0;
+        foreach ($this['Analysis'] as $a) {
+            foreach ($a['Split'] as $s) {
+                $bkr_text = "\n" . $s['SplitBkr']['bkr_number'];
+                $al_text .= $bkr_text;
+                $be_text .= $bkr_text;
+                foreach ($s['IcpRun'] as $r) {
+                    $al_text .= ' ' . $r['al_result'];
+                    $be_text .= ' ' . $r['be_result'];
+                }
+                ++$nrows;
+            }
         }
+        
+        return array($al_text, $be_text, $nrows);        
     }
     
     /**
@@ -51,7 +75,7 @@ class Batch extends BaseBatch
      * @param array @be_arr Be ICP results
      * @return void boolean true if successful, false if insert failed
      **/
-    public function saveIcpResults($al_arr, $be_arr)
+    public function &setIcpResults($al_arr, $be_arr)
     {
         $al_count = count($al_arr);
         $be_count = count($be_arr);
@@ -88,15 +112,16 @@ class Batch extends BaseBatch
                 }
             }
         }
-        $this->refreshRelated();
-        $this->save();
+        
+        return $this;
     }
     
     /**
      * @param array $use_be array containing run id values for Be ICP results deemed OK
      * @param array $use_al array containing run id values for Al ICP results deemed OK
+     * @return Batch reference to this batch object
      */
-    public function setIcpOKs(&$use_be, &$use_al)
+    public function &setIcpOKs(&$use_be, &$use_al)
     {
         if ( !is_array($use_be) || !is_array($use_al)) {
             throw new InvalidArgumentException('Both arguments must be arrays.');
@@ -122,6 +147,6 @@ class Batch extends BaseBatch
             }
         }
         
-        return true;
+        return $this;
     }
 }
