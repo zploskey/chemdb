@@ -23,7 +23,7 @@
 </table>
 
 <?php if ($errors): ?>
-    <?=validation_errors()?>
+    <?=validation_errors(),'<hr>'?>
 <?php endif; ?>
 
 <table width=800 class=arial8>

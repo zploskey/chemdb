@@ -4,11 +4,11 @@
  */
 class BeCarrierTable extends Doctrine_Table
 {
-	public function getList()
-	{
-		return Doctrine_Query::create()
-			->from('BeCarrier bec')
-			->select('bec.id, bec.name')
-			->execute();
-	}
+    public function getList()
+    {
+        return Doctrine_Query::create()
+            ->from('BeCarrier bec')
+            ->select('bec.id, bec.name')
+            ->execute();
+    }
 }
