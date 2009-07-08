@@ -4,11 +4,11 @@
  */
 class AlCarrierTable extends Doctrine_Table
 {
-	public function getList()
-	{
-	    return Doctrine_Query::create()
-			->from('AlCarrier alc')
-			->select('alc.id, alc.name')
-			->execute();
-	}
+    public function getList()
+    {
+        return Doctrine_Query::create()
+            ->from('AlCarrier alc')
+            ->select('alc.id, alc.name')
+            ->execute();
+    }
 }

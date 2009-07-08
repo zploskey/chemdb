@@ -5,40 +5,40 @@
 class SplitBkrTable extends Doctrine_Table
 {
     /**
-	 *
-	 * @return Doctrine_Collection
-	 */
-	public function getList()
-	{
-		return Doctrine_Query::create()
-			->from('SplitBkr b')
-			->select('b.id, b.bkr_number')
-			->orderBy('b.id asc')
-			->execute();
-	}
-	
-	/**
-	 * Finds and returns an array of beakers missing from the database.
-	 *
-	 * @return array missing beaker names
-	 **/
-	public function findMissingBkrs($bkrList)
-	{
-	    $query = $this->createQuery('b');
-	    foreach ($bkrList as $bkr) {
-	        $query->orWhere('b.bkr_number = ?', $bkr);
-	    }
-	    $result = $query->execute();
-	    $found = $result->toArray();
-	    foreach ($found as $entry) {
-	        $dbBkrs[] = $entry['bkr_number'];
-	    }
+     *
+     * @return Doctrine_Collection
+     */
+    public function getList()
+    {
+        return Doctrine_Query::create()
+            ->from('SplitBkr b')
+            ->select('b.id, b.bkr_number')
+            ->orderBy('b.id asc')
+            ->execute();
+    }
+    
+    /**
+     * Finds and returns an array of beakers missing from the database.
+     *
+     * @return array missing beaker names
+     **/
+    public function findMissingBkrs($bkrList)
+    {
+        $query = $this->createQuery('b');
+        foreach ($bkrList as $bkr) {
+            $query->orWhere('b.bkr_number = ?', $bkr);
+        }
+        $result = $query->execute();
+        $found = $result->toArray();
+        foreach ($found as $entry) {
+            $dbBkrs[] = $entry['bkr_number'];
+        }
         $ret = array();
-	    $diff = array_diff($bkrList, $dbBkrs);
-	    foreach ($diff as $value) {
-	        $ret[] = $value;
-	    }
-	    return $ret;
-	}
+        $diff = array_diff($bkrList, $dbBkrs);
+        foreach ($diff as $value) {
+            $ret[] = $value;
+        }
+        return $ret;
+    }
 
 }
