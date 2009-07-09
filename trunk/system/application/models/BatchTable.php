@@ -19,6 +19,22 @@ class BatchTable extends Doctrine_Table
     }
     
     /**
+     * Fetches a batch object with Al and Be carrier data.
+     *
+     * @return Batch
+     **/
+    public function findWithCarriers($id)
+    {
+        return Doctrine_Query::create()
+            ->from('Batch b')
+            ->leftJoin('b.Analysis a')
+            ->leftJoin('b.BeCarrier bec')
+            ->leftJoin('b.AlCarrier alc')
+            ->where('b.id = ?', $id)
+            ->fetchOne();
+    }
+    
+    /**
      *
      * @return Doctrine_Collection
      */
@@ -48,9 +64,10 @@ class BatchTable extends Doctrine_Table
     /**
      * Get batch collection for Icp Quality Control Page by the batch's id.
      *
-     * @return Doctrine_Collection
+     * @param $batch_id batch's id value
+     * @return Batch
      **/
-    public function findIcpQualityControl($batch_id)
+    public function findCompleteById($batch_id)
     {
         return Doctrine_Query::create()
             ->from('Batch b')
@@ -60,27 +77,13 @@ class BatchTable extends Doctrine_Table
             ->leftJoin('b.BeCarrier bc')
             ->leftJoin('a.DissBottle db')
             ->leftJoin('a.Split sp')
-            ->leftJoin('sp.IcpRun run')
+            ->leftJoin('sp.IcpRun r')
             ->leftJoin('sp.SplitBkr spb')
             ->where('b.id = ?', $batch_id)
+            ->orderBy('sp.split_num')
+            ->addOrderBy('r.run_num')
             ->limit(1)
             ->fetchOne();
-    }
-    
-    public function findFinalReport($batch_id)
-    {
-        return $this->findIcpQualityControl($batch_id);
-    }
-    
-    /**
-     * Find batch for the intermediate report by batch id.
-     *
-     * @return void
-     **/
-    public function findIntermediateReport($batch_id)
-    {
-        // these function both use the same collection
-        return $this->findIcpQualityControl($batch_id);
     }
     
     /**
@@ -115,6 +118,15 @@ class BatchTable extends Doctrine_Table
             ->orderBy('b.start_date desc')
             ->limit(1)
             ->fetchOne();
+    }
+    
+    /**
+     *
+     * @return void
+     **/
+    public function getReportArray($id, $final = false)
+    {
+        return $this->findCompleteById($id)->getReportArray($final);
     }
 
 }
