@@ -67,14 +67,14 @@
     <tr>
         <td>Be carrier previous wt:</td>
         <td>
-            <? if (isset($be_prev)): ?>
+            <? if ($be_prev): ?>
                 <?=$be_prev->wt_be_carrier_final?> (<?=$be_prev->start_date?>)
             <? endif; ?>
         </td>
 
         <td>Al carrier previous wt:</td>
         <td>
-            <? if (isset($al_prev)): ?>
+            <? if ($al_prev): ?>
                 <?=$al_prev->wt_al_carrier_final?> (<?=$al_prev->start_date?>)
             <? endif; ?>
         </td>
