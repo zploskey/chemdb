@@ -13,6 +13,144 @@
 class Batch extends BaseBatch
 {
     /**
+     * Do calculations for our reports. The batch must already have nearly all its data 
+     * to do these calculations. Populate the data structure first.
+     *
+     * @return array
+     **/
+    public function getReportArray($final = false)
+    {
+        // get an array representation of the batch
+        $batch = $this->toArray(); 
+        // do some math for the derived weights and statistics
+        $batch['nsamples'] = count($batch['Analysis']);
+        $batch['max_nsplits'] = 0;
+        $batch['wt_be_carrier_disp'] = 0;
+        $batch['wt_al_carrier_disp'] = 0;
+        foreach ($batch['Analysis'] as &$a) {
+            $a['nsplits'] = count($a['Split']);
+            if ($a['nsplits'] > $batch['max_nsplits']) {
+                $batch['max_nsplits'] = $a['nsplits'];
+            }
+            $a['wt_sample'] = $a['wt_diss_bottle_sample'] - $a['wt_diss_bottle_tare'];
+            $a['wt_HF_soln'] = $a['wt_diss_bottle_total'] - $a['wt_diss_bottle_tare'];
+            $batch['wt_be_carrier_disp'] += $a['wt_be_carrier'];
+            $batch['wt_al_carrier_disp'] += $a['wt_al_carrier'];
+
+            // calculate weights and dilution factors
+            foreach ($a['Split'] as &$s) {
+                $s['wt_split'] = $s['wt_split_bkr_split'] - $s['wt_split_bkr_tare'];
+                $s['wt_icp'] = $s['wt_split_bkr_icp'] - $s['wt_split_bkr_tare'];
+                $s['tot_df'] = safe_divide($s['wt_icp'], $s['wt_split']) * $a['wt_HF_soln'];
+            }
+            $a['wt_be'] = $a['wt_be_carrier'] * $batch['BeCarrier']['be_conc'];
+            $a['wt_al_fromc'] = $a['wt_al_carrier'] * $batch['AlCarrier']['al_conc'];
+            
+            // Do the usual thing with the Al checks database --
+            // Attempt to obtain Al/Fe/Ti concentrations
+            $precheck = Doctrine_Query::create()
+                ->from('AlcheckAnalysis a')
+                ->leftJoin('a.AlcheckBatch b')
+                ->select('a.sample_name, a.icp_al, a.icp_fe, a.icp_ti, a.wt_bkr_tare, '
+                       . 'a.wt_bkr_sample, a.wt_bkr_soln, b.prep_date')
+                ->where('a.sample_name = ?', $a['sample_name'])
+                ->andWhere('a.alcheck_batch_id = b.id')
+                ->orderBy('b.prep_date DESC')
+                ->limit(1)
+                ->fetchOne();
+                
+            if ($precheck) { // we found it
+                $alcheck_df = ($precheck['wt_bkr_soln'] - $precheck['wt_bkr_tare']) 
+                            / ($precheck['wt_bkr_sample'] - $precheck['wt_bkr_tare']);
+                $check_al = $precheck['icp_al'] * $alcheck_df * $a['wt_sample'];
+                $a['check_fe'] = $precheck['icp_fe'] * $alcheck_df * $a['wt_sample'];
+                $a['check_ti'] = $precheck['icp_ti'] * $alcheck_df * $a['wt_sample'];
+                $a['check_tot_al'] = $a['wt_al_carrier'] * $batch['AlCarrier']['al_conc'] + $check_al;
+            } elseif ($a['sample_type'] === 'BLANK') { // sample is a blank
+                if ($a['wt_al_carrier'] > 0) {
+                    $a['check_tot_al'] = $a['wt_al_carrier'] * $batch['AlCarrier']['al_conc'];
+                } else {
+                    $a['check_tot_al'] = 0;
+                }
+                $a['check_fe'] = 0;
+                $a['check_ti'] = 0;
+            } else { // not in the database
+                $a['check_tot_al'] = 0;
+                $a['check_fe'] = 0;
+                $a['check_ti'] = 0;
+            }
+            
+            // Calculate average weight
+            $temp_tot_al = 0;
+            $temp_tot_be = 0;
+            $n_al = 0;
+            $n_be = 0;
+            foreach ($a['Split'] as &$s) { 
+                $s['nruns'] = count($s['IcpRun']);
+                foreach ($s['IcpRun'] as &$r) {
+                    $r['al_tot'] = $r['al_result'] * $s['tot_df'];
+                    $r['be_tot'] = $r['be_result'] * $s['tot_df'];
+                    
+                    if ($r['use_al'] === 'y') {
+                        $temp_tot_al += $r['al_tot'];
+                        ++$n_al;
+                    }
+                    
+                    if ($r['use_be'] === 'y') {
+                        $temp_tot_be += $r['be_tot'];
+                        ++$n_be;
+                    }
+                }
+            }
+            $a['al_avg'] = safe_divide($temp_tot_al, $n_al);
+            $a['be_avg'] = safe_divide($temp_tot_be, $n_be);
+            
+
+            // Calculate the standard deviation
+            foreach ($a['Split'] as &$s) {
+                $temp_sd_al = 0;
+                $temp_sd_be = 0;  
+                foreach ($s['IcpRun'] as &$r) {
+                    if ($r['use_al'] === 'y') {
+                        $temp_sd_al += pow(($r['al_tot'] - $a['al_avg']), 2);
+                    }
+                    if ($r['use_be'] === 'y') {
+                        $temp_sd_be += pow(($r['be_tot'] - $a['be_avg']), 2);
+                    }
+                }
+            }
+
+            $a['al_sd'] = sqrt(safe_divide($temp_sd_al, $n_al - 1));
+            $a['be_sd'] = sqrt(safe_divide($temp_sd_be, $n_be - 1));
+            
+            // Calculate the percentage error
+            $a['al_pct_err'] = 100 * safe_divide($a['al_sd'], $a['al_avg']);
+            $a['be_pct_err'] = 100 * safe_divide($a['be_sd'], $a['be_avg']);
+            
+            // Calculate the percent recovery
+            $a['be_recovery'] = 100 * safe_divide($a['be_avg'], $a['wt_be']);
+            $a['al_recovery'] = 100 * safe_divide($a['al_avg'], $a['check_tot_al']);
+
+        }
+        
+        // other calculations
+        $batch['wt_be_carrier_diff'] = $batch['wt_be_carrier_init'] - $batch['wt_be_carrier_final'];
+        $batch['wt_al_carrier_diff'] = $batch['wt_al_carrier_init'] - $batch['wt_al_carrier_final'];
+        
+        if ($final === true) {
+            $this->doFinalReportCalcs($precheck);
+        }
+        
+        return $batch;
+    }
+    
+    
+    private function doFinalReportCalcs($precheck)
+    {
+        // stub
+    }
+    
+    /**
      * Creates splits and runs for all the analyses in the batch if none exist yet.
      * 
      * @return bool true if changes were made to the object
@@ -121,7 +259,7 @@ class Batch extends BaseBatch
      * @param array $use_al array containing run id values for Al ICP results deemed OK
      * @return Batch reference to this batch object
      */
-    public function &setIcpOKs(&$use_be, &$use_al)
+    public function &setIcpOKs($use_be, $use_al)
     {
         if ( !is_array($use_be) || !is_array($use_al)) {
             throw new InvalidArgumentException('Both arguments must be arrays.');
