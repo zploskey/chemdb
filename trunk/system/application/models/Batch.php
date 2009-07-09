@@ -18,13 +18,14 @@ class Batch extends BaseBatch
      *
      * @return array
      **/
-    public function getReportArray($final = false)
+    public function getReportArray($stats = false)
     {
         // get an array representation of the batch
         $batch = $this->toArray(); 
         // do some math for the derived weights and statistics
         $batch['nsamples'] = count($batch['Analysis']);
         $batch['max_nsplits'] = 0;
+        $batch['max_nruns'] = 0;
         $batch['wt_be_carrier_disp'] = 0;
         $batch['wt_al_carrier_disp'] = 0;
         foreach ($batch['Analysis'] as &$a) {
@@ -39,6 +40,11 @@ class Batch extends BaseBatch
 
             // calculate weights and dilution factors
             foreach ($a['Split'] as &$s) {
+                $s['nruns'] = count($s['IcpRun']);
+                if ($s['nruns'] > $batch['max_nruns']) {
+                    $batch['max_nruns'] = $s['nruns'];
+                }
+                
                 $s['wt_split'] = $s['wt_split_bkr_split'] - $s['wt_split_bkr_tare'];
                 $s['wt_icp'] = $s['wt_split_bkr_icp'] - $s['wt_split_bkr_tare'];
                 $s['tot_df'] = safe_divide($s['wt_icp'], $s['wt_split']) * $a['wt_HF_soln'];
@@ -80,74 +86,72 @@ class Batch extends BaseBatch
                 $a['check_ti'] = 0;
             }
             
-            // Calculate average weight
-            $temp_tot_al = 0;
-            $temp_tot_be = 0;
-            $n_al = 0;
-            $n_be = 0;
-            foreach ($a['Split'] as &$s) { 
-                $s['nruns'] = count($s['IcpRun']);
-                foreach ($s['IcpRun'] as &$r) {
-                    $r['al_tot'] = $r['al_result'] * $s['tot_df'];
-                    $r['be_tot'] = $r['be_result'] * $s['tot_df'];
-                    
-                    if ($r['use_al'] === 'y') {
-                        $temp_tot_al += $r['al_tot'];
-                        ++$n_al;
-                    }
-                    
-                    if ($r['use_be'] === 'y') {
-                        $temp_tot_be += $r['be_tot'];
-                        ++$n_be;
-                    }
-                }
-            }
-            $a['al_avg'] = safe_divide($temp_tot_al, $n_al);
-            $a['be_avg'] = safe_divide($temp_tot_be, $n_be);
-            
-
-            // Calculate the standard deviation
-            foreach ($a['Split'] as &$s) {
-                $temp_sd_al = 0;
-                $temp_sd_be = 0;  
-                foreach ($s['IcpRun'] as &$r) {
-                    if ($r['use_al'] === 'y') {
-                        $temp_sd_al += pow(($r['al_tot'] - $a['al_avg']), 2);
-                    }
-                    if ($r['use_be'] === 'y') {
-                        $temp_sd_be += pow(($r['be_tot'] - $a['be_avg']), 2);
-                    }
-                }
+            if ($stats) {
+                $this->calcAnalysisStats($a);
             }
 
-            $a['al_sd'] = sqrt(safe_divide($temp_sd_al, $n_al - 1));
-            $a['be_sd'] = sqrt(safe_divide($temp_sd_be, $n_be - 1));
-            
-            // Calculate the percentage error
-            $a['al_pct_err'] = 100 * safe_divide($a['al_sd'], $a['al_avg']);
-            $a['be_pct_err'] = 100 * safe_divide($a['be_sd'], $a['be_avg']);
-            
-            // Calculate the percent recovery
-            $a['be_recovery'] = 100 * safe_divide($a['be_avg'], $a['wt_be']);
-            $a['al_recovery'] = 100 * safe_divide($a['al_avg'], $a['check_tot_al']);
-
-        }
+        } // end analysis loop
         
         // other calculations
         $batch['wt_be_carrier_diff'] = $batch['wt_be_carrier_init'] - $batch['wt_be_carrier_final'];
         $batch['wt_al_carrier_diff'] = $batch['wt_al_carrier_init'] - $batch['wt_al_carrier_final'];
         
-        if ($final === true) {
-            $this->doFinalReportCalcs($precheck);
-        }
-        
         return $batch;
     }
     
-    
-    private function doFinalReportCalcs($precheck)
+    /**
+     * @param array $a the analysis we're doing calculations on and writing to
+     */
+    private function calcAnalysisStats(&$a)
     {
-        // stub
+        // Calculate average weight
+        $temp_tot_al = 0;
+        $temp_tot_be = 0;
+        $n_al = 0;
+        $n_be = 0;
+        foreach ($a['Split'] as &$s) { 
+            foreach ($s['IcpRun'] as &$r) {
+                $r['al_tot'] = $r['al_result'] * $s['tot_df'];
+                $r['be_tot'] = $r['be_result'] * $s['tot_df'];
+
+                if ($r['use_al'] == 'y') {
+                    $temp_tot_al += $r['al_tot'];
+                    ++$n_al;
+                }
+
+                if ($r['use_be'] == 'y') {
+                    $temp_tot_be += $r['be_tot'];
+                    ++$n_be;
+                }
+            }
+        }
+        $a['al_avg'] = safe_divide($temp_tot_al, $n_al);
+        $a['be_avg'] = safe_divide($temp_tot_be, $n_be);
+
+        $temp_sd_al = 0;
+        $temp_sd_be = 0;
+        // Calculate the standard deviation
+        foreach ($a['Split'] as &$s) {
+            foreach ($s['IcpRun'] as &$r) {
+                if ($r['use_al'] == 'y') {
+                    $temp_sd_al += pow(($r['al_tot'] - $a['al_avg']), 2);
+                }
+                if ($r['use_be'] == 'y') {
+                    $temp_sd_be += pow(($r['be_tot'] - $a['be_avg']), 2);
+                }
+            }
+        }
+
+        $a['al_sd'] = sqrt(safe_divide($temp_sd_al, $n_al - 1));
+        $a['be_sd'] = sqrt(safe_divide($temp_sd_be, $n_be - 1));
+
+        // Calculate the percentage error
+        $a['al_pct_err'] = 100 * safe_divide($a['al_sd'], $a['al_avg']);
+        $a['be_pct_err'] = 100 * safe_divide($a['be_sd'], $a['be_avg']);
+
+        // Calculate the percent recovery
+        $a['be_recovery'] = 100 * safe_divide($a['be_avg'], $a['wt_be']);
+        $a['al_recovery'] = 100 * safe_divide($a['al_avg'], $a['check_tot_al']);
     }
     
     /**
