@@ -161,6 +161,7 @@ class Quartz_chem extends MY_Controller
             
             if ($is_valid) {
                 // valid info, save changes to the database
+                $batch->refreshRelated();
                 $batch->save();
             } else {
                 // validation failed
@@ -242,14 +243,10 @@ class Quartz_chem extends MY_Controller
         }
         
         // get previous carrier weights
-        if (isset($batch->BeCarrier)) {
-            $data->be_prev = Doctrine::getTable('Batch')
-                            ->findPrevBeCarrierWt($batch->id, $batch->be_carrier_id);
-        }
-        if (isset($batch->AlCarrier)) {
-            $data->al_prev = Doctrine::getTable('Batch')
-                            ->findPrevAlCarrierWt($batch->id, $batch->al_carrier_id);
-        }
+        $data->be_prev = Doctrine::getTable('Batch')
+                        ->findPrevBeCarrierWt($batch->id, $batch->be_carrier_id);
+        $data->al_prev = Doctrine::getTable('Batch')
+                        ->findPrevAlCarrierWt($batch->id, $batch->al_carrier_id);
         
         // create the lists of carrier options
         $data->be_carrier_options = Doctrine::getTable('BeCarrier')
