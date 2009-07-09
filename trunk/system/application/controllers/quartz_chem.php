@@ -8,30 +8,6 @@
 
 class Quartz_chem extends MY_Controller
 {
-    /**
-     * @var Doctrine_Table $batch batch table
-     */
-    var $batch;
-    
-    /**
-     * @var Doctrine_Table $be_carrier Beryllium carrier table
-     */
-    var $be_carrier;
-    
-    /**
-     * @var Doctrine_Table $al_carrier Aluminum carrier table
-     */
-    var $al_carrier;
-    
-    /**
-     * @var Doctrine_Table $split_bkr Split beaker table
-     */
-     var $split_bkr;
-     
-     /**
-      * @var Doctrine_Table $split Split table
-      **/
-     var $split;
      
     /**
      * Contructs the class object, connects to database, and loads necessary
@@ -40,11 +16,6 @@ class Quartz_chem extends MY_Controller
     function Quartz_chem()
     {
         parent::MY_Controller();
-        $this->batch = Doctrine::getTable('Batch');
-        $this->be_carrier = Doctrine::getTable('BeCarrier');
-        $this->al_carrier = Doctrine::getTable('AlCarrier');
-        $this->split_bkr = Doctrine::getTable('SplitBkr');
-        $this->split = Doctrine::getTable('Split');
     }
     
     /**
@@ -54,11 +25,11 @@ class Quartz_chem extends MY_Controller
     function index()
     {
         // build option tags for the select boxes
-        foreach ($this->batch->findOpenBatches() as $b) {
+        foreach (Doctrine::getTable('Batch')->findOpenBatches() as $b) {
             $data->open_batches .= "<option value=$b->id>$b->start_date $b->owner $b->description";
         }
         
-        foreach ($this->batch->findAllBatches() as $b) {
+        foreach (Doctrine::getTable('Batch')->findAllBatches() as $b) {
             $data->all_batches .= "<option value=$b->id>$b->start_date $b->owner $b->description";
         }
         
@@ -79,7 +50,7 @@ class Quartz_chem extends MY_Controller
         
         if ($is_edit) {
             // it's an existing batch, get it
-            $batch = $this->batch->find($id);
+            $batch = Doctrine::getTable('Batch')->find($id);
             
             if ( ! $batch) {
                 show_404('page');
@@ -146,14 +117,8 @@ class Quartz_chem extends MY_Controller
         $refresh = (bool)$this->input->post('is_refresh');
         $batch_id = (int)$this->input->post('batch_id');
         
-        // grab the batch
-        $batch = Doctrine_Query::create()
-            ->from('Batch b')
-            ->leftJoin('b.Analysis a')
-            ->leftJoin('b.BeCarrier bec')
-            ->leftJoin('b.AlCarrier alc')
-            ->where('b.id = ?', $batch_id)
-            ->fetchOne();
+        // grab the batch with carrier data
+        $batch = Doctrine::getTable('Batch')->findWithCarriers($batch_id);
         
         if ( ! $batch) {
             die('Batch query failed.');
@@ -166,15 +131,15 @@ class Quartz_chem extends MY_Controller
         if ($refresh) {
             $is_valid = $this->form_validation->run('load_samples');
             
-            // grab the submitted data
+            // grab the submitted batch data
             $batch->notes = $this->input->post('notes');
             $batch->be_carrier_id = $this->input->post('be_carrier_id');
             $batch->al_carrier_id = $this->input->post('al_carrier_id');
             $batch->wt_be_carrier_init = $this->input->post('wt_be_carrier_init');
             $batch->wt_al_carrier_init = $this->input->post('wt_al_carrier_init');
             $batch->wt_be_carrier_final = $this->input->post('wt_be_carrier_final');
-            $batch->wt_al_carrier_final = $this->input->post('wt_al_carrier_final');     
-            // fields for each analysis
+            $batch->wt_al_carrier_final = $this->input->post('wt_al_carrier_final');
+            // and array fields for each analysis
             $sample_name = $this->input->post('sample_name');
             $sample_type = $this->input->post('sample_type');
             $diss_bottle_id = $this->input->post('diss_bottle_id');
@@ -193,47 +158,24 @@ class Quartz_chem extends MY_Controller
                 $analysis->wt_be_carrier = $wt_be_carrier[$a];
                 $analysis->wt_al_carrier = $wt_al_carrier[$a];
             }
-
+            
             if ($is_valid) {
                 // valid info, save changes to the database
                 $batch->save();
-                $batch->refreshRelated();
             } else {
                 // validation failed
                 $errors = true;
             }
         }
-
-        // create the lists of carrier options
-        $be_list = $this->be_carrier->getList();
-        $al_list = $this->al_carrier->getList();
-
-        foreach ($be_list as $c) {
-            $data->be_carrier_options .= "<option value=$c->id";
-            if (isset($batch->BeCarrier) AND $c->id == $batch->BeCarrier->id) {
-                $data->be_carrier_options .= ' selected';
-            }
-            $data->be_carrier_options .= "> $c->name";
-        }
-
-        foreach ($al_list as $c) {
-            $data->al_carrier_options .= "<option value=$c->id";
-            if (isset($batch->BeCarrier) AND $c->id == $batch->AlCarrier->id) {
-                $data->al_carrier_options .= ' selected';
-            }
-            $data->al_carrier_options .= "> $c->name";
-        }
-
+        
         // initialize carrier weights and Alcheck data arrays
         $be_tot_wt = 0;
         $al_tot_wt = 0;
         $diss_bottle_options = array();
         $prechecks = array();
         // get all the dissolution bottle numbers
-        $diss_bottles = Doctrine_Query::create()
-            ->from('DissBottle d')
-            ->execute();
-
+        $diss_bottles = Doctrine::getTable('DissBottle')->findAll();
+        
         for ($a = 0; $a < $num_analyses; $a++) {
             // create diss bottle dropdown options for each sample
             $html = '';
@@ -245,10 +187,10 @@ class Quartz_chem extends MY_Controller
                 $html .= "> $bottle->bottle_number";
             }
             $diss_bottle_options[$a] = $html;
-
+            
             $temp_sample_wt = $batch->Analysis[$a]->wt_diss_bottle_sample -
                 $batch->Analysis[$a]->wt_diss_bottle_tare;
-
+            
             // get cations while we're at it
             $precheck = Doctrine_Query::create()
                 ->from('AlcheckAnalysis a, a.AlcheckBatch b')
@@ -258,24 +200,24 @@ class Quartz_chem extends MY_Controller
                 ->orderBy('b.prep_date DESC')
                 ->limit(1)
                 ->fetchOne();
-
+            
             if($precheck AND $batch->AlCarrier) {
                 // there's data, calculate the concentrations
                 $prechecks[$a]['show'] = true;
-
+                
                 if ($precheck['wt_bkr_sample'] == 0 AND $precheck['wt_bkr_tare'] == 0) {
                     $temp_df = 0;
                 } else {
                     $temp_df = ($precheck['wt_bkr_soln'] - $precheck['wt_bkr_tare'])
                             / ($precheck['wt_bkr_sample'] - $precheck['wt_bkr_tare']);
                 }
-
+                
                 $temp_al = $precheck['icp_al'] * $temp_df * $temp_sample_wt / 1000;
                 $temp_fe = $precheck['icp_fe'] * $temp_df * $temp_sample_wt / 1000;
                 $temp_ti = $precheck['icp_ti'] * $temp_df * $temp_sample_wt / 1000;
                 $temp_tot_al = $temp_al + ($batch->Analysis[$a]->wt_al_carrier
                     * $batch->AlCarrier->al_conc) / 1000;
-
+                
                 $prechecks[$a]['conc_al'] = sprintf('%.1f', $precheck['icp_al'] * $temp_df);
                 $prechecks[$a]['conc_fe'] = sprintf('%.1f', $precheck['icp_fe'] * $temp_df);
                 $prechecks[$a]['conc_ti'] = sprintf('%.1f', $precheck['icp_ti'] * $temp_df);
@@ -284,29 +226,37 @@ class Quartz_chem extends MY_Controller
                 $temp_fe = '--';
                 $temp_ti = '--';
                 $temp_tot_al = '--';
-
+                
                 if ($batch->AlCarrier AND $batch->Analysis[$a]->wt_al_carrier > 0) {
                     $temp_tot_al = $batch->Analysis[$a]->wt_al_carrier
                         * $batch->AlCarrier->al_conc / 1000;
                 }
             }
-
+            
             $prechecks[$a]['m_al'] = $temp_tot_al;
             $prechecks[$a]['m_fe'] = $temp_fe;
             $prechecks[$a]['m_ti'] = $temp_ti;
-
+            
             $be_tot_wt += $batch->Analysis[$a]->wt_be_carrier;
             $al_tot_wt += $batch->Analysis[$a]->wt_al_carrier;
         }
-
+        
         // get previous carrier weights
-        if ($batch->BeCarrier) {
-            $data->be_prev = $this->batch->findPrevBeCarrierWt($batch->id, $batch->be_carrier_id);
+        if (isset($batch->BeCarrier)) {
+            $data->be_prev = Doctrine::getTable('Batch')
+                            ->findPrevBeCarrierWt($batch->id, $batch->be_carrier_id);
         }
-        if ($batch->AlCarrier) {
-            $data->al_prev = $this->batch->findPrevAlCarrierWt($batch->id, $batch->al_carrier_id);
+        if (isset($batch->AlCarrier)) {
+            $data->al_prev = Doctrine::getTable('Batch')
+                            ->findPrevAlCarrierWt($batch->id, $batch->al_carrier_id);
         }
-
+        
+        // create the lists of carrier options
+        $data->be_carrier_options = Doctrine::getTable('BeCarrier')
+                                    ->getSelectOptions($batch);
+        $data->al_carrier_options = Doctrine::getTable('AlCarrier')
+                                    ->getSelectOptions($batch);
+        
         // set display variables
         $data->batch = $batch;
         $data->num_analyses = $num_analyses;
@@ -321,7 +271,7 @@ class Quartz_chem extends MY_Controller
         $data->al_diff = $data->al_diff_wt - $al_tot_wt;
         $data->be_tot_wt = $be_tot_wt;
         $data->al_tot_wt = $al_tot_wt;
-
+        
         // template info
         $data->title = 'Sample weighing and carrier addition';
         $data->main = 'quartz_chem/load_samples';
@@ -498,7 +448,7 @@ class Quartz_chem extends MY_Controller
         $data->errors = $errors;
         $data->numsamples = $numsamples;
         $data->batch = $batch;
-        $data->bkr_list = $this->split_bkr->getList();
+        $data->bkr_list = Doctrine::getTable('SplitBkr')->getList();
         $data->title = 'Add split weights';
         $data->main = 'quartz_chem/add_split_weights';
         $this->load->view('template', $data);
@@ -651,7 +601,7 @@ class Quartz_chem extends MY_Controller
             
             // test that all submitted split beakers exist
             $bkrs = array_unique(array_keys(array_merge($al_arr, $be_arr)));
-            $missing = $this->split_bkr->findMissingBkrs($bkrs);
+            $missing = Doctrine::getTable('SplitBkr')->findMissingBkrs($bkrs);
             if (count($missing) != 0) {
                 echo "The beakers ";
                 // comma separated list, true indicates we want an 'and' before last element
@@ -687,12 +637,8 @@ class Quartz_chem extends MY_Controller
     {
         // Retrieve intial postdata
         $batch_id = (int)$this->input->post('batch_id');
-        $refresh = (bool)$this->input->post('refresh');    
-        // Fetch the batch
-        $batch = $this->batch->findIcpQualityControl($batch_id);  
-        if (! $batch) {
-            die("Could not find batch id #$batch_id.");
-        }
+        $refresh = (bool)$this->input->post('refresh');
+        $batch = Doctrine::getTable('Batch')->findCompleteById($batch_id);
         
         // Do a database update if we validate properly
         $errors = false;
@@ -710,123 +656,8 @@ class Quartz_chem extends MY_Controller
             }
         }
         
-        // Let's do some math for the derived weights and statistics
-        $nsamples = $batch->Analysis->count();
-        $nsplits = array();
-        for ($a = 0; $a < $nsamples; $a++) {
-            $an = &$batch->Analysis[$a]; // Shorten the name a bit because it's used frequently
-            $sample_name[$a] = $an->sample_name;
-            $wt_sample[$a] = $an->wt_diss_bottle_sample - $an->wt_diss_bottle_tare;
-            $wt_HF_soln[$a] = $an->wt_diss_bottle_total - $an->wt_diss_bottle_tare;
-            $nsplits[$a] =  $an->Split->count();
-            
-            // calculate weights and dilution factors
-            for ($s = 0; $s < $nsplits[$a]; $s++) {
-                $sp = &$an->Split[$s];
-                $wt_split[$a][$s] = $sp->wt_split_bkr_split - $sp->wt_split_bkr_tare;
-                $wt_icp[$a][$s] = $sp->wt_split_bkr_icp - $sp->wt_split_bkr_tare;
-                if ($wt_split[$a][$s] > 0) {
-                    $tot_df[$a][$s] = ($wt_icp[$a][$s] / $wt_split[$a][$s]) * $wt_HF_soln[$a];
-                }
-            }
-            $wt_be[$a] = $an->wt_be_carrier * $batch->BeCarrier->be_conc;
-            $wt_al_fromc[$a] = $an->wt_al_carrier * $batch->AlCarrier->al_conc;
-            
-            // Do the usual thing with the Al checks database --
-            // Attempt to obtain Al/Fe/Ti concentrations
-            $precheck = Doctrine_Query::create()
-                ->from('AlcheckAnalysis a')
-                ->leftJoin('a.AlcheckBatch b')
-                ->select('a.sample_name, a.icp_al, a.icp_fe, a.icp_ti, a.wt_bkr_tare, '
-                    .'a.wt_bkr_sample, a.wt_bkr_soln, b.prep_date')
-                ->where('a.sample_name = ?', $batch->Analysis[$a]->sample_name)
-                ->andWhere('a.alcheck_batch_id = b.id')
-                ->orderBy('b.prep_date DESC')
-                ->limit(1)
-                ->fetchOne();
-                
-            if ($precheck) { // we found it
-                $alcheck_df = ($precheck->wt_bkr_soln - $precheck->wt_bkr_tare) 
-                                / ($precheck->wt_bkr_sample - $precheck->wt_bkr_tare);
-                $check_al = $precheck->icp_al * $alcheck_df * $wt_sample[$a];
-                $check_fe[$a] = $precheck->icp_fe * $alcheck_df * $wt_sample[$a];
-                $check_ti[$a] = $precheck->icp_ti * $alcheck_df * $wt_sample[$a];
-                $check_tot_al[$a] = $check_al + ($an->wt_al_carrier * $batch->AlCarrier->al_conc);
-            } elseif ($an->sample_type === 'BLANK') { // sample is a blank
-                if ($an->wt_al_carrier > 0) {
-                    $check_tot_al[$a] = ($an->wt_al_carrier * $batch->AlCarrier->al_conc);
-                } else {
-                    $check_tot_al[$a] = 0;
-                }
-                $check_Fe[$a] = 0;
-                $check_Ti[$a] = 0;
-            } else { // not in the database
-                $check_tot_al[$a] = 0;
-                $check_fe[$a] = 0;
-                $check_ti[$a] = 0;
-            }
-            
-            // Calculate average weights
-            for($s = 0; $s < $nsplits[$a]; $s++) {
-                $sp = &$an->Split[$s];
-                $temp_tot_al[] = 0;
-                $temp_tot_be[] = 0;
-                $n_al[] = 0;
-                $n_be[] = 0;  
-                $nruns[$a][$s] = $sp->IcpRun->count();
-                for ($r = 0; $r < $nruns[$a][$s]; $r++) {
-                    $run = &$sp->IcpRun[$r];
-                    $icp_al[$a][$s][$r] = $run->al_result;
-                    $icp_be[$a][$s][$r] = $run->be_result;
-                    $al_tot[$a][$s][$r] = $run->al_result * $tot_df[$a][$s];
-                    $be_tot[$a][$s][$r] = $run->be_result * $tot_df[$a][$s];
-                    
-                    if ($run->use_al === 'y') {
-                        $temp_tot_al[$a] += $al_tot[$a][$s][$r];
-                        ++$n_al[$a];
-                    }
-                    if ($run->use_be === 'y') {
-                        $temp_tot_be[$a] += $be_tot[$a][$s][$r];
-                        ++$n_be[$a];
-                    }
-                }
-            }
-            $al_avg[$a] = safe_divide($temp_tot_al[$a], $n_al[$a]);
-            $be_avg[$a] = safe_divide($temp_tot_be[$a], $n_be[$a]);
-            
-            // Calculate the standard deviation
-            for($s = 0; $s < $nsplits[$a]; $s++) {
-                $temp_sd_al[] = 0;
-                $temp_sd_be[] = 0;  
-                for ($r = 0; $r < $nruns[$a][$s]; $r++) {
-                    if ($run->use_al === 'y') {
-                        $temp_sd_al[$a] += pow(($al_tot[$a][$s][$r] - $al_avg[$a]), 2);
-                    }
-                    if ($run->use_be === 'y') {
-                        $temp_sd_be[$a] += pow(($be_tot[$a][$s][$r] - $be_avg[$a]), 2);
-                    }
-                }
-            }
-            $al_sd[$a] = sqrt(safe_divide($temp_sd_al[$a], $n_al[$a] - 1));
-            $be_sd[$a] = sqrt(safe_divide($temp_sd_be[$a], $n_be[$a] - 1));
-            
-            // Calculate the percentage error
-            $al_pct_err[$a] = 100 * safe_divide($al_sd[$a], $al_avg[$a]);
-            $be_pct_err[$a] = 100 * safe_divide($be_sd[$a], $be_avg[$a]);
-            
-            // Calculate the recoveries
-            $be_recovery[$a] = 100 * safe_divide($be_avg[$a], $wt_be[$a]);
-            $al_recovery[$a] = 100 * safe_divide($al_avg[$a], $check_tot_al[$a]);
-        }
-        
-        // load up the data to pass to the view
-        $fields = array('errors', 'batch', 'nsamples', 'nsplits', 'nruns',
-                        'icp_al', 'icp_be','be_tot', 'al_tot', 'be_avg', 'al_avg', 'be_sd', 'al_sd', 
-                        'be_pct_err', 'al_pct_err', 'be_recovery', 'al_recovery');
-        foreach ($fields as $f) {
-            $data->{$f} = ${$f};
-        }
-        
+        $data->batch = $batch->getReportArray();
+        $data->errors = $errors;
         $data->title = 'ICP Quality Control';
         $data->main = 'quartz_chem/icp_quality_control';
         $this->load->view('template', $data);
@@ -842,158 +673,9 @@ class Quartz_chem extends MY_Controller
     function intermediate_report() 
     {
         $batch_id = (int)$this->input->post('batch_id');
-        $batch = $this->batch->findIntermediateReport($batch_id);
-        if (! $batch) {
-            die("Could not find batch id #$batch_id.");
-        }
-        
-        $numsamples = $batch->Analysis->count();
-        
-        // Let's do some math for the derived weights
-        $wt_be_carrier_disp = 0;
-        $wt_al_carrier_disp = 0;
-        
-        $max_nsplits = 0;
-        for ($a = 0 ; $a < $numsamples; $a++) {
-            $analysis = $batch->Analysis[$a];
-            $sample_name[$a] = $analysis->sample_name;
-            $wt_sample[$a] = $analysis->wt_diss_bottle_sample - $analysis->wt_diss_bottle_tare;
-            $wt_HF_soln[$a] = $analysis->wt_diss_bottle_total - $analysis->wt_diss_bottle_tare;
-            $wt_al_carrier_disp += $analysis->wt_al_carrier;  
-            $wt_be_carrier_disp += $analysis->wt_be_carrier;   
-            $numsplits = $batch->Analysis[$a]->Split->count();
-            $nsplits[$a] = $numsplits;
-            
-            if ($numsplits > $max_nsplits) {
-                $max_nsplits = $numsplits;
-            }
-            
-            for ($s = 0; $s < $numsplits; $s++) {
-                $wt_split[$a][$s] = $analysis->Split[$s]->wt_split_bkr_split 
-                    - $analysis->Split[$s]->wt_split_bkr_tare;
-                $wt_icp[$a][$s] = $analysis->Split[$s]->wt_split_bkr_icp
-                    - $analysis->Split[$s]->wt_split_bkr_tare;
-                if ($wt_split[$a][$s] > 0) {
-                    $tot_df[$a][$s] = ($wt_icp[$a][$s] / $wt_split[$a][$s]) * $wt_HF_soln[$a];
-                }
-            }
-            
-            $wt_be[$a] = $analysis['wt_be_carrier'] * $batch->BeCarrier->be_conc;
-            
-            $wt_al_fromc[$a] = $analysis['wt_al_carrier'] * $batch->AlCarrier->al_conc;
-            
-            // Do the usual thing with the Al checks database --
-            // Attempt to obtain Al/Fe/Ti concentrations
-            
-            $precheck = Doctrine_Query::create()
-                ->from('AlcheckAnalysis a')
-                ->leftJoin('a.AlcheckBatch b')
-                ->select('a.sample_name, a.icp_al, a.icp_fe, a.icp_ti, a.wt_bkr_tare, '
-                    .'a.wt_bkr_sample, a.wt_bkr_soln, b.prep_date')
-                ->where('a.sample_name = ?', $batch->Analysis[$a]->sample_name)
-                ->andWhere('a.alcheck_batch_id = b.id')
-                ->orderBy('b.prep_date DESC')
-                ->limit(1)
-                ->fetchOne();
-                
-            if ($precheck) {
-                $al_check_df = ($precheck['wt_bkr_soln'] - $precheck['wt_bkr_tare'])
-                    / ($precheck['wt_bkr_sample'] - $precheck['wt_bkr_tare']);
-                $check_al = $precheck['icp_al'] * $al_check_df * $wt_sample[$a];
-                $check_fe[$a] = $precheck['icp_fe'] * $al_check_df * $wt_sample[$a];
-                $check_ti[$a] = $precheck['icp_ti'] * $al_check_df * $wt_sample[$a];
-                $check_tot_al[$a] = $check_al + ($analysis['wt_al_carrier'] * $batch->AlCarrier->al_conc);
-            } elseif ($analysis->sample_type === 'BLANK') {
-                if ($analysis['wt_al_carrier'] > 0) {
-                    $check_tot_al[$a] = ($analysis['wt_al_carrier'] * $batch->AlCarrier->al_conc);
-                } else {
-                    $check_tot_al[$a] = 0;
-                }
-                $check_Fe[$a] = 0;
-                $check_Ti[$a] = 0;
-            } else {
-                $check_tot_al[$a] = 0;
-                $check_fe[$a] = 0;
-                $check_ti[$a] = 0;
-            }
-            
-            $temp_tot_al[] = 0;
-            $temp_tot_be[] = 0;
-            $n_al[] = 0;
-            $n_be[] = 0;
-            for($s = 0; $s < $numsplits; $s++) {
-                $nRuns = $analysis->Split[$s]->IcpRun->count();
-                for ($r = 0; $r < $nRuns; $r++) {
-                    $icp_al[$a][$s][$r] = $analysis->Split[$s]->IcpRun[$r]->al_result;
-                    $icp_be[$a][$s][$r] = $analysis->Split[$s]->IcpRun[$r]->be_result;
-                    $icp_use_al[$a][$s][$r] = $analysis->Split[$s]->IcpRun[$r]->use_al;
-                    $icp_use_be[$a][$s][$r] = $analysis->Split[$s]->IcpRun[$r]->use_be;
-                    $al_tot[$a][$s][$r] = $icp_al[$a][$s][$r] * $tot_df[$a][$s];
-                    $be_tot[$a][$s][$r] = $icp_be[$a][$s][$r] * $tot_df[$a][$s];
-                    
-                    // record info for calculating the mean
-                    if ($icp_use_al[$a][$s][$r] === 'y') {
-                        $temp_tot_al[$a] += $al_tot[$a][$s][$r];
-                        $n_al[$a] += 1;
-                    }
-                    if ($icp_use_be[$a][$s][$r] === 'y') {
-                        $temp_tot_be[$a] += $be_tot[$a][$s][$r];
-                        $n_be[$a] += 1;
-                    }
-                }
-            }
-            
-            $al_tot_avg[$a] = safe_divide($temp_tot_al[$a], $n_al[$a]);
-            $be_tot_avg[$a] = safe_divide($temp_tot_be[$a], $n_be[$a]);
-            
-            if ($numsplits != 0) {
-                // Calculate the standard deviations
-                for($s = 0; $s < $numsplits; $s++) {
-                    $temp_sd_al[] = 0;
-                    $temp_sd_be[] = 0;
-                    $nRuns = $analysis->Split[$s]->IcpRun->count();
-                    for ($r = 0; $r < $nRuns; $r++) {
-                        if ($icp_use_al[$a][$s][$r] === 'y') {
-                            $temp_sd_al[$a] += pow(($al_tot[$a][$s][$r] - $al_tot_avg[$a]), 2);
-                        }
-                        if ($icp_use_be[$a][$s][$r] === 'y') {
-                            $temp_sd_be[$a] += pow(($be_tot[$a][$s][$r] - $be_tot_avg[$a]), 2);
-                        }
-                    }
-                }
-                $al_tot_sd[$a] = sqrt(safe_divide($temp_sd_al[$a], $n_al[$a] - 1));
-                $be_tot_sd[$a] = sqrt(safe_divide($temp_sd_be[$a], $n_be[$a] - 1));
-                
-                // Calculate the percentage errors
-                $al_pct_sd[$a] = 100 * safe_divide($al_tot_sd[$a], $al_tot_avg[$a]);
-                $be_pct_sd[$a] = 100 * safe_divide($be_tot_sd[$a], $be_tot_avg[$a]);
-                
-                // Calculate the recoveries
-                $be_recovery[$a] = 100 * safe_divide($be_tot_avg[$a], $wt_be[$a]);
-                $al_recovery[$a] = 100 * safe_divide($al_tot_avg[$a], $check_tot_al[$a]);
-            } 
-        }
-        
-        $data->todays_date = date('Y-m-d');
-        $data->max_nsplits = $max_nsplits;
-        $data->numsamples = $numsamples;
-        $data->nsplits = $nsplits;
-        $data->batch = $batch;
-        // carrier information
-        $data->wt_be_carrier_diff = $batch->wt_be_carrier_init - $batch->wt_be_carrier_final;
-        $data->wt_al_carrier_diff = $batch->wt_al_carrier_init - $batch->wt_al_carrier_final;
-        $data->wt_be_carrier_disp = $wt_be_carrier_disp;
-        $data->wt_al_carrier_disp = $wt_al_carrier_disp;
-        // derived sample data
-        $data->wt_sample = $wt_sample;
-        $data->wt_HF_soln = $wt_HF_soln;
-        $data->wt_be = $wt_be;
-        $data->wt_al_fromc = $wt_al_fromc;
-        $data->check_tot_al = $check_tot_al;
-        $data->wt_split = $wt_split;
-        $data->wt_icp = $wt_icp;
-        $data->tot_df = $tot_df;
+        $data->batch = Doctrine::getTable('Batch')->getReportArray($batch_id);
         $data->title = 'Intermediate hard copy of weighings -- Al - Be extraction from quartz';
+        $data->todays_date = date('Y-m-d');
         $data->main = 'quartz_chem/intermediate_report';
         $this->load->view('quartz_chem/report_template', $data);
     }
@@ -1005,18 +687,10 @@ class Quartz_chem extends MY_Controller
     function final_report()
     {
         $batch_id = (int)$this->input->post('batch_id');
-        $batch = $this->batch->findFinalReport($batch_id);
-        
-        if (! $batch) {
-            die('Batch not found.');
-        }
-        
-        // calculate things
-        
-        // put things onto data object
-        
-        $data->batch = $batch;
+        // do all our calculations, pass true to do a complete report
+        $data->batch = Doctrine::getTable('Batch')->getReportArray($batch_id, true);
         $data->title = 'Final report -- Al - Be extraction from quartz';
+        $data->todays_date = date('Y-m-d');
         $data->main = 'quartz_chem/final_report';
         $this->load->view('quartz_chem/report_template', $data);
     }
