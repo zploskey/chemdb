@@ -124,9 +124,9 @@ class BatchTable extends Doctrine_Table
      *
      * @return void
      **/
-    public function getReportArray($id, $final = false)
+    public function getReportArray($id, $stats = false)
     {
-        return $this->findCompleteById($id)->getReportArray($final);
+        return $this->findCompleteById($id)->getReportArray($stats);
     }
 
 }
