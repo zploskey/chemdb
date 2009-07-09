@@ -11,7 +11,7 @@ class BeCarrierTable extends Doctrine_Table
         $options = '';
         foreach ($carriers as $c) {
             $options .= "<option value=$c->id";
-            if (isset($batch->AlCarrier) && $c->id == $batch->AlCarrier->id) {
+            if (isset($batch->BeCarrier) && $c->id == $batch->BeCarrier->id) {
                 $options .= ' selected';
             }
            $options .= "> $c->name";
