@@ -653,7 +653,7 @@ class Quartz_chem extends MY_Controller
             }
         }
         
-        $data->batch = $batch->getReportArray();
+        $data->batch = $batch->getReportArray(true);
         $data->errors = $errors;
         $data->title = 'ICP Quality Control';
         $data->main = 'quartz_chem/icp_quality_control';
