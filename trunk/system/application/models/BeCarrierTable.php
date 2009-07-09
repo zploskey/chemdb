@@ -4,11 +4,19 @@
  */
 class BeCarrierTable extends Doctrine_Table
 {
-    public function getList()
+    public function getSelectOptions($batch)
     {
-        return Doctrine_Query::create()
-            ->from('BeCarrier bec')
-            ->select('bec.id, bec.name')
-            ->execute();
+        $carriers = $this->createQuery('c')->select('c.id, c.name')->execute();
+        
+        $options = '';
+        foreach ($carriers as $c) {
+            $options .= "<option value=$c->id";
+            if (isset($batch->AlCarrier) && $c->id == $batch->AlCarrier->id) {
+                $options .= ' selected';
+            }
+           $options .= "> $c->name";
+        }
+        
+        return $options;
     }
 }
