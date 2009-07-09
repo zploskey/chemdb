@@ -49,7 +49,7 @@ class Projects extends MY_Controller
         $config['per_page'] = $num_per_page;
         $config['uri_segment'] = 5;
         $this->pagination->initialize($config);
-            
+        
         $data = array(
             'title'        => 'Manage Projects',
             'main'         => 'projects/index',
