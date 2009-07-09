@@ -11,12 +11,12 @@ class AlCarrierTable extends Doctrine_Table
         $options = '';
         foreach ($carriers as $c) {
             $options .= "<option value=$c->id";
-            if (isset($batch->BeCarrier) && $c->id == $batch->BeCarrier->id) {
+            if (isset($batch->AlCarrier) && $c->id == $batch->AlCarrier->id) {
                 $options .= ' selected';
             }
            $options .= "> $c->name";
         }
-        
+    
         return $options;
     }
 }
