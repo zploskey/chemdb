@@ -13,7 +13,7 @@ class Quartz_chem extends MY_Controller
      * Contructs the class object, connects to database, and loads necessary
      * libraries.
      **/
-    function Quartz_chem()
+    function __construct()
     {
         parent::MY_Controller();
     }
@@ -24,6 +24,12 @@ class Quartz_chem extends MY_Controller
      */
     function index()
     {
+        $is_lock = $this->input->post('is_lock');
+        $batch_id = $this->input->post('batch_id');
+        if ($is_lock === "true") {
+            Doctrine::getTable('Batch')->lock($batch_id);
+        }
+        
         // build option tags for the select boxes
         foreach (Doctrine::getTable('Batch')->findOpenBatches() as $b) {
             $data->open_batches .= "<option value=$b->id>$b->start_date $b->owner $b->description";
