@@ -14,7 +14,7 @@
 
 // Branching for development environment:
 if($_SERVER['SERVER_NAME'] == 'localhost') {
-    $config['base_url'] = 'http://localhost:8888/ci_chemdb';
+    $config['base_url'] = 'http://localhost/ci_chemdb';
     $_SERVER['REMOTE_USER'] = 'testuser';
 } else {
     $config['base_url'] = 'http://depts.washington.edu/cosmolab/dev_chemdb';
