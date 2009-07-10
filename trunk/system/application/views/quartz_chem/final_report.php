@@ -8,10 +8,10 @@
     <tr>
     <tr>
         <td></td>
-        <td colspan=4 align=center>
+        <td colspan=<?=$batch['max_nsplits'] * $batch['max_nruns']?> align=center>
             Corrected ICP [Al]<br><hr>
         </td>
-        <td colspan=8 align=center>
+        <td colspan=<?=$batch['max_nsplits'] * $batch['max_nruns'] * 2?> align=center>
             Total Al resulting (ug)<br><hr>
         <td>
         <td colspan=3></td>
@@ -44,7 +44,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan=18><hr></td>
+        <td colspan="<?=(6 + $batch['max_nsplits'] * $batch['max_nruns'] * 3)?>"><hr></td>
     </td>
 
 <? foreach ($batch['Analysis'] as $a): ?>
@@ -88,12 +88,12 @@
                              '</td>';
                     } else {
                         // there aren't as many runs for this split, print a blank
-                        echo '<td></td>';
+                        echo '<td colspan="2"></td>';
                     }
                 }
             } else {
                 // no split here, print blanks
-                echo '<td></td>';
+                echo '<td colspan="2"></td>';
             }
         }
         ?>
@@ -109,7 +109,10 @@
     
 <? endforeach; ?>
 
-<tr><td colspan=18><hr><hr></td></tr></table>
+    <tr><td colspan="<?=(6 + $batch['max_nsplits'] * $batch['max_nruns'] * 3)?>">
+    <hr><hr></td>
+    </tr>
+</table>
 
 <table width=800 class=arial8>
     <tr>
@@ -119,10 +122,10 @@
     <tr>
     <tr>
         <td></td>
-        <td colspan=4 align=center>
+        <td colspan=<?=$batch['max_nsplits'] * $batch['max_nruns']?> align=center>
             Corrected ICP [Be]<br><hr>
         </td>
-        <td colspan=8 align=center>
+        <td colspan=<?=$batch['max_nsplits'] * $batch['max_nruns'] * 2?> align=center>
             Total Be resulting (ug)<br><hr>
         <td>
         <td colspan=3></td>
@@ -155,7 +158,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan=18><hr></td>
+        <td colspan="<?=(6 + $batch['max_nsplits'] * $batch['max_nruns'] * 3)?>"><hr></td>
     </td>
 
 <? foreach ($batch['Analysis'] as $a): ?>
@@ -198,12 +201,12 @@
                          '</td>';
                 } else {
                     // there aren't as many runs for this split, print a blank
-                    echo '<td></td>';
+                    echo '<td colspan="2"></td>';
                 }
             }
         } else {
             // no split here, print blanks
-            echo '<td></td>';
+            echo '<td colspan="2"></td>';
         }
     }
     ?>
@@ -219,6 +222,6 @@
 <? endforeach; ?>
 
 
-<tr><td colspan=18><hr><hr></td></tr>
+<tr><td colspan="<?=(6 + $batch['max_nsplits'] * $batch['max_nruns'] * 3)?>"><hr><hr></td></tr>
 
 </table>
