@@ -122,7 +122,7 @@ class Quartz_chem extends MY_Controller
         
         if ( ! $batch) {
             die('Batch query failed.');
-        } 
+        }
         
         $num_analyses = $batch->Analysis->count();
         $errors = false;
@@ -699,7 +699,7 @@ class Quartz_chem extends MY_Controller
     /**
      * @param string $date_string date in YYYY-MM-DD format
      */
-    function valid_date($date_string) 
+    function _valid_date($date_string) 
     {
         if ($this->form_validation->valid_date($date_string)) {
             return true;
@@ -709,15 +709,7 @@ class Quartz_chem extends MY_Controller
             'The %s field must be a valid date in the format YYYY-MM-DD.');
         return false;
     }
-    
-    function is_yn($val)
-    {
-        if ($val === "y" OR $val === "n") {
-            return true;
-        }
-        $this->form_validation->set_message('is_yn', "I wouldn't mess with that if I were you.");
-        return false;
-    }
+
 }
 
 /* End of file quartz_chem.php */

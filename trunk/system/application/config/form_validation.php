@@ -16,7 +16,7 @@ $config['projects'] = array(
     array(
         'field' => 'name',
         'label' => 'name',
-        'rules' => 'trim|required|alpha_dash|callback_is_unique[project.name]'),
+        'rules' => 'trim|required|alpha_dash|callback__is_unique[project.name]'),
     array(
         'field' => 'description',
         'label' => 'description',
@@ -27,15 +27,15 @@ $config['samples'] = array(
     array(
         'field' => 'sample[name]',
         'label' => 'name',
-        'rules' => 'trim|required|alpha_dash|callback_is_unique[sample.name]'),
+        'rules' => 'trim|required|alpha_dash|callback__is_unique[sample.name]'),
     array(
         'field' => 'sample[latitude]',
         'label' => 'latitude',
-        'rules' => 'trim|numeric|callback_valid_latlong'),
+        'rules' => 'trim|numeric|callback__valid_latlong'),
     array(
         'field' => 'sample[longitude]',
         'label' => 'longitude',
-        'rules' => 'trim|numeric|callback_valid_latlong'),
+        'rules' => 'trim|numeric|callback__valid_latlong'),
     array(
         'field' => 'sample[altitude]',
         'label' => 'altitude',
@@ -43,7 +43,7 @@ $config['samples'] = array(
     array(
         'field' => 'sample[shield_factor]',
         'label' => 'shield factor',
-        'rules' => 'trim|numeric|callback_valid_shield_factor'),
+        'rules' => 'trim|numeric|callback__valid_shield_factor'),
     array(
         'field' => 'sample[depth_top]',
         'label' => 'depth top',
@@ -174,7 +174,7 @@ $config['add_icp_weights'] = array(
     array(
         'field' => 'batch[icp_date]',
         'label' => 'ICP date',
-        'rules' => 'trim|alpha_dash|callback_valid_date'),
+        'rules' => 'trim|alpha_dash|callback__valid_date'),
     array(
         'field' => 'tot_wts[]',
         'label' => 'beaker + ICP solution wt.',
@@ -185,7 +185,7 @@ $config['al_new_batch'] = array(
     array(
         'field' => 'batch[prep_date]',
         'label' => 'date',
-        'rules' => 'required|trim|alpha_dash|callback_valid_date'),
+        'rules' => 'required|trim|alpha_dash|callback__valid_date'),
     array(
         'field' => 'numsamples',
         'label' => 'number of samples',
