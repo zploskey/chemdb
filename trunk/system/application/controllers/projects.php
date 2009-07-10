@@ -11,7 +11,7 @@ class Projects extends MY_Controller
      * Contructs the class object, connects to database, and loads necessary libraries.
      * 
      **/
-    function Projects()
+    function __construct()
     {
         parent::MY_Controller();
         $this->project = Doctrine::getTable('Project');
