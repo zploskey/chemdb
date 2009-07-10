@@ -12,7 +12,7 @@ class Samples extends MY_Controller
      * 
      * @return void
      **/
-    function Samples()
+    function __construct()
     {
         parent::MY_Controller();
         $this->sample = Doctrine::getTable('Sample');
