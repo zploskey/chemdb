@@ -128,5 +128,14 @@ class BatchTable extends Doctrine_Table
     {
         return $this->findCompleteById($id)->getReportArray($stats);
     }
+    
+    public function lock($id)
+    {
+        return Doctrine_Query::create()
+            ->update('Batch')
+            ->set('completed', '?', 'y')
+            ->where('id = ?', $id)
+            ->execute();
+    }
 
 }
