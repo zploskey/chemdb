@@ -5,7 +5,7 @@ class Alchecks extends MY_Controller
     var $alAnalysis;
     var $alBatch;
     
-    function Alchecks()
+    function __construct()
     {
         parent::MY_Controller();
         $this->alAnalysis = Doctrine::GetTable('AlcheckAnalysis');
