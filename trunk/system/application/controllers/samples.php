@@ -134,7 +134,7 @@ class Samples extends MY_Controller
     // CALLBACKS:
     // ----------
     
-    function is_unique($value, $field)
+    function _is_unique($value, $field)
     {
         $id = $this->uri->segment(3, null);
         return $this->form_validation->is_unique($value, $field, $id);
@@ -143,7 +143,7 @@ class Samples extends MY_Controller
     /*
      * Returns true if value is not greater than 180.
      */
-    function valid_latlong($value)
+    function _valid_latlong($value)
     {
         if (abs($value) <= 180) {
             return TRUE;
@@ -153,7 +153,7 @@ class Samples extends MY_Controller
         return FALSE;
     }
 
-    function valid_shield_factor($value)
+    function _valid_shield_factor($value)
     {
         if ($value <= 1 && $value >= 0) {
             return TRUE;
