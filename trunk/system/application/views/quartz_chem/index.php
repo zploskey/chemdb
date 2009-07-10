@@ -197,7 +197,7 @@
     </tr>
     
     <?=form_open('quartz_chem/index')?>
-        <input type="hidden" name="is_lock" value="yes">
+        <input type="hidden" name="is_lock" value="true">
         <tr>
             <td align=center>
                 <i>Batch:</i>
