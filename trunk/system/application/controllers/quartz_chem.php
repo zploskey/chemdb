@@ -70,7 +70,7 @@ class Quartz_chem extends MY_Controller
             $data->numsamples = null;
         }
         
-        if ($this->form_validation->run('batches') == false) {
+        if (! $this->form_validation->run('batches')) {
             // validation failed, redisplay the form
             if ($is_edit) {
                 $batch->id = set_value('id', $batch->id);
@@ -677,7 +677,8 @@ class Quartz_chem extends MY_Controller
     {
         $batch_id = (int)$this->input->post('batch_id');
         $data->batch = Doctrine::getTable('Batch')->getReportArray($batch_id);
-        $data->title = 'Intermediate hard copy of weighings -- Al - Be extraction from quartz';
+        $data->title = 'Intermediate hard copy of weighings -- '
+                     . 'Al - Be extraction from quartz';
         $data->todays_date = date('Y-m-d');
         $data->main = 'quartz_chem/intermediate_report';
         $this->load->view('quartz_chem/report_template', $data);
@@ -691,7 +692,8 @@ class Quartz_chem extends MY_Controller
     {
         $batch_id = (int)$this->input->post('batch_id');
         // do all our calculations, pass true to do a complete report
-        $data->batch = Doctrine::getTable('Batch')->getReportArray($batch_id, true);
+        $data->batch = Doctrine::getTable('Batch')
+                       ->getReportArray($batch_id, true);
         $data->title = 'Final report -- Al - Be extraction from quartz';
         $data->todays_date = date('Y-m-d');
         $data->main = 'quartz_chem/final_report';
@@ -703,11 +705,11 @@ class Quartz_chem extends MY_Controller
     // ----------
     
     /**
-     * @param string $date_string date in YYYY-MM-DD format
+     * @param string $date date in YYYY-MM-DD format
      */
-    function _valid_date($date_string) 
+    function _valid_date($date) 
     {
-        if ($this->form_validation->valid_date($date_string)) {
+        if ($this->form_validation->valid_date($date)) {
             return true;
         }
         
