@@ -12,7 +12,9 @@
 	<p>
 		<table class="itemlist">
 			<tr>
-				<th><?=anchor("samples/index/$sort_by/$alt_sort_dir/$page", 'Name')?></th>
+				<th>
+				    <?=anchor("samples/index/$sort_by/$alt_sort_dir/$alt_sort_page", 'Name')?>
+				</th>
 				<th>Actions</th>
 			</tr>
 		
