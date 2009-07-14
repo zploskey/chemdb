@@ -181,6 +181,30 @@ $config['add_icp_weights'] = array(
         'rules' => 'trim|numeric|abs'),
 );
 
+$config['add_icp_results'] = array(
+    array(
+        'field' => 'notes',
+        'label' => 'notes',
+        'rules' => 'trim|htmlspecialchars'),
+);
+
+$config['icp_quality_control'] = array(
+    array(
+        'field' => 'use_be[]',
+        'label' => 'Be OK?',
+        'rules' => 'is_natural'),
+    array(
+        'field' => 'use_al[]',
+        'label' => 'Al OK?',
+        'rules' => 'is_natural'),
+    array(
+        'field' => 'notes',
+        'label' => 'notes',
+        'rules' => 'trim|htmlspecialchars'),
+);
+
+// Aluminum checks
+
 $config['al_new_batch'] = array(
     array(
         'field' => 'prep_date',
@@ -223,26 +247,19 @@ $config['al_sample_loading'] = array(
 		'rules' => 'trim|htmlspecialchars'),
 );
 
-$config['add_icp_results'] = array(
+$config['al_add_solution_weights'] = array(
     array(
-        'field' => 'notes',
+        'field' => 'wt_bkr_soln[]',
+        'label' => 'Bkr + soln.',
+        'rules' => 'trim|numeric|abs'),
+    array(
+        'field' => 'addl_dil_factor[]',
+        'label' => "Add'l DF",
+        'rules' => 'trim|numeric|abs'),
+    array(
+        'field' => 'notes[]',
         'label' => 'notes',
-        'rules' => 'trim|htmlspecialchars'),
-);
-
-$config['icp_quality_control'] = array(
-    array(
-        'field' => 'use_be[]',
-        'label' => 'Be OK?',
-        'rules' => 'is_natural'),
-    array(
-        'field' => 'use_al[]',
-        'label' => 'Al OK?',
-        'rules' => 'is_natural'),
-    array(
-        'field' => 'notes',
-        'label' => 'notes',
-        'rules' => 'trim|htmlspecialchars'),
+        'rules' => 'trim|htmlspecialchars')
 );
 
 /* End of file form_validation.php */
