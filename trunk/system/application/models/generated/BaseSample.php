@@ -16,6 +16,7 @@
  * @property float $density
  * @property float $erosion_rate
  * @property string $notes
+ * @property Doctrine_Collection $AlcheckAnalysis
  * @property Doctrine_Collection $Analysis
  * @property Doctrine_Collection $ProjectSample
  * 
@@ -121,6 +122,10 @@ abstract class BaseSample extends Doctrine_Record
 
     public function setUp()
     {
+        $this->hasMany('AlcheckAnalysis', array(
+             'local' => 'id',
+             'foreign' => 'sample_id'));
+
         $this->hasMany('Analysis', array(
              'local' => 'id',
              'foreign' => 'sample_id'));

@@ -2,20 +2,6 @@
 
 class Projects extends MY_Controller
 {   
-    /**
-     * @var Doctrine_Table corresponding table
-     */
-    var $project;
-
-    /**
-     * Contructs the class object, connects to database, and loads necessary libraries.
-     * 
-     **/
-    function __construct()
-    {
-        parent::MY_Controller();
-        $this->project = Doctrine::getTable('Project');
-    }
 
     /**
      * Loads a page listing projects.
@@ -41,11 +27,17 @@ class Projects extends MY_Controller
             ->limit($num_per_page)
             ->offset($page)
             ->execute();
+        
+        $nrows = Doctrine::getTable('Project')->count();
+        $alt_sort_page = $nrows - $page - $num_per_page;
+        if ($alt_sort_page < 0) {
+            $alt_sort_page = 0;
+        }
                 
         // set pagination options
         $this->load->library('pagination');
         $config['base_url'] = site_url("projects/index/$sort_by/$sort_dir");
-        $config['total_rows'] = $this->project->count();
+        $config['total_rows'] = $nrows;
         $config['per_page'] = $num_per_page;
         $config['uri_segment'] = 5;
         $this->pagination->initialize($config);
@@ -57,7 +49,8 @@ class Projects extends MY_Controller
             'pagination'   => 'Go to page: '.$this->pagination->create_links(),
             'alt_sort_dir' => switch_sort($sort_dir),  // a little trick I put in the snippet helper
             'sort_by'      => $sort_by,
-            'page'         => $page
+            'page'         => $page,
+            'alt_sort_page' => $alt_sort_page,
         );
 
         $this->load->view('template', $data);
@@ -74,7 +67,7 @@ class Projects extends MY_Controller
         // are we editing an existing project?
         if ($id) {
             // Get the project data.
-            $proj = $this->project->find($id);
+            $proj = Doctrine::getTable('Project')->find($id);
 
             // If the project doesn't exist we 404.
             if ( ! $proj) {
@@ -119,7 +112,7 @@ class Projects extends MY_Controller
      */
     function view($id)
     {
-        $project = $this->project->find($id);
+        $project = Doctrine::getTable('Project')->find($id);
         
         if ( ! $project) {
             show_404('page');
