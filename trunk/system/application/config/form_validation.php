@@ -174,7 +174,7 @@ $config['add_icp_weights'] = array(
     array(
         'field' => 'batch[icp_date]',
         'label' => 'ICP date',
-        'rules' => 'trim|alpha_dash|callback__valid_date'),
+        'rules' => 'trim|callback__valid_date'),
     array(
         'field' => 'tot_wts[]',
         'label' => 'beaker + ICP solution wt.',
@@ -260,6 +260,33 @@ $config['al_add_solution_weights'] = array(
         'field' => 'notes[]',
         'label' => 'notes',
         'rules' => 'trim|htmlspecialchars')
+);
+
+$config['al_add_icp_data'] = array(
+    array(
+        'field' => 'icp_be[]',
+        'label' => 'ICP [Be]',
+        'rules' => 'trim|numeric|abs'),
+    array(
+        'field' => 'icp_ti[]',
+        'label' => 'ICP [Ti]',
+        'rules' => 'trim|numeric|abs'),
+    array(
+        'field' => 'icp_fe[]',
+        'label' => 'ICP [Fe]',
+        'rules' => 'trim|numeric|abs'),
+    array(
+        'field' => 'icp_al[]',
+        'label' => 'ICP [Al]',
+        'rules' => 'trim|numeric|abs'),
+    array(
+        'field' => 'icp_mg[]',
+        'label' => 'ICP [Mg]',
+        'rules' => 'trim|numeric|abs'),
+    array(
+        'field' => 'icp_date',
+        'label' => 'ICP date',
+        'rules' => 'trim|callback__valid_date'),
 );
 
 /* End of file form_validation.php */
