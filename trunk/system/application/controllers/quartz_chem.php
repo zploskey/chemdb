@@ -703,7 +703,7 @@ class Quartz_chem extends MY_Controller
             return true;
         }
         
-        $this->form_validation->set_message('valid_date',
+        $this->form_validation->set_message('_valid_date',
             'The %s field must be a valid date in the format YYYY-MM-DD.');
         return false;
     }
