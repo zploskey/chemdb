@@ -35,11 +35,11 @@ class Alchecks extends MY_Controller
             if ( ! $batch) {
                 show_404('page');
             }
-            $numsamples = $batch->Analysis->count();
+            $nsamples = $batch->Analysis->count();
         } else {
             // create a temporary batch object
             $batch = new AlcheckBatch();
-            $numsamples = null;
+            $nsamples = null;
         }
         
         $data->errors = false;
@@ -50,10 +50,10 @@ class Alchecks extends MY_Controller
             $batch->prep_date = $this->input->post('prep_date');
             $batch->description = $this->input->post('description');
             $batch->owner = $this->input->post('owner');
-            $numsamples = $this->input->post('numsamples');
+            $nsamples = $this->input->post('numsamples');
             
             if ($is_valid) {
-                for ($i = 1; $i <= $numsamples; $i++) {
+                for ($i = 1; $i <= $nsamples; $i++) {
                     $tmp = new AlcheckAnalysis();
                     $tmp->number_within_batch = $i;
                     $batch->AlcheckAnalysis[] = $tmp;
@@ -70,10 +70,10 @@ class Alchecks extends MY_Controller
                 }
             }
         }
-        
+
         $data->batch = $batch;
         $data->batch_id = $batch_id;
-        $data->numsamples = $numsamples;
+        $data->nsamples = $nsamples;
         $data->title = 'Start new Al check batch';
         $data->main = 'alchecks/new_batch';
         $this->load->view('template', $data);
@@ -85,33 +85,27 @@ class Alchecks extends MY_Controller
         $refresh = (bool)$this->input->post('refresh');
         $add = isset($_POST['add']);
         
-        $batch = Doctrine_Query::create()
-            ->from('AlcheckBatch b')
-            ->leftJoin('b.AlcheckAnalysis a')
-            ->leftJoin('a.Sample s')
-            ->select('b.*, a.*, s.id, s.name')
-            ->where('b.id = ?', $batch_id)
-            ->orderBy('a.number_within_batch ASC')
-            ->fetchOne();
+        $batch = Doctrine::getTable('AlcheckBatch')
+               ->getJoinQuery($batch_id)->fetchOne();
 
         if (! $batch) {
             show_404('page');
         }
         
         if (isset($batch->AlcheckAnalysis)) {
-            $numsamples = $batch->AlcheckAnalysis->count();
+            $nsamples = $batch->AlcheckAnalysis->count();
         } else {
-            $numsamples = 0;
+            $nsamples = 0;
         }
         
         if ($add) {
             // add a sample to this batch and redirect
             $newAnalysis = new AlcheckAnalysis();
-            $newAnalysis['number_within_batch'] = $numsamples + 1;
+            $newAnalysis['number_within_batch'] = $nsamples + 1;
             $batch->AlcheckAnalysis[] = $newAnalysis;
             $batch->save();
             // $batch->refreshRelated();
-            ++$numsamples;
+            ++$nsamples;
             $refresh = false;
         }
         
@@ -129,7 +123,7 @@ class Alchecks extends MY_Controller
             $notes = $this->input->post('notes');
 
             // update the batch object with our submitted data
-            for ($i = 0; $i < $numsamples; $i++) {
+            for ($i = 0; $i < $nsamples; $i++) {
                 $a = &$batch->AlcheckAnalysis[$i];
                 $a['sample_name'] = $sample_name[$i];
                 $a['bkr_number'] = $bkr_number[$i];
@@ -177,10 +171,61 @@ class Alchecks extends MY_Controller
            $data->wt_sample[] = $a['wt_bkr_sample'] - $a['wt_bkr_tare'];
         }
         $data->sample_name = $sample_name;
-        $data->numsamples = $numsamples;
+        $data->nsamples = $nsamples;
         $data->batch = $batch;
         $data->title = 'Stage 1 of new Al check batch';
         $data->main = 'alchecks/sample_loading';
+        $this->load->view('template', $data);
+    }
+    
+    function add_solution_weights()
+    {
+        $batch_id = (int)$this->input->post('batch_id');
+        $refresh = (bool)$this->input->post('refresh');
+
+        $batch = Doctrine::getTable('AlcheckBatch')
+            ->getJoinQuery($batch_id)->fetchOne();
+        
+        if (! $batch) {
+            show_404('page');
+        }
+        
+        $data->errors = false;
+        $nsamples = $batch->AlcheckAnalysis->count();
+        if ($refresh) {
+            $valid = $this->form_validation->run('al_add_solution_weights');
+            $wt_bkr_soln = $this->input->post('wt_bkr_soln');
+            $addl_dil_factor = $this->input->post('addl_dil_factor');
+            $notes = $this->input->post('notes');
+            for ($a = 0; $a < $nsamples; $a++) {
+                $batch['AlcheckAnalysis'][$a]['wt_bkr_soln'] = $wt_bkr_soln[$a];
+                $batch['AlcheckAnalysis'][$a]['addl_dil_factor'] = $addl_dil_factor[$a];
+                $batch['AlcheckAnalysis'][$a]['notes'] = $notes[$a];
+            }
+            
+            if ($valid) {
+                $batch->save();
+            } else {
+                $data->errors = true;
+            }
+        }
+        
+        $sample_wt = $soln_wt = $tot_df = $sample_name = array();
+        for ($i = 0; $i < $nsamples; $i++) {
+            $a = $batch['AlcheckAnalysis'][$i];
+            $sample_wt[] = $a['wt_bkr_sample'] - $a['wt_bkr_tare'];
+            $soln_wt[] = $a['wt_bkr_soln'] - $a['wt_bkr_tare'];
+            $tot_df[] = $a['addl_dil_factor'] * safe_divide($soln_wt[$i], $sample_wt[$i]);
+            $sample_name[] = (isset($a['Sample'])) ? $a['Sample']['name'] : $a['sample_name'];
+        }
+        $data->sample_name = $sample_name;
+        $data->sample_wt = $sample_wt;
+        $data->soln_wt = $soln_wt;
+        $data->tot_df = $tot_df;
+        $data->nsamples = $nsamples;
+        $data->batch = $batch;
+        $data->title = 'Add ICP weights to existing batch';
+        $data->main = 'alchecks/add_solution_weights';
         $this->load->view('template', $data);
     }
 }

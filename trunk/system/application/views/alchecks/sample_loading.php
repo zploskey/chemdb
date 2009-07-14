@@ -7,7 +7,7 @@
 Batch ID: <?=$batch->id?><br/>
 Batch date: <?=$batch->prep_date?><br/>
 Batch owner: <?=$batch->owner?><br/>
-Number of samples: <?=$numsamples?><br/>
+Number of samples: <?=$nsamples?><br/>
 Batch description: <?=$batch->description?><br/>
 
 <?
@@ -40,7 +40,7 @@ if ($errors) {
     </tr>
     <tr><td colspan=8><p><hr></p></td></tr>
 
-<? for ($a = 0; $a < $numsamples; $a++): 
+<? for ($a = 0; $a < $nsamples; $a++): 
     $an = $batch->AlcheckAnalysis[$a];
 ?>
 	 
