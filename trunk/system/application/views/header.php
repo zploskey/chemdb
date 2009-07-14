@@ -9,6 +9,6 @@
 		</span>
 	</div>
 	<hr>
-	<b><i>You are logged in as: <?=$_SERVER['REMOTE_USER']?></i></b>
+	<b><i>You are logged in as: <?=htmlentities($_SERVER['REMOTE_USER'])?></i></b>
 	<hr>
 </div>
