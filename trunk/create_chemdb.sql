@@ -231,7 +231,9 @@ ALTER TABLE `alcheck_batch` CHANGE `ICP_date` `icp_date` date DEFAULT NULL;
 
 /* Relate to samples */
 ALTER TABLE `alcheck_analysis` ADD `sample_id` int(11) UNSIGNED default NULL AFTER `id`;
-
 UPDATE alcheck_analysis a, sample s SET a.sample_id = s.id WHERE a.sample_name = s.name;
+/* sample names should be unique */
+ALTER TABLE `sample` CHANGE `name` `name` varchar(255) NOT NULL DEFAULT '' UNIQUE;
+
 
 /* TODO: Finally, remove fields that are now redundant */
