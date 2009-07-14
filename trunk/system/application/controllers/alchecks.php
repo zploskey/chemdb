@@ -297,6 +297,53 @@ class Alchecks extends MY_Controller
         $this->load->view('template', $data);
     }
     
+    function report()
+    {
+        $batch_id = (int)$this->input->post('batch_id');
+        
+        $batch = Doctrine::getTable('AlcheckBatch')
+            ->getJoinQuery($batch_id)->fetchOne();
+            
+        if (! $batch) {
+            show_404('page');
+        }
+        
+        $elements = array('be', 'ti', 'fe', 'al', 'mg');
+        $nsamples = $batch->AlcheckAnalysis->count();
+        // calculate quartz weights and set sample names
+        $sample_name = $sample_wt = array();
+        for ($i = 0; $i < $nsamples; $i++) {
+            $a = $batch['AlcheckAnalysis'][$i];
+            // temporary variable calculations
+            $sample_wt[] = $a['wt_bkr_sample'] - $a['wt_bkr_tare'];
+            $soln_wt = $a['wt_bkr_soln'] - $a['wt_bkr_tare'];
+            $df = $a['addl_dil_factor'] * safe_divide($soln_wt, $sample_wt[$i]);
+            // variables to pass
+            foreach ($elements as $el) {
+                 $data->{"qtz_$el"}[] = $df * $a["icp_$el"];
+            }
+            $data->sample_name[] = (isset($a['Sample'])) ? $a['Sample']['name'] : $a['sample_name'];
+        }
+        
+	    for ($a = 0; $a < $nsamples; $a++) {
+	        //figure out qtz Al concentration
+            if ($data->qtz_al[$a] > 250) { 
+                $color = "red"; 
+            } elseif ($data->qtz_al[$a] > 150) {
+                $color = "yellow";
+            }
+    	    else {
+    	        $color = "green";
+    	    }
+    	    $data->color[] = $color;
+	    }
+        
+        $data->nsamples = $nsamples;
+        $data->sample_wt = $sample_wt;
+        $data->batch = $batch;
+        $this->load->view('alchecks/report', $data);
+    }
+    
     // CALLBACKS
 
     /**
