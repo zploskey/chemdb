@@ -35,7 +35,7 @@ echo validation_errors();
     </tr>
     <tr>
         <td colspan="2" align="center"><hr><p/>
-            <input type=submit value="Hit it!">
+            <input type="submit" value="Hit it!">
             </p><hr>
         </td>
     </tr>
