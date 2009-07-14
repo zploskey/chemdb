@@ -19,7 +19,7 @@ echo validation_errors();
             <? if ($allow_num_edit): ?>
                 <input type="text" name="numsamples" size="50">
             <? else: ?>
-                <?=$numsamples?>
+                <?=$nsamples?>
             <? endif; ?>
         </td>
     </tr>
