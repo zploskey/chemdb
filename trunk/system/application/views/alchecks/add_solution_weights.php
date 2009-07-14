@@ -48,7 +48,7 @@ if ($errors) {
 	    <td align=center><?=$an['number_within_batch']?></td>
 	    <td><?=$sample_name[$a]?></td>
 	    <td align="center"><?=$an['bkr_number']?></td>
-    	<td align="center"><?=$sample_wt[$a]?></td>
+    	<td align="center"><?=sprintf('%.4f', $sample_wt[$a])?></td>
          <td align="center">
             <input type="text" name="wt_bkr_soln[]" value="<?=$an->wt_bkr_soln?>" size="8"> 
 	    </td>
