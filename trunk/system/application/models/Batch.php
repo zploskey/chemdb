@@ -12,6 +12,7 @@
  */
 class Batch extends BaseBatch
 {
+
     /**
      * Do calculations for our reports. The batch must already have nearly all its data 
      * to do these calculations. Populate the data structure first.

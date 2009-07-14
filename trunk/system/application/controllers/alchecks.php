@@ -26,11 +26,12 @@ class Alchecks extends MY_Controller
     {
         $batch_id = (int)$this->input->post('batch_id');
         $is_edit = (bool)$batch_id;
+        $refresh = (bool)$this->input->post('refresh');
         $data->allow_num_edit = ( ! $is_edit);
         
         if ($is_edit) {
             // batch exits, find it
-            $batch = Doctrine::GetTable('AlcheckBatch')->find($id);
+            $batch = Doctrine::GetTable('AlcheckBatch')->find($batch_id);
             if ( ! $batch) {
                 show_404('page');
             }
@@ -40,28 +41,33 @@ class Alchecks extends MY_Controller
             $batch = new AlcheckBatch();
             $numsamples = null;
         }
-
+        
         $data->errors = false;
-        if ($is_edit) {
+        if ($refresh) {
             // validate input
             $is_valid = $this->form_validation->run('al_new_batch');
             // merge our batch with the postdata
-            $batch->merge($this->input->post('batch'));
+            $batch->prep_date = $this->input->post('prep_date');
+            $batch->description = $this->input->post('description');
+            $batch->owner = $this->input->post('owner');
+            $numsamples = $this->input->post('numsamples');
+            
             if ($is_valid) {
-                $conn = Doctrine_Manager::connection();
-                $conn->beginTransaction();
-                $batch->save();
                 for ($i = 1; $i <= $numsamples; $i++) {
                     $tmp = new AlcheckAnalysis();
-                    $tmp->num_within_batch = $i;
-                    $tmp->batch_id = $batch->id;
-                    $tmp->save();
+                    $tmp->number_within_batch = $i;
+                    $batch->AlcheckAnalysis[] = $tmp;
                 }
-                $conn->close();
+                $batch->save();
                 $batch_id = $batch->id;
+                $data->allow_num_edit = false;
             } else {
                 // we had errors, display them in the view
                 $data->errors = true;
+                if (strlen(form_error('numsamples')) > 0) {
+                    // numsamples had an error, better make sure it's editable
+                    $data->allow_num_edit = true;
+                }
             }
         }
         
@@ -77,12 +83,13 @@ class Alchecks extends MY_Controller
     {
         $batch_id = (int)$this->input->post('batch_id');
         $refresh = (bool)$this->input->post('refresh');
-        $new = (bool)$this->input->post('new');
+        $add = isset($_POST['add']);
         
         $batch = Doctrine_Query::create()
             ->from('AlcheckBatch b')
             ->leftJoin('b.AlcheckAnalysis a')
             ->leftJoin('a.Sample s')
+            ->select('b.*, a.*, s.id, s.name')
             ->where('b.id = ?', $batch_id)
             ->orderBy('a.number_within_batch ASC')
             ->fetchOne();
@@ -96,15 +103,21 @@ class Alchecks extends MY_Controller
         } else {
             $numsamples = 0;
         }
+        
+        if ($add) {
+            // add a sample to this batch and redirect
+            $newAnalysis = new AlcheckAnalysis();
+            $newAnalysis['number_within_batch'] = $numsamples + 1;
+            $batch->AlcheckAnalysis[] = $newAnalysis;
+            $batch->save();
+            // $batch->refreshRelated();
+            ++$numsamples;
+            $refresh = false;
+        }
+        
         $data->errors = false;
         if ($refresh) {
-            if ($new) {
-                // add a sample to this batch and redirect
-                $batch->addAnalysis();
-                $_POST['new'] = false;
-                $_POST['refresh'] = false;
-                redirect('alcheck/sample_loading');
-            }
+
             // validate
             $is_valid = $this->form_validation->run('al_sample_loading');
             
@@ -118,26 +131,52 @@ class Alchecks extends MY_Controller
             // update the batch object with our submitted data
             for ($i = 0; $i < $numsamples; $i++) {
                 $a = &$batch->AlcheckAnalysis[$i];
-                $a->sample_name = $sample_name[$i];
-                $a->bkr_number = $bkr_number[$i];
-                $a->wt_bkr_tare = $wt_bkr_tare[$i];
-                $a->wt_bkr_sample = $wt_bkr_sample[$i];
-                $a->notes = $notes[$i];
+                $a['sample_name'] = $sample_name[$i];
+                $a['bkr_number'] = $bkr_number[$i];
+                $a['wt_bkr_tare'] = $wt_bkr_tare[$i];
+                $a['wt_bkr_sample'] = $wt_bkr_sample[$i];
+                $a['notes'] = $notes[$i];
             }
 
             if ($is_valid) {
+                // find samples with same name then:
+                // set them as the sample for that analysis
+                foreach ($batch->AlcheckAnalysis as &$a) {
+                    $sample = Doctrine::getTable('Sample')
+                            ->createQuery('s')
+                            ->select('s.id, s.name')
+                            ->where('s.name = ?', $a['sample_name'])
+                            ->fetchOne();
+
+                    if ($sample) {
+                        $a['Sample'] = $sample;
+                    } else {
+                        $a['Sample'] = null;
+                    }
+                }
                 $batch->save(); // commit it to the database
             } else {
                 $data->errors = true;
             }
             
+        } else {
+            // loading for the first view
+            $sample_name = array();
+            foreach ($batch['AlcheckAnalysis'] as $a) {
+                if (isset($a['Sample'])) {
+                    $sample_name[] = $a['Sample']['name'];
+                } else {
+                    $sample_name[] = $a->sample_name;
+                }
+            }
         }
         
         // calculate sample weights
         $data->wt_sample = array();
         foreach ($batch->AlcheckAnalysis as $a) {
-           $data->wt_sample[] = $a->wt_bkr_sample - $a->wt_bkr_tare;
+           $data->wt_sample[] = $a['wt_bkr_sample'] - $a['wt_bkr_tare'];
         }
+        $data->sample_name = $sample_name;
         $data->numsamples = $numsamples;
         $data->batch = $batch;
         $data->title = 'Stage 1 of new Al check batch';
