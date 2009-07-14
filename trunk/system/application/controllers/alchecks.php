@@ -35,7 +35,7 @@ class Alchecks extends MY_Controller
             if ( ! $batch) {
                 show_404('page');
             }
-            $nsamples = $batch->Analysis->count();
+            $nsamples = $batch->AlcheckAnalysis->count();
         } else {
             // create a temporary batch object
             $batch = new AlcheckBatch();
@@ -228,4 +228,89 @@ class Alchecks extends MY_Controller
         $data->main = 'alchecks/add_solution_weights';
         $this->load->view('template', $data);
     }
+    
+    function add_icp_data()
+    {
+        $batch_id = (int)$this->input->post('batch_id');
+        $refresh = (bool)$this->input->post('refresh');
+        
+        $batch = Doctrine::getTable('AlcheckBatch')
+            ->getJoinQuery($batch_id)->fetchOne();
+            
+        if (! $batch) {
+            show_404('page');
+        }
+        
+        $elements = array('be', 'ti', 'fe', 'al', 'mg');
+        
+        $data->errors = false;
+        $nsamples = $batch->AlcheckAnalysis->count();
+        if ($refresh) {
+            $valid = $this->form_validation->run('al_add_icp_data');
+            
+            foreach ($elements as $el) {
+                ${"icp_$el"} = $this->input->post("icp_$el");
+            }
+            
+            $notes = $this->input->post('notes');
+            $batch['icp_date'] = $this->input->post('icp_date');
+            
+            $i = 0;
+            foreach ($batch['AlcheckAnalysis'] as &$a) {
+                foreach ($elements as $el) {
+                    $a["icp_$el"] = ${"icp_$el"}[$i];
+                }
+                $a['notes'] = $notes[$i];
+                ++$i;
+            }
+
+            if ($valid) {
+                $batch->save();
+            } else {
+                $data->errors = true;
+            }
+        }
+        
+        // calculate quartz weights and set sample names
+        $sample_name = array();
+        for ($i = 0; $i < $nsamples; $i++) {
+            $a = $batch['AlcheckAnalysis'][$i];
+            // temporary variable calculations
+            $sample_wt = $a['wt_bkr_sample'] - $a['wt_bkr_tare'];
+            $soln_wt = $a['wt_bkr_soln'] - $a['wt_bkr_tare'];
+            $df = $a['addl_dil_factor'] * safe_divide($soln_wt, $sample_wt);
+            // variables to pass
+            foreach ($elements as $el) {
+                 $data->{"qtz_$el"}[] = $df * $a["icp_$el"];
+            }
+            $data->sample_name[] = (isset($a['Sample'])) ? $a['Sample']['name'] : $a['sample_name'];
+        }
+        
+        if ($batch['icp_date'] === NULL) {
+            $batch['icp_date'] = date('Y-m-d');
+        }
+        
+        $data->nsamples = $nsamples;
+        $data->batch = $batch;
+        $data->title = 'Add Al/Be/Fe/Ti/Mg concentrations';
+        $data->main = 'alchecks/add_icp_data';
+        $this->load->view('template', $data);
+    }
+    
+    // CALLBACKS
+
+    /**
+     * @param string $date date in YYYY-MM-DD format
+     */
+    function _valid_date($date) 
+    {
+        if ($this->form_validation->valid_date($date)) {
+            return true;
+        }
+
+        $this->form_validation->set_message('_valid_date',
+            'The %s field must be a valid date in the format YYYY-MM-DD.');
+        return false;
+    }
+    
 }
