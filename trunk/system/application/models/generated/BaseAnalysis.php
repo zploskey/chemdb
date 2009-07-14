@@ -7,6 +7,7 @@
  * 
  * @property integer $id
  * @property integer $batch_id
+ * @property integer $sample_id
  * @property integer $number_within_batch
  * @property string $sample_name
  * @property string $sample_type
@@ -18,11 +19,9 @@
  * @property float $wt_al_carrier
  * @property float $wt_diss_bottle_total
  * @property string $notes
- * @property integer $sample_id
  * @property Batch $Batch
- * @property DissBottle $DissBottle
  * @property Sample $Sample
- * @property Doctrine_Collection $AlcheckAnalysis
+ * @property DissBottle $DissBottle
  * @property Doctrine_Collection $Split
  * 
  * @package    ##PACKAGE##
@@ -50,6 +49,14 @@ abstract class BaseAnalysis extends Doctrine_Record
              'notnull' => true,
              'autoincrement' => false,
              'length' => '2',
+             ));
+        $this->hasColumn('sample_id', 'integer', 4, array(
+             'type' => 'integer',
+             'unsigned' => '1',
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '4',
              ));
         $this->hasColumn('number_within_batch', 'integer', 1, array(
              'type' => 'integer',
@@ -149,14 +156,6 @@ abstract class BaseAnalysis extends Doctrine_Record
              'autoincrement' => false,
              'length' => '2147483647',
              ));
-        $this->hasColumn('sample_id', 'integer', 4, array(
-             'type' => 'integer',
-             'unsigned' => '1',
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
-             'length' => '4',
-             ));
     }
 
     public function setUp()
@@ -165,17 +164,13 @@ abstract class BaseAnalysis extends Doctrine_Record
              'local' => 'batch_id',
              'foreign' => 'id'));
 
-        $this->hasOne('DissBottle', array(
-             'local' => 'diss_bottle_id',
-             'foreign' => 'id'));
-
         $this->hasOne('Sample', array(
              'local' => 'sample_id',
              'foreign' => 'id'));
 
-        $this->hasMany('AlcheckAnalysis', array(
-             'local' => 'id',
-             'foreign' => 'analysis_id'));
+        $this->hasOne('DissBottle', array(
+             'local' => 'diss_bottle_id',
+             'foreign' => 'id'));
 
         $this->hasMany('Split', array(
              'local' => 'id',
