@@ -1,11 +1,6 @@
 <?php
 
 class Welcome extends MY_Controller {
-
-    function __construct() 
-    {
-        parent::MY_Controller();
-    }
         
     function index()
     {
@@ -16,6 +11,7 @@ class Welcome extends MY_Controller {
 
         $this->load->view('template', $data);
     }
+    
 }
 
 /* End of file welcome.php */
