@@ -2,21 +2,6 @@
 
 class Samples extends MY_Controller
 {
-    /**
-     * @var Doctrine_Table corresponding table
-     */
-    var $sample;
-
-    /**
-     * Constructor for Samples
-     * 
-     * @return void
-     **/
-    function __construct()
-    {
-        parent::MY_Controller();
-        $this->sample = Doctrine::getTable('Sample');
-    }
 
     /**
      * Loads a page listing samples.
@@ -33,18 +18,24 @@ class Samples extends MY_Controller
         $sort_by = $this->uri->segment(3,'name');
         $sort_dir = strtolower($this->uri->segment(4,'ASC'));
         $page = $this->uri->segment(5,0);
-        $num_per_page = 5;
+        $num_per_page = 20;
         $samples = Doctrine_Query::create()
             ->from('Sample')
             ->orderBy("$sort_by $sort_dir")
             ->limit($num_per_page)
             ->offset($page)
             ->execute();
+            
+        $nrows = Doctrine::getTable('Sample')->count();
+        $alt_sort_page = $nrows - $page - $num_per_page;
+        if ($alt_sort_page < 0) {
+            $alt_sort_page = 0;
+        }
 
         // set pagination options
         $this->load->library('pagination');
         $config['base_url'] = site_url("samples/index/$sort_by/$sort_dir");
-        $config['total_rows'] = $this->sample->count();
+        $config['total_rows'] = $nrows;
         $config['per_page'] = $num_per_page;
         $config['uri_segment'] = 5;
         $this->pagination->initialize($config);
@@ -53,10 +44,11 @@ class Samples extends MY_Controller
             'title'        => 'Manage Samples',
             'main'         => 'samples/index',
             'samples'      => $samples,
-            'pagination'   => 'Go to page: '.$this->pagination->create_links(),
+            'pagination'   => 'Go to page: ' . $this->pagination->create_links(),
             'sort_by'      => $sort_by,
             'alt_sort_dir' => switch_sort($sort_dir),  // a little trick I put in the snippet helper
-            'page'         => $page
+            'page'         => $page,
+            'alt_sort_page' => $alt_sort_page,
         );
     
         $this->load->view('template', $data);
@@ -73,7 +65,7 @@ class Samples extends MY_Controller
 
         if ($id) {
             // edit an existing sample
-            $sample = $this->sample->find($id);
+            $sample = Doctrine::getTable('Sample')->find($id);
 
             if (!$sample)
             {
@@ -116,7 +108,7 @@ class Samples extends MY_Controller
      */
     function view($id)
     {
-        $sample = $this->sample->find($id);
+        $sample = Doctrine::getTable('Sample')->find($id);
         
         if ( ! $sample) {
             show_404('page');

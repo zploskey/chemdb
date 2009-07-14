@@ -1,4 +1,4 @@
-<?php
+ <?php
 /**
  * Business logic for the quartz chemistry pages.
  * 
@@ -8,16 +8,7 @@
 
 class Quartz_chem extends MY_Controller
 {
-     
-    /**
-     * Contructs the class object, connects to database, and loads necessary
-     * libraries.
-     **/
-    function __construct()
-    {
-        parent::MY_Controller();
-    }
-    
+
     /**
      * The main quartz chemistry page. Contains a series of select boxes and
      * links to the other pages.
