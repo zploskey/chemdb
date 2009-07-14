@@ -15,9 +15,8 @@ class Quartz_chem extends MY_Controller
      */
     function index()
     {
-        $is_lock = $this->input->post('is_lock');
         $batch_id = $this->input->post('batch_id');
-        if ($is_lock === "true") {
+        if ($this->input->post('is_lock') === "true") {
             Doctrine::getTable('Batch')->lock($batch_id);
         }
         
