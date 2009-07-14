@@ -2,8 +2,8 @@
 
 CREATE TABLE `splits` (
   `id` int(10) unsigned NOT NULL auto_increment,
-  `analysis_id` smallint(5) unsigned zerofill NOT NULL,
-  `split_bkr_id` int(10) unsigned zerofill NOT NULL,
+  `analysis_id` smallint(5) unsigned  NOT NULL,
+  `split_bkr_id` int(10) unsigned  NOT NULL,
   `split_num` tinyint UNSIGNED NOT NULL DEFAULT '1',
   `split_bkr_name` tinytext,
   `wt_split_bkr_tare` double NOT NULL default '0',
@@ -86,15 +86,15 @@ ALTER TABLE analyses DROP use_Be_b1_r1, DROP use_Be_b1_r2, DROP use_Al_b1_r1, DR
 /* further modifications to the database follow:
  * first some alterations
  */
-ALTER TABLE `batches` CHANGE `batch_ID` `id` smallint(5) UNSIGNED ZEROFILL NOT NULL auto_increment;
+ALTER TABLE `batches` CHANGE `batch_ID` `id` smallint(5) UNSIGNED  NOT NULL auto_increment;
 ALTER TABLE `batches` CHANGE `batch_owner` `owner` tinytext DEFAULT NULL ;
 ALTER TABLE `batches` CHANGE `batch_desc` `description` text DEFAULT NULL ;
 ALTER TABLE `be_carriers` CHANGE `arbitrary_ID` `id` tinyint(4) NOT NULL auto_increment;
 ALTER TABLE `be_carriers` CHANGE `Be_carrier_ID` `name` tinytext NOT NULL DEFAULT '' ;
 ALTER TABLE `analyses` CHANGE `analysis_notes` `notes` mediumtext NOT NULL DEFAULT '' ;
-ALTER TABLE `diss_bottles` CHANGE `arbitrary_ID` `id` int(11) UNSIGNED ZEROFILL NOT NULL auto_increment;
-ALTER TABLE `split_bkrs` CHANGE `arbitrary_ID` `id` int(11) UNSIGNED ZEROFILL NOT NULL auto_increment;
-ALTER TABLE `analyses` CHANGE `analysis_ID` `id` smallint(5) UNSIGNED ZEROFILL NOT NULL auto_increment;
+ALTER TABLE `diss_bottles` CHANGE `arbitrary_ID` `id` int(11) UNSIGNED  NOT NULL auto_increment;
+ALTER TABLE `split_bkrs` CHANGE `arbitrary_ID` `id` int(11) UNSIGNED  NOT NULL auto_increment;
+ALTER TABLE `analyses` CHANGE `analysis_ID` `id` smallint(5) UNSIGNED  NOT NULL auto_increment;
 ALTER TABLE `analyses` CHANGE `batch_ID` `batch_id` smallint(6) NOT NULL DEFAULT '0' ;
 ALTER TABLE `batches` CHANGE `Be_carrier_ID` `Be_carrier_name` tinytext NOT NULL DEFAULT '' ;
 ALTER TABLE `batches` CHANGE `Al_carrier_ID` `Al_carrier_name` tinytext NOT NULL DEFAULT '' ;
@@ -123,7 +123,7 @@ UPDATE batch b, be_carrier bec SET b.Be_carrier_id = bec.id WHERE b.Be_carrier_n
 UPDATE batch b, al_carrier alc SET b.Al_carrier_id = alc.id WHERE b.Al_carrier_name = alc.name;
 
 ALTER TABLE `analysis` CHANGE `diss_bottle_ID` `diss_bottle_number` tinytext NOT NULL DEFAULT '' ;
-ALTER TABLE `analysis` ADD `diss_bottle_id` int(11) UNSIGNED ZEROFILL DEFAULT NULL;
+ALTER TABLE `analysis` ADD `diss_bottle_id` int(11) UNSIGNED  DEFAULT NULL;
 ALTER TABLE `analysis` MODIFY COLUMN `diss_bottle_id` int(11) AFTER `sample_type`;
 
 /* foreign key to sample table */
@@ -187,7 +187,7 @@ UPDATE sample s, analysis a SET a.sample_id = s.id WHERE a.sample_name = s.name;
  * Now we work on Alchecks
  */
  CREATE TABLE `alcheck_batch` (
-     `batch_ID` smallint(5) unsigned zerofill NOT NULL auto_increment,
+     `batch_ID` smallint(5) unsigned NOT NULL auto_increment,
      `owner` tinytext,
      `prep_date` date default NULL,
      `ICP_date` date default NULL,
@@ -197,8 +197,8 @@ UPDATE sample s, analysis a SET a.sample_id = s.id WHERE a.sample_name = s.name;
  ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
  
 CREATE TABLE `alcheck_analysis` (
-    `analysis_ID` mediumint(8) unsigned zerofill NOT NULL auto_increment,
-    `batch_ID` smallint(5) unsigned zerofill NOT NULL default '00000',
+    `analysis_ID` mediumint(8) unsigned NOT NULL auto_increment,
+    `batch_ID` smallint(5) unsigned NOT NULL default '0',
     `number_within_batch` tinyint(3) unsigned NOT NULL default '0',
     `sample_name` text NOT NULL,
     `bkr_number` tinytext NOT NULL,
@@ -224,9 +224,9 @@ CREATE TABLE `alcheck_analysis` (
 INSERT INTO alcheck_batch SELECT * FROM alchecks.batches;
 INSERT INTO alcheck_analysis SELECT * FROM alchecks.analyses;
 
-ALTER TABLE `alcheck_analysis` CHANGE `analysis_ID` `id` mediumint(8) UNSIGNED ZEROFILL NOT NULL auto_increment;
-ALTER TABLE `alcheck_batch` CHANGE `batch_ID` `id` smallint(5) UNSIGNED ZEROFILL NOT NULL auto_increment;
-ALTER TABLE `alcheck_analysis` CHANGE `batch_id` `alcheck_batch_id` smallint(5) UNSIGNED ZEROFILL NOT NULL DEFAULT '00000';
+ALTER TABLE `alcheck_analysis` CHANGE `analysis_ID` `id` mediumint(8) UNSIGNED  NOT NULL auto_increment;
+ALTER TABLE `alcheck_batch` CHANGE `batch_ID` `id` smallint(5) UNSIGNED  NOT NULL auto_increment;
+ALTER TABLE `alcheck_analysis` CHANGE `batch_id` `alcheck_batch_id` smallint(5) UNSIGNED  NOT NULL DEFAULT '00000';
 ALTER TABLE `alcheck_batch` CHANGE `ICP_date` `icp_date` date DEFAULT NULL;
 
 /* Relate to samples */
