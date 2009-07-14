@@ -183,7 +183,7 @@ $config['add_icp_weights'] = array(
 
 $config['al_new_batch'] = array(
     array(
-        'field' => 'batch[prep_date]',
+        'field' => 'prep_date',
         'label' => 'date',
         'rules' => 'required|trim|alpha_dash|callback__valid_date'),
     array(
@@ -191,11 +191,11 @@ $config['al_new_batch'] = array(
         'label' => 'number of samples',
         'rules' => 'required|is_natural_no_zero'),
     array(
-        'field' => 'batch[owner]',
+        'field' => 'owner',
         'label' => 'batch owner',
         'rules' => 'required|trim|alpha_dash'),
     array(
-        'field' => 'batch[description]',
+        'field' => 'description',
         'label' => 'description',
         'rules' => 'trim|htmlspecialchars'),
 );
