@@ -9,7 +9,7 @@
 <?=form_close()?>
     
 <!--- REVISIT INITIAL WEIGHINGS FOR EXISTING BATCH -->
-<?=form_open('alchecks/load_samples', '', array('retrieval' => 'true'))?>
+<?=form_open('alchecks/sample_loading', '', array('retrieval' => 'true'))?>
     <tr>
         <td><i><b>Revisit initial weighings for existing batch</b></i></td>
     </tr>

@@ -201,14 +201,6 @@ $config['al_new_batch'] = array(
 );
 
 $config['al_sample_loading'] = array(
-    array(
-		'field' => 'number_within_batch[]',
-		'label' => 'number within batch',
-		'rules' => 'required|is_natural_no_zero'),
-	array(
-		'field' => 'analysis_id[]',
-		'label' => 'analysis id',
-		'rules' => 'required|is_natural_no_zero'),
 	array(
 		'field' => 'sample_name[]',
 		'label' => 'sample name',
@@ -220,11 +212,11 @@ $config['al_sample_loading'] = array(
 	array(
 		'field' => 'wt_bkr_tare[]',
 		'label' => 'beaker tare weight',
-		'rules' => 'trim|numeric'),
+		'rules' => 'trim|numeric|abs'),
 	array(
 		'field' => 'wt_bkr_sample[]',
 		'label' => 'beaker + sample weight',
-		'rules' => 'trim|numeric'),
+		'rules' => 'trim|numeric|abs'),
 	array(
 		'field' => 'notes[]',
 		'label' => 'notes',
