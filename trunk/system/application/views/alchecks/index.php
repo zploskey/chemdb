@@ -45,7 +45,7 @@
 <?=form_close()?>
 
 <!--- FINAL REPORT -->
-<?=form_open('alchecks/report_results')?>
+<?=form_open('alchecks/report')?>
     <tr>
         <td><i><b>Report Al check results</i></b></td>
     </tr>
