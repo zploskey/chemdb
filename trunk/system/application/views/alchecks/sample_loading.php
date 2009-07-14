@@ -52,7 +52,7 @@ if ($errors) {
 	        <?=$an->id?>
     	</td>
         <td>
-            <input type="text" name="sample_name[]" value=<?=$an->Sample->name?> size="20"> 
+            <input type="text" name="sample_name[]" value="<?=$sample_name[$a]?>" size="20"> 
 	    </td>
     	<td align=center>
     	    <input type="text" size="3" name='bkr_number[]' value="<?=$an->bkr_number?>"> 
