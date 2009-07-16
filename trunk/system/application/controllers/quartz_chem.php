@@ -154,6 +154,7 @@ class Quartz_chem extends MY_Controller
                 $analysis->wt_be_carrier = $wt_be_carrier[$a];
                 $analysis->wt_al_carrier = $wt_al_carrier[$a];
             }
+            unset($analysis);
             
             if ($is_valid) {
                 // valid info, save changes to the database
