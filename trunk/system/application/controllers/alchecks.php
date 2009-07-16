@@ -131,6 +131,7 @@ class Alchecks extends MY_Controller
                 $a['wt_bkr_sample'] = $wt_bkr_sample[$i];
                 $a['notes'] = $notes[$i];
             }
+            unset($a);
 
             if ($is_valid) {
                 // find samples with same name then:
@@ -147,7 +148,7 @@ class Alchecks extends MY_Controller
                     } else {
                         $a['Sample'] = null;
                     }
-                }
+                } unset($a);
                 $batch->save(); // commit it to the database
             } else {
                 $data->errors = true;
@@ -262,8 +263,8 @@ class Alchecks extends MY_Controller
                 }
                 $a['notes'] = $notes[$i];
                 ++$i;
-            }
-
+            } unset($a);
+            
             if ($valid) {
                 $batch->save();
             } else {
