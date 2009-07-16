@@ -92,6 +92,7 @@ class Batch extends BaseBatch
             }
 
         } // end analysis loop
+        unset($a);
         
         // other calculations
         $batch['wt_be_carrier_diff'] = $batch['wt_be_carrier_init'] - $batch['wt_be_carrier_final'];
@@ -124,16 +125,16 @@ class Batch extends BaseBatch
                     $temp_tot_be += $r['be_tot'];
                     ++$n_be;
                 }
-            }
-        }
+            } unset($r);
+        } unset($s);
         $a['al_avg'] = safe_divide($temp_tot_al, $n_al);
         $a['be_avg'] = safe_divide($temp_tot_be, $n_be);
 
         $temp_sd_al = 0;
         $temp_sd_be = 0;
         // Calculate the standard deviation
-        foreach ($a['Split'] as &$s) {
-            foreach ($s['IcpRun'] as &$r) {
+        foreach ($a['Split'] as $s) {
+            foreach ($s['IcpRun'] as $r) {
                 if ($r['use_al'] == 'y') {
                     $temp_sd_al += pow(($r['al_tot'] - $a['al_avg']), 2);
                 }
@@ -253,8 +254,8 @@ class Batch extends BaseBatch
                         $s->IcpRun[$r]->use_be = 'y';
                     }
                 }
-            }
-        }
+            } unset($s);
+        } unset($a);
         
         return $this;
     }
@@ -287,8 +288,8 @@ class Batch extends BaseBatch
                     }
                     
                 }
-            }
-        }
+            } unset($sp);
+        } unset($an);
         
         return $this;
     }
