@@ -36,7 +36,7 @@ class BatchTable extends Doctrine_Table
     
     /**
      *
-     * @return Doctrine_Collection
+     * @return Batch
      */
     public function findOpenBatches()
     {
@@ -50,7 +50,7 @@ class BatchTable extends Doctrine_Table
     
     /**
      *
-     * @return Doctrine_Collection
+     * @return Batch
      */
     public function findAllBatches()
     {
