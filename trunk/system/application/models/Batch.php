@@ -67,8 +67,10 @@ class Batch extends BaseBatch
                 ->fetchOne();
                 
             if ($precheck) { // we found it
-                $alcheck_df = ($precheck['wt_bkr_soln'] - $precheck['wt_bkr_tare']) 
-                            / ($precheck['wt_bkr_sample'] - $precheck['wt_bkr_tare']);
+                $alcheck_df = safe_divide(
+                                ($precheck['wt_bkr_soln'] - $precheck['wt_bkr_tare']), 
+                                ($precheck['wt_bkr_sample'] - $precheck['wt_bkr_tare'])
+                              );
                 $check_al = $precheck['icp_al'] * $alcheck_df * $a['wt_sample'];
                 $a['check_fe'] = $precheck['icp_fe'] * $alcheck_df * $a['wt_sample'];
                 $a['check_ti'] = $precheck['icp_ti'] * $alcheck_df * $a['wt_sample'];

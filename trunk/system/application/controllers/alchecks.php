@@ -329,7 +329,7 @@ class Alchecks extends MY_Controller
 	    for ($a = 0; $a < $nsamples; $a++) {
 	        //figure out qtz Al concentration
             if ($data->qtz_al[$a] > 250) { 
-                $color = "red"; 
+                $color = "red";
             } elseif ($data->qtz_al[$a] > 150) {
                 $color = "yellow";
             }
@@ -343,6 +343,59 @@ class Alchecks extends MY_Controller
         $data->sample_wt = $sample_wt;
         $data->batch = $batch;
         $this->load->view('alchecks/report', $data);
+    }
+    
+    function quick_add()
+    {
+        $batch_id = $this->input->post('batch_id');
+        $refresh = $this->input->post('refresh');
+        
+        $an = new AlcheckAnalysis;
+        
+        $data->errors = true;
+        if ($refresh) {
+            $valid = $this->form_validation->run('al_quick_add');
+            if (! $batch_id) {
+                // create the dummy batch
+                $batch = new AlcheckBatch;
+                $batch->owner = 'NONE';
+                $batch->description = 'Dummy batch';
+                $batch->prep_date = date('Y-m-d');
+            } else {
+                $batch = Doctrine::getTable('Batch')->find($batch_id);
+            }
+            
+            // get postdata
+            $an->sample_name = $this->input->post('sample_name');
+            $an->icp_al = $this->input->post('icp_al');
+            $an->icp_fe = $this->input->post('icp_fe');
+            $an->icp_ti = $this->input->post('icp_ti');
+            // and set some some default values for our dummy analysis
+            $an->number_within_batch = 1;
+            $an->bkr_number = '0';
+            $an->wt_bkr_tare = 99;
+            $an->wt_bkr_sample = 100;
+            $an->wt_bkr_soln = 100;
+            
+            $sample = Doctrine::getTable('Sample')->findByName($an->sample_name);
+            if ($sample) {
+                $an->Sample = $sample;
+            }
+            
+            $batch->AlcheckAnalysis[] = $an;
+            
+            if ($valid) {
+                $batch->save();
+    		} else {
+    		    $data->errors = true;
+		    }
+        }
+        
+        $data->analysis = $an;
+        $data->batch_id = $batch_id;
+        $data->main = 'alchecks/quick_add';
+        $data->title = 'Dummy Al check';
+        $this->load->view('template', $data);
     }
     
     // CALLBACKS

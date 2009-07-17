@@ -289,5 +289,24 @@ $config['al_add_icp_data'] = array(
         'rules' => 'trim|callback__valid_date'),
 );
 
+$config['al_quick_add'] = array(
+    array(
+        'field' => 'sample_name',
+        'label' => 'sample name',
+        'rules' => 'required|trim|alpha_dash'),
+    array(
+        'field' => 'icp_al',
+        'label' => '[Al]',
+        'rules' => 'trim|numeric|abs'),
+    array(
+        'field' => 'icp_fe',
+        'label' => '[Fe]',
+        'rules' => 'trim|numeric|abs'),
+    array(
+        'field' => 'icp_ti',
+        'label' => '[Ti]',
+        'rules' => 'trim|numeric|abs'),    
+);
+
 /* End of file form_validation.php */
 /* Location: ./system/application/config/form_validation.php */
