@@ -179,7 +179,9 @@
         } else {
             $first = false;
         }
-        echo '<td>', $s['SplitBkr']['bkr_number'], '</td>',
+        echo '<td>', 
+                (isset($s['SplitBkr'])) ? $s['SplitBkr']['bkr_number'] : '', 
+            '</td>',
             '<td>', $s['wt_split_bkr_tare'], '</td>',
             '<td>', $s['wt_split_bkr_split'], '</td>',
             '<td>', $s['wt_split_bkr_icp'], '</td></tr>';
