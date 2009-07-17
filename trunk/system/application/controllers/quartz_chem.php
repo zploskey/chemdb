@@ -136,7 +136,7 @@ class Quartz_chem extends MY_Controller
             $batch->wt_be_carrier_final = $this->input->post('wt_be_carrier_final');
             $batch->wt_al_carrier_final = $this->input->post('wt_al_carrier_final');
             // and array fields for each analysis
-            $sample_name = $this->input->post('sample_name');
+            $sample_name = $this->input->post('sample_name');   
             $sample_type = $this->input->post('sample_type');
             $diss_bottle_id = $this->input->post('diss_bottle_id');
             $wt_diss_bottle_tare = $this->input->post('wt_diss_bottle_tare');
@@ -153,12 +153,26 @@ class Quartz_chem extends MY_Controller
                 $analysis->wt_diss_bottle_sample = $wt_diss_bottle_sample[$a];
                 $analysis->wt_be_carrier = $wt_be_carrier[$a];
                 $analysis->wt_al_carrier = $wt_al_carrier[$a];
-            }
+            } 
             unset($analysis);
             
             if ($is_valid) {
-                // valid info, save changes to the database
-                $batch->refreshRelated();
+                // data is valid
+                // link each analysis to a sample first if it can be found
+                foreach ($batch->Analysis as &$a) {
+                    $sample = Doctrine_Query::create()
+                        ->from('Sample s')
+                        ->select('s.id, s.name')
+                        ->where('s.name = ?', $a->sample_name)
+                        ->fetchOne();
+                    
+                    if ($sample) {
+                        $a->Sample = $sample;
+                    } else {
+                        $a->sample_id = null;
+                    }
+                } unset($a);
+                
                 $batch->save();
             } else {
                 // validation failed
@@ -190,31 +204,35 @@ class Quartz_chem extends MY_Controller
                 $batch->Analysis[$a]->wt_diss_bottle_tare;
             
             // get cations while we're at it
+            if (isset($batch->Analysis[$a]->Sample)) {
+                $sample_name = $batch->Analysis[$a]->Sample->name;
+            } else {
+                $sample_name = $batch->Analysis[$a]->sample_name;
+            }
+            
             $precheck = Doctrine_Query::create()
                 ->from('AlcheckAnalysis a, a.AlcheckBatch b')
                 ->select('a.icp_al, a.icp_fe, a.icp_ti, a.wt_bkr_tare, a.wt_bkr_sample, '
-                    .'a.wt_bkr_soln, b.prep_date')
-                ->where('a.analysis_id = ?', $batch->Analysis[$a]->id)
+                    . 'a.wt_bkr_soln, b.prep_date')
+                ->where('a.sample_name = ?', $sample_name)
                 ->orderBy('b.prep_date DESC')
                 ->limit(1)
                 ->fetchOne();
             
-            if($precheck AND $batch->AlCarrier) {
+            if ($precheck AND $batch->AlCarrier) {
                 // there's data, calculate the concentrations
                 $prechecks[$a]['show'] = true;
                 
-                if ($precheck['wt_bkr_sample'] == 0 AND $precheck['wt_bkr_tare'] == 0) {
-                    $temp_df = 0;
-                } else {
-                    $temp_df = ($precheck['wt_bkr_soln'] - $precheck['wt_bkr_tare'])
-                            / ($precheck['wt_bkr_sample'] - $precheck['wt_bkr_tare']);
-                }
+                $temp_df = safe_divide(
+                    ($precheck['wt_bkr_soln'] - $precheck['wt_bkr_tare']),
+                    ($precheck['wt_bkr_sample'] - $precheck['wt_bkr_tare'])
+                );
                 
                 $temp_al = $precheck['icp_al'] * $temp_df * $temp_sample_wt / 1000;
                 $temp_fe = $precheck['icp_fe'] * $temp_df * $temp_sample_wt / 1000;
                 $temp_ti = $precheck['icp_ti'] * $temp_df * $temp_sample_wt / 1000;
                 $temp_tot_al = $temp_al + ($batch->Analysis[$a]->wt_al_carrier
-                    * $batch->AlCarrier->al_conc) / 1000;
+                             * $batch->AlCarrier->al_conc) / 1000;
                 
                 $prechecks[$a]['conc_al'] = sprintf('%.1f', $precheck['icp_al'] * $temp_df);
                 $prechecks[$a]['conc_fe'] = sprintf('%.1f', $precheck['icp_fe'] * $temp_df);
@@ -296,7 +314,7 @@ class Quartz_chem extends MY_Controller
                 ->leftJoin('a.AlcheckBatch b')
                 ->select('a.sample_name, a.icp_al, a.icp_fe, a.icp_ti, a.wt_bkr_tare, '
                     .'a.wt_bkr_sample, a.wt_bkr_soln, b.prep_date')
-                ->where('a.sample_name = ?', $batch->Analysis[$a]->sample_name)
+                ->where('a.sample_id = ?', $batch->Analysis[$a]->sample_id)
                 ->andWhere('a.alcheck_batch_id = b.id')
                 ->orderBy('b.prep_date DESC')
                 ->limit(1)
