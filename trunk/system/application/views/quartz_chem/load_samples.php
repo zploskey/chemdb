@@ -119,8 +119,11 @@
         <td colspan=3 class=arial12>Sample information:</td>
         <td colspan=7 class=arial10>
             <i>Open new window to create Al/Fe/Ti concentrations for samples not in database:
-            <!-- TODO: dummy alcheck window -->
-            <a href="dummy_al_check.php" target="dummy_alcheck_window">click here</a></i>
+                <?=anchor('alchecks/quick_add', 
+                    'click here', 
+                    array('target' => 'dummy_alcheck_window')
+                )?>
+            </i>
         </td>
     </tr>
     <tr>
