@@ -7,5 +7,13 @@
  */
 class Sample extends BaseSample
 {
-
+    public function setUp()
+    {
+        $this->hasMany('Project', array(
+                'refClass' => 'ProjectSample',
+                'local' => 'project_id',
+                'foreign' => 'sample_id'
+            )
+        );
+    }
 }
