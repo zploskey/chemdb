@@ -31,20 +31,21 @@ table {}
  text-align:center;   
 }
 
-td {
+/* td {
 	border-top: 0px;
 	border-left: 0px;
 	border-right: 0px;
-/*	border-width: 0px 0px 0px 0px;
-	padding: 0px 0px 0px 0px;
-	-moz-border-radius: 0px 0px 0px 0px; */
-}
+	
+	//border-width: 0px 0px 0px 0px;
+	//padding: 0px 0px 0px 0px;
+	//-moz-border-radius: 0px 0px 0px 0px;
+} */
 
-tr {
+/* tr {
 	border-top: 0px;
 	border-left: 0px;
 	border-right: 0px;
-}
+} */
 
 div#wrapper {
  margin-left: auto;
