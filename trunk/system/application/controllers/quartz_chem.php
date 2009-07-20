@@ -285,6 +285,8 @@ class Quartz_chem extends MY_Controller
         $data->al_tot_wt = $al_tot_wt;
         
         // template info
+        $data->extraHeadContent = 
+            '<script type="text/javascript" src="js/sample_search.js"></script>';
         $data->title = 'Sample weighing and carrier addition';
         $data->main = 'quartz_chem/load_samples';
         $this->load->view('template', $data);

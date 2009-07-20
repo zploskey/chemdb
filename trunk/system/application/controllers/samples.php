@@ -2,7 +2,6 @@
 
 class Samples extends MY_Controller
 {
-
     /**
      * Loads a page listing samples.
      *
@@ -65,13 +64,18 @@ class Samples extends MY_Controller
 
         if ($id) {
             // edit an existing sample
-            $sample = Doctrine::getTable('Sample')->find($id);
-
+            $sample = Doctrine_Query::create()
+                ->from('Sample s, s.Project')
+                ->where('s.id = ?', $id)
+                ->fetchOne();
+                
             if (!$sample)
             {
                 // couldn't find the sample, so we 404 (probably change later)
                 show_404('page');
             }
+            
+            if (isset($sample->Project)) $data->project = $sample->Project;
             
             $data->title = 'Edit Sample';
             $data->subtitle = 'Editing '.$sample->name;
@@ -97,7 +101,7 @@ class Samples extends MY_Controller
         } else {
             $sample->merge($this->input->post('sample'));
             $sample->save();
-            redirect('samples');
+            redirect('samples/view/'.$sample->id);
         }
     }
     
@@ -108,18 +112,41 @@ class Samples extends MY_Controller
      */
     function view($id)
     {
-        $sample = Doctrine::getTable('Sample')->find($id);
+        $sample = Doctrine_Query::create()
+            ->from('Sample s, s.Project')
+            ->where('s.id = ?', $id)
+            ->fetchOne();
         
         if ( ! $sample) {
             show_404('page');
         }
         
+        if (isset($sample->Project)) $data->projects = $sample->Project;
         $data->title = 'View Sample';
         $data->subtitle = 'Viewing '.$sample->name;
         $data->arg = $id;
         $data->sample  = $sample;
         $data->main  = 'samples/view';
         $this->load->view('template', $data);
+    }
+    
+    function search_names()
+    {
+        $q = $this->input->post('q');
+        
+        if (!$q) return;
+        
+        $samples = Doctrine_Query::create()
+               ->from('Sample s')
+               ->select('s.name')
+               ->where('s.name LIKE ?', "%$q%")
+               ->execute();
+        
+        if (!$samples) return;
+        
+        foreach ($samples as $s) {
+            echo "$s->name\n";
+        }
     }
     
     // ----------
