@@ -145,7 +145,8 @@
         <tr>
             <td> <?=$batch->Analysis[$i]->id?> </td>
             <td>
-                <input type=text size=16 name="sample_name[]" value="<?=$batch->Analysis[$i]->sample_name?>">
+                <input type="text" class="sample_name" size=16 name="sample_name[]" 
+                    value="<?=$batch->Analysis[$i]->sample_name?>">
             </td>
             <!-- Sample type dropdown -->
             <td>

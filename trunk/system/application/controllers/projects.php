@@ -67,12 +67,16 @@ class Projects extends MY_Controller
         // are we editing an existing project?
         if ($id) {
             // Get the project data.
-            $proj = Doctrine::getTable('Project')->find($id);
-
+            $proj = Doctrine_Query::create()
+                ->from('Project p, p.Sample')
+                ->where('p.id = ?', $id)
+                ->fetchOne();
+            
             // If the project doesn't exist we 404.
             if ( ! $proj) {
                 show_404('page');
             }
+            if (isset($proj->Sample)) $data->samples = $proj->Sample;
             
             // there is a project, set the display values
             $data->title = 'Edit Project';
@@ -86,13 +90,12 @@ class Projects extends MY_Controller
             $data->subtitle = 'Enter Project Information:';
             $data->arg = '';
         }
-            
+        
         // validate anything that was submitted
         if ($this->form_validation->run('projects') == FALSE) {
             // reset form values
             $proj->name = set_value('name', $proj->name);
             $proj->description = set_value('description', $proj->description);
-            
             $data->proj = $proj;
             $data->main = 'projects/edit';
             $this->load->view('template', $data);
@@ -101,7 +104,7 @@ class Projects extends MY_Controller
             $proj->name = $this->input->post('name');
             $proj->description = $this->input->post('description');
             $proj->save();
-            redirect('projects');
+            redirect('projects/view/'.$proj->id);
         }
     }
     
@@ -112,16 +115,20 @@ class Projects extends MY_Controller
      */
     function view($id)
     {
-        $project = Doctrine::getTable('Project')->find($id);
+        $proj = Doctrine_Query::create()
+            ->from('Project p, p.Sample')
+            ->where('p.id = ?', $id)
+            ->fetchOne();
         
-        if ( ! $project) {
+        if ( ! $proj) {
             show_404('page');
         }
         
+        if (isset($proj->Sample)) $data->samples = $proj->Sample;
         $data->title = 'View Project';
-        $data->subtitle = 'Viewing '.$project->name;
+        $data->subtitle = 'Viewing '.$proj->name;
         $data->arg = '/'.$id;
-        $data->project  = $project;
+        $data->proj = $proj;
         $data->main  = 'projects/view';
         $this->load->view('template', $data);
     }

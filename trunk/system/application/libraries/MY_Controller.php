@@ -16,7 +16,7 @@ class MY_Controller extends Controller
         
         // Uncommenting the following enables the profiler, which gives stats
         // for our queries and page loads, shows POST data, etc.
-        $this->output->enable_profiler($this->config->item('show_profiler'));
+        // $this->output->enable_profiler($this->config->item('show_profiler'));
     }
 
 }
