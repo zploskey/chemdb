@@ -174,6 +174,7 @@ class Quartz_chem extends MY_Controller
                 } unset($a);
                 
                 $batch->save();
+                $batch->refreshRelated();
             } else {
                 // validation failed
                 $errors = true;
@@ -263,11 +264,13 @@ class Quartz_chem extends MY_Controller
         $data->al_prev = Doctrine::getTable('Batch')
                         ->findPrevAlCarrierWt($batch->id, $batch->al_carrier_id);
         
+       // die("$batch->be_carrier_id = be, al = $batch->al_carrier_id
+        
         // create the lists of carrier options
         $data->be_carrier_options = Doctrine::getTable('BeCarrier')
-                                    ->getSelectOptions($batch);
+                                    ->getSelectOptions($batch->be_carrier_id);
         $data->al_carrier_options = Doctrine::getTable('AlCarrier')
-                                    ->getSelectOptions($batch);
+                                    ->getSelectOptions($batch->al_carrier_id);
         
         // set display variables
         $data->batch = $batch;

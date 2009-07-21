@@ -162,7 +162,6 @@ CREATE TABLE `sample` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1
 
 CREATE TABLE `project` (
-  `id` int(11) unsigned NOT NULL auto_increment,
   `name` varchar(255) NOT NULL default '',
   `date_added` datetime default NULL,
   `description` text,
@@ -171,8 +170,9 @@ CREATE TABLE `project` (
 
 /* also a linking table */
 CREATE TABLE `project_sample` (
-  `project_id` int(11) unsigned NOT NULL,
-  `sample_id` int(11) unsigned NOT NULL
+  `project_id` int(11) unsigned NOT NULL default '0',
+  `sample_id` int(11) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`project_id`,`sample_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1
 
 /* Copy over samples that aren't blanks and have names into the samples table */
