@@ -6,7 +6,7 @@ class ProjectTable extends Doctrine_Table
     {
         return $this->createQuery('p')
             ->select('p.id, p.name')
-            ->orderBy('p.name DESC')
+            ->orderBy('p.name ASC')
             ->execute();
     }
 }
