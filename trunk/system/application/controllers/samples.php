@@ -65,7 +65,7 @@ class Samples extends MY_Controller
         if ($id) {
             // edit an existing sample
             $sample = Doctrine_Query::create()
-                ->from('Sample s, s.Project')
+                ->from('Sample s, s.Project p')
                 ->where('s.id = ?', $id)
                 ->fetchOne();
                 
@@ -88,21 +88,79 @@ class Samples extends MY_Controller
             $data->subtitle = 'Enter Sample Information:';
             $data->arg = '';
         }
-
-        // validate anything that was submitted
-        if ($this->form_validation->run('samples') == FALSE) {
-            if ($is_refresh) {
-                $sample->merge($this->input->post('sample'));
+        
+        // generate some select boxes to associate projects with the sample
+        $projOptions = array();
+        if (isset($sample->Project)) {
+            $nprojs = $sample->Project->count();
+            for ($i = 0; $i < $nprojs; $i++) {
+                $tmp = "<option>";
+                $projOptions[] = '<option>';
             }
-
-            $data->sample = $sample;
-            $data->main = 'samples/edit';
-            $this->load->view('template', $data);
-        } else {
-            $sample->merge($this->input->post('sample'));
-            $sample->save();
-            redirect('samples/view/'.$sample->id);
         }
+        $projects = Doctrine::getTable('Project')->getList();
+        $defaultSelect = '<option>';
+        foreach ($projects as $p) {
+            $defaultOption = "<option value=$p->id>$p->name";
+            $selected = "<option value=$p->id selected>$p->name";
+            if ($nprojs) {
+                for ($i = 0; $i < $nprojs; $i++) {
+                    if ($sample['Project'][$i]['id'] == $p['id']) {
+                        $projOptions[$i] .= $selected;
+                    } else {
+                        $projOptions[$i] .= $defaultOption;
+                    }
+                }
+            }
+            $defaultSelect .= $defaultOption;
+        }
+        $data->defaultSelect = $defaultSelect;
+        $data->projOptions = $projOptions;
+        
+        // set up some javascript to add more project select boxes
+        $data->extraHeadContent = <<<EHC
+            <script type="text/javascript">
+            var options='<select name="proj[]">$defaultSelect</select><br/>';
+            $(document).ready(function() {
+                $("#add_select").click(function(event) {
+                    event.preventDefault();
+                    $(options).insertBefore("#add_select");
+                });
+            });
+            </script>
+EHC;
+        
+        if ($is_refresh) {
+            // validate what was submitted
+            $valid = $this->form_validation->run('samples');
+            $sample->merge($this->input->post('sample'));
+            $proj = $this->input->post('proj');
+            
+            if ($proj) {
+                $proj = array_unique($proj);
+            }
+            
+            if ($valid) {
+                $sample->merge($this->input->post('sample'));
+                $sample->unlink('Project');
+                $sample->save();
+                $off = 0;
+                for ($i = 0; $i < count($proj); $i++) {
+                    if ($proj[$i] == '') {
+                        $off++;
+                        continue;
+                    }
+                    $sample['ProjectSample'][$i-$off]['project_id'] = $proj[$i];
+                    $sample['ProjectSample'][$i-$off]['sample_id'] = $sample->id; 
+                }
+                $sample->save();
+                redirect('samples/edit/'.$sample->id);
+            }
+        }
+
+        $data->sample = $sample;
+        $data->main = 'samples/edit';
+        $this->load->view('template', $data);
     }
     
     /**
@@ -147,39 +205,6 @@ class Samples extends MY_Controller
         foreach ($samples as $s) {
             echo "$s->name\n";
         }
-    }
-    
-    // ----------
-    // CALLBACKS:
-    // ----------
-    
-    function _is_unique($value, $field)
-    {
-        $id = $this->uri->segment(3, null);
-        return $this->form_validation->is_unique($value, $field, $id);
-    }
-
-    /*
-     * Returns true if value is not greater than 180.
-     */
-    function _valid_latlong($value)
-    {
-        if (abs($value) <= 180) {
-            return TRUE;
-        }
-
-        $this->form_validation->set_message('valid_latlong', 'The %s field must be from -180 to 180.');
-        return FALSE;
-    }
-
-    function _valid_shield_factor($value)
-    {
-        if ($value <= 1 && $value >= 0) {
-            return TRUE;
-        }
-
-        $this->form_validation->set_message('valid_shield_factor', 'The %s field must be from 0 to 1.');
-        return FALSE;
     }
 
 }

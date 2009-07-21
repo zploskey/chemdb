@@ -3,44 +3,79 @@
     <li><?=anchor('samples', 'Samples List')?> | </li>
     <li><?=anchor('samples/edit', 'Add a Sample')?></li>
 </div>
+<br>
 
-<p><h2><?=$subtitle?></h2></p>
+<p><h2><?=$subtitle?></h2></p><br>
+
 
 <?=form_open(site_url("samples/edit/$arg"))?>
     <input type="hidden" name="is_refresh" value="TRUE">
     <p><?=validation_errors()?></p><p/>
-
-    <div class="formblock">
-        <label>Name:</label>
-        <?=form_input('sample[name]', $sample->name)?><br>
-                
-        <label>Latitude:</label>
-        <input type="text" name="sample[latitude]" value="<?=$sample->latitude?>" size="10" /> &nbsp;Northern hemisphere = positive<br>
-
-        <label>Longitude:</label>
-        <input type="text" name="sample[longitude]" value="<?=$sample->longitude?>" size="10" /> &nbsp;East is positive, West negative<br>
-        
-        <label>Altitude:</label>
-        <input type="text" name="sample[altitude]" value="<?=$sample->altitude?>" size="10" /> &nbsp;m<br>
-
-        <label>Shield factor:</label>
-        <input type="text" name="sample[shield_factor]" value="<?=$sample->shield_factor?>" size="10" /><br>
-
-        <label>Depth (top):</label>
-        <input type="text" name="sample[depth_top]" value="<?=$sample->depth_top?>" size="10" /> &nbsp;cm<br>
-
-        <label>Depth (bottom):</label>
-        <input type="text" name="sample[depth_bottom]" value="<?=$sample->depth_bottom?>" size="10" /> &nbsp;cm<br>
-
-        <label>Density:</label>
-        <input type="text" name="sample[density]" value="<?=$sample->density?>" size="10" /> &nbsp;g/cm^3<br>
-
-        <label>Erosion Rate:</label>
-        <input type="text" name="sample[erosion_rate]" value="<?=$sample->erosion_rate?>" size="10" /> &nbsp;cm/y<br>
-
-        <label>Notes:</label>
-        <textarea name="sample[notes]" rows="5" cols="50" wrap="soft"><?=$sample->notes?></textarea><br>
-    </div>
+    <div class="vEntry">
+        <table>
+            <tr>
+                <th>Name:</th>
+                <td><?=form_input('sample[name]', $sample->name)?></td>
+            </tr>
     
+            <tr>
+                <th>Associated Projects:</th>
+                <td>
+                    <?php
+                    foreach ($projOptions as $po) {
+                        $first = false;
+                        echo '<select name="proj[]">', $po, '</select><br/>';
+                    }
+                    ?>
+                    <button id="add_select">Link another project</button>
+                </td>
+            </tr>
+    
+            <tr>
+                <th>Latitude:</th>
+                <td><input type="text" name="sample[latitude]" value="<?=$sample->latitude?>" size="10" /> &nbsp;Northern hemisphere = positive</td>
+            </tr>
+
+            <tr>
+                <th>Longitude:</th>
+                <td><input type="text" name="sample[longitude]" value="<?=$sample->longitude?>" size="10" /> &nbsp;East is positive, West negative</td>
+            </tr>
+    
+            <tr>
+                <th>Altitude:</th>
+                <td><input type="text" name="sample[altitude]" value="<?=$sample->altitude?>" size="10" /> &nbsp;m</td>
+            </tr>
+
+            <tr>
+                <th>Shield factor:</th>
+                <td><input type="text" name="sample[shield_factor]" value="<?=$sample->shield_factor?>" size="10" /></td>
+            </tr>
+
+            <tr>
+                <th>Depth (top):</th>
+                <td><input type="text" name="sample[depth_top]" value="<?=$sample->depth_top?>" size="10" /> &nbsp;cm</td>
+            </tr>
+
+            <tr>
+                <th>Depth (bottom):</th>
+                <td><input type="text" name="sample[depth_bottom]" value="<?=$sample->depth_bottom?>" size="10" /> &nbsp;cm</td>
+            </tr>
+
+            <tr>
+                <th>Density:</th>
+                <td><input type="text" name="sample[density]" value="<?=$sample->density?>" size="10" /> &nbsp;g/cm^3</td>
+            </tr>
+
+            <tr>
+                <th>Erosion Rate:</th>
+                <td><input type="text" name="sample[erosion_rate]" value="<?=$sample->erosion_rate?>" size="10" /> &nbsp;cm/y</td>
+            </tr>
+
+            <tr>
+                <th>Notes:</th>
+                <td><textarea name="sample[notes]" rows="5" cols="50" wrap="soft"><?=$sample->notes?></textarea></td>
+            </tr>
+        </table>
     <p><input type="submit" value="Submit" /></p>
+    </div>
 <?=form_close()?>
