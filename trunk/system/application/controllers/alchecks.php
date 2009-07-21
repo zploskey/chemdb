@@ -171,6 +171,10 @@ class Alchecks extends MY_Controller
         foreach ($batch->AlcheckAnalysis as $a) {
            $data->wt_sample[] = $a['wt_bkr_sample'] - $a['wt_bkr_tare'];
         }
+        
+        // for autocomplete to work we need to load the script
+        $data->extraHeadContent = 
+            '<script type="text/javascript" src="js/sample_search.js"></script>';
         $data->sample_name = $sample_name;
         $data->nsamples = $nsamples;
         $data->batch = $batch;
@@ -326,18 +330,18 @@ class Alchecks extends MY_Controller
             $data->sample_name[] = (isset($a['Sample'])) ? $a['Sample']['name'] : $a['sample_name'];
         }
         
-	    for ($a = 0; $a < $nsamples; $a++) {
-	        //figure out qtz Al concentration
+        for ($a = 0; $a < $nsamples; $a++) {
+            //figure out qtz Al concentration
             if ($data->qtz_al[$a] > 250) { 
                 $color = "red";
             } elseif ($data->qtz_al[$a] > 150) {
                 $color = "yellow";
             }
-    	    else {
-    	        $color = "green";
-    	    }
-    	    $data->color[] = $color;
-	    }
+            else {
+                $color = "green";
+            }
+            $data->color[] = $color;
+        }
         
         $data->nsamples = $nsamples;
         $data->sample_wt = $sample_wt;
@@ -386,11 +390,11 @@ class Alchecks extends MY_Controller
             
             if ($valid) {
                 $batch->save();
-    		} else {
-    		    $data->errors = true;
-		    }
+            } else {
+                $data->errors = true;
+            }
         }
-        
+
         $data->analysis = $an;
         $data->batch_id = $batch_id;
         $data->main = 'alchecks/quick_add';

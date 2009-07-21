@@ -1,10 +1,15 @@
 <div id="navbar">
     <?=anchor('welcome','Return to Main Menu')?> | <?=anchor('projects','Projects')?>
 </div>
+<br>
 
-<p><h2><?=$subtitle?></h2></p>
+<p>
+    <h2><?=$subtitle?> (<?=anchor("projects/view/$proj->id", 'View')?>)</h2> 
+</p>
+<br>
 
 <?=form_open(site_url("projects/edit/$arg"))?>
+    <input type="hidden" name="is_refresh" value="TRUE">
     <div class="formblock">
         <label>Name:</label>
         <input type="text" name="name" value="<?=$proj->name?>"/><br>
@@ -13,18 +18,15 @@
         <textarea name="description" rows="5" cols="50" wrap="soft"><?=$proj->description?></textarea><br>
     </div>
     <br>
-    <p><?=form_error('name')?></p>
-    <br>
-    <p><input type="submit" value="Submit" /></p>
-    <br><br>
+    <input type="submit" value="Submit" />
+    <br><?=validation_errors()?><br>
     <div class="data">
-    <p>
         <table class="itemlist">
             <tr>
                 <th>Associated Samples</th>
                 <th>Actions</th>
             </tr>
-            <? foreach ($samples as $s): ?>
+            <? foreach ($proj->Sample as $s): ?>
                 <tr>
                     <td><?=$s->name?></td>
                     <td>
@@ -37,7 +39,10 @@
                     </td>
                 </tr>
             <? endforeach;?>
+            <tr>
+                <td>Add a sample:</td>
+                <td><input type="text" class="sample_name" name="samp"></td>
+            </td></tr>
         </table>
-    </p>
     </div>
 <?=form_close()?>

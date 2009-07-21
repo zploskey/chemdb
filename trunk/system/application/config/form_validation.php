@@ -21,6 +21,10 @@ $config['projects'] = array(
         'field' => 'description',
         'label' => 'description',
         'rules' => 'trim|htmlentities'),
+    array(
+        'field' => 'samp',
+        'label' => 'sample',
+        'rules' => 'trim|callback__sample_exists'),
 );
 
 $config['samples'] = array(
@@ -29,33 +33,37 @@ $config['samples'] = array(
         'label' => 'name',
         'rules' => 'trim|required|alpha_dash|callback__is_unique[sample.name]'),
     array(
+        'field' => 'proj[]',
+        'label' => 'project',
+        'rules' => 'trim|callback__is_natural'),
+    array(
         'field' => 'sample[latitude]',
         'label' => 'latitude',
-        'rules' => 'trim|numeric|callback__valid_latlong'),
+        'rules' => 'trim|callback__valid_latlong'),
     array(
         'field' => 'sample[longitude]',
         'label' => 'longitude',
-        'rules' => 'trim|numeric|callback__valid_latlong'),
+        'rules' => 'trim|callback__valid_latlong'),
     array(
         'field' => 'sample[altitude]',
         'label' => 'altitude',
-        'rules' => 'trim|numeric'),
+        'rules' => 'trim|callback__num'),
     array(
         'field' => 'sample[shield_factor]',
         'label' => 'shield factor',
-        'rules' => 'trim|numeric|callback__valid_shield_factor'),
+        'rules' => 'trim|callback__valid_shield_factor'),
     array(
         'field' => 'sample[depth_top]',
         'label' => 'depth top',
-        'rules' => 'trim|numeric'),
+        'rules' => 'trim|callback__num'),
     array(
         'field' => 'sample[depth_bottom]',
         'label' => 'depth bottom',
-        'rules' => 'trim|numeric'),
+        'rules' => 'trim|callback__num'),
     array(
         'field' => 'sample[density]',
         'label' => 'density',
-        'rules' => 'trim|numeric'),
+        'rules' => 'trim|callback__num'),
 );
 
 $config['batches'] = array(
@@ -93,27 +101,27 @@ $config['load_samples'] = array(
     array(
         'field' => 'wt_be_carrier_init',
         'label' => 'Be carrier initial weight',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|callback__num|abs'),
     array(
         'field' => 'wt_be_carrier_final',
         'label' => 'Be carrier final weight',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|callback__num|abs'),
     array(
         'field' => 'wt_al_carrier_init',
         'label' => 'Al carrier initial weight ',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|callback__num|abs'),
     array(
         'field' => 'wt_al_carrier_final',
         'label' => 'Al carrier final wt',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|callback__num|abs'),
     array(
         'field' => 'sample_name[]',
         'label' => 'sample name',
-        'rules' => 'trim|alpha_dash'),
+        'rules' => 'trim|callback__noreq_alpha_dash'),
     array(
         'field' => 'sample_type[]',
         'label' => 'sample type',
-        'rules' => 'trim|alphanumeric'),
+        'rules' => 'trim|alpha'),
     array(
         'field' => 'diss_bottle_id[]',
         'label' => 'diss bottle id',
@@ -121,26 +129,26 @@ $config['load_samples'] = array(
     array(
         'field' => 'wt_diss_bottle_tare[]',
         'label' => 'Wt. bottle tare',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|callback__num|abs'),
     array(
         'field' => 'wt_diss_bottle_sample[]',
         'label' => 'Wt. bottle + sample',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|callback__num|abs'),
     array(
         'field' => 'wt_be_carrier[]',
         'label' => 'Wt. Be carrier soln.',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|callback__num|abs'),
     array(
         'field' => 'wt_al_carrier[]',
         'label' => 'Wt. Al carrier soln.',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|callback__num|abs'),
 );
 
 $config['add_solution_weights'] = array(
     array(
         'field' => 'wt_diss_bottle_total[]',
         'label' => 'total weight',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|callback__num|abs'),
     array(
         'field' => 'batch[notes]',
         'label' => 'batch notes',
@@ -159,11 +167,11 @@ $config['add_split_weights'] = array(
     array(
         'field' => 'bkr_tare[]',
         'label' => 'beaker tare wt.',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|callback__num|abs'),
     array(
         'field' => 'bkr_split[]',
         'label' => 'beaker + split wt.',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|callback__num|abs'),
 );
 
 $config['add_icp_weights'] = array(
@@ -178,7 +186,7 @@ $config['add_icp_weights'] = array(
     array(
         'field' => 'tot_wts[]',
         'label' => 'beaker + ICP solution wt.',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|callback__num|abs'),
 );
 
 $config['add_icp_results'] = array(
@@ -228,7 +236,7 @@ $config['al_sample_loading'] = array(
 	array(
 		'field' => 'sample_name[]',
 		'label' => 'sample name',
-		'rules' => 'trim|alpha_dash'),
+		'rules' => 'trim|callback__noreq_alpha_dash'),
 	array(
 		'field' => 'bkr_number[]',
 		'label' => 'beaker number',
@@ -236,11 +244,11 @@ $config['al_sample_loading'] = array(
 	array(
 		'field' => 'wt_bkr_tare[]',
 		'label' => 'beaker tare weight',
-		'rules' => 'trim|numeric|abs'),
+		'rules' => 'trim|callback__num|abs'),
 	array(
 		'field' => 'wt_bkr_sample[]',
 		'label' => 'beaker + sample weight',
-		'rules' => 'trim|numeric|abs'),
+		'rules' => 'trim|callback__num|abs'),
 	array(
 		'field' => 'notes[]',
 		'label' => 'notes',
@@ -251,11 +259,11 @@ $config['al_add_solution_weights'] = array(
     array(
         'field' => 'wt_bkr_soln[]',
         'label' => 'Bkr + soln.',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|callback__num|abs'),
     array(
         'field' => 'addl_dil_factor[]',
         'label' => "Add'l DF",
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|callback__num|abs'),
     array(
         'field' => 'notes[]',
         'label' => 'notes',
@@ -266,23 +274,23 @@ $config['al_add_icp_data'] = array(
     array(
         'field' => 'icp_be[]',
         'label' => 'ICP [Be]',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|callback__num|abs'),
     array(
         'field' => 'icp_ti[]',
         'label' => 'ICP [Ti]',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|callback__num|abs'),
     array(
         'field' => 'icp_fe[]',
         'label' => 'ICP [Fe]',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|callback__num|abs'),
     array(
         'field' => 'icp_al[]',
         'label' => 'ICP [Al]',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|callback__num|abs'),
     array(
         'field' => 'icp_mg[]',
         'label' => 'ICP [Mg]',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|callback__num|abs'),
     array(
         'field' => 'icp_date',
         'label' => 'ICP date',
@@ -293,19 +301,19 @@ $config['al_quick_add'] = array(
     array(
         'field' => 'sample_name',
         'label' => 'sample name',
-        'rules' => 'required|trim|alpha_dash'),
+        'rules' => 'trim|required|alpha_dash'),
     array(
         'field' => 'icp_al',
         'label' => '[Al]',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|required|numeric|abs'),
     array(
         'field' => 'icp_fe',
         'label' => '[Fe]',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|required|numeric|abs'),
     array(
         'field' => 'icp_ti',
         'label' => '[Ti]',
-        'rules' => 'trim|numeric|abs'),    
+        'rules' => 'trim|required|numeric|abs'),    
 );
 
 /* End of file form_validation.php */

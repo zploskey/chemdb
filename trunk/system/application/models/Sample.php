@@ -9,10 +9,11 @@ class Sample extends BaseSample
 {
     public function setUp()
     {
+        parent::setUp();
         $this->hasMany('Project', array(
                 'refClass' => 'ProjectSample',
-                'local' => 'project_id',
-                'foreign' => 'sample_id'
+                'local' => 'sample_id',
+                'foreign' => 'project_id',
             )
         );
     }
