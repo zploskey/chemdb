@@ -16,7 +16,7 @@ class MY_Controller extends Controller
         
         // Uncommenting the following enables the profiler, which gives stats
         // for our queries and page loads, shows POST data, etc.
-        $this->output->enable_profiler($this->config->item('show_profiler'));
+        // $this->output->enable_profiler($this->config->item('show_profiler'));
     }
     
     // ----------
@@ -46,7 +46,7 @@ class MY_Controller extends Controller
         }
         
         $this->form_validation->set_message('_is_unique', 
-            'The %s field already exists in the database. Choose a different %s.');
+            'The %s field already exists in the database, please choose a different one.');
         return false;
     }
     
