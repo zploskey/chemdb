@@ -614,23 +614,15 @@ Project:
 ProjectSample:
   tableName: project_sample
   columns:
-    id:
-      type: integer(8)
-      autoincrement: true
-      primary: true
     project_id:
       type: integer(4)
       unsigned: 1
-      primary: false
-      default: ''
-      notnull: true
+      primary: true
       autoincrement: false
     sample_id:
       type: integer(4)
       unsigned: 1
-      primary: false
-      default: ''
-      notnull: true
+      primary: true
       autoincrement: false
 Sample:
   tableName: sample
