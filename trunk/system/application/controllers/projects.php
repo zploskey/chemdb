@@ -19,7 +19,7 @@ class Projects extends MY_Controller
         // set database pagination settings
         $sort_by = $this->uri->segment(3, 'name');
         $sort_dir = strtolower($this->uri->segment(4, 'ASC'));
-        $num_per_page = 5;
+        $num_per_page = 20;
         $page = $this->uri->segment(5, 0);
         $projects = Doctrine_Query::create()
             ->from('Project')
@@ -64,6 +64,7 @@ class Projects extends MY_Controller
      */
     function edit($id = 0) 
     {   
+        $is_refresh = $this->input->post('is_refresh');
         // are we editing an existing project?
         if ($id) {
             // Get the project data.
@@ -85,27 +86,51 @@ class Projects extends MY_Controller
         } else {
             // it's a new project, create a new record object and other display values
             $proj = new Project();
-            $proj->date_added = date('Y-m-d');
+            $proj->date_added = date('Y-m-d h:m:s');
             $data->title = 'Add Project';
             $data->subtitle = 'Enter Project Information:';
             $data->arg = '';
         }
         
+        // set up some javascript to add more project select boxes
+        $data->extraHeadContent = 
+            '<script type="text/javascript" src="js/sample_search.js"></script>';
+        
         // validate anything that was submitted
-        if ($this->form_validation->run('projects') == FALSE) {
-            // reset form values
-            $proj->name = set_value('name', $proj->name);
-            $proj->description = set_value('description', $proj->description);
-            $data->proj = $proj;
-            $data->main = 'projects/edit';
-            $this->load->view('template', $data);
-        } else {
-            // inputs are valid, save changes and redirect
+        if ($is_refresh) {
+            $valid = $this->form_validation->run('projects');
             $proj->name = $this->input->post('name');
             $proj->description = $this->input->post('description');
-            $proj->save();
-            redirect('projects/view/'.$proj->id);
+            $samp = $this->input->post('samp');
+            
+            if ($valid) {
+                // inputs are valid, save changes and redirect
+                if (! ($samp == '')) {
+                    $sample = Doctrine_Query::create()
+                        ->from('Sample s')
+                        ->select('s.id')
+                        ->where('s.name = ?', $samp)
+                        ->fetchOne();
+                    
+                    if (isset($proj->Sample)) {
+                        $n = $proj->Sample->count();
+                    } else {
+                        $n = 0;
+                    }
+                    
+                    if ($samp) {
+                        $proj['ProjectSample'][$n]['project_id'] = $proj->id;
+                        $proj['ProjectSample'][$n]['sample_id'] = $sample->id;
+                    }
+                }
+                $proj->save();
+                redirect('projects/view/'.$proj->id);
+            }
+            
         }
+        $data->proj = $proj;
+        $data->main = 'projects/edit';
+        $this->load->view('template', $data);
     }
     
     /**
@@ -123,8 +148,7 @@ class Projects extends MY_Controller
         if ( ! $proj) {
             show_404('page');
         }
-        
-        if (isset($proj->Sample)) $data->samples = $proj->Sample;
+
         $data->title = 'View Project';
         $data->subtitle = 'Viewing '.$proj->name;
         $data->arg = '/'.$id;
@@ -136,10 +160,25 @@ class Projects extends MY_Controller
     // ----------
     // CALLBACKS:
     // ----------
-    function is_unique($value, $field)
+    
+    function _sample_exists($val)
     {
-        $id = $this->uri->segment(3, null);
-        return $this->form_validation->is_unique($value, $field, $id);
+        $val = trim($val);
+        if ($val == '') {
+            return true;
+        }
+        
+        $sample = Doctrine_Query::create()
+            ->from("Sample s")
+            ->where('s.name = ?', $val)
+            ->fetchOne();
+        
+        if ($sample) {
+            return true;
+        }
+        
+        $this->form_validation->set_message('_sample_exists', 'This %s does not exist in the database.');
+        return false;
     }
 
 }

@@ -8,19 +8,23 @@ body {
  color: black;
 }
 
+em {
+ font-weight: bold   
+}
+
 table {}
 .xl24
-	{font-family:Arial;
-	font-size:10.0pt;}
+    {font-family:Arial;
+    font-size:10.0pt;}
 .xl25
-	{font-family:Arial;
-	text-align:center;}
+    {font-family:Arial;
+    text-align:center;}
 .xl26
-	{font-family:Arial;
-	text-align:right;}
+    {font-family:Arial;
+    text-align:right;}
 .xl27
-	{font-family:Arial;
-	text-align:right;}
+    {font-family:Arial;
+    text-align:right;}
 .options {
  font-family:Arial;
  text-align:left;
@@ -32,59 +36,68 @@ table {}
 }
 
 /* td {
-	border-top: 0px;
-	border-left: 0px;
-	border-right: 0px;
-	
-	//border-width: 0px 0px 0px 0px;
-	//padding: 0px 0px 0px 0px;
-	//-moz-border-radius: 0px 0px 0px 0px;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    
+    //border-width: 0px 0px 0px 0px;
+    //padding: 0px 0px 0px 0px;
+    //-moz-border-radius: 0px 0px 0px 0px;
 } */
 
 /* tr {
-	border-top: 0px;
-	border-left: 0px;
-	border-right: 0px;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
 } */
 
 div#wrapper {
  margin-left: auto;
  margin-right: auto;
 /* width: 50em; */
-	width: 800px;
+ width: 800px;
 }
 
 div#data {
-	font-family: Arial;
-	font-size: 12pt;
+    font-family: Arial;
+    font-size: 12pt;
 }
 
 div#data td  {
-	border-right: 6px;
+    border-right: 6px;
 }
 
 div#data table {
-	border-width: 0px 0px 0px 0px;
-	border-spacing: 0px;
-	font-family: Arial;
-	border-collapse: collapse;
+    border-width: 0px 0px 0px 0px;
+    border-spacing: 0px;
+    font-family: Arial;
+    border-collapse: collapse;
 }
 
-.formblock label, .formblock input {
-	display: block;
-/*	width: 150px; */
-	float: left;
-	margin-bottom: 10px;
+.formblock label, .formblock input, .formblock select {
+    display: block;
+/*  width: 150px; */
+    float: left;
+    margin-bottom: 10px;
 }
 
 .formblock label {
-	text-align: right;
-	width: 150px;
-	padding-right: 10px;
+    text-align: right;
+    width: 150px;
+    padding-right: 10px;
+}
+
+.formblock th {
+    text-align: right;
+}
+
+.vEntry th {
+     text-align: right;
+     vertical-align: top;
 }
 
 br {
-	clear: left;
+    clear: left;
 }
 
 a {
@@ -105,58 +118,58 @@ code {
 }
 
 .itemlist td {
-	text-align: center;
+    text-align: center;
 }
 
 .itemlist td#name {
-	width: 400px;
+    width: 400px;
 }
 
 th {
-	border-top: 0px;
-	border-left: 0px;
-	border-right: 0px;
-/*	border-right: 0px solid #C1DAD7; 
-	border-width: 0px 0px 0px 0px;
-	padding: 0px 0px 0px 0px;
-	-moz-border-radius: 0px 0px 0px 0px; */
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+/*  border-right: 0px solid #C1DAD7; 
+    border-width: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    -moz-border-radius: 0px 0px 0px 0px; */
 }
 
 .itemlist table {
-	width: 100%; 
-	border-width: inherit;
-	border-spacing: inherit;
-	border-collapse: collapse;
+    width: 100%; 
+    border-width: inherit;
+    border-spacing: inherit;
+    border-collapse: collapse;
 }
 
 .arial10
-	{font-size:10.0pt;}
+    {font-size:10.0pt;}
 .arial8
-	{font-size:8.0pt;}
+    {font-size:8.0pt;}
 
 .arial14
-	{font-size:14.0pt;}
+    {font-size:14.0pt;}
 .arial12
-	{font-size:12.0pt;}	
+    {font-size:12.0pt;} 
 
 ul {
-	padding-left: 0px;
+    padding-left: 0px;
 }
 
 .error {
-	color: red;
+    color: red;
 }
 
 span#actionbar li {
-	list-style-type: none;
-	display: inline;
+    list-style-type: none;
+    display: inline;
 }
 
 div#navbar li {
-	list-style-type: none;
-	display: inline;
+    list-style-type: none;
+    display: inline;
 }
 
 div#navbar {
-	text-align: center;
+    text-align: center;
 }
