@@ -47,7 +47,7 @@ $config['index_page'] = "index.php";
 | 'ORIG_PATH_INFO'  Uses the ORIG_PATH_INFO
 |
 */
-$config['uri_protocol'] = "AUTO";
+$config['uri_protocol'] = "REQUEST_URI";
 
 /*
 |--------------------------------------------------------------------------
@@ -329,7 +329,7 @@ $config['rewrite_short_tags'] = false;
 
 // setting 'show_profiler' to TRUE will cause profiler information to automatically 
 // load on the bottom of every page
-$config['show_profiler'] = true;
+$config['show_profiler'] = false;
 
 
 
