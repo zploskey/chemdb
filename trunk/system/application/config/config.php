@@ -16,8 +16,8 @@
 if($_SERVER['SERVER_NAME'] == 'localhost') {
     $config['base_url'] = 'http://localhost/ci_chemdb';
     $_SERVER['REMOTE_USER'] = 'testuser';
-} else {
-    $config['base_url'] = 'http://depts.washington.edu/cosmolab/dev_chemdb';
+} else if ($_SERVER['SERVER_NAME'] == 'depts.washington.edu') {
+    $config['base_url'] = 'https://depts.washington.edu/cosmolab/chemdb/dev';
 }
 /*
 |--------------------------------------------------------------------------
