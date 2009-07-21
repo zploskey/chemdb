@@ -15,12 +15,12 @@
             <td><?=$sample->name?></td>
         </tr>
         <tr>
-            <td align="right">Project: &nbsp;</td>
+            <td align="right">Associated Projects: &nbsp;</td>
             <td>
             <?
             if (isset($projects)) {
                 foreach ($projects as $p) {
-                    echo anchor('projects/view/'.$p['id'], $p['name']);
+                    echo anchor('projects/view/'.$p['id'], $p['name']) . '<br/>';
                 }
             }
             ?>
