@@ -11,8 +11,6 @@ class MY_Controller extends Controller
 
         // Global error settings:
         $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-        $this->form_validation->set_message('is_unique', 
-            'The %s field must be unique. Please choose another.');
         
         // Uncommenting the following enables the profiler, which gives stats
         // for our queries and page loads, shows POST data, etc.
@@ -23,15 +21,16 @@ class MY_Controller extends Controller
     // CALLBACKS:
     // ----------
     
-    function _is_natural($val)
+    function _is_natural_no_zero($val)
     {
         if ($val == '') {
             return true;
         }
         
-        if (is_numeric($val) && $val != 0) {
+        if ($this->form_validation->is_natural_no_zero($val)) {
             return true;
         }
+        
         $this->form_validation->set_message('_is_natural', 
             'The $s field must contain only positive integers.');
         return false;
@@ -52,11 +51,7 @@ class MY_Controller extends Controller
     
     function _noreq_alpha_dash($val)
     {
-        if ($val == '') {
-            return true;
-        }
-        
-        if ($this->form_validation->alpha_dash($val)) {
+        if ($val == '' || $this->form_validation->alpha_dash($val)) {
             return true;
         }
         
@@ -69,39 +64,36 @@ class MY_Controller extends Controller
      */
     function _valid_latlong($val)
     {
-        if ($val == '') {
-            return true;
+        switch ($val) {
+            case '':
+            case (is_numeric($val) && abs($val) <= 180):
+                return true;
+            default:
+                $this->form_validation->set_message('_valid_latlong',
+                                    'The %s field must be from -180 to 180.');
+                return false;
         }
-        
-        if (is_numeric($val) && (abs($val) <= 180)) {
-            return true;
-        }
-
-        $this->form_validation->set_message('_valid_latlong', 'The %s field must be from -180 to 180.');
-        return FALSE;
     }
 
     function _valid_shield_factor($val)
     {
-        if ($val == '') {
-            return true;
+        switch ($val) {
+            case '':
+            case (is_numeric($val) && abs($val) <= 1):
+                return true;
+            default:
+                $this->form_validation->set_message('_valid_shield_factor',
+                                        'The %s field must be from 0 to 1.');
+                return false;
         }
-        if (is_numeric($val) && abs($val) <= 1) {
-            return TRUE;
-        }
-
-        $this->form_validation->set_message('_valid_shield_factor', 'The %s field must be from 0 to 1.');
-        return FALSE;
     }
     
     function _num($val)
     {
-        if ($val == '') {
+        if ($val == '' || is_numeric($val)) {
             return true;
         }
-        if (is_numeric($val)) {
-            return true;
-        }
+        
         $this->form_validation->set_message('_num', 'The %s field must be a number.');
         return false;
     }
