@@ -9,7 +9,15 @@ body {
 }
 
 em {
- font-weight: bold   
+ font-weight: bold;
+}
+
+.pagination a {
+    text-decoration:none;
+}
+
+.pagination a:hover {
+    text-decoration:underline;
 }
 
 table {}

@@ -5,9 +5,9 @@
         <li><?=anchor('samples/edit', 'Add a Sample')?></li>
     </ul>
 </div>
-
+<br>
 <p><h2><?=$subtitle?> (<?=anchor('samples/edit/'.$sample->id,'Edit')?>)</h2></p>
-
+<br>
 <div id="data">
     <table>
         <tr>
