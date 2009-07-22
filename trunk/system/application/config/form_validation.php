@@ -35,7 +35,7 @@ $config['samples'] = array(
     array(
         'field' => 'proj[]',
         'label' => 'project',
-        'rules' => 'trim|callback__is_natural'),
+        'rules' => 'trim|callback__is_natural_no_zero'),
     array(
         'field' => 'sample[latitude]',
         'label' => 'latitude',
