@@ -1,12 +1,17 @@
 <div id="navbar">
     <ul>
-        <li><?=anchor('welcome', 'Return to Main Menu')?></li> | 
+        <li><?=anchor('welcome', 'Main Menu')?></li> | 
+        <li><?=anchor('projects/index', 'Projects List')?></li> | 
         <li><?=anchor('projects/edit', 'Add Project')?> </li>
     </ul>
 </div>
-
+<br>
 <div class="pagination">
-    <?=$pagination?>
+    <? 
+    if ($paginate) {
+        $pagstring = "Go to page: $pagination";
+        echo $pagstring;
+    } ?>
 </div>
 <div class="data">
     <p>
@@ -38,5 +43,5 @@
     </p>
 </div>
 <div class="pagination">
-    <?=$pagination?>
+    <? if ($paginate) echo $pagstring; ?>
 </div>
