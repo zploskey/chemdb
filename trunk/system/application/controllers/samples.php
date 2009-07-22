@@ -2,6 +2,13 @@
 
 class Samples extends MY_Controller
 {
+    
+    function __construct()
+    {
+        parent::__construct();
+        $this->load->library('session');
+    }
+    
     /**
      * Loads a page listing samples.
      *
@@ -9,52 +16,91 @@ class Samples extends MY_Controller
      **/
     function index()
     {
-        $query = $this->input->post('query');
+        $query = $this->_handle_query_session();
+        $paginated_data = $this->_paginate($query);
         
-        // Pagination url: samples/index/sort_by/sort_dir/page
-        //     URI number:     1   /  2  /   3   /    4   / 5
-        //       Defaults: samples/index/  name  /  desc  / 0
-
-        // set database pagination settings
-        $sort_by = $this->uri->segment(3,'name');
-        $sort_dir = strtolower($this->uri->segment(4,'ASC'));
-        $page = $this->uri->segment(5,0);
+        $display_data = array(
+            'title'            => 'Manage Samples',
+            'main'             => 'samples/index',
+            'extraHeadContent' => 
+                '<script type="text/javascript" src="js/sample_search.js"></script>',
+        );
+        
+        $data = array_merge($display_data, $paginated_data);
+        $this->load->view('template', $data);
+    }
+    
+    /**
+     * Finds the query string for the current search. New search queries are
+     * stored in the user's session so that the user can access different pages
+     * of the search results.
+     *
+     * @return $query the user's query string
+     */
+    function _handle_query_session()
+    {
+        $query = $this->input->post('query');
+        $is_continuation = $this->uri->segment(3);
+        
+        if ($query !== false) {
+            $this->session->set_userdata('sample_query', trim($query));
+        } elseif ($is_continuation) {
+            $query = $this->session->userdata('sample_query');
+        } else {
+            $this->session->unset_userdata('sample_query');
+            $query = null;
+        }
+        return $query;
+    }
+    
+    /**
+     *   Pagination url: samples/index/sort_by/sort_dir/page
+     *      URI number:     1   /  2  /   3   /    4   / 5
+     *        Defaults: samples/index /  name  /  desc  / 0
+     *
+     * @return $data array with pagination settings and sample list included
+     **/
+    function _paginate($query)
+    {
+        $sort_by = $this->uri->segment(3, 'name');
+        $sort_dir = strtolower($this->uri->segment(4, 'asc'));
+        $page = $this->uri->segment(5, 0);
         $num_per_page = 20;
-        $samples = Doctrine_Query::create()
-            ->from('Sample')
+
+        $q = Doctrine_Query::create()
+            ->from('Sample s')
+            ->select('s.id, s.name')
             ->orderBy("$sort_by $sort_dir")
             ->limit($num_per_page)
-            ->offset($page)
-            ->execute();
-            
-        $nrows = Doctrine::getTable('Sample')->count();
-        $alt_sort_page = $nrows - $page - $num_per_page;
-        if ($alt_sort_page < 0) {
-            $alt_sort_page = 0;
+            ->offset($page);
+
+        if (isset($query)) {
+            $q->where('s.name LIKE ?', "%$query%");
+            $nrows = Doctrine::getTable('Sample')->countLike($query);
+        } else {
+            $nrows = Doctrine::getTable('Sample')->count();
         }
 
-        // set pagination options
+        $samples = $q->execute();
+
         $this->load->library('pagination');
-        $config['base_url'] = site_url("samples/index/$sort_by/$sort_dir");
+        $config['base_url'] = site_url("samples/index/$sort_by/$sort_dir/");
         $config['total_rows'] = $nrows;
         $config['per_page'] = $num_per_page;
         $config['uri_segment'] = 5;
         $this->pagination->initialize($config);
-            
+
         $data = array(
-            'title'        => 'Manage Samples',
-            'main'         => 'samples/index',
-            'samples'      => $samples,
-            'pagination'   => 'Go to page: ' . $this->pagination->create_links(),
-            'sort_by'      => $sort_by,
-            'alt_sort_dir' => switch_sort($sort_dir),
-            'page'         => $page,
-            'alt_sort_page' => $alt_sort_page,
-            'extraHeadContent' => 
-                '<script type="text/javascript" src="js/sample_search.js"></script>',
+            'samples'          => $samples,
+            'paginate'         => ($nrows > $num_per_page),
+            'pagination'       => 'Go to page: ' . $this->pagination->create_links(),
+            'sort_by'          => $sort_by,
+            'alt_sort_dir'     => switch_sort($sort_dir),
+            'page'             => $page,
+            'query'            => $query,
         );
-    
-        $this->load->view('template', $data);
+        
+        return $data;
     }
 
     /**
@@ -95,6 +141,7 @@ class Samples extends MY_Controller
         
         // generate some select boxes to associate projects with the sample
         $projOptions = array();
+        $nprojs = 0;
         if (isset($sample->Project)) {
             $nprojs = $sample->Project->count();
             for ($i = 0; $i < $nprojs; $i++) {
@@ -202,6 +249,7 @@ EHC;
                ->from('Sample s')
                ->select('s.name')
                ->where('s.name LIKE ?', "%$q%")
+               ->orderBy('s.name ASC')
                ->execute();
         
         if (!$samples) return;
