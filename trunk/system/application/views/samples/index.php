@@ -1,46 +1,64 @@
 <div id="navbar">
     <ul>
-        <li><?=anchor('welcome', 'Return to Main Menu')?></li> |
+        <li><?=anchor('welcome', 'Main Menu')?></li> |
+        <li><?=anchor('samples', 'Sample List')?></li> |
         <li><?=anchor('samples/edit','Add Sample')?></li>
     </ul>
 </div>
 <br>
-<?=form_open('samples/index')?>
-    Sample search: <input type="text" class="sample_name" name="query">
-<?=form_close()?>
-<br>
-<div class="pagination">
-    <?=$pagination?>
-</div>
-<div class="data">
-    <p>
-        <table class="itemlist">
-            <tr>
-                <th>
-                    <?=anchor("samples/index/$sort_by/$alt_sort_dir/$alt_sort_page", 'Name')?>
-                </th>
-                <th>Actions</th>
-            </tr>
+    <?=form_open('samples/index')?>
+        Sample search: 
+        <input type="text" class="sample_name" value="<?=htmlentities($query)?>" name="query">
+        <input type="submit" value="Search">
+    <?=form_close()?>
+    <br>
 
-            <?php foreach($samples as $s): ?>
+<? if ($samples->count() > 0): ?>
 
+    <?php if ($paginate): ?>
+        <div class="pagination">
+            <?=$pagination?>
+        </div>
+    <?php endif; ?>
+    <div class="data">
+        <p>
+            <table class="itemlist">
                 <tr>
-                    <td id="name"><?=$s->name?></td>
-                    <td>
-                        <span id="actionbar">
-                            <ul>
-                                <li><?=anchor('samples/view/'.$s->id, 'View')?></li>
-                                <li><?=anchor('samples/edit/'.$s->id, 'Edit')?></li>
-                            </ul>
-                        </span>
-                    </td>
+                    <th>
+                        <?=anchor("samples/index/$sort_by/$alt_sort_dir/0", 'Name')?>
+                    </th>
+                    <th>Actions</th>
                 </tr>
 
-            <?php endforeach; ?>
+                <?php foreach($samples as $s): ?>
 
-        </table>
-    </p>
-</div>
-<div class="pagination">
-    <?=$pagination?>
-</div>
+                    <tr>
+                        <td id="name"><?=$s->name?></td>
+                        <td>
+                            <span id="actionbar">
+                                <ul>
+                                    <li><?=anchor('samples/view/'.$s->id, 'View')?></li>
+                                    <li><?=anchor('samples/edit/'.$s->id, 'Edit')?></li>
+                                </ul>
+                            </span>
+                        </td>
+                    </tr>
+
+                <?php endforeach; ?>
+
+            </table>
+        </p>
+    </div>
+    <?php if ($paginate): ?>
+        <div class="pagination">
+            <?=$pagination?>
+        </div>
+    <?php endif; ?>
+    
+<? else: ?>
+
+    <br>
+    No sample matching '<em><?=htmlentities($query)?></em>' could be found.<br><br>
+    Would you like to <?=anchor('samples/edit', 'add')?> it?
+    
+<? endif; ?>
