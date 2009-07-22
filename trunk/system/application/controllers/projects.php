@@ -46,7 +46,8 @@ class Projects extends MY_Controller
             'title'        => 'Manage Projects',
             'main'         => 'projects/index',
             'projects'     => $projects,
-            'pagination'   => 'Go to page: '.$this->pagination->create_links(),
+            'paginate'     => ($nrows > $num_per_page),
+            'pagination'   => $this->pagination->create_links(),
             'alt_sort_dir' => switch_sort($sort_dir),  // a little trick I put in the snippet helper
             'sort_by'      => $sort_by,
             'page'         => $page,
