@@ -9,6 +9,8 @@ class Samples extends MY_Controller
      **/
     function index()
     {
+        $query = $this->input->post('query');
+        
         // Pagination url: samples/index/sort_by/sort_dir/page
         //     URI number:     1   /  2  /   3   /    4   / 5
         //       Defaults: samples/index/  name  /  desc  / 0
@@ -45,9 +47,11 @@ class Samples extends MY_Controller
             'samples'      => $samples,
             'pagination'   => 'Go to page: ' . $this->pagination->create_links(),
             'sort_by'      => $sort_by,
-            'alt_sort_dir' => switch_sort($sort_dir),  // a little trick I put in the snippet helper
+            'alt_sort_dir' => switch_sort($sort_dir),
             'page'         => $page,
             'alt_sort_page' => $alt_sort_page,
+            'extraHeadContent' => 
+                '<script type="text/javascript" src="js/sample_search.js"></script>',
         );
     
         $this->load->view('template', $data);
