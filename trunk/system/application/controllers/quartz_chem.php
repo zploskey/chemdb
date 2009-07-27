@@ -113,7 +113,7 @@ class Quartz_chem extends MY_Controller
         $refresh = (bool)$this->input->post('is_refresh');
         $batch_id = (int)$this->input->post('batch_id');
 
-        if ($this->input->post('addsplit'))
+        // if ($this->input->post('addsplit')) { }
 
         // grab the batch with carrier data
         $batch = Doctrine::getTable('Batch')->findWithCarriers($batch_id);
