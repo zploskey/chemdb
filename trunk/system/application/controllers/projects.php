@@ -15,7 +15,7 @@ class Projects extends MY_Controller
         // Pagination url: projects/index/sort_by/sort_dir/page
         //     URI number:     1   /  2  /   3   /    4   / 5
         //       Defaults: projects/index/  name /   asc  / 0
-        
+
         // set database pagination settings
         $sort_by = $this->uri->segment(3, 'name');
         $sort_dir = strtolower($this->uri->segment(4, 'ASC'));
@@ -27,13 +27,13 @@ class Projects extends MY_Controller
             ->limit($num_per_page)
             ->offset($page)
             ->execute();
-        
+
         $nrows = Doctrine::getTable('Project')->count();
         $alt_sort_page = $nrows - $page - $num_per_page;
         if ($alt_sort_page < 0) {
             $alt_sort_page = 0;
         }
-                
+
         // set pagination options
         $this->load->library('pagination');
         $config['base_url'] = site_url("projects/index/$sort_by/$sort_dir");
@@ -41,7 +41,7 @@ class Projects extends MY_Controller
         $config['per_page'] = $num_per_page;
         $config['uri_segment'] = 5;
         $this->pagination->initialize($config);
-        
+
         $data = array(
             'title'        => 'Manage Projects',
             'main'         => 'projects/index',
@@ -73,13 +73,13 @@ class Projects extends MY_Controller
                 ->from('Project p, p.Sample')
                 ->where('p.id = ?', $id)
                 ->fetchOne();
-            
+
             // If the project doesn't exist we 404.
             if ( ! $proj) {
                 show_404('page');
             }
             if (isset($proj->Sample)) $data->samples = $proj->Sample;
-            
+
             // there is a project, set the display values
             $data->title = 'Edit Project';
             $data->subtitle = 'Editing '.$proj->name;
@@ -92,18 +92,18 @@ class Projects extends MY_Controller
             $data->subtitle = 'Enter Project Information:';
             $data->arg = '';
         }
-        
+
         // set up some javascript to add more project select boxes
         $data->extraHeadContent = 
             '<script type="text/javascript" src="js/sample_search.js"></script>';
-        
+
         // validate anything that was submitted
         if ($is_refresh) {
             $valid = $this->form_validation->run('projects');
             $proj->name = $this->input->post('name');
             $proj->description = $this->input->post('description');
             $samp = $this->input->post('samp');
-            
+
             if ($valid) {
                 // inputs are valid, save changes and redirect
                 if (! ($samp == '')) {
@@ -112,13 +112,13 @@ class Projects extends MY_Controller
                         ->select('s.id')
                         ->where('s.name = ?', $samp)
                         ->fetchOne();
-                    
+
                     if (isset($proj->Sample)) {
                         $n = $proj->Sample->count();
                     } else {
                         $n = 0;
                     }
-                    
+
                     if ($samp) {
                         $proj['ProjectSample'][$n]['project_id'] = $proj->id;
                         $proj['ProjectSample'][$n]['sample_id'] = $sample->id;
@@ -127,13 +127,13 @@ class Projects extends MY_Controller
                 $proj->save();
                 redirect('projects/view/'.$proj->id);
             }
-            
+
         }
         $data->proj = $proj;
         $data->main = 'projects/edit';
         $this->load->view('template', $data);
     }
-    
+
     /**
      * Shows the project information.
      *
@@ -145,7 +145,7 @@ class Projects extends MY_Controller
             ->from('Project p, p.Sample')
             ->where('p.id = ?', $id)
             ->fetchOne();
-        
+
         if ( ! $proj) {
             show_404('page');
         }
@@ -157,27 +157,27 @@ class Projects extends MY_Controller
         $data->main  = 'projects/view';
         $this->load->view('template', $data);
     }
-    
+
     // ----------
     // CALLBACKS:
     // ----------
-    
+
     function _sample_exists($val)
     {
         $val = trim($val);
         if ($val == '') {
             return true;
         }
-        
+
         $sample = Doctrine_Query::create()
             ->from("Sample s")
             ->where('s.name = ?', $val)
             ->fetchOne();
-        
+
         if ($sample) {
             return true;
         }
-        
+
         $this->form_validation->set_message('_sample_exists', 'This %s does not exist in the database.');
         return false;
     }
