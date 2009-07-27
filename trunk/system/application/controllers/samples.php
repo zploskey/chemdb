@@ -2,13 +2,13 @@
 
 class Samples extends MY_Controller
 {
-    
+
     function __construct()
     {
         parent::__construct();
         $this->load->library('session');
     }
-    
+
     /**
      * Loads a page listing samples.
      *
@@ -18,18 +18,18 @@ class Samples extends MY_Controller
     {
         $query = $this->_handle_query_session();
         $paginated_data = $this->_paginate($query);
-        
+
         $display_data = array(
             'title'            => 'Manage Samples',
             'main'             => 'samples/index',
             'extraHeadContent' => 
                 '<script type="text/javascript" src="js/sample_search.js"></script>',
         );
-        
+
         $data = array_merge($display_data, $paginated_data);
         $this->load->view('template', $data);
     }
-    
+
     /**
      * Finds the query string for the current search. New search queries are
      * stored in the user's session so that the user can access different pages
@@ -41,7 +41,7 @@ class Samples extends MY_Controller
     {
         $query = $this->input->post('query');
         $is_continuation = $this->uri->segment(3);
-        
+
         if ($query !== false) {
             $this->session->set_userdata('sample_query', trim($query));
         } elseif ($is_continuation) {
@@ -52,7 +52,7 @@ class Samples extends MY_Controller
         }
         return $query;
     }
-    
+
     /**
      *   Pagination url: samples/index/sort_by/sort_dir/page
      *      URI number:     1   /  2  /   3   /    4   / 5
@@ -99,7 +99,7 @@ class Samples extends MY_Controller
             'page'             => $page,
             'query'            => $query,
         );
-        
+
         return $data;
     }
 
@@ -118,27 +118,27 @@ class Samples extends MY_Controller
                 ->from('Sample s, s.Project p')
                 ->where('s.id = ?', $id)
                 ->fetchOne();
-                
+
             if (!$sample)
             {
                 // couldn't find the sample, so we 404 (probably change later)
                 show_404('page');
             }
-            
+
             if (isset($sample->Project)) $data->project = $sample->Project;
-            
+
             $data->title = 'Edit Sample';
             $data->subtitle = 'Editing '.$sample->name;
             $data->arg = $id;
         } else {
             // create a new sample object
             $sample = new Sample();
-            
+
             $data->title = 'Add Sample';
             $data->subtitle = 'Enter Sample Information:';
             $data->arg = '';
         }
-        
+
         // generate some select boxes to associate projects with the sample
         $projOptions = array();
         $nprojs = 0;
@@ -167,7 +167,7 @@ class Samples extends MY_Controller
         }
         $data->defaultSelect = $defaultSelect;
         $data->projOptions = $projOptions;
-        
+
         // set up some javascript to add more project select boxes
         $data->extraHeadContent = <<<EHC
             <script type="text/javascript">
@@ -180,17 +180,17 @@ class Samples extends MY_Controller
             });
             </script>
 EHC;
-        
+
         if ($is_refresh) {
             // validate what was submitted
             $valid = $this->form_validation->run('samples');
             $sample->merge($this->input->post('sample'));
             $proj = $this->input->post('proj');
-            
+
             if ($proj) {
                 $proj = array_unique($proj);
             }
-            
+
             if ($valid) {
                 $sample->merge($this->input->post('sample'));
                 $sample->unlink('Project');
@@ -213,7 +213,7 @@ EHC;
         $data->main = 'samples/edit';
         $this->load->view('template', $data);
     }
-    
+
     /**
      * Shows the data for a sample.
      *
@@ -225,11 +225,11 @@ EHC;
             ->from('Sample s, s.Project')
             ->where('s.id = ?', $id)
             ->fetchOne();
-        
+
         if ( ! $sample) {
             show_404('page');
         }
-        
+
         if (isset($sample->Project)) $data->projects = $sample->Project;
         $data->title = 'View Sample';
         $data->subtitle = 'Viewing '.$sample->name;
@@ -238,22 +238,22 @@ EHC;
         $data->main  = 'samples/view';
         $this->load->view('template', $data);
     }
-    
+
     function search_names()
     {
         $q = $this->input->post('q');
-        
+
         if (!$q) return;
-        
+
         $samples = Doctrine_Query::create()
                ->from('Sample s')
                ->select('s.name')
                ->where('s.name LIKE ?', "%$q%")
                ->orderBy('s.name ASC')
                ->execute();
-        
+
         if (!$samples) return;
-        
+
         foreach ($samples as $s) {
             echo "$s->name\n";
         }
