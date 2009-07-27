@@ -59,7 +59,7 @@ abstract class BaseAlcheckAnalysis extends Doctrine_Record
              'type' => 'integer',
              'unsigned' => '1',
              'primary' => false,
-             'default' => '00000',
+             'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
              'length' => '2',
