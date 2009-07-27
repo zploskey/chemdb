@@ -331,7 +331,5 @@ $config['rewrite_short_tags'] = false;
 // load on the bottom of every page
 $config['show_profiler'] = true;
 
-
-
 /* End of file config.php */
 /* Location: ./system/application/config/config.php */
