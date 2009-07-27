@@ -141,9 +141,9 @@ ALTER TABLE `batch` CHANGE `wt_Be_carrier_final` `wt_be_carrier_final` double NO
 ALTER TABLE `batch` MODIFY COLUMN `al_carrier_id` int(11) DEFAULT NULL AFTER `id`;
 ALTER TABLE `batch` MODIFY COLUMN `be_carrier_id` int(11) DEFAULT NULL AFTER `al_carrier_id`;
 
-ALTER TABLE `icp_run` CHANGE `al_result` `al_result` double NOT NULL DEFAULT '0';
-ALTER TABLE `icp_run` CHANGE `be_result` `al_result` double NOT NULL DEFAULT '0';
-ALTER TABLE `icp_run` CHANGE `split_id` `split_id` int(10) UNSIGNED DEFAULT NULL;
+ALTER TABLE `icp_run` MODIFY COLUMN `al_result` double NOT NULL DEFAULT '0';
+ALTER TABLE `icp_run` MODIFY COLUMN `be_result` double NOT NULL DEFAULT '0';
+ALTER TABLE `icp_run` MODIFY COLUMN `split_id` int(10) UNSIGNED DEFAULT NULL;
 
 /* needs some sample and projects tables */
 CREATE TABLE `sample` (
@@ -162,7 +162,8 @@ CREATE TABLE `sample` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1
 
 CREATE TABLE `project` (
-  `name` varchar(255) NOT NULL default '',
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` varchar(255) UNIQUE NOT NULL,
   `date_added` datetime default NULL,
   `description` text,
   PRIMARY KEY  (`id`)
