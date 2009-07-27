@@ -417,7 +417,7 @@ class Quartz_chem extends MY_Controller
         $batch_id = (int)$this->input->post('batch_id');
         $refresh = (bool)$this->input->post('is_refresh');
 
-        $batch = Doctrine_Query::create()
+        $query = Doctrine_Query::create()
             ->from('Batch b')
             ->leftJoin('b.Analysis a')
             ->leftJoin('a.DissBottle db')
@@ -425,8 +425,10 @@ class Quartz_chem extends MY_Controller
             ->leftJoin('s.SplitBkr sb')
             ->where('b.id = ?', $batch_id)
             ->orderBy('a.id ASC')
-            ->limit(1)
-            ->fetchOne();
+            ->addOrderBy('s.split_num ASC')
+            ->limit(1);
+        
+        $batch = $query->fetchOne();
 
         if (! $batch) {
             die('Batch query failed.');
@@ -442,9 +444,8 @@ class Quartz_chem extends MY_Controller
         $errors = false;
         if ($refresh) {
             $is_valid = $this->form_validation->run('add_split_weights');
-            // change the object data
-            $batch->merge($this->input->post('batch'));
-            // grab other postdata
+
+            $batch->notes = $this->input->post('notes');
             $bkr_ids = $this->input->post('split_bkr');
             $tares_wts = $this->input->post('bkr_tare');
             $split_wts = $this->input->post('bkr_split');
@@ -464,13 +465,34 @@ class Quartz_chem extends MY_Controller
             } else {
                 $errors = true;
             }
-            $batch->refreshRelated();
+            $batch = $query->fetchOne();
         }
 
         $data->errors = $errors;
         $data->numsamples = $numsamples;
         $data->batch = $batch;
         $data->bkr_list = Doctrine::getTable('SplitBkr')->getList();
+
+        $data->extraHeadContent =<<<EOH
+            <script type="text/javascript">
+            $(document).ready(function() {
+                $("#setBkrSeq").click(function() {
+                    $(".bkr_select").each(function(i) {
+                        var start_num = $(".bkr_select:first option:selected").html().substring(3);
+                        if (isNaN(start_num)) {
+                            start_num = 1;
+                        } else {
+                            start_num = parseInt(start_num);
+                        }
+                        var n = start_num + i;
+                        if (n > 70) return false;
+                        $(this).val("AB"+n).attr("selected", "selected");
+                        return true;
+                    });
+                });
+            });
+            </script>
+EOH;
         $data->title = 'Add split weights';
         $data->main = 'quartz_chem/add_split_weights';
         $this->load->view('template', $data);
@@ -494,6 +516,7 @@ class Quartz_chem extends MY_Controller
             ->leftJoin('sp.SplitBkr sb')
             ->where('b.id = ?', $batch_id)
             ->orderBy('a.id ASC')
+            ->addOrderBy('s.split_num')
             ->limit(1)
             ->fetchOne();
 
