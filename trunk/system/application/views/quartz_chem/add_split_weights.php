@@ -17,7 +17,7 @@
         <td colspan=4>
             Batch notes:<br>
             <center>
-                <textarea name="batch[notes]" rows=5 cols=100><?=$batch->notes?></textarea>
+                <textarea name="notes" rows=5 cols=100><?=$batch->notes?></textarea>
             </center>
         </td>
     </tr>
@@ -28,9 +28,12 @@
     <?=validation_errors()?>
 <?php endif; ?>
 
-<table width=800 class=arial8>
+<table width="800" class="arial8">
     <tr>
-        <td colspan=8 class=arial12>Sample information:<p/></td>
+        <td colspan="4" class="arial12">Sample information:</td>
+        <td colspan="4" class="arial8">
+            <input type="button" id="setBkrSeq" value="Set Beaker&#10;Sequence"></p>
+        </td>
     </tr>
     <tr>
         <td>Analysis ID</td>
@@ -45,7 +48,7 @@
 
 <?php for ($i = 0; $i < $numsamples; $i++): // main sample loop ?>
 
-    <tr><td colspan=8><hr></td></tr>
+    <tr><td colspan="8"><hr></td></tr>
 
         <?php for ($s = 0; $s < $batch->Analysis[$i]->Split->count(); $s++): ?>
             <tr>
@@ -79,7 +82,8 @@
 
             <td>Split <?=$s+1?>:</td>
             <td>
-                <select name="split_bkr[]">
+                <select name="split_bkr[]" class="bkr_select" 
+                 onClick="javascript:setBeakerSequence();">
                     <?php
                     foreach ($bkr_list as $b) {
                         echo "<option value=$b->id ";
