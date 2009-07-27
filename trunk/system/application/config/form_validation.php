@@ -233,26 +233,26 @@ $config['al_new_batch'] = array(
 );
 
 $config['al_sample_loading'] = array(
-	array(
-		'field' => 'sample_name[]',
-		'label' => 'sample name',
-		'rules' => 'trim|callback__noreq_alpha_dash'),
-	array(
-		'field' => 'bkr_number[]',
-		'label' => 'beaker number',
-		'rules' => 'trim|htmlspecialchars'), // this is a string in the db...
-	array(
-		'field' => 'wt_bkr_tare[]',
-		'label' => 'beaker tare weight',
-		'rules' => 'trim|callback__num|abs'),
-	array(
-		'field' => 'wt_bkr_sample[]',
-		'label' => 'beaker + sample weight',
-		'rules' => 'trim|callback__num|abs'),
-	array(
-		'field' => 'notes[]',
-		'label' => 'notes',
-		'rules' => 'trim|htmlspecialchars'),
+    array(
+        'field' => 'sample_name[]',
+        'label' => 'sample name',
+        'rules' => 'trim|callback__noreq_alpha_dash'),
+    array(
+        'field' => 'bkr_number[]',
+        'label' => 'beaker number',
+        'rules' => 'trim|htmlspecialchars'), // this is a string in the db...
+    array(
+        'field' => 'wt_bkr_tare[]',
+        'label' => 'beaker tare weight',
+        'rules' => 'trim|callback__num|abs'),
+    array(
+        'field' => 'wt_bkr_sample[]',
+        'label' => 'beaker + sample weight',
+        'rules' => 'trim|callback__num|abs'),
+    array(
+        'field' => 'notes[]',
+        'label' => 'notes',
+        'rules' => 'trim|htmlspecialchars'),
 );
 
 $config['al_add_solution_weights'] = array(

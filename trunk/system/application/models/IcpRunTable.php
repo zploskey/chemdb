@@ -4,7 +4,7 @@
  */
 class IcpRunTable extends Doctrine_Table
 {
-    
+
     public function removeExcessRuns(&$split, $nRemainingRuns)
     {
         return Doctrine_Query::create()

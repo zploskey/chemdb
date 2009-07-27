@@ -1,7 +1,7 @@
 <?php
 
 class Welcome extends MY_Controller {
-        
+
     function index()
     {
         $data = array(
@@ -11,7 +11,7 @@ class Welcome extends MY_Controller {
 
         $this->load->view('template', $data);
     }
-    
+
 }
 
 /* End of file welcome.php */
