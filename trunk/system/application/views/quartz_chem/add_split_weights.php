@@ -4,24 +4,24 @@
 <input type=hidden name="is_refresh" value="true">
 
 <table width=800 class=arial10>
-	<tr>
-		<td>
-		<h3>Batch information:</h3><p/>
-		Batch ID: <?=$batch->id?><br>
-		Batch start date: <?=$batch->start_date?><br>
-		Batch owner: <?=$batch->owner?><br>
-		Batch description: <?=$batch->description?><p/>
-		</td>
-	</tr>
-	<tr>
-		<td colspan=4>
-			Batch notes:<br>
+    <tr>
+        <td>
+        <h3>Batch information:</h3><p/>
+        Batch ID: <?=$batch->id?><br>
+        Batch start date: <?=$batch->start_date?><br>
+        Batch owner: <?=$batch->owner?><br>
+        Batch description: <?=$batch->description?><p/>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=4>
+            Batch notes:<br>
             <center>
                 <textarea name="batch[notes]" rows=5 cols=100><?=$batch->notes?></textarea>
             </center>
-		</td>
-	</tr>
-	<tr><td><hr></td></tr>
+        </td>
+    </tr>
+    <tr><td><hr></td></tr>
 </table>
 
 <?php if ($errors): ?>
@@ -44,36 +44,53 @@
     </tr>
 
 <?php for ($i = 0; $i < $numsamples; $i++): // main sample loop ?>
-	<tr><td colspan=8><hr></td></tr>
+
+    <tr><td colspan=8><hr></td></tr>
+
         <?php for ($s = 0; $s < $batch->Analysis[$i]->Split->count(); $s++): ?>
             <tr>
+
             <?php if ($s == 0): ?>
+
                 <td><?=$batch->Analysis[$i]->id?></td>
                 <td>
-                <?php
-                if ($batch->Analysis[$i]->Sample->name != NULL) {
-                    echo $batch->Analysis[$i]->Sample->name;
-                } else {
-                    echo $batch->Analysis[$i]->sample_name;
-                }
-                ?>
+                    <?php
+                    if ($batch->Analysis[$i]->Sample->name != NULL) {
+                        echo $batch->Analysis[$i]->Sample->name;
+                    } else {
+                        echo $batch->Analysis[$i]->sample_name;
+                    }
+                    ?>
                 </td>
                 <td><?=$batch->Analysis[$i]->DissBottle->bottle_number?></td>
+
+            <?php elseif ($s == $batch->Analysis[$i]->Split->count() - 1): ?>
+
+                <td colspan="2"></td>
+                <td>
+                    <!-- <input type="submit" value="Add a split" name="addsplit"> -->
+                </td>
+
             <?php else: ?>
+
                 <td colspan=3></td>
+
             <?php endif; ?>
+
             <td>Split <?=$s+1?>:</td>
-            <td><select name="split_bkr[]">
-                <?php
-                foreach ($bkr_list as $b) {
-                    echo "<option value=$b->id ";
-                    if ($b->id == $batch->Analysis[$i]->Split[$s]->split_bkr_id) {
-                        echo 'selected';
+            <td>
+                <select name="split_bkr[]">
+                    <?php
+                    foreach ($bkr_list as $b) {
+                        echo "<option value=$b->id ";
+                        if ($b->id == $batch->Analysis[$i]->Split[$s]->split_bkr_id) {
+                            echo 'selected';
+                        }
+                        echo "> $b->bkr_number </option>\n";
                     }
-                    echo "> $b->bkr_number </option>\n";
-                }
-                ?>
-            </select></td>
+                    ?>
+                </select>
+            </td>
 
             <td>
                 <?=form_input('bkr_tare[]', $batch->Analysis[$i]->Split[$s]->wt_split_bkr_tare)?>
@@ -85,12 +102,14 @@
                 <?php
                 // calculate and print split weight
                 $split_wt = $batch->Analysis[$i]->Split[$s]->wt_split_bkr_split
-                    - $batch->Analysis[$i]->Split[$s]->wt_split_bkr_tare;
+                          - $batch->Analysis[$i]->Split[$s]->wt_split_bkr_tare;
                 printf('%.4f', $split_wt);
                 ?>
             </td>
         </tr>
+
         <?php endfor; // split loop ?>
+
 <?php endfor; // sample loop ?>
 
     <tr><td colspan=8><hr></td></tr>
