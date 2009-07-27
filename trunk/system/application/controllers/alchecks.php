@@ -15,20 +15,20 @@ class Alchecks extends MY_Controller
             $data->allBatchOptions .= $tmpOpt;
             $nBatch++;
         }
-        
+
         $data->title = 'Al check options';
         $data->subtitle = 'Aluminum check options';
         $data->main = 'alchecks/index';
         $this->load->view('template', $data);
     }
-    
+
     function new_batch()
     {
         $batch_id = (int)$this->input->post('batch_id');
         $is_edit = (bool)$batch_id;
         $refresh = (bool)$this->input->post('refresh');
         $data->allow_num_edit = ( ! $is_edit);
-        
+
         if ($is_edit) {
             // batch exits, find it
             $batch = Doctrine::GetTable('AlcheckBatch')->find($batch_id);
@@ -41,7 +41,7 @@ class Alchecks extends MY_Controller
             $batch = new AlcheckBatch();
             $nsamples = null;
         }
-        
+
         $data->errors = false;
         if ($refresh) {
             // validate input
@@ -51,7 +51,7 @@ class Alchecks extends MY_Controller
             $batch->description = $this->input->post('description');
             $batch->owner = $this->input->post('owner');
             $nsamples = $this->input->post('numsamples');
-            
+
             if ($is_valid) {
                 for ($i = 1; $i <= $nsamples; $i++) {
                     $tmp = new AlcheckAnalysis();
@@ -78,26 +78,26 @@ class Alchecks extends MY_Controller
         $data->main = 'alchecks/new_batch';
         $this->load->view('template', $data);
     }
-    
+
     function sample_loading()
     {
         $batch_id = (int)$this->input->post('batch_id');
         $refresh = (bool)$this->input->post('refresh');
         $add = isset($_POST['add']);
-        
+
         $batch = Doctrine::getTable('AlcheckBatch')
                ->getJoinQuery($batch_id)->fetchOne();
 
         if (! $batch) {
             show_404('page');
         }
-        
+
         if (isset($batch->AlcheckAnalysis)) {
             $nsamples = $batch->AlcheckAnalysis->count();
         } else {
             $nsamples = 0;
         }
-        
+
         if ($add) {
             // add a sample to this batch and redirect
             $newAnalysis = new AlcheckAnalysis();
@@ -108,13 +108,13 @@ class Alchecks extends MY_Controller
             ++$nsamples;
             $refresh = false;
         }
-        
+
         $data->errors = false;
         if ($refresh) {
 
             // validate
             $is_valid = $this->form_validation->run('al_sample_loading');
-            
+
             // grab postdata
             $sample_name = $this->input->post('sample_name');
             $bkr_number = $this->input->post('bkr_number');
@@ -153,7 +153,7 @@ class Alchecks extends MY_Controller
             } else {
                 $data->errors = true;
             }
-            
+
         } else {
             // loading for the first view
             $sample_name = array();
@@ -165,13 +165,13 @@ class Alchecks extends MY_Controller
                 }
             }
         }
-        
+
         // calculate sample weights
         $data->wt_sample = array();
         foreach ($batch->AlcheckAnalysis as $a) {
            $data->wt_sample[] = $a['wt_bkr_sample'] - $a['wt_bkr_tare'];
         }
-        
+
         // for autocomplete to work we need to load the script
         $data->extraHeadContent = 
             '<script type="text/javascript" src="js/sample_search.js"></script>';
@@ -182,7 +182,7 @@ class Alchecks extends MY_Controller
         $data->main = 'alchecks/sample_loading';
         $this->load->view('template', $data);
     }
-    
+
     function add_solution_weights()
     {
         $batch_id = (int)$this->input->post('batch_id');
@@ -190,11 +190,11 @@ class Alchecks extends MY_Controller
 
         $batch = Doctrine::getTable('AlcheckBatch')
             ->getJoinQuery($batch_id)->fetchOne();
-        
+
         if (! $batch) {
             show_404('page');
         }
-        
+
         $data->errors = false;
         $nsamples = $batch->AlcheckAnalysis->count();
         if ($refresh) {
@@ -207,14 +207,14 @@ class Alchecks extends MY_Controller
                 $batch['AlcheckAnalysis'][$a]['addl_dil_factor'] = $addl_dil_factor[$a];
                 $batch['AlcheckAnalysis'][$a]['notes'] = $notes[$a];
             }
-            
+
             if ($valid) {
                 $batch->save();
             } else {
                 $data->errors = true;
             }
         }
-        
+
         $sample_wt = $soln_wt = $tot_df = $sample_name = array();
         for ($i = 0; $i < $nsamples; $i++) {
             $a = $batch['AlcheckAnalysis'][$i];
@@ -233,33 +233,33 @@ class Alchecks extends MY_Controller
         $data->main = 'alchecks/add_solution_weights';
         $this->load->view('template', $data);
     }
-    
+
     function add_icp_data()
     {
         $batch_id = (int)$this->input->post('batch_id');
         $refresh = (bool)$this->input->post('refresh');
-        
+
         $batch = Doctrine::getTable('AlcheckBatch')
             ->getJoinQuery($batch_id)->fetchOne();
-            
+
         if (! $batch) {
             show_404('page');
         }
-        
+
         $elements = array('be', 'ti', 'fe', 'al', 'mg');
-        
+
         $data->errors = false;
         $nsamples = $batch->AlcheckAnalysis->count();
         if ($refresh) {
             $valid = $this->form_validation->run('al_add_icp_data');
-            
+
             foreach ($elements as $el) {
                 ${"icp_$el"} = $this->input->post("icp_$el");
             }
-            
+
             $notes = $this->input->post('notes');
             $batch['icp_date'] = $this->input->post('icp_date');
-            
+
             $i = 0;
             foreach ($batch['AlcheckAnalysis'] as &$a) {
                 foreach ($elements as $el) {
@@ -268,14 +268,14 @@ class Alchecks extends MY_Controller
                 $a['notes'] = $notes[$i];
                 ++$i;
             } unset($a);
-            
+
             if ($valid) {
                 $batch->save();
             } else {
                 $data->errors = true;
             }
         }
-        
+
         // calculate quartz weights and set sample names
         $sample_name = array();
         for ($i = 0; $i < $nsamples; $i++) {
@@ -290,29 +290,29 @@ class Alchecks extends MY_Controller
             }
             $data->sample_name[] = (isset($a['Sample'])) ? $a['Sample']['name'] : $a['sample_name'];
         }
-        
+
         if ($batch['icp_date'] === NULL) {
             $batch['icp_date'] = date('Y-m-d');
         }
-        
+
         $data->nsamples = $nsamples;
         $data->batch = $batch;
         $data->title = 'Add Al/Be/Fe/Ti/Mg concentrations';
         $data->main = 'alchecks/add_icp_data';
         $this->load->view('template', $data);
     }
-    
+
     function report()
     {
         $batch_id = (int)$this->input->post('batch_id');
-        
+
         $batch = Doctrine::getTable('AlcheckBatch')
             ->getJoinQuery($batch_id)->fetchOne();
-            
+
         if (! $batch) {
             show_404('page');
         }
-        
+
         $elements = array('be', 'ti', 'fe', 'al', 'mg');
         $nsamples = $batch->AlcheckAnalysis->count();
         // calculate quartz weights and set sample names
@@ -329,7 +329,7 @@ class Alchecks extends MY_Controller
             }
             $data->sample_name[] = (isset($a['Sample'])) ? $a['Sample']['name'] : $a['sample_name'];
         }
-        
+
         for ($a = 0; $a < $nsamples; $a++) {
             //figure out qtz Al concentration
             if ($data->qtz_al[$a] > 250) { 
@@ -342,20 +342,20 @@ class Alchecks extends MY_Controller
             }
             $data->color[] = $color;
         }
-        
+
         $data->nsamples = $nsamples;
         $data->sample_wt = $sample_wt;
         $data->batch = $batch;
         $this->load->view('alchecks/report', $data);
     }
-    
+
     function quick_add()
     {
         $batch_id = $this->input->post('batch_id');
         $refresh = $this->input->post('refresh');
-        
+
         $an = new AlcheckAnalysis;
-        
+
         $data->errors = true;
         if ($refresh) {
             $valid = $this->form_validation->run('al_quick_add');
@@ -368,7 +368,7 @@ class Alchecks extends MY_Controller
             } else {
                 $batch = Doctrine::getTable('Batch')->find($batch_id);
             }
-            
+
             // get postdata
             $an->sample_name = $this->input->post('sample_name');
             $an->icp_al = $this->input->post('icp_al');
@@ -380,14 +380,14 @@ class Alchecks extends MY_Controller
             $an->wt_bkr_tare = 99;
             $an->wt_bkr_sample = 100;
             $an->wt_bkr_soln = 100;
-            
+
             $sample = Doctrine::getTable('Sample')->findByName($an->sample_name);
             if ($sample) {
                 $an->Sample = $sample;
             }
-            
+
             $batch->AlcheckAnalysis[] = $an;
-            
+
             if ($valid) {
                 $batch->save();
             } else {
@@ -401,7 +401,7 @@ class Alchecks extends MY_Controller
         $data->title = 'Dummy Al check';
         $this->load->view('template', $data);
     }
-    
+
     // CALLBACKS
 
     /**
@@ -417,5 +417,5 @@ class Alchecks extends MY_Controller
             'The %s field must be a valid date in the format YYYY-MM-DD.');
         return false;
     }
-    
+
 }

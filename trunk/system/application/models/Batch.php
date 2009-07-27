@@ -45,14 +45,14 @@ class Batch extends BaseBatch
                 if ($s['nruns'] > $batch['max_nruns']) {
                     $batch['max_nruns'] = $s['nruns'];
                 }
-                
+
                 $s['wt_split'] = $s['wt_split_bkr_split'] - $s['wt_split_bkr_tare'];
                 $s['wt_icp'] = $s['wt_split_bkr_icp'] - $s['wt_split_bkr_tare'];
                 $s['tot_df'] = safe_divide($s['wt_icp'], $s['wt_split']) * $a['wt_HF_soln'];
             }
             $a['wt_be'] = $a['wt_be_carrier'] * $batch['BeCarrier']['be_conc'];
             $a['wt_al_fromc'] = $a['wt_al_carrier'] * $batch['AlCarrier']['al_conc'];
-            
+
             // Do the usual thing with the Al checks database --
             // Attempt to obtain Al/Fe/Ti concentrations
             $precheck = Doctrine_Query::create()
@@ -65,7 +65,7 @@ class Batch extends BaseBatch
                 ->orderBy('b.prep_date DESC')
                 ->limit(1)
                 ->fetchOne();
-                
+
             if ($precheck) { // we found it
                 $alcheck_df = safe_divide(
                                 ($precheck['wt_bkr_soln'] - $precheck['wt_bkr_tare']), 
@@ -88,21 +88,21 @@ class Batch extends BaseBatch
                 $a['check_fe'] = 0;
                 $a['check_ti'] = 0;
             }
-            
+
             if ($stats) {
                 $this->calcAnalysisStats($a);
             }
 
         } // end analysis loop
         unset($a);
-        
+
         // other calculations
         $batch['wt_be_carrier_diff'] = $batch['wt_be_carrier_init'] - $batch['wt_be_carrier_final'];
         $batch['wt_al_carrier_diff'] = $batch['wt_al_carrier_init'] - $batch['wt_al_carrier_final'];
-        
+
         return $batch;
     }
-    
+
     /**
      * @param array $a the analysis we're doing calculations on and writing to
      */
@@ -157,7 +157,7 @@ class Batch extends BaseBatch
         $a['be_recovery'] = 100 * safe_divide($a['be_avg'], $a['wt_be']);
         $a['al_recovery'] = 100 * safe_divide($a['al_avg'], $a['check_tot_al']);
     }
-    
+
     /**
      * Creates splits and runs for all the analyses in the batch if none exist yet.
      * 
@@ -184,10 +184,10 @@ class Batch extends BaseBatch
                 $changes = true;
             }
         } // analysis loop
-        
+
         return $changes;
     }
-    
+
     /**
      * Creates text for input boxes on the ICP results page.
      *
@@ -210,10 +210,10 @@ class Batch extends BaseBatch
                 ++$nrows;
             }
         }
-        
+
         return array($al_text, $be_text, $nrows);        
     }
-    
+
     /**
      * Inserts ICP results into database.
      *
@@ -225,14 +225,14 @@ class Batch extends BaseBatch
     {
         $al_count = count($al_arr);
         $be_count = count($be_arr);
-        
+
         // change the batch
         foreach ($this->Analysis as &$a) {
             foreach ($a->Split as &$s) {
                 $bkr_num = $s->SplitBkr->bkr_number;
                 $nRunsDb = $s->IcpRun->count();
                 $nRuns = count($al_arr[$bkr_num]);
-                
+
                 // what if a run was removed by the user
                 if ($nRunsDb > $nRuns) {
                     $nDeleted = Doctrine::getTable('IcpRun')->removeExcessRuns($s, $nRuns);
@@ -240,7 +240,7 @@ class Batch extends BaseBatch
                     $nRunsDb = $nRuns;
                     $this->refreshRelated();
                 }
-                
+
                 for ($r = 0; $r < $nRuns; $r++) {
                     if ($r >= $nRunsDb) {
                         $newRun = new IcpRun();
@@ -258,10 +258,10 @@ class Batch extends BaseBatch
                 }
             } unset($s);
         } unset($a);
-        
+
         return $this;
     }
-    
+
     /**
      * @param array $use_be array containing run id values for Be ICP results deemed OK
      * @param array $use_al array containing run id values for Al ICP results deemed OK
@@ -272,27 +272,27 @@ class Batch extends BaseBatch
         if ( !is_array($use_be) || !is_array($use_al)) {
             throw new InvalidArgumentException('Both arguments must be arrays.');
         }
-        
+
         foreach ($this->Analysis as &$an) {
             foreach ($an->Split as &$sp) {
                 foreach ($sp->IcpRun as &$run) {
-                    
+
                     if (in_array($run->id, $use_be)) {
                         $run->use_be = 'y';
                     } else {
                         $run->use_be = 'n';
                     }
-                    
+
                     if (in_array($run->id, $use_al)) {
                         $run->use_al = 'y';
                     } else {
                         $run->use_al = 'n';
                     }
-                    
+
                 }
             } unset($sp);
         } unset($an);
-        
+
         return $this;
     }
 }
