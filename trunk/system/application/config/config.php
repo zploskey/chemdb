@@ -329,7 +329,7 @@ $config['rewrite_short_tags'] = false;
 
 // setting 'show_profiler' to TRUE will cause profiler information to automatically 
 // load on the bottom of every page
-$config['show_profiler'] = false;
+$config['show_profiler'] = true;
 
 
 

@@ -10,7 +10,7 @@ class BeCarrierTable extends Doctrine_Table
             ->select('c.id, c.name')
             ->orderBy('c.in_service_date DESC')
             ->execute();
-        
+
         $options = '';
         foreach ($carriers as $c) {
             $options .= "<option value=$c->id";
@@ -19,7 +19,7 @@ class BeCarrierTable extends Doctrine_Table
             }
            $options .= "> $c->name";
         }
-        
+
         return $options;
     }
 }
