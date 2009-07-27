@@ -30,9 +30,9 @@
 
 <table width="800" class="arial8">
     <tr>
-        <td colspan="4" class="arial12">Sample information:</td>
-        <td colspan="4" class="arial8">
-            <input type="button" id="setBkrSeq" value="Set Beaker&#10;Sequence"></p>
+        <td colspan="3" class="arial12">Sample information:</td>
+        <td colspan="5" class="arial8">
+            <input type="button" id="setBkrSeq" value="Set Beaker Sequence"></p>
         </td>
     </tr>
     <tr>
