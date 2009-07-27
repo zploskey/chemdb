@@ -66,7 +66,7 @@ AlcheckAnalysis:
       type: integer(2)
       unsigned: 1
       primary: false
-      default: '00000'
+      default: '0'
       notnull: true
       autoincrement: false
     number_within_batch:
@@ -252,12 +252,6 @@ Analysis:
       default: '0'
       notnull: true
       autoincrement: false
-    sample_id:
-      type: integer(4)
-      unsigned: 1
-      primary: false
-      notnull: false
-      autoincrement: false
     number_within_batch:
       type: integer(1)
       unsigned: 0
@@ -333,6 +327,12 @@ Analysis:
       primary: false
       default: ''
       notnull: true
+      autoincrement: false
+    sample_id:
+      type: integer(4)
+      unsigned: 1
+      primary: false
+      notnull: false
       autoincrement: false
 Batch:
   tableName: batch
