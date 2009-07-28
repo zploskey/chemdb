@@ -101,19 +101,19 @@ $config['load_samples'] = array(
     array(
         'field' => 'wt_be_carrier_init',
         'label' => 'Be carrier initial weight',
-        'rules' => 'trim|callback__num|abs'),
+        'rules' => 'trim|abs|callback__num'),
     array(
         'field' => 'wt_be_carrier_final',
         'label' => 'Be carrier final weight',
-        'rules' => 'trim|callback__num|abs'),
+        'rules' => 'trim|abs|callback__num'),
     array(
         'field' => 'wt_al_carrier_init',
         'label' => 'Al carrier initial weight ',
-        'rules' => 'trim|callback__num|abs'),
+        'rules' => 'trim|abs|callback__num'),
     array(
         'field' => 'wt_al_carrier_final',
         'label' => 'Al carrier final wt',
-        'rules' => 'trim|callback__num|abs'),
+        'rules' => 'trim|abs|callback__num'),
     array(
         'field' => 'sample_name[]',
         'label' => 'sample name',
@@ -129,26 +129,26 @@ $config['load_samples'] = array(
     array(
         'field' => 'wt_diss_bottle_tare[]',
         'label' => 'Wt. bottle tare',
-        'rules' => 'trim|callback__num|abs'),
+        'rules' => 'trim|abs|callback__num'),
     array(
         'field' => 'wt_diss_bottle_sample[]',
         'label' => 'Wt. bottle + sample',
-        'rules' => 'trim|callback__num|abs'),
+        'rules' => 'trim|abs|callback__num'),
     array(
         'field' => 'wt_be_carrier[]',
         'label' => 'Wt. Be carrier soln.',
-        'rules' => 'trim|callback__num|abs'),
+        'rules' => 'trim|abs|callback__num'),
     array(
         'field' => 'wt_al_carrier[]',
         'label' => 'Wt. Al carrier soln.',
-        'rules' => 'trim|callback__num|abs'),
+        'rules' => 'trim|abs|callback__num'),
 );
 
 $config['add_solution_weights'] = array(
     array(
         'field' => 'wt_diss_bottle_total[]',
         'label' => 'total weight',
-        'rules' => 'trim|callback__num|abs'),
+        'rules' => 'trim|abs|callback__num'),
     array(
         'field' => 'batch[notes]',
         'label' => 'batch notes',
@@ -167,11 +167,11 @@ $config['add_split_weights'] = array(
     array(
         'field' => 'bkr_tare[]',
         'label' => 'beaker tare wt.',
-        'rules' => 'trim|callback__num|abs'),
+        'rules' => 'trim|abs|callback__num'),
     array(
         'field' => 'bkr_split[]',
         'label' => 'beaker + split wt.',
-        'rules' => 'trim|callback__num|abs'),
+        'rules' => 'trim|abs|callback__num'),
 );
 
 $config['add_icp_weights'] = array(
@@ -186,7 +186,7 @@ $config['add_icp_weights'] = array(
     array(
         'field' => 'tot_wts[]',
         'label' => 'beaker + ICP solution wt.',
-        'rules' => 'trim|callback__num|abs'),
+        'rules' => 'trim|abs|callback__num'),
 );
 
 $config['add_icp_results'] = array(
@@ -244,11 +244,11 @@ $config['al_sample_loading'] = array(
     array(
         'field' => 'wt_bkr_tare[]',
         'label' => 'beaker tare weight',
-        'rules' => 'trim|callback__num|abs'),
+        'rules' => 'trim|abs|callback__num'),
     array(
         'field' => 'wt_bkr_sample[]',
         'label' => 'beaker + sample weight',
-        'rules' => 'trim|callback__num|abs'),
+        'rules' => 'trim|abs|callback__num'),
     array(
         'field' => 'notes[]',
         'label' => 'notes',
@@ -259,11 +259,11 @@ $config['al_add_solution_weights'] = array(
     array(
         'field' => 'wt_bkr_soln[]',
         'label' => 'Bkr + soln.',
-        'rules' => 'trim|callback__num|abs'),
+        'rules' => 'trim|abs|callback__num'),
     array(
         'field' => 'addl_dil_factor[]',
         'label' => "Add'l DF",
-        'rules' => 'trim|callback__num|abs'),
+        'rules' => 'trim|abs|callback__num'),
     array(
         'field' => 'notes[]',
         'label' => 'notes',
@@ -274,23 +274,23 @@ $config['al_add_icp_data'] = array(
     array(
         'field' => 'icp_be[]',
         'label' => 'ICP [Be]',
-        'rules' => 'trim|callback__num|abs'),
+        'rules' => 'trim|abs|callback__num'),
     array(
         'field' => 'icp_ti[]',
         'label' => 'ICP [Ti]',
-        'rules' => 'trim|callback__num|abs'),
+        'rules' => 'trim|abs|callback__num'),
     array(
         'field' => 'icp_fe[]',
         'label' => 'ICP [Fe]',
-        'rules' => 'trim|callback__num|abs'),
+        'rules' => 'trim|abs|callback__num'),
     array(
         'field' => 'icp_al[]',
         'label' => 'ICP [Al]',
-        'rules' => 'trim|callback__num|abs'),
+        'rules' => 'trim|abs|callback__num'),
     array(
         'field' => 'icp_mg[]',
         'label' => 'ICP [Mg]',
-        'rules' => 'trim|callback__num|abs'),
+        'rules' => 'trim|abs|callback__num'),
     array(
         'field' => 'icp_date',
         'label' => 'ICP date',
