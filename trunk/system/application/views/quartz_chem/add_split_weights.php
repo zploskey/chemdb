@@ -65,13 +65,15 @@
                     }
                     ?>
                 </td>
-                <td><?=$batch->Analysis[$i]->DissBottle->bottle_number?></td>
+                <td align="center">
+                    <?=$batch->Analysis[$i]->DissBottle->bottle_number?>
+                </td>
 
             <?php elseif ($s == $batch->Analysis[$i]->Split->count() - 1): ?>
 
                 <td colspan="2"></td>
-                <td>
-                    <!-- <input type="submit" value="Add a split" name="addsplit"> -->
+                <td align="center">
+                    <input type="submit" value="Add a split" name="<?='a'.$i?>">
                 </td>
 
             <?php else: ?>
