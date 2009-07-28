@@ -104,7 +104,6 @@ class Alchecks extends MY_Controller
             $newAnalysis['number_within_batch'] = $nsamples + 1;
             $batch->AlcheckAnalysis[] = $newAnalysis;
             $batch->save();
-            // $batch->refreshRelated();
             ++$nsamples;
             $refresh = false;
         }
@@ -352,23 +351,14 @@ class Alchecks extends MY_Controller
     function quick_add()
     {
         $batch_id = $this->input->post('batch_id');
+        $analysis_id = $this->input->post('analysis_id');
         $refresh = $this->input->post('refresh');
-
+        
         $an = new AlcheckAnalysis;
 
         $data->errors = true;
         if ($refresh) {
             $valid = $this->form_validation->run('al_quick_add');
-            if (! $batch_id) {
-                // create the dummy batch
-                $batch = new AlcheckBatch;
-                $batch->owner = 'NONE';
-                $batch->description = 'Dummy batch';
-                $batch->prep_date = date('Y-m-d');
-            } else {
-                $batch = Doctrine::getTable('Batch')->find($batch_id);
-            }
-
             // get postdata
             $an->sample_name = $this->input->post('sample_name');
             $an->icp_al = $this->input->post('icp_al');
@@ -382,14 +372,39 @@ class Alchecks extends MY_Controller
             $an->wt_bkr_soln = 100;
 
             $sample = Doctrine::getTable('Sample')->findByName($an->sample_name);
-            if ($sample) {
-                $an->Sample = $sample;
+            if ($sample && $sample->name != '') {
+                $an->Sample = $sample[0];
             }
 
-            $batch->AlcheckAnalysis[] = $an;
-
+            if (! $batch_id) {
+                // create the dummy batch
+                $batch = new AlcheckBatch;
+                $batch->owner = 'NONE';
+                $batch->description = 'Dummy batch';
+                $batch->prep_date = date('Y-m-d');
+            } else {
+                $batch = Doctrine::getTable('AlcheckBatch')
+                    ->createQuery('b')
+                    ->where('b.id = ?', $batch_id)
+                    ->leftJoin('b.AlcheckAnalysis a')
+                    ->fetchOne();
+                if (!$batch) {
+                    die('Batch not found.');
+                }
+            }
+            
+            if ($analysis_id) {
+                $n = $batch->AlcheckAnalysis->count();
+                $an->id = $batch->AlcheckAnalysis->end()->id;
+                $batch->AlcheckAnalysis[$n-1] = $an;
+            } else {
+                $batch->AlcheckAnalysis[] = $an;
+            }
+            
             if ($valid) {
                 $batch->save();
+                $batch_id = $batch->id;
+                $analysis_id = $batch->AlcheckAnalysis->end()->id;
             } else {
                 $data->errors = true;
             }
