@@ -31,6 +31,7 @@ class BatchTable extends Doctrine_Table
             ->leftJoin('b.BeCarrier bec')
             ->leftJoin('b.AlCarrier alc')
             ->where('b.id = ?', $id)
+            ->orderBy('a.id ASC')
             ->fetchOne();
     }
 
