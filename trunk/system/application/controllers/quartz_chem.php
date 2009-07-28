@@ -164,7 +164,7 @@ class Quartz_chem extends MY_Controller
                 foreach ($batch->Analysis as &$a) {
                     $sample = Doctrine_Query::create()
                         ->from('Sample s')
-                        ->select('s.id, s.name')
+                        ->select('s.id')
                         ->where('s.name = ?', $a->sample_name)
                         ->fetchOne();
 
@@ -176,7 +176,7 @@ class Quartz_chem extends MY_Controller
                 } unset($a);
 
                 $batch->save();
-                $batch->refreshRelated();
+                $batch = Doctrine::getTable('Batch')->findWithCarriers($batch_id);
             } else {
                 // validation failed
                 $errors = true;
@@ -317,16 +317,21 @@ class Quartz_chem extends MY_Controller
         $numsamples = $batch->Analysis->count();
 
         for ($a = 0; $a < $numsamples; $a++) {
-            $precheck = Doctrine_Query::create()
+
+            $pquery = Doctrine_Query::create()
                 ->from('AlcheckAnalysis a')
                 ->leftJoin('a.AlcheckBatch b')
                 ->select('a.sample_name, a.icp_al, a.icp_fe, a.icp_ti, a.wt_bkr_tare, '
-                    .'a.wt_bkr_sample, a.wt_bkr_soln, b.prep_date')
-                ->where('a.sample_id = ?', $batch->Analysis[$a]->sample_id)
-                ->andWhere('a.alcheck_batch_id = b.id')
+                    . 'a.wt_bkr_sample, a.wt_bkr_soln, b.prep_date')
+                ->where('a.alcheck_batch_id = b.id')
                 ->orderBy('b.prep_date DESC')
-                ->limit(1)
-                ->fetchOne();
+                ->limit(1);
+            if (isset($batch->Analysis[$a]->Sample)) {
+                $pquery->where('a.sampled_id = ?', $batch->Analysis[$a]->Sample->id);
+            } else {
+                $pquery->where('a.sample_name = ?', $batch->Analysis[$a]->sample_name);
+            }
+            $precheck = $pquery->fetchOne();
 
             $tmpa[$a]['tmpSampleWt'] = $batch->Analysis[$a]->wt_diss_bottle_sample
                 - $batch->Analysis[$a]->wt_diss_bottle_tare;
@@ -465,6 +470,18 @@ class Quartz_chem extends MY_Controller
             } else {
                 $errors = true;
             }
+
+            // add a new split if requested
+            for ($i = 0; $i < $numsamples; $i++) {
+                if ($this->input->post('a'.$i)) {
+                    $tmp = new Split();
+                    $tmp->split_num = $batch->Analysis[$i]->Split->count() + 1;
+                    $batch->Analysis[$i]->Split[] = $tmp;
+                    $batch->save();
+                    break;
+                }
+            }
+
             $batch = $query->fetchOne();
         }
 
@@ -476,6 +493,7 @@ class Quartz_chem extends MY_Controller
         $data->extraHeadContent =<<<EOH
             <script type="text/javascript">
             $(document).ready(function() {
+
                 $("#setBkrSeq").click(function() {
                     $(".bkr_select").each(function(i) {
                         var start_num = $(".bkr_select:first option:selected").html().substring(3);
@@ -490,6 +508,7 @@ class Quartz_chem extends MY_Controller
                         return true;
                     });
                 });
+
             });
             </script>
 EOH;
@@ -660,6 +679,7 @@ EOH;
 
             // data looks good, insert it into the database
             $batch->setIcpResults($al_arr, $be_arr)->save();
+            $batch = $query->fetchOne();
         }
 
         // recreate input boxes from database
