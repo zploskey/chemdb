@@ -288,5 +288,5 @@ for ($i = 0; $i < $batch['nsamples']; $i++):
     
 <? endfor; ?>
 
-    <tr><td colspan=12><hr><hr></td></tr>
+    <tr><td colspan="<?php echo 6 + 3 * $batch['max_nsplits']?>"><hr><hr></td></tr>
 </table>
