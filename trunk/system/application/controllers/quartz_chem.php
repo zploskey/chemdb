@@ -10,10 +10,11 @@ class Quartz_chem extends MY_Controller
 {
 
     /**
-     * The main quartz chemistry page. Contains a series of select boxes and
-     * links to the other pages.
+     * Supplies data for the Al/Be Chemistry index page. Populates select boxes
+     * with batches that the user can select to modify on the other pages.
+     * @return void
      */
-    function index()
+    public function index()
     {
         $batch_id = $this->input->post('batch_id');
         if ($this->input->post('is_lock') === "true") {
@@ -22,11 +23,13 @@ class Quartz_chem extends MY_Controller
 
         // build option tags for the select boxes
         foreach (Doctrine::getTable('Batch')->findOpenBatches() as $b) {
-            $data->open_batches .= "<option value=$b->id>$b->start_date $b->owner $b->description";
+            $data->open_batches .= "<option value=$b->id>$b->start_date "
+                . $b->owner . ' ' . substr($b->description, 0, 65);
         }
 
         foreach (Doctrine::getTable('Batch')->findAllBatches() as $b) {
-            $data->all_batches .= "<option value=$b->id>$b->start_date $b->owner $b->description";
+            $data->all_batches .= "<option value=$b->id>$b->start_date "
+                . $b->owner . ' ' . substr($b->description, 0, 65);
         }
 
         $data->title = 'Quartz Al-Be chemistry';
@@ -36,68 +39,54 @@ class Quartz_chem extends MY_Controller
     }
 
     /**
-     * Form for adding a batch or editing the batch information after it has been added.
+     * Form for adding a batch or for editing the batch information after it
+     * has been added.
      */
-    function new_batch()
+    public function new_batch()
     {
         $id = $this->input->post('batch_id');
         $is_edit = (bool)$id;
-        $data->allow_num_edit = ( ! $is_edit);
+        $data->allow_num_edit = !$is_edit;
 
         if ($is_edit) {
             // it's an existing batch, get it
             $batch = Doctrine::getTable('Batch')->find($id);
-
-            if ( ! $batch) {
+            if (!$batch) {
                 show_404('page');
             }
-
             $data->numsamples = $batch->Analysis->count();
         } else {
-            // it's a new batch
             $batch = new Batch();
-            // number of samples is not known
             $data->numsamples = null;
+            $batch->start_date = date('Y-m-d');
         }
 
-        if (! $this->form_validation->run('batches')) {
-            // validation failed, redisplay the form
-            if ($is_edit) {
-                $batch->id = set_value('id', $batch->id);
-                $batch->owner = set_value('owner', $batch->owner);
-                $batch->description = set_value('description', $batch->description);
-                $batch->start_date = set_value('start_date', $batch->start_date);
-            } else {
-                $batch->id = set_value('id');
-                $batch->owner = set_value('owner');
-                $batch->description = set_value('description');
-                $batch->start_date = date('Y-m-d');
-            }
-        } else {
-            // inputs are valid
-            // grab batch info from post and save it to the db
-            $new_batch = ( ! ((bool)$batch->id));
+        if ($this->input->post('is_refresh')) {
+            $is_valid = $this->form_validation->run('batches');
+            $batch->id = $this->input->post('batch_id');
             $batch->owner = $this->input->post('owner');
             $batch->description = $this->input->post('description');
-            if ($new_batch) {
-                $batch->start_date = date('Y-m-d');
-            }
-            $batch->save();
+            $data->numsamples = $this->input->post('numsamples');
 
-            if ($new_batch) {
-                // new batch: create the analyses linked to this batch
-                $numsamples = $this->input->post('numsamples');
-                for ($i = 1; $i <= $numsamples; $i++) {
-                    $analysis = new Analysis();
-                    $analysis->number_within_batch = $i;
-                    $batch->Analysis[] = $analysis;
+            if ($is_edit) {
+                $batch->start_date = $this->input->post('start_date');
+            }
+
+            if ($is_valid) {
+                $new_batch = (!(bool)$batch->id);
+                if ($new_batch) {
+                    // new batch: create the analyses linked to this batch
+                    for ($i = 1; $i <= $data->numsamples; $i++) {
+                        $analysis = new Analysis();
+                        $analysis->number_within_batch = $i;
+                        $batch->Analysis[] = $analysis;
+                    }
                 }
                 $batch->save();
             }
         }
 
         // set the rest of the view data
-        $data->numsamples = $this->input->post('numsamples');
         $data->title = 'Add a batch';
         $data->main = 'quartz_chem/new_batch';
         $data->batch = $batch;
@@ -108,7 +97,7 @@ class Quartz_chem extends MY_Controller
      * Shows the sample loading page.
      * @return void
      **/
-    function load_samples()
+    public function load_samples()
     {
         $refresh = (bool)$this->input->post('is_refresh');
         $batch_id = (int)$this->input->post('batch_id');
@@ -166,6 +155,7 @@ class Quartz_chem extends MY_Controller
                         ->from('Sample s')
                         ->select('s.id')
                         ->where('s.name = ?', $a->sample_name)
+                        ->andWhere("s.name != ''")
                         ->fetchOne();
 
                     if ($sample) {
@@ -192,25 +182,25 @@ class Quartz_chem extends MY_Controller
         $diss_bottles = Doctrine::getTable('DissBottle')->findAll();
 
         for ($a = 0; $a < $num_analyses; $a++) {
+            $an = $batch->Analysis[$a];
             // create diss bottle dropdown options for each sample
             $html = '';
             foreach($diss_bottles as $bottle) {
                 $html .= '<option value='.$bottle->id;
-                if ($bottle->id == $batch->Analysis[$a]->diss_bottle_id) {
+                if ($bottle->id ==  $an->diss_bottle_id) {
                     $html .= ' selected';
                 }
                 $html .= "> $bottle->bottle_number";
             }
             $diss_bottle_options[$a] = $html;
 
-            $temp_sample_wt = $batch->Analysis[$a]->wt_diss_bottle_sample -
-                $batch->Analysis[$a]->wt_diss_bottle_tare;
+            $temp_sample_wt = $an->wt_diss_bottle_sample - $an->wt_diss_bottle_tare;
 
             // get cations while we're at it
-            if (isset($batch->Analysis[$a]->Sample)) {
-                $sample_name = $batch->Analysis[$a]->Sample->name;
+            if (isset($an->Sample)) {
+                $sample_name = $an->Sample->name;
             } else {
-                $sample_name = $batch->Analysis[$a]->sample_name;
+                $sample_name = $an->sample_name;
             }
 
             $precheck = Doctrine_Query::create()
@@ -218,6 +208,7 @@ class Quartz_chem extends MY_Controller
                 ->select('a.icp_al, a.icp_fe, a.icp_ti, a.wt_bkr_tare, a.wt_bkr_sample, '
                     . 'a.wt_bkr_soln, b.prep_date')
                 ->where('a.sample_name = ?', $sample_name)
+                ->andWhere("a.sample_name != ''")
                 ->orderBy('b.prep_date DESC')
                 ->limit(1)
                 ->fetchOne();
@@ -225,17 +216,15 @@ class Quartz_chem extends MY_Controller
             if ($precheck AND $batch->AlCarrier) {
                 // there's data, calculate the concentrations
                 $prechecks[$a]['show'] = true;
-
                 $temp_df = safe_divide(
                     ($precheck['wt_bkr_soln'] - $precheck['wt_bkr_tare']),
-                    ($precheck['wt_bkr_sample'] - $precheck['wt_bkr_tare'])
-                );
+                    ($precheck['wt_bkr_sample'] - $precheck['wt_bkr_tare']));
 
                 $temp_al = $precheck['icp_al'] * $temp_df * $temp_sample_wt / 1000;
                 $temp_fe = $precheck['icp_fe'] * $temp_df * $temp_sample_wt / 1000;
                 $temp_ti = $precheck['icp_ti'] * $temp_df * $temp_sample_wt / 1000;
-                $temp_tot_al = $temp_al + ($batch->Analysis[$a]->wt_al_carrier
-                             * $batch->AlCarrier->al_conc) / 1000;
+                $temp_tot_al = $temp_al + 
+                    ($an->wt_al_carrier * $batch->AlCarrier->al_conc) / 1000;
 
                 $prechecks[$a]['conc_al'] = sprintf('%.1f', $precheck['icp_al'] * $temp_df);
                 $prechecks[$a]['conc_fe'] = sprintf('%.1f', $precheck['icp_fe'] * $temp_df);
@@ -246,9 +235,8 @@ class Quartz_chem extends MY_Controller
                 $temp_ti = '--';
                 $temp_tot_al = '--';
 
-                if ($batch->AlCarrier AND $batch->Analysis[$a]->wt_al_carrier > 0) {
-                    $temp_tot_al = $batch->Analysis[$a]->wt_al_carrier
-                        * $batch->AlCarrier->al_conc / 1000;
+                if ($batch->AlCarrier AND $an->wt_al_carrier > 0) {
+                    $temp_tot_al = $an->wt_al_carrier * $batch->AlCarrier->al_conc / 1000;
                 }
             }
 
@@ -256,8 +244,8 @@ class Quartz_chem extends MY_Controller
             $prechecks[$a]['m_fe'] = $temp_fe;
             $prechecks[$a]['m_ti'] = $temp_ti;
 
-            $be_tot_wt += $batch->Analysis[$a]->wt_be_carrier;
-            $al_tot_wt += $batch->Analysis[$a]->wt_al_carrier;
+            $be_tot_wt += $an->wt_be_carrier;
+            $al_tot_wt += $an->wt_al_carrier;
         }
 
         // get previous carrier weights
@@ -300,7 +288,7 @@ class Quartz_chem extends MY_Controller
     /**
      * Produces a sheet to track the progress of samples through the rest of the process.
      */
-    function print_tracking_sheet()
+    public function print_tracking_sheet()
     {
         $batch_id = $this->input->post('batch_id');
         $batch = Doctrine_Query::create()
@@ -377,7 +365,7 @@ class Quartz_chem extends MY_Controller
     /**
      * Form to submit solution weights.
      */
-    function add_solution_weights() 
+    public function add_solution_weights() 
     {
         $batch_id = (int)$this->input->post('batch_id');
         $refresh = (bool)$this->input->post('is_refresh');
@@ -417,7 +405,7 @@ class Quartz_chem extends MY_Controller
         $this->load->view('template', $data);
     }
 
-    function add_split_weights() 
+    public function add_split_weights() 
     {
         $batch_id = (int)$this->input->post('batch_id');
         $refresh = (bool)$this->input->post('is_refresh');
@@ -521,7 +509,7 @@ EOH;
      * Form for submitting ICP weighings.
      * @return void
      */
-    function add_icp_weights() 
+    public function add_icp_weights() 
     {
         $batch_id = (int)$this->input->post('batch_id');
         $refresh = (bool)$this->input->post('is_refresh');
@@ -583,7 +571,7 @@ EOH;
     *
     * @return void
     **/
-    function add_icp_results() 
+    public function add_icp_results() 
     {
         $submit = (bool)$this->input->post('submit');
         $batch_id = (int)$this->input->post('batch_id');
@@ -662,7 +650,8 @@ EOH;
                 $nSplits += $batch->Analysis[$a]->Split->count();
             }
             if ($len_be != $nSplits) {
-                die("The number of splits in the database ($nSplits) does not match the number submitted ($len_be)");
+                die("The number of splits in the database ($nSplits) does not "
+                  . "match the number submitted ($len_be)");
             }
 
             // test that all submitted split beakers exist
@@ -673,8 +662,8 @@ EOH;
                 // comma separated list, true indicates we want an 'and' before last element
                 echo comma_str($missing, true); 
                 die(' were not found in the database.<br>'
-                    .'Please ensure that you have spelled all '
-                    .'their names correctly or add them to the database.');
+                  . 'Please ensure that you have spelled all '
+                  . 'their names correctly or add them to the database.');
             }
 
             // data looks good, insert it into the database
@@ -700,7 +689,7 @@ EOH;
     * Page to select whether to use an ICP result in calculations or not.
     * @return void
     */
-    function icp_quality_control()
+    public function icp_quality_control()
     {
         // Retrieve intial postdata
         $batch_id = (int)$this->input->post('batch_id');
@@ -738,7 +727,7 @@ EOH;
      * Does calculations and prints an intermediate report on the samples.
      * @return void
      */
-    function intermediate_report() 
+    public function intermediate_report() 
     {
         $batch_id = (int)$this->input->post('batch_id');
         $data->batch = Doctrine::getTable('Batch')->getReportArray($batch_id);
@@ -753,7 +742,7 @@ EOH;
      * Generates the final report for the batch.
      * @return void
      */
-    function final_report()
+    public function final_report()
     {
         $batch_id = (int)$this->input->post('batch_id');
         // do all our calculations, pass true to do a complete report
@@ -770,9 +759,12 @@ EOH;
     // ----------
 
     /**
+     * Returns true if $data is a valid date in YYYY-MM-DD format. Otherwise an
+     * error message is set, and the function returns false.
      * @param string $date date in YYYY-MM-DD format
+     * @access private
      */
-    function _valid_date($date) 
+    private function _valid_date($date) 
     {
         if ($this->form_validation->valid_date($date)) {
             return true;
