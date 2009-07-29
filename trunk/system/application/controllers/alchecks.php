@@ -27,12 +27,12 @@ class Alchecks extends MY_Controller
         $batch_id = (int)$this->input->post('batch_id');
         $is_edit = (bool)$batch_id;
         $refresh = (bool)$this->input->post('refresh');
-        $data->allow_num_edit = ( ! $is_edit);
+        $data->allow_num_edit = (!$is_edit);
 
         if ($is_edit) {
             // batch exits, find it
             $batch = Doctrine::GetTable('AlcheckBatch')->find($batch_id);
-            if ( ! $batch) {
+            if (!$batch) {
                 show_404('page');
             }
             $nsamples = $batch->AlcheckAnalysis->count();
