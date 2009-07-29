@@ -1,4 +1,4 @@
-<table>
+<table width="800">
     <!--- CREATE A NEW BATCH -->
     <?=form_open('quartz_chem/new_batch')?>
         <tr>
