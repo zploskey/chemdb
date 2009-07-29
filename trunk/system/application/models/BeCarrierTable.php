@@ -4,6 +4,11 @@
  */
 class BeCarrierTable extends Doctrine_Table
 {
+    /**
+     * Generates an html option list containing carrier names and values of
+     * the corresponding carrier id.
+     * @return string $options
+     */
     public function getSelectOptions($carrier_id)
     {
         $carriers = $this->createQuery('c')

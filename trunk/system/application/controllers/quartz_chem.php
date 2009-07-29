@@ -187,7 +187,7 @@ class Quartz_chem extends MY_Controller
             $html = '';
             foreach($diss_bottles as $bottle) {
                 $html .= '<option value='.$bottle->id;
-                if ($bottle->id ==  $an->diss_bottle_id) {
+                if ($bottle->id == $an->diss_bottle_id) {
                     $html .= ' selected';
                 }
                 $html .= "> $bottle->bottle_number";
