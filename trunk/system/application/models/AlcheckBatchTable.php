@@ -1,23 +1,12 @@
 <?php 
-
+/**
+ * Interfaces with the AlcheckBatch table in the Database.
+ */
 class AlcheckBatchTable extends Doctrine_Table
 {
     /**
-     *
-     * @return Doctrine_Collection
-     */
-    public function findRecentBatches($nBatches)
-    {
-        return Doctrine_Query::create()
-            ->from('AlcheckBatch b')
-            ->orderBy('b.prep_date desc')
-            ->where('b.description != ?', 'Dummy batch')
-            ->limit($nBatches)
-            ->execute();
-    }
-    
-    /**
-     *
+     * Returns a Doctrine_Collection of AlcheckBatch with the newest batches
+     * listed first. It excludes all "dummy batches" produces by quick_add.
      * @return Doctrine_Collection
      */
     public function findAllBatches()
@@ -28,10 +17,10 @@ class AlcheckBatchTable extends Doctrine_Table
             ->where('b.description != ?', 'Dummy batch')
             ->execute();
     }
-    
+
     /**
-     * Used in Alchecks repeatedly to grab analyses and sample names, sorted ascending.
-     * @return Doctrine_Query that retrieves an AlcheckBatch, analyses and samples (just names).
+     * Generates a query to grab analyses and sample names, sorted ascending.
+     * @return Doctrine_Query
      */
     public function getJoinQuery($batch_id)
     {
