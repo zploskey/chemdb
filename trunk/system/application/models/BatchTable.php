@@ -1,11 +1,17 @@
 <?php
-
+/**
+ * Interfaces with the Batch table
+ */
 class BatchTable extends Doctrine_Table
 {
+    /**
+     * @param int $batch_id id # of the batch we want to count splits for
+     * @return int $count the number of splits in this batch
+     */
     public function countSplits($batch_id)
     {
         $batch = $this->createQuery('b')
-          //  ->select('b.id, a.id, s.id')
+            ->select('b.id, a.id, s.id')
             ->where('b.id = ?', $batch_id)
             ->leftJoin('b.Analysis a')
             ->leftJoin('a.Split s')
@@ -36,7 +42,7 @@ class BatchTable extends Doctrine_Table
     }
 
     /**
-     *
+     * Finds batches that have not yet been set to completed.
      * @return Batch
      */
     public function findOpenBatches()
@@ -44,7 +50,7 @@ class BatchTable extends Doctrine_Table
         return Doctrine_Query::create()
             ->from('Batch b')
             ->select('b.id, b.owner, b.description, b.start_date')
-            ->where('completed = ?', 'n')
+            ->where('b.completed = ?', 'n')
             ->orderBy('b.start_date desc')
             ->execute();
     }
@@ -63,7 +69,7 @@ class BatchTable extends Doctrine_Table
     }
 
     /**
-     * Get batch collection for Icp Quality Control Page by the batch's id.
+     * Get batch collection for ICP Quality Control Page by the batch's id.
      *
      * @param $batch_id batch's id value
      * @return Batch
@@ -89,10 +95,12 @@ class BatchTable extends Doctrine_Table
     }
 
     /**
-     *
+    * Fetches a Batch object with the final beryllium carrier weight and start
+    * date fields populated. The object will always have a start_date that is
+    * older than the start date of the passed to this function.
      * @param int $carrier_id
-     * @param date $start_date
-     * @return Doctrine_Collection
+     * @param string $start_date a valid MySQL date format
+     * @return Batch
      */
     public function findPrevBeCarrierWt($carrier_id, $start_date)
     {
@@ -111,8 +119,8 @@ class BatchTable extends Doctrine_Table
      * older than the start date of the passed to this function.
      * 
      * @param int $carrier_id
-     * @param string $start_date
-     * @return Doctrine_Collection
+     * @param string $start_date a valid MySQL date format
+     * @return Batch
      */
     public function findPrevAlCarrierWt($carrier_id, $start_date)
     {
@@ -126,14 +134,22 @@ class BatchTable extends Doctrine_Table
     }
 
     /**
-     *
-     * @return void
+     * Generates an array containing calculations for the batch with id $id.
+     * The optional $stats parameter can be set to true if statistics such as
+     * standard deviation are required.
+     * @param $id the batch id
+     * @param bool $stats whether or not to calculate statistics
+     * @return array
      **/
     public function getReportArray($id, $stats = false)
     {
         return $this->findCompleteById($id)->getReportArray($stats);
     }
 
+    /**
+     * Locks the batch whose id is $id (sets completed to 'y').
+     * @param int $id id of the batch to lock
+     */
     public function lock($id)
     {
         return Doctrine_Query::create()
