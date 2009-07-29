@@ -35,7 +35,7 @@
         <td colspan=3>
             <p>Batch description: <?=$batch['description']?></p>
             <p>Batch notes: <?=$batch['notes']?></p>
-        
+
             <?php if (isset($final) && $final): ?>
                 <p>Spreadsheet: <?=$batch['spreadsheet_name']?></p>
                 <p>CSV file: <?=$batch['csv_name']?></p>
