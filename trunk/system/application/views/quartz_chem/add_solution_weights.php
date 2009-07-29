@@ -2,24 +2,24 @@
     array('batch_id' => $batch->id, 'is_refresh' => 'TRUE')); ?>
 
 <table width=800 class=arial10>
-	<tr>
-		<td>
-		<h3>Batch information:<br/></h3>
-		Batch ID: <?php echo $batch->id; ?> <br/>
-		Batch start date: <?php echo $batch->start_date; ?><br/>
-		Batch owner: <?php echo $batch->owner; ?><br/>
-		Batch description:  <?php echo $batch->description; ?><p/>
-		</td>
-	</tr>
-	<tr>
-		<td colspan=4>
-			Batch notes:<br>
+    <tr>
+        <td>
+        <h3>Batch information:<br/></h3>
+        Batch ID: <?php echo $batch->id; ?> <br/>
+        Batch start date: <?php echo $batch->start_date; ?><br/>
+        Batch owner: <?php echo $batch->owner; ?><br/>
+        Batch description:  <?php echo $batch->description; ?><p/>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=4>
+            Batch notes:<br>
             <center>
                 <textarea name=batch[notes] rows=5 cols=100><?php echo $batch->notes; ?></textarea>
             </center>
-		</td>
-	</tr>
-	<tr><td><hr></td></tr> 
+        </td>
+    </tr>
+    <tr><td><hr></td></tr> 
 </table>
 
 <?php if ($errors): ?>
