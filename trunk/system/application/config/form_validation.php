@@ -74,11 +74,11 @@ $config['batches'] = array(
     array(
         'field' => 'description',
         'label' => 'description',
-        'rules' => 'trim|htmlspecialchars'),
+        'rules' => 'trim|htmlentities'),
     array(
         'field' => 'owner',
         'label' => 'Initials',
-        'rules' => 'trim|htmlspecialchars'),
+        'rules' => 'trim|htmlentities'),
     array(
         'field' => 'numsamples',
         'label' => '# of samples',
@@ -89,7 +89,7 @@ $config['load_samples'] = array(
     array(
         'field' => 'notes',
         'label' => 'notes',
-        'rules' => 'trim|htmlspecialchars'),
+        'rules' => 'trim|htmlentities'),
     array(
         'field' => 'be_carrier_id',
         'label' => 'beryllium carrier id',
@@ -193,7 +193,7 @@ $config['add_icp_results'] = array(
     array(
         'field' => 'notes',
         'label' => 'notes',
-        'rules' => 'trim|htmlspecialchars'),
+        'rules' => 'trim|htmlentities'),
 );
 
 $config['icp_quality_control'] = array(
@@ -208,7 +208,7 @@ $config['icp_quality_control'] = array(
     array(
         'field' => 'notes',
         'label' => 'notes',
-        'rules' => 'trim|htmlspecialchars'),
+        'rules' => 'trim|htmlentities'),
 );
 
 // Aluminum checks
@@ -229,7 +229,7 @@ $config['al_new_batch'] = array(
     array(
         'field' => 'description',
         'label' => 'description',
-        'rules' => 'trim|htmlspecialchars'),
+        'rules' => 'trim|htmlentities'),
 );
 
 $config['al_sample_loading'] = array(
@@ -240,7 +240,7 @@ $config['al_sample_loading'] = array(
     array(
         'field' => 'bkr_number[]',
         'label' => 'beaker number',
-        'rules' => 'trim|htmlspecialchars'), // this is a string in the db...
+        'rules' => 'trim|htmlentities'), // this is a string in the db...
     array(
         'field' => 'wt_bkr_tare[]',
         'label' => 'beaker tare weight',
@@ -252,7 +252,7 @@ $config['al_sample_loading'] = array(
     array(
         'field' => 'notes[]',
         'label' => 'notes',
-        'rules' => 'trim|htmlspecialchars'),
+        'rules' => 'trim|htmlentities'),
 );
 
 $config['al_add_solution_weights'] = array(
@@ -267,7 +267,7 @@ $config['al_add_solution_weights'] = array(
     array(
         'field' => 'notes[]',
         'label' => 'notes',
-        'rules' => 'trim|htmlspecialchars')
+        'rules' => 'trim|htmlentities')
 );
 
 $config['al_add_icp_data'] = array(

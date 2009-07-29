@@ -1,24 +1,24 @@
 <?=form_open('quartz_chem/add_icp_results')?>
 <input type="hidden" name="batch_id" value="<?=$batch->id?>">
 <table width=800 class=arial10>
-	<tr>
-		<td> 
-		<h3>Batch information:</p></h3>
-		Batch ID: <?=$batch->id?> <br>
-		Batch start date: <?=$batch->start_date?> <br>
-		Batch owner: <?=$batch->owner?> <br>
-		Batch description: <?=$batch->description?> <br>
-		</td>
-	</tr>
-	<tr>
-		<td colspan=4>
-			Batch notes:<br>
-			<center>
-			<textarea name="notes" rows="5" cols="100"><?=$batch->notes?></textarea>
-			</center>
-		</td>
-	</tr>
-	<tr><td><hr></td></tr>
+    <tr>
+        <td> 
+        <h3>Batch information:</p></h3>
+        Batch ID: <?=$batch->id?> <br>
+        Batch start date: <?=$batch->start_date?> <br>
+        Batch owner: <?=$batch->owner?> <br>
+        Batch description: <?=$batch->description?> <br>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=4>
+            Batch notes:<br>
+            <center>
+            <textarea name="notes" rows="5" cols="100"><?=$batch->notes?></textarea>
+            </center>
+        </td>
+    </tr>
+    <tr><td><hr></td></tr>
 </table>
 <p>
     Data should be input as:<br><br>
