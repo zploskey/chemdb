@@ -10,6 +10,7 @@
  * @property float $latitude
  * @property float $longitude
  * @property float $altitude
+ * @property integer $antarctic
  * @property float $shield_factor
  * @property float $depth_top
  * @property float $depth_bottom
@@ -69,6 +70,15 @@ abstract class BaseSample extends Doctrine_Record
              'notnull' => false,
              'autoincrement' => false,
              'length' => '2147483647',
+             ));
+        $this->hasColumn('antarctic', 'integer', 1, array(
+             'type' => 'integer',
+             'unsigned' => 0,
+             'primary' => false,
+             'default' => '0',
+             'notnull' => true,
+             'autoincrement' => false,
+             'length' => '1',
              ));
         $this->hasColumn('shield_factor', 'float', 2147483647, array(
              'type' => 'float',

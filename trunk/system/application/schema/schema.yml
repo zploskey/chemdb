@@ -657,6 +657,13 @@ Sample:
       primary: false
       notnull: false
       autoincrement: false
+    antarctic:
+      type: integer(1)
+      unsigned: 0
+      primary: false
+      default: '0'
+      notnull: true
+      autoincrement: false
     shield_factor:
       type: float(2147483647)
       unsigned: 0
