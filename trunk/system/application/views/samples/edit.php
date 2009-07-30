@@ -17,7 +17,7 @@
                 <th>Name:</th>
                 <td><?=form_input('sample[name]', $sample->name)?></td>
             </tr>
-    
+
             <tr>
                 <th>Associated Projects:</th>
                 <td>
@@ -27,23 +27,40 @@
                         echo '<select name="proj[]">', $po, '</select><br/>';
                     }
                     ?>
-                    <button id="add_select">Link another project</button>
+                    <button id="add_select">Link a new Åproject</button>
                 </td>
             </tr>
-    
+
             <tr>
                 <th>Latitude:</th>
-                <td><input type="text" name="sample[latitude]" value="<?=$sample->latitude?>" size="10" /> &nbsp;Northern hemisphere = positive</td>
+                <td>
+                    <input type="text" name="sample[latitude]" value="<?=$sample->latitude?>" size="10" /> &nbsp;
+                    North latitudes are positive. South latitudes are negative.
+                </td>
             </tr>
 
             <tr>
                 <th>Longitude:</th>
-                <td><input type="text" name="sample[longitude]" value="<?=$sample->longitude?>" size="10" /> &nbsp;East is positive, West negative</td>
+                <td>
+                    <input type="text" name="sample[longitude]" value="<?=$sample->longitude?>" size="10" /> &nbsp;
+                    East longitudes are positive. West longitudes are negative. 
+                </td>
             </tr>
-    
+
             <tr>
                 <th>Altitude:</th>
                 <td><input type="text" name="sample[altitude]" value="<?=$sample->altitude?>" size="10" /> &nbsp;m</td>
+            </tr>
+
+            <tr>
+                <th>Antarctic?:</th>
+                <td>
+                    &nbsp;
+                    <input type="checkbox" name="sample[antarctic]" value="1"
+                        <?=($sample->antarctic) ? 'checked' : ''?>
+                    > &nbsp;
+                    Is this an Antarctic sample?
+                </td>
             </tr>
 
             <tr>
