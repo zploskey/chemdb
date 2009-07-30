@@ -235,6 +235,6 @@ ALTER TABLE `alcheck_analysis` ADD `sample_id` int(11) UNSIGNED default NULL AFT
 UPDATE alcheck_analysis a, sample s SET a.sample_id = s.id WHERE a.sample_name = s.name;
 /* sample names should be unique */
 ALTER TABLE `sample` CHANGE `name` `name` varchar(255) NOT NULL DEFAULT '' UNIQUE;
-
+ALTER TABLE `sample` ADD `antarctic` bool NOT NULL DEFAULT '0' AFTER `altitude`;
 
 /* TODO: Finally, remove fields that are now redundant */
