@@ -68,12 +68,12 @@ for ($a = 0; $a < $batch['nsamples']; $a++):
             <td><? printf('%.4f', $run['be_result']); ?></td>
             <td><? printf('%.1f', $run['be_tot']); ?></td>
             <td>
-                <input type=checkbox value="<?=$run['id']?>" name="use_be[]" <?=($run['use_be']=="y")?'checked':''?>>
+                <input type="checkbox" value="<?=$run['id']?>" name="use_be[]" <?=($run['use_be']=="y")?'checked':''?>>
             </td>
             <td><? printf('%.4f', $run['al_result']); ?></td>
             <td><? printf('%.1f', $run['al_tot']); ?></td>
             <td>
-                <input type=checkbox value="<?=$run['id']?>" name="use_al[]" <?=($run['use_al']=="y")?'checked':''?>>
+                <input type="checkbox" value="<?=$run['id']?>" name="use_al[]" <?=($run['use_al']=="y")?'checked':''?>>
             </td>
         </tr>
         <? endfor; // runs?>
