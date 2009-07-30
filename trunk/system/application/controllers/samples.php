@@ -111,7 +111,7 @@ class Samples extends MY_Controller
     function edit($id = 0) 
     {
         $is_refresh = $this->input->post('is_refresh');
-
+        
         if ($id) {
             // edit an existing sample
             $sample = Doctrine_Query::create()
@@ -119,9 +119,7 @@ class Samples extends MY_Controller
                 ->where('s.id = ?', $id)
                 ->fetchOne();
 
-            if (!$sample)
-            {
-                // couldn't find the sample, so we 404 (probably change later)
+            if (!$sample) {
                 show_404('page');
             }
 
@@ -138,6 +136,36 @@ class Samples extends MY_Controller
             $data->subtitle = 'Enter Sample Information:';
             $data->arg = '';
         }
+        
+        if ($is_refresh) {
+            // validate what was submitted
+            $valid = $this->form_validation->run('samples');
+            $sample->merge($this->input->post('sample'));
+            if (!$this->input->post('antarctic')) {
+                $sample->antarctic = false;
+            }
+            $proj = $this->input->post('proj');
+
+            if ($proj) {
+                $proj = array_unique($proj);
+            }
+
+            if ($valid) {
+                $sample->merge($this->input->post('sample'));
+                $sample->unlink('Project');
+                $sample->save();
+                $off = 0;
+                for ($i = 0; $i < count($proj); $i++) {
+                    if ($proj[$i] == '') {
+                        $off++;
+                        continue;
+                    }
+                    $sample['ProjectSample'][$i-$off]['project_id'] = $proj[$i];
+                    $sample['ProjectSample'][$i-$off]['sample_id'] = $sample->id; 
+                }
+                $sample->save();
+            }
+        }
 
         // generate some select boxes to associate projects with the sample
         $projOptions = array();
@@ -145,7 +173,6 @@ class Samples extends MY_Controller
         if (isset($sample->Project)) {
             $nprojs = $sample->Project->count();
             for ($i = 0; $i < $nprojs; $i++) {
-                $tmp = "<option>";
                 $projOptions[] = '<option>';
             }
         }
@@ -181,34 +208,6 @@ class Samples extends MY_Controller
             </script>
 EHC;
 
-        if ($is_refresh) {
-            // validate what was submitted
-            $valid = $this->form_validation->run('samples');
-            $sample->merge($this->input->post('sample'));
-            $proj = $this->input->post('proj');
-
-            if ($proj) {
-                $proj = array_unique($proj);
-            }
-
-            if ($valid) {
-                $sample->merge($this->input->post('sample'));
-                $sample->unlink('Project');
-                $sample->save();
-                $off = 0;
-                for ($i = 0; $i < count($proj); $i++) {
-                    if ($proj[$i] == '') {
-                        $off++;
-                        continue;
-                    }
-                    $sample['ProjectSample'][$i-$off]['project_id'] = $proj[$i];
-                    $sample['ProjectSample'][$i-$off]['sample_id'] = $sample->id; 
-                }
-                $sample->save();
-                redirect('samples/edit/'.$sample->id);
-            }
-        }
-
         $data->sample = $sample;
         $data->main = 'samples/edit';
         $this->load->view('template', $data);
@@ -239,6 +238,12 @@ EHC;
         $this->load->view('template', $data);
     }
 
+    /**
+     * A callback function for javascript auto-completion of sample names.
+     * Prints all the names that contain the query ($_POST['q']), each
+     * followed by a newline character.
+     * @return void
+     */
     function search_names()
     {
         $q = $this->input->post('q');
