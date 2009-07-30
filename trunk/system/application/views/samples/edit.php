@@ -27,7 +27,7 @@
                         echo '<select name="proj[]">', $po, '</select><br/>';
                     }
                     ?>
-                    <button id="add_select">Link a new Åproject</button>
+                    <button id="add_select">Link a new project</button>
                 </td>
             </tr>
 
