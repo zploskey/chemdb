@@ -23,6 +23,7 @@
  * @property DissBottle $DissBottle
  * @property Sample $Sample
  * @property Doctrine_Collection $Split
+ * @property Doctrine_Collection $BeAms
  * 
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
@@ -173,6 +174,10 @@ abstract class BaseAnalysis extends Doctrine_Record
              'foreign' => 'id'));
 
         $this->hasMany('Split', array(
+             'local' => 'id',
+             'foreign' => 'analysis_id'));
+
+        $this->hasMany('BeAms', array(
              'local' => 'id',
              'foreign' => 'analysis_id'));
     }
