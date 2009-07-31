@@ -263,6 +263,20 @@ EHC;
             echo "$s->name\n";
         }
     }
+    
+    /**
+     * Validates the antarctic checkbox. Returns true if the value is 1.
+     *
+     * @return bool
+     **/
+    function _valid_antarctic($val)
+    {
+        if (!isset($val) || $val == 1) {
+            return true;
+        }
+        $this->form_validation->set_message('sample[antarctic]', 'The %s field must be set to 1.');
+        return false;
+    }
 
 }
 
