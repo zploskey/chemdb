@@ -237,6 +237,32 @@ AlcheckBatch:
       primary: false
       notnull: false
       autoincrement: false
+AmsCurrent:
+  tableName: ams_current
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 1
+      primary: true
+      autoincrement: true
+    current:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    be_ams_id:
+      type: integer(4)
+      unsigned: 1
+      primary: false
+      notnull: false
+      autoincrement: false
+    al_ams_id:
+      type: integer(4)
+      unsigned: 1
+      primary: false
+      notnull: false
+      autoincrement: false
 Analysis:
   tableName: analysis
   columns:
@@ -452,12 +478,137 @@ Batch:
       primary: false
       notnull: false
       autoincrement: false
+BeAms:
+  tableName: be_ams
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 1
+      primary: true
+      autoincrement: true
+    analysis_id:
+      type: integer(4)
+      unsigned: 1
+      primary: false
+      notnull: false
+      autoincrement: false
+    be_ams_std_id:
+      type: integer(4)
+      unsigned: 1
+      primary: false
+      notnull: false
+      autoincrement: false
+    date:
+      type: date(25)
+      primary: false
+      notnull: false
+      autoincrement: false
+    ams_sample_name:
+      type: string(160)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    caams_num:
+      type: string(60)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    r_to_rstd:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    interror:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    exterror:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    truefrac:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    notes:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+BeAmsStd:
+  tableName: be_ams_std
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 1
+      primary: true
+      autoincrement: true
+    name:
+      type: string(255)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    be_calc_code_id:
+      type: integer(4)
+      unsigned: 1
+      primary: false
+      notnull: false
+      autoincrement: false
+    r10to9:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    error:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    notes:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+BeCalcCode:
+  tableName: be_calc_code
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 1
+      primary: true
+      autoincrement: true
+    code:
+      type: string(60)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    notes:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
 BeCarrier:
   tableName: be_carrier
   columns:
     id:
       type: integer(1)
-      unsigned: 0
+      unsigned: 1
       primary: true
       autoincrement: true
     name:
@@ -697,6 +848,91 @@ Sample:
     notes:
       type: string(2147483647)
       fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+SilCl36Analysis:
+  tableName: sil_cl36_analysis
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 1
+      primary: true
+      autoincrement: true
+    sample_id:
+      type: integer(4)
+      unsigned: 1
+      primary: false
+      notnull: false
+      autoincrement: false
+    sample_name:
+      type: string(255)
+      fixed: false
+      primary: false
+      default: ''
+      notnull: true
+      autoincrement: false
+    cl36_batch_id:
+      type: integer(4)
+      unsigned: 1
+      primary: false
+      notnull: false
+      autoincrement: false
+    calib_id:
+      type: integer(4)
+      unsigned: 1
+      primary: false
+      notnull: false
+      autoincrement: false
+    cl37_spike_id:
+      type: integer(4)
+      unsigned: 1
+      primary: false
+      notnull: false
+      autoincrement: false
+    sample_type:
+      type: enum(6)
+      fixed: false
+      values: [SAMPLE, CALIB, BLANK]
+      primary: false
+      default: SAMPLE
+      notnull: true
+      autoincrement: false
+    wt_spike:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    wt_bkr_tare:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    wt_bkr_sample:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+SilCl36Batch:
+  tableName: sil_cl36_batch
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 1
+      primary: true
+      autoincrement: true
+    owner:
+      type: string(60)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    cl_carrier_id:
+      type: integer(4)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false

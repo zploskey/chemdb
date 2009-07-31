@@ -237,4 +237,84 @@ UPDATE alcheck_analysis a, sample s SET a.sample_id = s.id WHERE a.sample_name =
 ALTER TABLE `sample` CHANGE `name` `name` varchar(255) NOT NULL DEFAULT '' UNIQUE;
 ALTER TABLE `sample` ADD `antarctic` bool NOT NULL DEFAULT '0' AFTER `altitude`;
 
+/* create ams measurements */
+CREATE TABLE `be_ams` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `analysis_id` int(10) unsigned default NULL,
+  `be_ams_std_id` int(10) unsigned default NULL,
+  `date` date default NULL,
+  `ams_sample_name` varchar(160) default NULL,
+  `caams_num` varchar(60) default NULL,
+  `r_to_rstd` double default NULL,
+  `interror` double default NULL,
+  `exterror` double default NULL,
+  `truefrac` double default NULL,
+  `notes` text,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1
+
+CREATE TABLE `be_calc_code` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `code` varchar(60) default NULL,
+  `notes` text,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1
+
+CREATE TABLE `be_ams_std` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` varchar(255) default NULL,
+  `be_calc_code_id` int(10) unsigned default NULL,
+  `r10to9` double default NULL,
+  `error` double default NULL,
+  `notes` text,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1
+
+CREATE TABLE `ams_current` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `current` double default NULL,
+  `be_ams_id` int(11) unsigned default NULL,
+  `al_ams_id` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1
+
+/* initial sketch of Cl36 analysis and batch tables */
+CREATE TABLE `sil_cl36_analysis` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `sample_id` int(10) unsigned default NULL,
+  `sample_name` varchar(255) NOT NULL default '',
+  `cl36_batch_id` int(10) unsigned default NULL,
+  `calib_id` int(10) unsigned default NULL,
+  `cl37_spike_id` int(10) unsigned default NULL,
+  `sample_type` enum('SAMPLE','CALIB','BLANK') NOT NULL default 'SAMPLE',
+  `wt_spike` double default NULL,
+  `wt_bkr_tare` double default NULL,
+  `wt_bkr_sample` double default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1
+
+CREATE TABLE `sil_cl36_batch` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `owner` varchar(60) default NULL,
+  `cl_carrier_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1
+
+/* add indexes for speed! */
+ALTER TABLE `analysis` ADD INDEX `sample_idx` (`sample_id`);
+ALTER TABLE `analysis` ADD INDEX `batch_idx` (`batch_id`);
+ALTER TABLE `analysis` ADD INDEX `diss_bottle_idx` (`diss_bottle_id`);
+
+ALTER TABLE `batch` ADD INDEX `al_carrier_idx` (`al_carrier_id`);
+ALTER TABLE `batch` ADD INDEX `be_carrier_idx` (`be_carrier_id`);
+
+ALTER TABLE `split` ADD INDEX `analysis_idx` (`analysis_id`);
+ALTER TABLE `split` ADD INDEX `split_bkr_idx` (`split_bkr_id`);
+
+ALTER TABLE `alcheck_analysis` ADD INDEX `sample_idx` (`sample_id`);
+ALTER TABLE `alcheck_analysis` ADD INDEX `alcheck_batch_idx` (`alcheck_batch_id`);
+ALTER TABLE `icp_run` ADD INDEX `split_idx` (`split_id`);
+
+
+
 /* TODO: Finally, remove fields that are now redundant */

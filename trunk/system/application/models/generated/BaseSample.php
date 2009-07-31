@@ -20,6 +20,7 @@
  * @property Doctrine_Collection $AlcheckAnalysis
  * @property Doctrine_Collection $Analysis
  * @property Doctrine_Collection $ProjectSample
+ * @property Doctrine_Collection $SilCl36Analysis
  * 
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
@@ -141,6 +142,10 @@ abstract class BaseSample extends Doctrine_Record
              'foreign' => 'sample_id'));
 
         $this->hasMany('ProjectSample', array(
+             'local' => 'id',
+             'foreign' => 'sample_id'));
+
+        $this->hasMany('SilCl36Analysis', array(
              'local' => 'id',
              'foreign' => 'sample_id'));
     }
