@@ -30,7 +30,7 @@ abstract class BaseBeCarrier extends Doctrine_Record
         $this->setTableName('be_carrier');
         $this->hasColumn('id', 'integer', 1, array(
              'type' => 'integer',
-             'unsigned' => 0,
+             'unsigned' => '1',
              'primary' => true,
              'autoincrement' => true,
              'length' => '1',

@@ -49,6 +49,10 @@ $config['samples'] = array(
         'label' => 'altitude',
         'rules' => 'trim|callback__num'),
     array(
+        'field' => 'sample[antarctic]',
+        'field' => 'antarctic',
+        'rules' => 'callback__valid_antarctic'),
+    array(
         'field' => 'sample[shield_factor]',
         'label' => 'shield factor',
         'rules' => 'trim|callback__valid_shield_factor'),
