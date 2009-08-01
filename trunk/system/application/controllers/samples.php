@@ -221,15 +221,65 @@ EHC;
     function view($id)
     {
         $sample = Doctrine_Query::create()
-            ->from('Sample s, s.Project')
+            ->from('Sample s')
+            ->leftJoin('s.Project p')
+            ->leftJoin('s.Analysis a')
+            ->leftJoin('a.BeAms ba')
+            ->leftJoin('ba.BeAmsStd bas')
+            ->leftJoin('bas.BeCalcCode basc')
+            ->orderBy('a.id ASC')
+            ->addOrderBy('ba.date DESC')
             ->where('s.id = ?', $id)
             ->fetchOne();
-
+            
         if ( ! $sample) {
             show_404('page');
         }
 
         if (isset($sample->Project)) $data->projects = $sample->Project;
+        $an_text = array();
+        foreach ($sample->Analysis as $an) {
+            foreach($an->BeAms as $ams) {
+                if (!isset($ams->BeAmsStd) || !isset($ams->BeAmsStd->BeCalcCode)) {
+                    // we don't have a standard set, no sense in even showing it
+                    continue;
+                }
+                if (!isset($sample->Analysis->AlAms)) {
+                    $al26_conc = $al26_err = 0;
+                    $al26_code = 'KNSTD';
+                }
+
+                if ($sample->antarctic) {
+                    $pressure_flag = 'ant';
+                } else {
+                    $pressure_flag = 'std';
+                }
+
+                $entries = array(
+                    substr($sample->name, 0, 24),
+                    $sample->latitude,
+                    $sample->longitude,
+                    $sample->altitude,
+                    $pressure_flag,
+                    abs($sample->depth_bottom - $sample->depth_top),
+                    $sample->density,
+                    $sample->shield_factor,
+                    $be10_conc,
+                    $be10_err,
+                    $ams->BeAmsStd->BeCalcCode->code,
+                    $al26_conc,
+                    $al26_err,
+                    $al26_code,
+                );
+                
+                foreach ($entries as $ent) {
+                    $text .= ' ' . $ent;
+                }
+                $text = substr($text, 1);
+                $an_text[] = $text;
+            }
+        }
+        $data->an_text = $an_text;
         $data->title = 'View Sample';
         $data->subtitle = 'Viewing '.$sample->name;
         $data->arg = $id;
