@@ -73,3 +73,18 @@ function comma_str($arr, $do_and = false)
     }
     return $str;
 }
+
+function getRealIp()
+{ 
+    if (!empty($_SERVER['HTTP_CLIENT_IP'])) { 
+        // ip is from share internet
+        $ip = $_SERVER['HTTP_CLIENT_IP']; 
+    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        // ip is passed from proxy
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR']; 
+    }  else { 
+        $ip = $_SERVER['REMOTE_ADDR'];
+    } 
+    
+    return $ip; 
+}
