@@ -64,3 +64,51 @@
         </tr>
     </table>
 </div>
+<br/><br/>
+
+<? if (isset($sample->Analysis)): ?>
+    <h3>Analyses of this sample</h3>
+    <table>
+        <tr>
+            <th>Batch ID</th>
+            <th width="60%">Notes</th>
+            <th>AMS ID</th>
+            <th>Actions</th>
+        </tr>
+    <? for ($i = 0; $i < $sample->Analysis->count(); $i++): 
+        $an = $sample->Analysis[$i]; ?>
+        
+        <tr>
+            <td align="center"><?=$an->Batch->id?></td>
+            <td><?=$an->notes?></td>
+            
+        <? for ($ams = 0; $ams < $an->BeAms->count(); $ams++): ?>
+        
+            <? if ($ams == 0): ?>
+                <td align="center">
+            <? else: ?>
+                <tr><td colspan="2"></td><td align="center">
+            <? endif; ?>
+                <td><?=$ams->id?></td>
+                <td>
+                    <form method="post" target="outputwindow" action="http://hess.ess.washington.edu/cgi-bin/matweb">
+                        <input type="submit" value="Calculate exposure age">
+                        <input type="hidden" name="requesting_ip" value="<?=getRealIp()?>">
+                        <input type="hidden" name="mlmfile" value="al_be_age_many_v22" >
+                        <input type="hidden" name="text_block" value="<?=$an_text[$i][$ams]?>">
+                    </form>
+                    <form method="post" target="outputwindow" action="http://hess.ess.washington.edu/cgi-bin/matweb">
+                        <input type="submit" value="Calculate erosion rate">
+                        <input type="hidden" name="requesting_ip" value="<?=getRealIp()?>">
+                        <input type="hidden" name="mlmfile" value="al_be_erosion_many_v22" >
+                        <input type="hidden" name="text_block" value="<?=$an_text[$i][$ams]?>">
+                    </form>
+                </td>
+            </tr>
+        
+        <? endfor; ?>
+        
+    <? endfor; ?>
+    
+    </table>
+<? endif; ?>
