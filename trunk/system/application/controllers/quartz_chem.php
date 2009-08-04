@@ -523,7 +523,7 @@ EOH;
             ->leftJoin('sp.SplitBkr sb')
             ->where('b.id = ?', $batch_id)
             ->orderBy('a.id ASC')
-            ->addOrderBy('s.split_num')
+            ->addOrderBy('sp.split_num')
             ->limit(1)
             ->fetchOne();
 
