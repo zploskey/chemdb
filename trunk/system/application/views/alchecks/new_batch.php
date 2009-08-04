@@ -5,10 +5,10 @@ echo form_open('alchecks/new_batch', '',
 
 echo validation_errors();
 ?>
-<table width=800>
+<table width="800">
     <tr>
         <td>Today's date:</td>
-        <td align=left>
+        <td align="left">
             <input type="hidden" name="prep_date" value="<?=date('Y-m-d')?>" size="50">
             <?=date('r')?>
         </td>
