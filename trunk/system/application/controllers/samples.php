@@ -244,15 +244,38 @@ EHC;
                     // we don't have a standard set, no sense in even showing it
                     continue;
                 }
-                if (!isset($sample->Analysis->AlAms)) {
-                    $al26_conc = $al26_err = 0;
-                    $al26_code = 'KNSTD';
-                }
 
                 if ($sample->antarctic) {
                     $pressure_flag = 'ant';
                 } else {
                     $pressure_flag = 'std';
+                }
+                
+                // calculate Be10 concentration and its error
+                // these calculations are based on:
+                // Converting Al and Be isotope ratio measurements to nuclide 
+                // concentrations in quartz.
+                // Greg Balco
+                // May 8, 2006
+                // http://hess.ess.washington.edu/math/docs/common/ams_data_reduction.pdf
+                
+                $M_qtz = $an->wt_diss_bottle_tare - $an->wt_diss_bottle_sample;
+                $R_10to9 = $ams->r_to_rstd * $ams->BeAmsStd->r10to9;
+                const $N_A = 6.022e+23;
+                
+                // work in progress
+                
+                // mass of Be added as carrier
+                // $M_c = $an->BeCarrier->be_conc
+                // $be10_conc = (1 / $mass_qtz) * ($r10to9 * );
+                
+                // we default to a zero aluminum analysis
+                if (!isset($sample->Analysis->AlAms)) {
+                    $al26_conc = $al26_err = 0;
+                    $al26_code = 'KNSTD';
+                } else {
+                    // calculate aluminum
+                    
                 }
 
                 $entries = array(
@@ -265,7 +288,7 @@ EHC;
                     $sample->density,
                     $sample->shield_factor,
                     $be10_conc,
-                    $be10_err,
+                    $ams->exterror, // Be10 uncertainty from AMS
                     $ams->BeAmsStd->BeCalcCode->code,
                     $al26_conc,
                     $al26_err,
@@ -277,6 +300,8 @@ EHC;
                 }
                 $text = substr($text, 1);
                 $an_text[] = $text;
+                
+                die($text);
             }
         }
         $data->an_text = $an_text;

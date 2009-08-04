@@ -1,6 +1,7 @@
 <?=form_open('quartz_chem/add_icp_results')?>
 <input type="hidden" name="batch_id" value="<?=$batch->id?>">
-<table width=800 class=arial10>
+<table width="800" class="arial10">
+    <?=$this->load->view('tr_main_link_hr')?>
     <tr>
         <td> 
         <h3>Batch information:</p></h3>
@@ -11,7 +12,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan=4>
+        <td colspan="4">
             Batch notes:<br>
             <center>
             <textarea name="notes" rows="5" cols="100"><?=$batch->notes?></textarea>
