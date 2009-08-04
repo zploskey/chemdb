@@ -2,9 +2,10 @@
 <input type="hidden" name="batch_id" value="<?=$batch->id?>">
 <input type="hidden" name="is_refresh" value="TRUE">
 
-<table width=800 class=arial10>
+<table width="800" class="arial10">
+    <?=$this->load->view('tr_main_link_hr')?>
     <tr>
-        <td colspan=4 width=400>
+        <td colspan="4" width="400">
         <h3>Batch information:</h3><p/>
         Batch ID: <?=$batch->id?><br>
         Batch start date: <?=$batch->start_date?> <br>
@@ -13,7 +14,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan=4>
+        <td colspan="4">
             Batch notes:<br>
             <center>
                 <textarea name="notes" rows=5 cols=100><?=$batch->notes?></textarea>
@@ -84,13 +85,13 @@
             Be carrier initial wt:
         </td>
         <td>
-            <input type=text name="wt_be_carrier_init" width=10 value="<?=$batch->wt_be_carrier_init?>">
+            <input type=text name="wt_be_carrier_init" width="10" value="<?=$batch->wt_be_carrier_init?>">
         </td>
         <td>
             Al carrier initial wt:
         </td>
         <td>
-            <input type=text name="wt_al_carrier_init" width=10 value="<?=$batch->wt_al_carrier_init?>">
+            <input type=text name="wt_al_carrier_init" width="10" value="<?=$batch->wt_al_carrier_init?>">
         </td>
     </tr>
     <tr>
@@ -98,26 +99,26 @@
             Be carrier final wt:
         </td>
         <td>
-            <input type=text name="wt_be_carrier_final" width=10 value="<?=$batch->wt_be_carrier_final?>">
+            <input type=text name="wt_be_carrier_final" width="10" value="<?=$batch->wt_be_carrier_final?>">
         </td>
         <td>
             Al carrier final wt:
         </td>
         <td>
-            <input type=text name="wt_al_carrier_final" width=10 value="<?=$batch->wt_al_carrier_final?>">
+            <input type=text name="wt_al_carrier_final" width="10" value="<?=$batch->wt_al_carrier_final?>">
         </td>
     </tr>
-    <tr><td colspan=4><hr></td></tr>
+    <tr><td colspan="4"><hr></td></tr>
 </table>
 
 <? if ($errors) {
     echo validation_errors();
 } ?>
 
-<table width=800 class=arial8>
+<table width="800" class="arial8">
     <tr>
-        <td colspan=3 class=arial12>Sample information:</td>
-        <td colspan=7 class=arial10>
+        <td colspan="3" class="arial12">Sample information:</td>
+        <td colspan="7" class="arial10">
             <i>Open new window to create Al/Fe/Ti concentrations for samples not in database:
                 <?=anchor('alchecks/quick_add', 
                     'click here', 
@@ -141,7 +142,7 @@
 
     <!-- Display all the analysis information -->
     <?php for ($i = 0; $i < $num_analyses; $i++): // main display loop ?>
-        <tr><td colspan=10><hr></td></tr>
+        <tr><td colspan="10"><hr></td></tr>
         <tr>
             <td> <?=$batch->Analysis[$i]->id?> </td>
             <td>
@@ -207,9 +208,9 @@
                 <input type=text size=8 name="wt_al_carrier[]" value="<?=$batch->Analysis[$i]->wt_al_carrier?>">
             </td>
 
-        </tr><tr><td colspan=10></td></tr>
+        </tr><tr><td colspan="10"></td></tr>
         <tr>
-            <td colspan=4>
+            <td colspan="4">
                 <?php if ($prechecks[$i]['show']): ?>
                     Concentrations in quartz:
                     [Al] = <?php printf('%.1f', $prechecks[$i]['conc_al']); ?>
@@ -219,7 +220,6 @@
                     Sample name not in Al checks database
                 <?php endif; ?>
             </td>
-        <!--	</td> -->
 
             <td>Total Al (mg): <br>(incl. carrier)</td>
             <td><?php printf('%.2f', $prechecks[$i]['m_al']); ?></td>
@@ -232,22 +232,22 @@
         <!-- Print save and refresh button every two rows -->
         <? if ( ($i % 2) != 0): ?>
             <tr>
-                <td colspan=11><hr></td>
+                <td colspan="11"><hr></td>
             </tr>
             <tr>
-                <td colspan=11 align=center>
+                <td colspan="11" align="center">
                     <input type=submit value="Save and refresh">
                 </td>
             </tr>
         <? endif; ?>
     <?php endfor; // main display loop ?>
 
-    <tr><td colspan=10><hr></td></tr>
+    <tr><td colspan="10"><hr></td></tr>
 </table>
 
-<table width=800>
-    <tr><td class=arial10>Carrier weight comparison:</td></tr>
-    <tr class=arial10>
+<table width="800">
+    <tr><td class="arial10">Carrier weight comparison:</td></tr>
+    <tr class="arial10">
         <td>Be carrier: </td>
         <td> Final less initial wt:</td><td>
             <?php printf('%.4f', $be_diff_wt); ?>
@@ -260,7 +260,7 @@
         </td>
     </tr>
 
-    <tr class=arial10>
+    <tr class="arial10">
         <td>Al carrier: </td>
         <td> Final less initial wt:</td>
         <td><? printf('%.4f', $al_diff_wt) ?></td>
@@ -271,10 +271,10 @@
     </tr>
 </table>
 
-<table width=800>
+<table width="800">
     <tr><td><hr></td></tr>
     <tr>
-    <td align=center>
+    <td align="center">
     <input type=submit value="Save and refresh">
     </td>
     </tr>

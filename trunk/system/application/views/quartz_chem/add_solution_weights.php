@@ -1,7 +1,8 @@
 <?=form_open(site_url('quartz_chem/add_solution_weights'), '',
     array('batch_id' => $batch->id, 'is_refresh' => 'TRUE')); ?>
 
-<table width=800 class=arial10>
+<table width="800" class="arial10">
+    <?=$this->load->view('tr_main_link_hr')?>
     <tr>
         <td>
         <h3>Batch information:<br/></h3>
@@ -12,7 +13,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan=4>
+        <td colspan="4">
             Batch notes:<br>
             <center>
                 <textarea name=batch[notes] rows=5 cols=100><?php echo $batch->notes; ?></textarea>
@@ -26,9 +27,9 @@
     <?=validation_errors(),'<hr>'?>
 <?php endif; ?>
 
-<table width=800 class=arial8>
+<table width="800" class="arial8">
     <tr>
-        <td colspan=6 class=arial12>Sample information:<p/></td>
+        <td colspan="6" class="arial12">Sample information:<p/></td>
     </tr>
     <tr>
         <td>Analysis ID</td>
@@ -42,7 +43,7 @@
     <!-- MAIN SAMPLE LOOP -->
     <?php for ($i = 0; $i < $numsamples; $i++): ?>
 
-        <tr><td colspan=10><hr></td></tr>
+        <tr><td colspan="10"><hr></td></tr>
         <tr>
             <td><?php echo $batch->Analysis[$i]->id; ?></td>
             <td><?php echo $batch->Analysis[$i]->sample_name; ?></td>
@@ -63,12 +64,12 @@
 
     <?php endfor; ?>
 
-    <tr><td colspan=6><hr></td></tr>
+    <tr><td colspan="6"><hr></td></tr>
 </table>
 
-    <table width=800>
+    <table width="800">
         <tr>
-            <td align=center>
+            <td align="center">
                 <input type="submit" value="Save and refresh">
             </td>
         </tr>
