@@ -3,22 +3,25 @@
 <input type=hidden name="batch_id" value="<?=$batch->id?>">
 <input type=hidden name="is_refresh" value="true">
 
-<table width=800 class=arial10>
+<table width="800" class="arial10">
     <tr>
         <td>
-        <h3>Batch information:</h3><p/>
-        Batch ID: <?=$batch->id?><br>
-        Batch start date: <?=$batch->start_date?><br>
-        Batch owner: <?=$batch->owner?><br>
-        Batch description: <?=$batch->description?><p/>
+            <h3>Batch information:</h3><p/>
+            Batch ID: <?=$batch->id?><br>
+            Batch start date: <?=$batch->start_date?><br>
+            Batch owner: <?=$batch->owner?><br>
+            Batch description: <?=$batch->description?><p/>
         </td>
     </tr>
     <tr>
-        <td colspan=4>
+        <td colspan="4">
             Batch notes:<br>
-            <center>
-                <textarea name="notes" rows=5 cols=100><?=$batch->notes?></textarea>
-            </center>
+            <textarea align="center" name="notes" rows="5" cols="100"><?=$batch->notes?></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            <input type="submit" value="Save and refresh"><br>
         </td>
     </tr>
     <tr><td><hr></td></tr>
@@ -118,13 +121,13 @@
 
 <?php endfor; // sample loop ?>
 
-    <tr><td colspan=8><hr></td></tr>
+    <tr><td colspan="8"><hr></td></tr>
 </table>
 
-<table width=800>
+<table width="800">
     <tr>
-    <td align=center>
-    <input type=submit value="Save and refresh">
+    <td align="center">
+    <input type="submit" value="Save and refresh">
     </td>
     </tr>
     <tr><td><hr></td></tr>
