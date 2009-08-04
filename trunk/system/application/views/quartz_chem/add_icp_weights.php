@@ -4,24 +4,25 @@
         'is_refresh' => 'true'
     ))?>
 
-<table width=800 class=arial10>
-	<tr>
-		<td>
-		<h3>Batch information:</p></h3>
-		Batch ID: <?=$batch->id?><br>
-		Batch start date: <?=$batch->start_date?><br>
-		Batch owner: <?=$batch->owner?><br>
-		Batch description: <?=$batch->description?><p/>
-		ICP date: <?=form_input('batch[icp_date]', $batch->icp_date)?> (Format = YYYY-MM-DD)
-		</td>
-	</tr>
-	<tr><td colspan=4>
+<table width="800" class="arial10">
+    <?=$this->load->view('tr_main_link_hr')?>
+    <tr>
+        <td>
+        <h3>Batch information:</p></h3>
+        Batch ID: <?=$batch->id?><br>
+        Batch start date: <?=$batch->start_date?><br>
+        Batch owner: <?=$batch->owner?><br>
+        Batch description: <?=$batch->description?><p/>
+        ICP date: <?=form_input('batch[icp_date]', $batch->icp_date)?> (Format = YYYY-MM-DD)
+        </td>
+    </tr>
+    <tr><td colspan="4">
         Batch notes:<br>
         <center>
         <textarea name="batch[notes]" rows=5 cols=100><?=$batch->notes?></textarea>
         </center>
     </td></tr>
-	<tr><td><hr></td></tr>
+    <tr><td><hr></td></tr>
 </table>
 
 <?php
@@ -30,10 +31,10 @@ if ($errors) {
 }
 ?>
 
-<table width=800 class=arial8>
+<table width="800" class="arial8">
 
     <tr>
-        <td colspan=8 class=arial12>Sample information:</p></td>
+        <td colspan="8" class="arial12">Sample information:</p></td>
     </tr>
     <tr>
         <td>Analysis ID</td>
@@ -48,7 +49,7 @@ if ($errors) {
 
 <?php for ($i = 0; $i < $numsamples; $i++): ?>
 
-    <tr><td colspan=8><hr></td></tr>
+    <tr><td colspan="8"><hr></td></tr>
     <?php for ($s = 0, $nsplits = $batch->Analysis[$i]->Split->count(); $s < $nsplits; $s++): ?>
         <tr>
             <?php if ($s == 0): ?>
@@ -64,7 +65,7 @@ if ($errors) {
                 </td>
                 <td><?=$batch->Analysis[$i]->DissBottle->bottle_number?></td>
             <?php else: ?>
-                <td colspan=3></td>
+                <td colspan="3"></td>
             <?php endif; ?>
 
             <td>Split <?=$s+1?>:</td>
@@ -83,12 +84,12 @@ if ($errors) {
 
 <?php endfor; ?>
 
-    <tr><td colspan=8><hr></td></tr>
+    <tr><td colspan="8"><hr></td></tr>
 </table>
 
-<table width=800>
+<table width="800">
     <tr>
-    <td align=center>
+    <td align="center">
     <input type=submit value="Save and refresh">
     </td>
     </tr>
