@@ -1,7 +1,8 @@
 <?=form_open('quartz_chem/icp_quality_control', '', 
     array('batch_id' => $batch['id'], 'refresh' => true)) // hidden vars ?>
 
-<table width=800 class=arial10>
+<table width="800" class="arial10">
+    <?=$this->load->view('tr_main_link_hr')?>
     <tr>
         <td> 
         <h3>Batch information:</p></h3>
@@ -12,7 +13,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan=4>Batch notes:<br>
+        <td colspan="4">Batch notes:<br>
             <textarea align="center" name="notes" rows="5" cols="100"><?=$batch['notes']?></textarea>
         </td>
     </tr>
@@ -21,11 +22,11 @@
 
 <?php if ($errors) echo validation_errors(); ?>
 
-<table width=800 class=arial8>
+<table width="800" class="arial8">
 <?php 
 // save the column labels for repeated printing within the analysis loop
 echo $cols = <<<COL
-<tr><td colspan=11><hr></td></tr>
+<tr><td colspan="11"><hr></td></tr>
 <tr>
     <td>Analysis ID</td>
     <td>Sample name</td>
@@ -82,7 +83,7 @@ for ($a = 0; $a < $batch['nsamples']; $a++):
     
     <!-- Row 6: Averages -->
     <tr>
-        <td colspan=5></td>
+        <td colspan="5"></td>
         <td>Average ug:</td>
         <td colspan="2">
             <? printf('%.1f', $an['be_avg']); ?>
@@ -91,7 +92,7 @@ for ($a = 0; $a < $batch['nsamples']; $a++):
         </td>
         <td></td>
 
-        <td colspan=2>
+        <td colspan="2">
             <? printf('%.1f', $an['al_avg']); ?>
             +/- 
             <? printf('%.1f', $an['al_sd']); ?>
@@ -101,25 +102,25 @@ for ($a = 0; $a < $batch['nsamples']; $a++):
     <!-- ROW 7. PERCENT UNCERTAINTY -->
 
     <tr>
-        <td colspan=5></td>
+        <td colspan="5"></td>
         <td>Percent error:</td>
-        <td colspan=2><? printf('%.1f', $an['be_pct_err']); ?></td>
+        <td colspan="2"><? printf('%.1f', $an['be_pct_err']); ?></td>
         <td></td>
-        <td colspan=2><? printf('%.1f', $an['al_pct_err']); ?></td>
+        <td colspan="2"><? printf('%.1f', $an['al_pct_err']); ?></td>
     </tr>
 
     <tr>
-        <td colspan=5></td>
+        <td colspan="5"></td>
         <td>Pct. recovery:</td>
-        <td colspan=2><? printf('%.1f', $an['be_recovery']); ?></td>
+        <td colspan="2"><? printf('%.1f', $an['be_recovery']); ?></td>
         <td></td>
-        <td colspan=2><? printf('%.1f', $an['al_recovery']); ?></td>
+        <td colspan="2"><? printf('%.1f', $an['al_recovery']); ?></td>
     </tr>
 
     <? if ( ($a % 2) != 0): ?>
-        <tr><td colspan=11><hr></td></tr>
+        <tr><td colspan="11"><hr></td></tr>
         <tr>
-            <td colspan=11 align=center>
+            <td colspan="11" align="center">
                 <input type="submit" value="Save and refresh">
             </td>
         </tr>
@@ -128,7 +129,7 @@ for ($a = 0; $a < $batch['nsamples']; $a++):
     
 <? endfor; // analyses ?>
 
-<tr><td colspan=11><hr></td></tr>
+<tr><td colspan="11"><hr></td></tr>
 
 </table>
 
