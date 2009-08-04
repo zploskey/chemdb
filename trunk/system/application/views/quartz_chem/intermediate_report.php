@@ -1,11 +1,12 @@
-<table width=800 class=arial10>
+<table width="800" class="arial10">
+    <?=$this->load->view('tr_main_link_hr')?>
     <tr>
-        <td colspan=3>
+        <td colspan="3">
             <h3><?=$title?></h3>
         </td>
     </tr>
     <tr>
-        <td colspan=3>
+        <td colspan="3">
         <h4>Batch information:</h4>
         </td>
     </tr>
@@ -32,7 +33,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan=3>
+        <td colspan="3">
             <p>Batch description: <?=$batch['description']?></p>
             <p>Batch notes: <?=$batch['notes']?></p>
 
@@ -43,23 +44,23 @@
             
         </td>
     </tr>
-    <tr><td colspan=3><hr><hr></td></tr>
+    <tr><td colspan="3"><hr><hr></td></tr>
 </table>
 
-<table width=800 class=arial8>
+<table width="800" class="arial8">
     <tr>
-        <td class=arial10 colspan=12>
+        <td class="arial10" colspan="12">
             <b>Carrier information:</b><br><br>
         </td>
     </tr>
-    <tr align=center>
-        <td align=left>Be carrier</td>
+    <tr align="center">
+        <td align="left">Be carrier</td>
         <td>[Be]</td>
         <td>Initial wt.</td>
         <td>Final wt.</td>
         <td>Wt. difference</td>
         <td>Wt. dispensed</td>
-        <td align=left>Al carrier</td>
+        <td align="left">Al carrier</td>
         <td>[Al]</td>
         <td>Initial wt.</td>
         <td>Final wt.</td>
@@ -67,10 +68,10 @@
         <td>Wt. dispensed</td>
     </tr>
     <tr>
-        <td colspan=12><hr></td>
+        <td colspan="12"><hr></td>
     </tr>
-    <tr align=center>
-        <td align=left>
+    <tr align="center">
+        <td align="left">
             <?=$batch['BeCarrier']['name']?>
         </td>
         <td>
@@ -88,7 +89,7 @@
         <td>
             <?=$batch['wt_be_carrier_disp']?>
         </td>
-        <td align=left>
+        <td align="left">
             <?=$batch['AlCarrier']['name']?>
         </td>
         <td>
@@ -108,63 +109,63 @@
         </td>
     </tr>
     <tr>
-        <td colspan=12><hr><hr></td>
+        <td colspan="12"><hr><hr></td>
     </tr>
 </table>
 
-<table width=800 class=arial8>
+<table width="800" class="arial8">
     <tr>
-        <td colspan=12 class=arial10>
+        <td colspan="12" class="arial10">
             <b>Weights directly measured:</b>
         </td>
     </tr>
-    <tr align=center>
-        <td align=left>
+    <tr align="center">
+        <td align="left">
             Analysis ID
         </td>
-        <td align=left>
+        <td align="left">
             Sample name
         </td>
-        <td align=center>
+        <td align="center">
             Diss<br>bottle
         </td>
-        <td align=center>
+        <td align="center">
             Bottle<br>tare wt.
         </td>
-        <td align=center>
+        <td align="center">
             Bottle + <br> sample wt.
         </td>
-        <td align=center>
+        <td align="center">
             Bottle + <br> HF sol'n wt.
         </td>
-        <td align=center>
+        <td align="center">
             Be carrier<br>sol'n wt.
         </td>
-        <td align=center>
+        <td align="center">
             Al carrier<br>sol'n wt.
         </td>
-        <td align=center>
+        <td align="center">
             Split<br>bkr
         </td>
-        <td align=center>
+        <td align="center">
             Split bkr<br>tare
         </td>
-        <td align=center>
+        <td align="center">
             Split bkr<br>+ split
         </td>
-        <td align=center>
+        <td align="center">
             Split bkr<br>+ ICP sol'n
         </td>
     </tr>
     <tr>
-        <td colspan=12><hr></td>
+        <td colspan="12"><hr></td>
     </tr>
 
 <?php foreach ($batch['Analysis'] as $a): ?>
 
-    <tr align=center>
-        <td align=left><?=$a['id']?></td>
-        <td align=left><?=$a['sample_name']?></td>
+    <tr align="center">
+        <td align="left"><?=$a['id']?></td>
+        <td align="left"><?=$a['sample_name']?></td>
         <td><?=$a['DissBottle']['bottle_number']?></td>
         <td><?=$a['wt_diss_bottle_tare']?></td>
         <td><?=$a['wt_diss_bottle_sample']?></td>
@@ -175,7 +176,7 @@
     $first = true;
     foreach ($a['Split'] as $s) {
         if ($first == false) {
-            echo '<tr align=center><td colspan=8></td>';
+            echo '<tr align="center"><td colspan="8"></td>';
         } else {
             $first = false;
         }
@@ -192,42 +193,42 @@
 
 <?php endforeach; ?>
 
-    <tr><td colspan=12><hr><hr></td></tr>
+    <tr><td colspan="12"><hr><hr></td></tr>
 </table>
 
-<table width=800 class=arial8>
+<table width="800" class="arial8">
     <tr>
-        <td colspan=12 class=arial10>
+        <td colspan="12" class="arial10">
             <b>Derived weights: </b>
         </td>
     </tr>
-    <tr align=center>
-        <td align=left>
+    <tr align="center">
+        <td align="left">
             Sample name
         </td>
-        <td align=center>
+        <td align="center">
             Sample wt.
         </td>
-        <td align=center>
+        <td align="center">
             Total HF<br>sol'n wt.
         </td>
-        <td align=center>
+        <td align="center">
             Be carrier wt.
         </td>
-        <td align=center>
+        <td align="center">
             Al wt.<br>from carrier
         </td>
-        <td align=center>
+        <td align="center">
             Al wt. total<br>per Al check
         </td>
         <? for ($s = 1; $s <= $batch['max_nsplits']; $s++): ?>
-            <td align=center>
+            <td align="center">
                 Split <?=$s?><br>split wt.
             </td>
         <? endfor; ?>
         
         <? for ($s = 1; $s <= $batch['max_nsplits']; $s++): ?>
-            <td align=center>
+            <td align="center">
                 Split <?=$s?><br>ICP wt.
             </td>
         <? endfor; ?>
@@ -247,8 +248,8 @@ for ($i = 0; $i < $batch['nsamples']; $i++):
     $a = $batch['Analysis'][$i]; 
 ?>
 
-    <tr align=center>
-        <td align=left><?=$a['sample_name']?></td>
+    <tr align="center">
+        <td align="left"><?=$a['sample_name']?></td>
         <td><? printf('%.4f', $a['wt_sample']); ?></td>
         <td><? printf('%.4f', $a['wt_HF_soln']); ?></td>
         <td><? printf('%.1f', $a['wt_be']); ?></td>
