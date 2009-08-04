@@ -21,7 +21,7 @@ $lang['is_natural']			= "The %s field must contain only positive integers.";
 $lang['is_natural_no_zero']	= "The %s field must contain an integer greater than zero.";
 
 // custom messages
-$lang['unique']             = "The %s field is not unique. Please choose another.";
+$lang['unique'] = "The %s field is not unique. Please choose another.";
 
 
 /* End of file form_validation_lang.php */

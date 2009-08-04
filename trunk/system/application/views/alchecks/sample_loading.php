@@ -18,7 +18,7 @@ if ($errors) {
 
 <table width="800">
     <tr>
-        <td align=center>
+        <td align="center">
             <hr><p/>
             <input type="submit" value="Save and refresh">
             <input type="submit" value="Add a sample" name="add">
@@ -27,18 +27,18 @@ if ($errors) {
     </tr>
 </table>
 
-<table width=800 class=xl24>
+<table width="800" class="xl24">
     <tr>
-        <td align=center>No.</td>
+        <td align="center">No.</td>
         <td>Analysis ID</td>
         <td>Sample name</td>
-        <td align=center>Bkr. ID</td>
+        <td align="center">Bkr. ID</td>
         <td>Bkr. tare wt.</td>
         <td>Bkr + sample</td>
-        <td align=center>Sample wt.</td>
-        <td align=left>Notes</td>
+        <td align="center">Sample wt.</td>
+        <td align="left">Notes</td>
     </tr>
-    <tr><td colspan=8><p><hr></p></td></tr>
+    <tr><td colspan="8"><p><hr></p></td></tr>
 
 <? for ($a = 0; $a < $nsamples; $a++): 
     $an = $batch->AlcheckAnalysis[$a];
@@ -54,7 +54,7 @@ if ($errors) {
         <td>
             <input type="text" name="sample_name[]" class="sample_name" value="<?=$sample_name[$a]?>" size="20"> 
         </td>
-        <td align=center>
+        <td align="center">
             <input type="text" size="3" name='bkr_number[]' value="<?=$an->bkr_number?>"> 
         </td>
         <td>
@@ -68,9 +68,9 @@ if ($errors) {
                 'value' => $an->wt_bkr_sample))?>
         </td>
     
-        <td align=center><? printf('%.4f', $wt_sample[$a]); ?></td>
+        <td align="center"><? printf('%.4f', $wt_sample[$a]); ?></td>
         
-        <td align=left>
+        <td align="left">
             <?=form_input(array(
                 'name' => 'notes[]',
                 'value' => $an->notes,
@@ -82,10 +82,10 @@ if ($errors) {
 
 </table>
 
-<table width=800>
+<table width="800">
     <tr><td></td></tr>
     <tr>
-        <td align=center><hr>
+        <td align="center"><hr>
             <p><input type="submit" value="Save and refresh"></p>
             <p><input type="submit" value="Add a sample" name="add"></p>
             <p><?=anchor('alchecks', "Looks good -- I'm done")?></p>
