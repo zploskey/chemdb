@@ -1,39 +1,39 @@
 <?=$this->load->view('quartz_chem/intermediate_report')?>
 
-<table width=800 class=arial8>
+<table width="800" class="arial8">
     <tr>
-        <td colspan=12 class=arial10>
+        <td colspan="12" class="arial10">
             <b>Al determination:</b>    
         </td>
     <tr>
     <tr>
         <td></td>
-        <td colspan=<?=$batch['max_nsplits'] * $batch['max_nruns']?> align=center>
+        <td colspan=<?=$batch['max_nsplits'] * $batch['max_nruns']?> align="center">
             Corrected ICP [Al]<br><hr>
         </td>
-        <td colspan=<?=$batch['max_nsplits'] * $batch['max_nruns'] * 2?> align=center>
+        <td colspan=<?=$batch['max_nsplits'] * $batch['max_nruns'] * 2?> align="center">
             Total Al resulting (ug)<br><hr>
         <td>
-        <td colspan=3></td>
-    <tr align=center>
-        <td align=left>
+        <td colspan="3"></td>
+    <tr align="center">
+        <td align="left">
             Sample name
         </td>
         <?
         for ($s = 1; $s <= $batch['max_nsplits']; $s++) {
             for ($r = 1; $r <= $batch['max_nruns']; $r++) {
-                echo "<td align=center>Split $s<br>Run $r";
+                echo '<td align="center">Split ' . $s . '<br>Run ' . $r;
             }
         }
         
         for ($s = 1; $s <= $batch['max_nsplits']; $s++) {
             for ($r = 1; $r <= $batch['max_nruns']; $r++) {
-                echo "<td align=center>Split $s<br>Run $r";
-                echo "<td>OK?</td>";
+                echo '<td align="center">Split ' . $s . '<br>Run ' . $r;
+                echo '<td>OK?</td>';
             }
         }
         ?>
-        <td colspan=3>
+        <td colspan="3">
             Total Al (ug)
         </td>
         <td>
@@ -49,9 +49,9 @@
 
 <? foreach ($batch['Analysis'] as $a): ?>
     
-    <tr align=center>
+    <tr align="center">
         
-        <td align=left><?=$a['sample_name']?></td>
+        <td align="left"><?=$a['sample_name']?></td>
 
         <?php
         for ($s = 0; $s < $batch['max_nsplits']; $s++) {
@@ -114,40 +114,40 @@
     </tr>
 </table>
 
-<table width=800 class=arial8>
+<table width="800" class="arial8">
     <tr>
-        <td colspan=12 class=arial10>
+        <td colspan="12" class="arial10">
             <b>Be determination:</b>    
         </td>
     <tr>
     <tr>
         <td></td>
-        <td colspan=<?=$batch['max_nsplits'] * $batch['max_nruns']?> align=center>
+        <td colspan=<?=$batch['max_nsplits'] * $batch['max_nruns']?> align="center">
             Corrected ICP [Be]<br><hr>
         </td>
-        <td colspan=<?=$batch['max_nsplits'] * $batch['max_nruns'] * 2?> align=center>
+        <td colspan=<?=$batch['max_nsplits'] * $batch['max_nruns'] * 2?> align="center">
             Total Be resulting (ug)<br><hr>
         <td>
-        <td colspan=3></td>
-    <tr align=center>
-        <td align=left>
+        <td colspan="3"></td>
+    <tr align="center">
+        <td align="left">
             Sample name
         </td>
         <?
         for ($s = 1; $s <= $batch['max_nsplits']; $s++) {
             for ($r = 1; $r <= $batch['max_nruns']; $r++) {
-                echo "<td align=center>Split $s<br>Run $r";
+                echo '<td align="center">Split ' . "$s<br>Run$r";
             }
         }
         
         for ($s = 1; $s <= $batch['max_nsplits']; $s++) {
             for ($r = 1; $r <= $batch['max_nruns']; $r++) {
-                echo "<td align=center>Split $s<br>Run $r";
-                echo "<td>OK?</td>";
+                echo '<td align="center">Split ' . "$s<br>Run$r";
+                echo '<td>OK?</td>';
             }
         }
         ?>
-        <td colspan=3>
+        <td colspan="3">
             Total Be (ug)
         </td>
         <td>
@@ -163,8 +163,8 @@
 
 <? foreach ($batch['Analysis'] as $a): ?>
 
-    <tr align=center>
-    <td align=left><?=$a['sample_name']?></td>
+    <tr align="center">
+    <td align="left"><?=$a['sample_name']?></td>
     
     <?php
     for ($s = 0; $s < $batch['max_nsplits']; $s++) {
