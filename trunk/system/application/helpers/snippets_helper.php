@@ -88,3 +88,43 @@ function getRealIp()
     
     return $ip; 
 }
+
+/**
+ * Squares a number (an int or float).
+ * @param mixed $x
+ * @param mixed $x * $x
+ */
+function square($x) 
+{
+    return $x * $x;
+}
+
+/**
+ * A poor man's sum of squares.
+ * @param array $vals of float
+ * @return float
+ **/
+function sum_of_squares($vals)
+{
+    return array_sum(array_map('square', $vals));
+}
+
+function sse($vals, $xbar)
+{
+    foreach ($vals as $x) {
+        $diffs[] = $x - $xbar;
+    }
+    return sum_of_squares($diffs);
+}
+
+/**
+ * By default return the sample standard deviation of $vals. You can change
+ * the degrees of freedom w/ the second argument.
+ */
+function std_dev($vals, $dof = 1)
+{
+    $n = count($vals);
+    if ($n - $dof <= 0) return NULL;
+    $xbar = array_sum($vals) / $n;
+    return sqrt(sse($vals, $expected) / ($n - $dof));
+}
