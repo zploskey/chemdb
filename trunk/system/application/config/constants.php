@@ -36,6 +36,17 @@ define('FOPEN_READ_WRITE_CREATE', 				'a+b');
 define('FOPEN_WRITE_CREATE_STRICT', 			'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
+/*
+|--------------------------------------------------------------------------
+| Chemistry Constants
+|--------------------------------------------------------------------------
+|
+| Values used in chemistry
+|
+*/
+define ('AVOGADRO', 6.02214179e+23); // Avogadro's number (atoms/mol)
+define('MM_BE', 9.012182); // molar weight of Beryllium (g/mol)
+
 
 /* End of file constants.php */
 /* Location: ./system/application/config/constants.php */
