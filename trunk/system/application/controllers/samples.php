@@ -224,6 +224,10 @@ EHC;
             ->from('Sample s')
             ->leftJoin('s.Project p')
             ->leftJoin('s.Analysis a')
+            ->leftJoin('a.Batch b')
+            ->leftJoin('b.BeCarrier bec')
+            ->leftJoin('b.AlCarrier alc')
+            ->leftJoin('b.Analysis bana')
             ->leftJoin('a.BeAms ba')
             ->leftJoin('ba.BeAmsStd bas')
             ->leftJoin('bas.BeCalcCode basc')
@@ -235,7 +239,7 @@ EHC;
         if ( ! $sample) {
             show_404('page');
         }
-
+        
         if (isset($sample->Project)) $data->projects = $sample->Project;
         $an_text = array();
         foreach ($sample->Analysis as $an) {
@@ -251,6 +255,9 @@ EHC;
                     $pressure_flag = 'std';
                 }
                 
+                $bec = $an->Batch->BeCarrier;
+                $alc = $an->Batch->AlCarrier;
+                
                 // calculate Be10 concentration and its error
                 // these calculations are based on:
                 // Converting Al and Be isotope ratio measurements to nuclide 
@@ -259,15 +266,42 @@ EHC;
                 // May 8, 2006
                 // http://hess.ess.washington.edu/math/docs/common/ams_data_reduction.pdf
                 
+                // first find our blank
+                foreach ($an->Batch->Analysis as $tmpa) {
+                    if ($analysis->sample_type == 'BLANK') {
+                        $blank = $tmpa;
+                        break;
+                    }
+                }
+                // we now need to estimate the Be10 concentration of the blank if found
+                if (isset($blank)) {
+                    $r10to9_b = $blank->BeAms->r_to_rstd * $blank->BeAms->BeAmsStd->r10to9;
+                    $M_c_b = $blank->wt_be_carrier * $bec->be_conc * 1e-6;
+                    $M_b = $r10to9_b * $M_c_b * AVOGADRO / MM_BE;
+                } else {
+                    $M_b = 0;
+                }
+                
+                // mass of Be in the sample initially
                 $M_qtz = $an->wt_diss_bottle_tare - $an->wt_diss_bottle_sample;
+                // Be10/Be9 ratio of the sample
                 $R_10to9 = $ams->r_to_rstd * $ams->BeAmsStd->r10to9;
-                const $N_A = 6.022e+23;
+                // mass of Be added as carrier (grams)
+                // concentration is converted from ug
+                $M_c = $an->wt_be_carrier * 1e-6 * $bec->be_conc;
+                $M_c_err = $bec->del_be_conc * 1e-6 * $M_c;
+                // estimate of Be10 concentration of sample
+                $be10_conc = (1 / $M_qtz) * ($r10to9 * $M_c * AVOGADRO / MM_BE - $M_b);
                 
-                // work in progress
-                
-                // mass of Be added as carrier
-                // $M_c = $an->BeCarrier->be_conc
-                // $be10_conc = (1 / $mass_qtz) * ($r10to9 * );
+                // Calculate the error in Be10 concentration ($be10_conc):
+                // First, define the differentials for each error source. Each is
+                // equivalent to del(Number of Be10 atoms)/del(source variable)
+                $err_terms = array(
+                    $ams->exterror * $M_c * AVOGADRO / $M_qtz * MM_BE, // from ams error
+                    -1 / $M_qtz, // from blank error
+                    $ams->r10to9 * AVOGADRO / $M_q * MM_BE, // from carrier error
+                );
+                $be10_conc_err = sqrt(sum_of_squares($err_terms));
                 
                 // we default to a zero aluminum analysis
                 if (!isset($sample->Analysis->AlAms)) {
