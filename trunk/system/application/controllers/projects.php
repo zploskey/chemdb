@@ -106,9 +106,9 @@ class Projects extends MY_Controller
 
             if ($valid) {
                 // inputs are valid, save changes and redirect
-                if (! ($samp == '')) {
+                if (!($samp == '')) {
                     $sample = Doctrine_Query::create()
-                        ->from('Sample s')
+                        ->from('Sample s, s.ProjectSample ps')
                         ->select('s.id')
                         ->where('s.name = ?', $samp)
                         ->fetchOne();
@@ -118,14 +118,22 @@ class Projects extends MY_Controller
                     } else {
                         $n = 0;
                     }
+                    
+                    $exists = false;
+                    foreach ($sample->ProjectSample->toArray() as $link) {
+                        if ($link['project_id'] == $proj->id) {
+                            $exists = true;
+                            break;
+                        }
+                    }
 
-                    if ($samp) {
+                    if ($samp && !$exists) {
                         $proj['ProjectSample'][$n]['project_id'] = $proj->id;
                         $proj['ProjectSample'][$n]['sample_id'] = $sample->id;
                     }
                 }
                 $proj->save();
-                redirect('projects/view/'.$proj->id);
+                redirect('projects/edit/'.$proj->id);
             }
 
         }
