@@ -111,7 +111,7 @@ class Samples extends MY_Controller
     function edit($id = 0) 
     {
         $is_refresh = $this->input->post('is_refresh');
-        
+
         if ($id) {
             // edit an existing sample
             $sample = Doctrine_Query::create()
@@ -164,6 +164,10 @@ class Samples extends MY_Controller
                     $sample['ProjectSample'][$i-$off]['sample_id'] = $sample->id; 
                 }
                 $sample->save();
+                $sample = Doctrine_Query::create()
+                    ->from('Sample s, s.Project p')
+                    ->where('s.id = ?', $sample->id)
+                    ->fetchOne();
             }
         }
 
@@ -296,6 +300,7 @@ EHC;
                 // Calculate the error in Be10 concentration ($be10_conc):
                 // First, define the differentials for each error source. Each is
                 // equivalent to del(Number of Be10 atoms)/del(source variable)
+                // multiplied by the error in the source variable.
                 $err_terms = array(
                     $ams->exterror * $M_c * AVOGADRO / $M_qtz * MM_BE, // from ams error
                     -1 / $M_qtz, // from blank error
