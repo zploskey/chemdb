@@ -764,7 +764,7 @@ EOH;
      * @param string $date date in YYYY-MM-DD format
      * @access private
      */
-    private function _valid_date($date) 
+    function _valid_date($date) 
     {
         if ($this->form_validation->valid_date($date)) {
             return true;
