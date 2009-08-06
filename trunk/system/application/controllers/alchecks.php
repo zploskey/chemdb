@@ -98,6 +98,7 @@ class Alchecks extends MY_Controller
             $nsamples = 0;
         }
 
+        $data->errors = false;
         if ($add) {
             // add a sample to this batch and redirect
             $newAnalysis = new AlcheckAnalysis();
@@ -108,7 +109,6 @@ class Alchecks extends MY_Controller
             $refresh = false;
         }
 
-        $data->errors = false;
         if ($refresh) {
 
             // validate
