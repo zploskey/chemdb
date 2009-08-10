@@ -729,8 +729,12 @@ EOH;
      */
     public function intermediate_report() 
     {
-        $batch_id = (int)$this->input->post('batch_id');
-        $data->batch = Doctrine::getTable('Batch')->getReportArray($batch_id);
+        $batch_id = (int)$this->uri->segment(3, $this->input->post('batch_id'));
+        try {
+            $data->batch = Doctrine::getTable('Batch')->getReportArray($batch_id);
+        } catch (Exception $e) {
+            die('Error: ' . $e->getMessage());
+        }
         $data->title = 'Intermediate hard copy of weighings -- '
                      . 'Al - Be extraction from quartz';
         $data->todays_date = date('Y-m-d');
@@ -744,10 +748,15 @@ EOH;
      */
     public function final_report()
     {
-        $batch_id = (int)$this->input->post('batch_id');
+        $batch_id = (int)$this->uri->segment(3, $this->input->post('batch_id'));
+
         // do all our calculations, pass true to do a complete report
-        $data->batch = Doctrine::getTable('Batch')
-                       ->getReportArray($batch_id, true);
+        try {
+            $data->batch = Doctrine::getTable('Batch')->getReportArray($batch_id, true);
+        } catch (Exception $e) {
+            die('Error: ' . $e->getMessage());
+        }
+
         $data->title = 'Final report -- Al - Be extraction from quartz';
         $data->todays_date = date('Y-m-d');
         $data->main = 'quartz_chem/final_report';
