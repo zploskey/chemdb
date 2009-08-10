@@ -224,133 +224,22 @@ EHC;
      */
     function view($id)
     {
-        $sample = Doctrine_Query::create()
-            ->from('Sample s')
-            ->leftJoin('s.Project')
-            ->leftJoin('s.Analysis a')
-            ->leftJoin('a.Batch b')
-            ->leftJoin('b.BeCarrier')
-            ->leftJoin('b.AlCarrier')
-            ->leftJoin('b.Analysis ban')
-            ->leftJoin('ban.BeAms bams')
-            ->leftJoin('bams.BeAmsStd bamstd')
-            ->leftJoin('bamstd.BeStdSeries')
-            ->orderBy('ban.id ASC')
-            ->addOrderBy('bams.date DESC')
-            ->where('s.id = ?', $id)
-            ->fetchOne();
-            
+        $sample = Doctrine::getTable('Sample')->fetchViewdataById($id);
+
         if ( ! $sample) {
             show_404('page');
         }
-        
-        if (isset($sample->Project)) $data->projects = $sample->Project;
-        $an_text = array();
-        foreach ($sample->Analysis as $an) {
-            foreach($an->BeAms as $ams) {
-                if (!isset($ams->BeAmsStd) || !isset($ams->BeAmsStd->BeStdSeries)) {
-                    // we don't have a standard set, no sense in even showing it
-                    continue;
-                }
 
-                if ($sample->antarctic) {
-                    $pressure_flag = 'ant';
-                } else {
-                    $pressure_flag = 'std';
-                }
-                
-                $bec = $an->Batch->BeCarrier;
-                $alc = $an->Batch->AlCarrier;
-                
-                // calculate Be10 concentration and its error
-                // these calculations are based on:
-                // Converting Al and Be isotope ratio measurements to nuclide 
-                // concentrations in quartz.
-                // Greg Balco
-                // May 8, 2006
-                // http://hess.ess.washington.edu/math/docs/common/ams_data_reduction.pdf
-                
-                // first find our blank
-                foreach ($an->Batch->Analysis as $tmpa) {
-                    if ($analysis->sample_type == 'BLANK') {
-                        $blank = $tmpa;
-                        break;
-                    }
-                }
-                // we now need to estimate the Be10 concentration of the blank if found
-                if (isset($blank)) {
-                    $r10to9_b = $blank->BeAms->r_to_rstd * $blank->BeAms->BeAmsStd->r10to9;
-                    $M_c_b = $blank->wt_be_carrier * $bec->be_conc * 1e-6;
-                    $M_b = $r10to9_b * $M_c_b * AVOGADRO / MM_BE;
-                } else {
-                    $M_b = 0;
-                }
-                
-                // mass of Be in the sample initially
-                $M_qtz = $an->wt_diss_bottle_tare - $an->wt_diss_bottle_sample;
-                // Be10/Be9 ratio of the sample
-                $R_10to9 = $ams->r_to_rstd * $ams->BeAmsStd->r10to9;
-                // mass of Be added as carrier (grams)
-                // concentration is converted from ug
-                $M_c = $an->wt_be_carrier * 1e-6 * $bec->be_conc;
-                $M_c_err = $bec->del_be_conc * 1e-6 * $M_c;
-                // estimate of Be10 concentration of sample
-                $be10_conc = (1 / $M_qtz) * ($r10to9 * $M_c * AVOGADRO / MM_BE - $M_b);
-                
-                // Calculate the error in Be10 concentration ($be10_conc):
-                // First, define the differentials for each error source. Each is
-                // equivalent to del(Number of Be10 atoms)/del(source variable)
-                // multiplied by the error in the source variable.
-                $err_terms = array(
-                    $ams->exterror * $M_c * AVOGADRO / $M_qtz * MM_BE, // from ams error
-                    -1 / $M_qtz, // from blank error
-                    $ams->r10to9 * AVOGADRO / $M_q * MM_BE, // from carrier error
-                );
-                $be10_conc_err = sqrt(sum_of_squares($err_terms));
-                
-                // we default to a zero aluminum analysis
-                if (!isset($sample->Analysis->AlAms)) {
-                    $al26_conc = $al26_err = 0;
-                    $al26_code = 'KNSTD';
-                } else {
-                    // calculate aluminum concentration and error
-                    // temporary settings until we work out this calculation
-                    $al26_conc = $al26_err = 0;
-                    $al26_code = 'KNSTD';
-                }
-
-                $entries = array(
-                    substr($sample->name, 0, 24),
-                    $sample->latitude,
-                    $sample->longitude,
-                    $sample->altitude,
-                    $pressure_flag,
-                    abs($sample->depth_bottom - $sample->depth_top),
-                    $sample->density,
-                    $sample->shield_factor,
-                    $be10_conc,
-                    $ams->exterror, // Be10 uncertainty from AMS
-                    $ams->BeAmsStd->BeStdCode->code,
-                    $al26_conc,
-                    $al26_err,
-                    $al26_code,
-                );
-                
-                foreach ($entries as $ent) {
-                    $text .= ' ' . $ent;
-                }
-                $text = substr($text, 1);
-                $an_text[] = $text;
-                
-                die($text);
-            }
+        if (isset($sample->Project)) {
+            $data->projects = $sample->Project;
         }
-        $data->an_text = $an_text;
+
+        list($data->exp_text, $data->ero_text) = $sample->getCalcInputs();
         $data->title = 'View Sample';
-        $data->subtitle = 'Viewing '.$sample->name;
+        $data->subtitle = 'Viewing ' . $sample->name;
         $data->arg = $id;
-        $data->sample  = $sample;
-        $data->main  = 'samples/view';
+        $data->sample = $sample;
+        $data->main = 'samples/view';
         $this->load->view('template', $data);
     }
 
@@ -390,7 +279,7 @@ EHC;
         if (!isset($val) || $val == 1) {
             return true;
         }
-        $this->form_validation->set_message('sample[antarctic]', 'The %s field must be set to 1.');
+        $this->form_validation->set_message('sample[antarctic]', 'The %s field must be checked (set to 1) or not selected at all.');
         return false;
     }
 
