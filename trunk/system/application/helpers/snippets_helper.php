@@ -84,8 +84,11 @@ function getRealIp()
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR']; 
     }  else { 
         $ip = $_SERVER['REMOTE_ADDR'];
-    } 
+    }
     
+    if ($ip == '::1') {
+        $ip = '172.28.21.187';
+    }
     return $ip; 
 }
 
