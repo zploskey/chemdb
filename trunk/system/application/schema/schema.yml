@@ -1,4 +1,109 @@
 detect_relations: true
+AlAms:
+  tableName: al_ams
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 1
+      primary: true
+      autoincrement: true
+    alcheck_analysis_id:
+      type: integer(4)
+      unsigned: 1
+      primary: false
+      notnull: false
+      autoincrement: false
+    al_ams_std_id:
+      type: integer(4)
+      unsigned: 1
+      primary: false
+      notnull: false
+      autoincrement: false
+    date:
+      type: date(25)
+      primary: false
+      notnull: false
+      autoincrement: false
+    ams_sample_name:
+      type: string(160)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    caams_num:
+      type: string(60)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    r_to_rstd:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    interror:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    exterror:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    truefrac:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    notes:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+AlAmsStd:
+  tableName: al_ams_std
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 1
+      primary: true
+      autoincrement: true
+    name:
+      type: string(255)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    al_std_series_id:
+      type: integer(4)
+      unsigned: 1
+      primary: false
+      notnull: false
+      autoincrement: false
+    r26to27:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    error:
+      type: float(2147483647)
+      unsigned: 0
+      primary: false
+      notnull: false
+      autoincrement: false
+    notes:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
 AlCarrier:
   tableName: al_carrier
   columns:
@@ -227,6 +332,26 @@ AlcheckBatch:
       autoincrement: false
     description:
       type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    notes:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+AlStdSeries:
+  tableName: al_std_series
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 1
+      primary: true
+      autoincrement: true
+    code:
+      type: string(60)
       fixed: false
       primary: false
       notnull: false
@@ -559,7 +684,7 @@ BeAmsStd:
       primary: false
       notnull: false
       autoincrement: false
-    be_calc_code_id:
+    be_std_series_id:
       type: integer(4)
       unsigned: 1
       primary: false
@@ -574,26 +699,6 @@ BeAmsStd:
     error:
       type: float(2147483647)
       unsigned: 0
-      primary: false
-      notnull: false
-      autoincrement: false
-    notes:
-      type: string(2147483647)
-      fixed: false
-      primary: false
-      notnull: false
-      autoincrement: false
-BeCalcCode:
-  tableName: be_calc_code
-  columns:
-    id:
-      type: integer(4)
-      unsigned: 1
-      primary: true
-      autoincrement: true
-    code:
-      type: string(60)
-      fixed: false
       primary: false
       notnull: false
       autoincrement: false
@@ -666,6 +771,26 @@ BeCarrier:
       notnull: false
       autoincrement: false
     in_use:
+      type: string(2147483647)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+BeStdSeries:
+  tableName: be_std_series
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 1
+      primary: true
+      autoincrement: true
+    code:
+      type: string(60)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    notes:
       type: string(2147483647)
       fixed: false
       primary: false
