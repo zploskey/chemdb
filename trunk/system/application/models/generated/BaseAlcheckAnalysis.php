@@ -29,6 +29,7 @@
  * @property string $notes
  * @property Sample $Sample
  * @property AlcheckBatch $AlcheckBatch
+ * @property Doctrine_Collection $AlAms
  * 
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
@@ -245,5 +246,9 @@ abstract class BaseAlcheckAnalysis extends Doctrine_Record
         $this->hasOne('AlcheckBatch', array(
              'local' => 'alcheck_batch_id',
              'foreign' => 'id'));
+
+        $this->hasMany('AlAms', array(
+             'local' => 'id',
+             'foreign' => 'alcheck_analysis_id'));
     }
 }

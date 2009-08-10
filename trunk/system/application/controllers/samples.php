@@ -234,7 +234,7 @@ EHC;
             ->leftJoin('b.Analysis bana')
             ->leftJoin('a.BeAms ba')
             ->leftJoin('ba.BeAmsStd bas')
-            ->leftJoin('bas.BeCalcCode basc')
+            ->leftJoin('bas.BeStdSeries ss')
             ->orderBy('a.id ASC')
             ->addOrderBy('ba.date DESC')
             ->where('s.id = ?', $id)
@@ -248,7 +248,7 @@ EHC;
         $an_text = array();
         foreach ($sample->Analysis as $an) {
             foreach($an->BeAms as $ams) {
-                if (!isset($ams->BeAmsStd) || !isset($ams->BeAmsStd->BeCalcCode)) {
+                if (!isset($ams->BeAmsStd) || !isset($ams->BeAmsStd->BeStdSeries)) {
                     // we don't have a standard set, no sense in even showing it
                     continue;
                 }
@@ -313,8 +313,10 @@ EHC;
                     $al26_conc = $al26_err = 0;
                     $al26_code = 'KNSTD';
                 } else {
-                    // calculate aluminum
-                    
+                    // calculate aluminum concentration and error
+                    // temporary settings until we work out this calculation
+                    $al26_conc = $al26_err = 0;
+                    $al26_code = 'KNSTD';
                 }
 
                 $entries = array(
@@ -328,7 +330,7 @@ EHC;
                     $sample->shield_factor,
                     $be10_conc,
                     $ams->exterror, // Be10 uncertainty from AMS
-                    $ams->BeAmsStd->BeCalcCode->code,
+                    $ams->BeAmsStd->BeStdCode->code,
                     $al26_conc,
                     $al26_err,
                     $al26_code,
