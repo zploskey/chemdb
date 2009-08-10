@@ -143,7 +143,12 @@ class BatchTable extends Doctrine_Table
      **/
     public function getReportArray($id, $stats = false)
     {
-        return $this->findCompleteById($id)->getReportArray($stats);
+        $batch = $this->findCompleteById($id);
+        if (!$batch) {
+            throw new Exception('Batch not found.');
+        } else {
+            return $batch->getReportArray($stats);
+        }
     }
 
     /**
