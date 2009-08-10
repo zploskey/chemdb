@@ -10,6 +10,7 @@
  * @property integer $be_ams_id
  * @property integer $al_ams_id
  * @property BeAms $BeAms
+ * @property AlAms $AlAms
  * 
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
@@ -58,6 +59,10 @@ abstract class BaseAmsCurrent extends Doctrine_Record
     {
         $this->hasOne('BeAms', array(
              'local' => 'be_ams_id',
+             'foreign' => 'id'));
+
+        $this->hasOne('AlAms', array(
+             'local' => 'al_ams_id',
              'foreign' => 'id'));
     }
 }
