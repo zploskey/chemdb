@@ -79,7 +79,7 @@
         $an = $sample->Analysis[$i]; ?>
         
         <tr>
-            <td align="center"><?=$an->Batch->id?></td>
+            <td align="center"><?=anchor('quartz_chem/final_report/'.$an->Batch->id, $an->Batch->id)?></td>
             <td><?=$an->notes?></td>
             
         <? for ($ams = 0; $ams < $an->BeAms->count(); $ams++): ?>
