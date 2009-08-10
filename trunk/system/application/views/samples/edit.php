@@ -5,8 +5,13 @@
 </div>
 <br>
 
-<p><h2><?=$subtitle?></h2></p><br>
-
+<p><h2>
+    <?=$subtitle?> 
+    <? if (isset($sample->id)): ?>
+        (<?=anchor('samples/view/'.$sample->id, 'View')?>)
+    <? endif; ?>
+</h2></p>
+<br>
 
 <?=form_open(site_url("samples/edit/$arg"))?>
     <input type="hidden" name="is_refresh" value="TRUE">
