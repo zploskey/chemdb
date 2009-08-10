@@ -83,26 +83,26 @@
             <td><?=$an->notes?></td>
             
         <? for ($ams = 0; $ams < $an->BeAms->count(); $ams++): ?>
-        
+    
             <? if ($ams == 0): ?>
                 <td align="center">
             <? else: ?>
                 <tr><td colspan="2"></td><td align="center">
             <? endif; ?>
-
-            <td><?=$ams->id?></td>
+                <?=$an['BeAms'][$ams]['id']?>
+            </td>
             <td>
                 <form method="post" target="outputwindow" action="http://hess.ess.washington.edu/cgi-bin/matweb">
                     <input type="submit" value="Calculate exposure age">
                     <input type="hidden" name="requesting_ip" value="<?=getRealIp()?>">
                     <input type="hidden" name="mlmfile" value="al_be_age_many_v22" >
-                    <input type="hidden" name="text_block" value="<?=$an_text[$i][$ams]?>">
+                    <input type="hidden" name="text_block" value="<?=$exp_text[$i][$ams]?>">
                 </form>
                 <form method="post" target="outputwindow" action="http://hess.ess.washington.edu/cgi-bin/matweb">
                     <input type="submit" value="Calculate erosion rate">
                     <input type="hidden" name="requesting_ip" value="<?=getRealIp()?>">
                     <input type="hidden" name="mlmfile" value="al_be_erosion_many_v22" >
-                    <input type="hidden" name="text_block" value="<?=$an_text[$i][$ams]?>">
+                    <input type="hidden" name="text_block" value="<?=$ero_text[$i][$ams]?>">
                 </form>
             </td>
         </tr>
