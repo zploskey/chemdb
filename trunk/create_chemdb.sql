@@ -315,6 +315,68 @@ ALTER TABLE `alcheck_analysis` ADD INDEX `sample_idx` (`sample_id`);
 ALTER TABLE `alcheck_analysis` ADD INDEX `alcheck_batch_idx` (`alcheck_batch_id`);
 ALTER TABLE `icp_run` ADD INDEX `split_idx` (`split_id`);
 
+CREATE TABLE `al_ams` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `alcheck_analysis_id` int(10) unsigned default NULL,
+  `al_ams_std_id` int(10) unsigned default NULL,
+  `date` date default NULL,
+  `ams_sample_name` varchar(160) default NULL,
+  `caams_num` varchar(60) default NULL,
+  `r_to_rstd` double default NULL,
+  `interror` double default NULL,
+  `exterror` double default NULL,
+  `truefrac` double default NULL,
+  `notes` text,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1
 
+CREATE TABLE `al_ams_std` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` varchar(255) default NULL,
+  `al_std_series_id` int(10) unsigned default NULL,
+  `r26to27` double default NULL,
+  `error` double default NULL,
+  `notes` text,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1
+
+CREATE TABLE `al_std_series` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `code` varchar(60) default NULL,
+  `notes` text,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=latin1
+
+CREATE TABLE `be_ams` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `analysis_id` int(10) unsigned default NULL,
+  `be_ams_std_id` int(10) unsigned default NULL,
+  `date` date default NULL,
+  `ams_sample_name` varchar(160) default NULL,
+  `caams_num` varchar(60) default NULL,
+  `r_to_rstd` double default NULL,
+  `interror` double default NULL,
+  `exterror` double default NULL,
+  `truefrac` double default NULL,
+  `notes` text,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1
+
+CREATE TABLE `be_ams_std` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` varchar(255) default NULL,
+  `be_std_series_id` int(10) unsigned default NULL,
+  `r10to9` double default NULL,
+  `error` double default NULL,
+  `notes` text,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1
+
+CREATE TABLE `be_std_series` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `code` varchar(60) default NULL,
+  `notes` text,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=latin1
 
 /* TODO: Finally, remove fields that are now redundant */
