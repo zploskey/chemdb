@@ -7,6 +7,12 @@ AlAms:
       unsigned: 1
       primary: true
       autoincrement: true
+    analysis_id:
+      type: integer(4)
+      unsigned: 1
+      primary: false
+      notnull: false
+      autoincrement: false
     alcheck_analysis_id:
       type: integer(4)
       unsigned: 1
@@ -398,7 +404,7 @@ Analysis:
       autoincrement: true
     batch_id:
       type: integer(2)
-      unsigned: 0
+      unsigned: 1
       primary: false
       default: '0'
       notnull: true
