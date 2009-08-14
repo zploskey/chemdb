@@ -317,6 +317,7 @@ ALTER TABLE `icp_run` ADD INDEX `split_idx` (`split_id`);
 
 CREATE TABLE `al_ams` (
   `id` int(11) unsigned NOT NULL auto_increment,
+  `analysis_id` int(10) unsigned default NULL,
   `alcheck_analysis_id` int(10) unsigned default NULL,
   `al_ams_std_id` int(10) unsigned default NULL,
   `date` date default NULL,
@@ -378,5 +379,7 @@ CREATE TABLE `be_std_series` (
   `notes` text,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=latin1
+
+ALTER TABLE `analysis` CHANGE `batch_id` smallint(6) unsigned NOT NULL default '0';
 
 /* TODO: Finally, remove fields that are now redundant */
