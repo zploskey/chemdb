@@ -127,7 +127,7 @@ ALTER TABLE `analysis` ADD `diss_bottle_id` int(11) UNSIGNED  DEFAULT NULL;
 ALTER TABLE `analysis` MODIFY COLUMN `diss_bottle_id` int(11) AFTER `sample_type`;
 
 /* foreign key to sample table */
-ALTER TABLE `analysis` ADD `sample_id` int unsigned DEFAULT NULL;
+ALTER TABLE `analysis` ADD `sample_id` int unsigned DEFAULT NULL  ;
 
 UPDATE analysis a, diss_bottle SET a.diss_bottle_id = diss_bottle.id WHERE a.diss_bottle_number = diss_bottle.bottle_number;
 
