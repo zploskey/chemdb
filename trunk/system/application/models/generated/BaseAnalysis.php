@@ -23,6 +23,7 @@
  * @property DissBottle $DissBottle
  * @property Sample $Sample
  * @property Doctrine_Collection $Split
+ * @property Doctrine_Collection $AlAms
  * @property Doctrine_Collection $BeAms
  * 
  * @package    ##PACKAGE##
@@ -44,7 +45,7 @@ abstract class BaseAnalysis extends Doctrine_Record
              ));
         $this->hasColumn('batch_id', 'integer', 2, array(
              'type' => 'integer',
-             'unsigned' => 0,
+             'unsigned' => '1',
              'primary' => false,
              'default' => '0',
              'notnull' => true,
@@ -174,6 +175,10 @@ abstract class BaseAnalysis extends Doctrine_Record
              'foreign' => 'id'));
 
         $this->hasMany('Split', array(
+             'local' => 'id',
+             'foreign' => 'analysis_id'));
+
+        $this->hasMany('AlAms', array(
              'local' => 'id',
              'foreign' => 'analysis_id'));
 
