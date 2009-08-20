@@ -73,7 +73,7 @@
             <th>Batch ID</th>
             <th width="45%">Notes</th>
             <th>Be AMS<br>ID</th>
-			<th>Al AMS<br>ID</th>
+            <th>Al AMS<br>ID</th>
             <th>Actions</th>
         </tr>
     <? for ($i = 0; $i < $sample->Analysis->count(); $i++): 
@@ -93,11 +93,11 @@
                 <?=anchor($an['BeAms'][$ams]['id'], $an['BeAms'][$ams]['id'])?>
             </td>
             <td align="center">
-				<?=(isset($an['AlAms'])) 
-					? anchor($an['AlAms'][$ams]['id'], $an['AlAms']['id']) 
-					: '' ?>
-			</td>
-			<td>
+                <?=(isset($an['AlAms'])) 
+                    ? anchor($an['AlAms'][$ams]['id'], $an['AlAms']['id']) 
+                    : '' ?>
+            </td>
+            <td>
                 <form method="post" target="outputwindow" action="http://hess.ess.washington.edu/cgi-bin/matweb">
                     <input type="submit" value="Calculate exposure age">
                     <input type="hidden" name="requesting_ip" value="<?=getRealIp()?>">
