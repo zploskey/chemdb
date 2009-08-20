@@ -5,25 +5,24 @@
  */
 class Sample extends BaseSample
 {
-	/**
-	* Get an array with entries for each analysis and each analysis can have multiple
-	* AMS results array(array(ams_result_text, ams_result_text, ...), array(...), ...).
-	* @return array(string)
-	*/
-	public function getCalcInputs()
-	{
-	    $ero_text = $exp_text = array(array());
-		$i = 0;
-	    foreach ($this->Analysis as $an) {
-			foreach ($an->BeAms as $ams) {
-
-				$exp_text[$i][] = $ams->getAgeCalcInput();
-				$ero_text[$i][] = $ams->getErosCalcInput();
-			}
-			++$i;
-	    }
-	    return array($exp_text, $ero_text);
-	}
+    /**
+    * Get an array with entries for each analysis and each analysis can have multiple
+    * AMS results array(array(ams_result_text, ams_result_text, ...), array(...), ...).
+    * @return array(string)
+    */
+    public function getCalcInputs()
+    {
+        $ero_text = $exp_text = array(array());
+        $i = 0;
+        foreach ($this->Analysis as $an) {
+            foreach ($an->BeAms as $ams) {
+                $exp_text[$i][] = $ams->getAgeCalcInput($ams);
+                $ero_text[$i][] = $ams->getErosCalcInput($ams);
+            }
+            ++$i;
+        }
+        return array($exp_text, $ero_text);
+    }
     
     /**
      * Sets up our join table with Projects.

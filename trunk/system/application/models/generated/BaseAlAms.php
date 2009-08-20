@@ -7,7 +7,6 @@
  * 
  * @property integer $id
  * @property integer $analysis_id
- * @property integer $alcheck_analysis_id
  * @property integer $al_ams_std_id
  * @property date $date
  * @property string $ams_sample_name
@@ -18,7 +17,6 @@
  * @property float $truefrac
  * @property string $notes
  * @property Analysis $Analysis
- * @property AlcheckAnalysis $AlcheckAnalysis
  * @property AlAmsStd $AlAmsStd
  * @property Doctrine_Collection $AmsCurrent
  * 
@@ -46,14 +44,6 @@ abstract class BaseAlAms extends Doctrine_Record
              'notnull' => false,
              'autoincrement' => false,
              'length' => '2',
-             ));
-        $this->hasColumn('alcheck_analysis_id', 'integer', 3, array(
-             'type' => 'integer',
-             'unsigned' => '1',
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
-             'length' => '3',
              ));
         $this->hasColumn('al_ams_std_id', 'integer', 4, array(
              'type' => 'integer',
@@ -132,10 +122,6 @@ abstract class BaseAlAms extends Doctrine_Record
     {
         $this->hasOne('Analysis', array(
              'local' => 'analysis_id',
-             'foreign' => 'id'));
-
-        $this->hasOne('AlcheckAnalysis', array(
-             'local' => 'alcheck_analysis_id',
              'foreign' => 'id'));
 
         $this->hasOne('AlAmsStd', array(

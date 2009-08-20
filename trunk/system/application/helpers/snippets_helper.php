@@ -121,13 +121,19 @@ function sse($vals, $xbar)
 }
 
 /**
- * By default return the sample standard deviation of $vals. You can change
+ * Calculates the mean of a dataset. Also returns the standard deviation
+ * as a second parameter.
+ * By default returns the sample standard deviation of $vals. You can change
  * the degrees of freedom w/ the second argument.
  */
-function std_dev($vals, $dof = 1)
+function mean($vals, $dof = 1)
 {
     $n = count($vals);
-    if ($n - $dof <= 0) return NULL;
+    if ($n == 1) {
+        return 0;
+    } elseif ($n - $dof <= 0) {
+        return NULL;
+    } 
     $xbar = array_sum($vals) / $n;
-    return sqrt(sse($vals, $expected) / ($n - $dof));
+    return array($xbar, sqrt(sse($vals, $xbar) / ($n - $dof)));
 }
