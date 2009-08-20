@@ -110,7 +110,6 @@ class Alchecks extends MY_Controller
         }
 
         if ($refresh) {
-
             // validate
             $is_valid = $this->form_validation->run('al_sample_loading');
 
