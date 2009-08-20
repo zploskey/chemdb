@@ -6,6 +6,35 @@
 class Batch extends BaseBatch
 {
 
+    public function getBlank($type='Be')
+    {
+        // first find our blank
+        foreach ($this->Analysis as $tmpan) {
+            if ($tmpan->sample_type == 'BLANK') {
+                $blank = $tmpan;
+                break;
+            }
+        }
+
+        if (isset($blank) && $type=='Al' && $blank->wt_al_carrier == '0') {
+            // try to find the most recent Aluminum blank with this carrier
+            $blank = Doctrine::getTable('Analysis')
+                ->createQuery('a')
+                ->leftJoin('a.Batch b')
+                ->leftJoin('a.AlAms ams')
+                ->select('a.*')
+                ->where('b.al_carrier_id = ?', $blank->Batch->al_carrier_id)
+                ->andWhere('a.sample_type = ?', 'BLANK')
+                ->andWhere('a.wt_al_carrier > ?', 0)
+                ->andWhere('b.start_date < ?', $blank->Batch->start_date)
+                ->orderBy('b.start_date DESC')
+                ->limit(1)
+                ->fetchOne();
+        }
+        
+        return $blank;
+    }
+
     /**
      * Do calculations for our reports. The batch must already have nearly all its data 
      * to do these calculations. Populate the data structure first.
