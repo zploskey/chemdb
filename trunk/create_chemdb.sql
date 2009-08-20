@@ -318,7 +318,6 @@ ALTER TABLE `icp_run` ADD INDEX `split_idx` (`split_id`);
 CREATE TABLE `al_ams` (
   `id` int(11) unsigned NOT NULL auto_increment,
   `analysis_id` int(10) unsigned default NULL,
-  `alcheck_analysis_id` int(10) unsigned default NULL,
   `al_ams_std_id` int(10) unsigned default NULL,
   `date` date default NULL,
   `ams_sample_name` varchar(160) default NULL,
