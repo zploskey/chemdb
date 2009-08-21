@@ -7,7 +7,7 @@
 
 <p><h2>
     <?=$subtitle?> 
-    <? if (isset($sample->id)): ?>
+    <? if (!is_null($sample->id)): ?>
         (<?=anchor('samples/view/'.$sample->id, 'View')?>)
     <? endif; ?>
 </h2></p>

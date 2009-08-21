@@ -168,6 +168,7 @@ class Samples extends MY_Controller
                     ->from('Sample s, s.Project p')
                     ->where('s.id = ?', $sample->id)
                     ->fetchOne();
+
             }
         }
 
