@@ -22,6 +22,7 @@ $lang['is_natural_no_zero']	= "The %s field must contain an integer greater than
 
 // custom messages
 $lang['unique'] = "The %s field is not unique. Please choose another.";
+$lang['alpha_dot_dash'] = 'The %s field may only contain alphanumeric characters, periods, underscores and dashes.';
 
 
 /* End of file form_validation_lang.php */
