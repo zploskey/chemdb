@@ -43,13 +43,14 @@ class MY_Controller extends Controller
         return false;
     }
     
-    function _noreq_alpha_dash($val)
+    function _noreq_alpha_dot_dash($val)
     {
-        if ($val == '' || $this->form_validation->alpha_dash($val)) {
+        if ($val == '' || $this->form_validation->alpha_dot_dash($val)) {
             return true;
         }
-        $this->form_validation->set_message('_noreq_alpha_dash', 
-            'The %s field may only contain alpha-numeric characters, underscores, and dashes.');
+        $this->form_validation->set_message(
+            '_noreq_alpha_dot_dash', $this->lang->line('alpha_dot_dash'));
+        return false;
     }
 
     /*
@@ -74,7 +75,7 @@ class MY_Controller extends Controller
                                 'The %s field must be from 0 to 1.');
         return false;
     }
-    
+
     function _num($val)
     {
         if ($val == '' || is_numeric($val)) {

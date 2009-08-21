@@ -35,10 +35,19 @@ echo validation_errors();
     </tr>
     <tr>
         <td colspan="2" align="center"><hr><p/>
-            <input type="submit" value="Hit it!">
+            <input type="submit" value="Save and Refresh">
             </p><hr>
         </td>
     </tr>
 </table>
 <?=form_close()?>
-<p><?=anchor('alchecks', "Looks good -- I'm done")?></p>
+
+<? if (!is_null($batch->id)): ?>
+
+<?=form_open('alchecks/sample_loading', '', array('batch_id'=>$batch->id))?>
+<input type="submit" value="Begin loading samples">
+<?=form_close()?>
+
+<? endif; ?>
+
+<p align="center"><?=anchor('alchecks', "Back to options")?></p>
