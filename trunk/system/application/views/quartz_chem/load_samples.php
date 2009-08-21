@@ -42,26 +42,23 @@
             [Be]:
             <?
             if ($batch->BeCarrier) {
-                if (isset($batch->BeCarrier->be_conc)) {
-                    echo $batch->BeCarrier->be_conc;
-                    if (isset($batch->BeCarrier->del_be_conc)) {
-                        echo ' +/- ', $batch->BeCarrier->del_be_conc;
-                    }
-                    echo ' ug/g';
+                echo $batch->BeCarrier->be_conc;
+                if (!is_null($batch->BeCarrier->del_be_conc)) {
+                    echo ' +/- ', $batch->BeCarrier->del_be_conc;
                 }
+                echo ' ug/g';
             } ?>
-        </td><td></td>
+        </td>
+        <td></td>
         <td>
             [Al]:
             <? 
             if($batch->AlCarrier) {
-                if (isset($batch->AlCarrier->al_conc)) {
-                    echo $batch->AlCarrier->al_conc;
-                    if (isset($batch->AlCarrier->del_al_conc)) {
-                        echo ' +/- ', $batch->AlCarrier->del_al_conc;
-                    }
-                    echo ' ug/g';
+                echo $batch->AlCarrier->al_conc;
+                if (!is_null($batch->AlCarrier->del_al_conc)) {
+                    echo ' +/- ', $batch->AlCarrier->del_al_conc;
                 }
+                echo ' ug/g';
             } ?>
         </td>
     </tr>
@@ -153,7 +150,7 @@
             <td>
                 <select name="sample_type[]">
 
-                    <?php if (strcmp($batch->Analysis[$i]->sample_type, 'BLANK') == 0): ?>
+                    <?php if (strcmp(strtoupper($batch->Analysis[$i]->sample_type), 'BLANK') == 0): ?>
                         <option value="SAMPLE">Sample</option>
                         <option value="BLANK" selected>Blank</option>
                     <?php else: ?>

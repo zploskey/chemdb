@@ -156,7 +156,7 @@ class Alchecks extends MY_Controller
             // loading for the first view
             $sample_name = array();
             foreach ($batch['AlcheckAnalysis'] as $a) {
-                if (isset($a['Sample'])) {
+                if (isset($a->Sample)) {
                     $sample_name[] = $a['Sample']['name'];
                 } else {
                     $sample_name[] = $a->sample_name;

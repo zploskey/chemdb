@@ -180,7 +180,7 @@ CREATE TABLE `project_sample` (
 INSERT INTO sample (name) 
     SELECT DISTINCT sample_name
     FROM analysis a
-    WHERE a.sample_type != 'BLANK' AND a.sample_name != '';
+    WHERE UPPER(a.sample_type) != 'BLANK' AND a.sample_name != '';
 /* Now key those analyses to the sample */
 UPDATE sample s, analysis a SET a.sample_id = s.id WHERE a.sample_name = s.name;
 
