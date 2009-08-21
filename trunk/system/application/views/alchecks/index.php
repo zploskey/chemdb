@@ -1,4 +1,4 @@
-<?=anchor('', 'Back to Main Menu')?><hr>
+<p align="center"><?=anchor('', 'Back to Main Menu')?></p><hr>
 
 <table width="800">
 
