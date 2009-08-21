@@ -48,4 +48,9 @@ class MY_Form_validation extends CI_Form_validation
         list($year, $month, $day) = explode('-', $tdate);
         return checkdate($month, $day, $year);
     }
+    
+    function alpha_dot_dash($val)
+    {
+        return (!preg_match("/^([\.-a-z0-9_-])+$/i", $val)) ? FALSE : TRUE;
+    }
 }
