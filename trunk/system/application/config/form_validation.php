@@ -16,7 +16,7 @@ $config['projects'] = array(
     array(
         'field' => 'name',
         'label' => 'name',
-        'rules' => 'trim|required|alpha_dash|callback__is_unique[project.name]'),
+        'rules' => 'trim|required|alpha_dot_dash|callback__is_unique[project.name]'),
     array(
         'field' => 'description',
         'label' => 'description',
@@ -31,7 +31,7 @@ $config['samples'] = array(
     array(
         'field' => 'sample[name]',
         'label' => 'name',
-        'rules' => 'trim|required|alpha_dash|callback__is_unique[sample.name]'),
+        'rules' => 'trim|required|alpha_dot_dash|callback__is_unique[sample.name]'),
     array(
         'field' => 'proj[]',
         'label' => 'project',
@@ -121,7 +121,7 @@ $config['load_samples'] = array(
     array(
         'field' => 'sample_name[]',
         'label' => 'sample name',
-        'rules' => 'trim|callback__noreq_alpha_dash'),
+        'rules' => 'trim|callback__noreq_alpha_dot_dash'),
     array(
         'field' => 'sample_type[]',
         'label' => 'sample type',
