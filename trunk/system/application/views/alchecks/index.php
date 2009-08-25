@@ -1,5 +1,3 @@
-<p align="center"><?=anchor('', 'Back to Main Menu')?></p><hr>
-
 <table width="800">
 
 <?=form_open('alchecks/new_batch')?>
