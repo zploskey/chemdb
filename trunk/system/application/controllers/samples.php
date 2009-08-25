@@ -111,13 +111,14 @@ class Samples extends MY_Controller
     function edit($id = 0) 
     {
         $is_refresh = $this->input->post('is_refresh');
+        
+        $query = Doctrine_Query::create()
+            ->from('Sample s, s.Project p')
+            ->where('s.id = ?', $id);
 
         if ($id) {
             // edit an existing sample
-            $sample = Doctrine_Query::create()
-                ->from('Sample s, s.Project p')
-                ->where('s.id = ?', $id)
-                ->fetchOne();
+            $sample = $query->fetchOne();
 
             if (!$sample) {
                 show_404('page');
@@ -136,7 +137,7 @@ class Samples extends MY_Controller
             $data->subtitle = 'Enter Sample Information:';
             $data->arg = '';
         }
-        
+
         if ($is_refresh) {
             // validate what was submitted
             $valid = $this->form_validation->run('samples');
@@ -164,10 +165,7 @@ class Samples extends MY_Controller
                     $sample['ProjectSample'][$i-$off]['sample_id'] = $sample->id; 
                 }
                 $sample->save();
-                $sample = Doctrine_Query::create()
-                    ->from('Sample s, s.Project p')
-                    ->where('s.id = ?', $sample->id)
-                    ->fetchOne();
+                $sample = $query->where('s.id = ?', $sample->id)->fetchOne();
 
             }
         }
@@ -235,7 +233,7 @@ EHC;
             $data->projects = $sample->Project;
         }
 
-        list($data->exp_text, $data->ero_text) = $sample->getCalcInputs();
+        $data->calcInput = $sample->getCalcInputs();
         $data->title = 'View Sample';
         $data->subtitle = 'Viewing ' . $sample->name;
         $data->arg = $id;
