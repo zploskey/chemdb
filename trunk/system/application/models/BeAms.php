@@ -6,102 +6,52 @@
  */
 class BeAms extends BaseBeAms
 {
-    /**
-     * Holds the input text for the calculator for an exposure age calculation.
-     *
-     * @var string
-     * @access private
-     **/
-    var $ageCalcInput;
 
-    /**
-     * Holds the input text for the calculator for an erosion rate calculation.
-     *
-     * @var string
-     * @access private
-     **/
-    var $erosCalcInput;
-
-    /**
-    * Calculate Be10 and 26Al concentrations and error, compile them with sample
-    * information, and return the input string for the CRONUS calculator for
-    * this sample and its AMS measurement. 
-    * 
-    * These calculations are based on:
-    *
-    * Converting Al and Be isotope ratio measurements to nuclide concentrations in quartz.
-    * Greg Balco, May 8, 2006
-    * http://hess.ess.washington.edu/math/docs/common/ams_data_reduction.pdf
-    * @return string $ageCalcInput
-    */
-    public function getAgeCalcInput($BeAMS)
+    public function getConcBe10()
     {
-        if (isset($this->ageCalcInput) && !$this->isModified(true)) {
-            return $this->ageCalcInput;
-        }
-
-        if (!isset($this->BeAmsStd) 
-            || !isset($this->BeAmsStd->BeStdSeries)) {
-            return null;
-        }
-
-        $an = $this->Analysis;
-        $sample = $an->Sample;
-        $batch = $an->Batch;
-        $bec = $an->Batch->BeCarrier;
-        $alc = $an->Batch->AlCarrier;
+        /* if (isset($conc, $err) && !$this->isModified()) {
+            return array('conc'=>$this->conc, 'err'=>$this->err);
+        } */
         
-        if ($sample->antarctic) {
-            $pressure_flag = 'ant';
-        } else {
-            $pressure_flag = 'std';
-        }
-        
-        list($be10_conc, $be10_err) = $an->getConcBe10($BeAMS);
-
-        // we default to a zero aluminum analysis
-        if (!isset($an->AlAms)) {
-            $al26_conc = $al26_err = 0;
-            $al_calc_code = 'KNSTD';
-        } else {
-            // calculate aluminum concentration and error
-            // temporary settings until we work out this calculation
-            list($al26_conc, $al26_err) = $an->getConcAl26($an->AlAms[0]);
-            $al_calc_code = $an->AlAms[0]->AlAmsStd->AlStdSeries->code;
-        }
-
-        $entries = array(
-            'name' => substr($sample->name, 0, 24),
-            'latitude' => $sample->latitude,
-            'longitude' => $sample->longitude,
-            'altitude' => $sample->altitude,
-            'pressure_flag' => $pressure_flag,
-            'thickness' => abs($sample->depth_bottom - $sample->depth_top),
-            'density' => $sample->density,
-            'shield_factor' => $sample->shield_factor,
-            'erosion_rate' => $sample->erosion_rate,
-            'be10_conc' => $be10_conc,
-            'be10_err' => $be10_err,
-            'be_calc_code' => $this->BeAmsStd->BeStdSeries->code,
-            'al26_conc' => $al26_conc,
-            'al26_err' => $al26_err,
-            'al_calc_code' => $al_calc_code,
+        $an = $this->Analysis; // the associated analysis
+        $bec = $an->Batch->BeCarrier; // our Be carrier
+        $blank = $an->Batch->getBlank(); // the blank in the batch
+        // ratio of Be10 / Be9
+        $R_10to9_b = $blank->BeAms[0]->r_to_rstd * $blank->BeAms[0]->BeAmsStd->r10to9;
+        // mass of Be in carrier added to the blank (in g)
+        $M_cb = $blank->wt_be_carrier * 1e-6 * $bec->be_conc;
+        $M_cb_err = $M_cb * $bec->del_be_conc * 1e-6;
+        // error propagation for blank
+        $n10_b_err_terms = array(
+            // error from blank AMS measurement uncertainty
+            $blank->BeAms[0]->exterror * $M_cb * AVOGADRO / MM_BE,
+            // error from carrier concentration uncertainty
+            $M_cb_err * $R_10to9_b * AVOGADRO / MM_BE,
         );
+        $n10_b_err = sqrt(sum_of_squares($n10_b_err_terms));
+        
+        // Be10/Be9 ratio of the sample
+        $R_10to9 = $this->r_to_rstd * $this->BeAmsStd->r10to9;
+        // mass of the quartz in the sample
+        $M_qtz = $an->wt_diss_bottle_sample - $an->wt_diss_bottle_tare;
+        // Mass of Be added as carrier (grams)
+        // Concentration is converted from ug.
+        $M_c = $an->wt_be_carrier * 1e-6 * $bec->be_conc;
+        $M_c_err =  $M_c * $bec->del_be_conc * 1e-6;
+        // Estimate of Be10 concentration of sample
+        $be10_conc = ($R_10to9 * $M_c - $R_10to9_b * $M_cb) * AVOGADRO / ($M_qtz * MM_BE);
+        // Calculate the error in Be10 concentration ($be10_conc):
+        // First, define the differentials for each error source. Each is
+        // equivalent to del(Number of Be10 atoms)/del(source variable)
+        // multiplied by the error in the source variable.
+        $err_terms = array(
+            $this->exterror * $M_c * AVOGADRO / ($M_qtz * MM_BE), // from ams error
+            -$n10_b_err / $M_qtz, // from blank error
+            $M_c_err * $R_10to9 * AVOGADRO / ($M_qtz * MM_BE), // from carrier error
+        );
+        $be10_err = sqrt(sum_of_squares($err_terms));
 
-        // generate age input
-        $text = '';
-        foreach ($entries as $ent) {
-            $text .= $ent . ' ';
-        }
-        $this->ageCalcInput = $text;
-        // generate erosion rate input
-        unset($entries['erosion_rate']); // remove erosion rate estimate
-        $text = '';
-        foreach ($entries as $ent) {
-            $text .= $ent . ' ';
-        }
-        $this->erosCalcInput = $text;
-        return $this->ageCalcInput;
+        return array($be10_conc, $be10_err);
     }
     
     /**
