@@ -1,6 +1,4 @@
 <table width="800">
-    <?=$this->load->view('tr_main_link_hr')?>
-    <tr><td colspan="2"><hr></td></tr>
     <!--- CREATE A NEW BATCH -->
     <?=form_open('quartz_chem/new_batch')?>
         <tr>

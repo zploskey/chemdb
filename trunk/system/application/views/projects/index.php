@@ -1,11 +1,4 @@
-<div id="navbar">
-    <ul>
-        <li><?=anchor('welcome', 'Main Menu')?></li> | 
-        <li><?=anchor('projects/index', 'Projects List')?></li> | 
-        <li><?=anchor('projects/edit', 'Add Project')?> </li>
-    </ul>
-</div>
-<br>
+<?=$this->load->view('projects/nav')?>
 <div class="pagination">
     <? 
     if ($paginate) {

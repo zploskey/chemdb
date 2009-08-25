@@ -1,10 +1,4 @@
-<div id="navbar">
-    <li><?=anchor('welcome', 'Return to Main Menu')?> | </li>
-    <li><?=anchor('samples', 'Samples List')?> | </li>
-    <li><?=anchor('samples/edit', 'Add a Sample')?></li>
-</div>
-<br>
-
+<?=$this->load->view('samples/nav')?>
 <p><h2>
     <?=$subtitle?> 
     <? if (!is_null($sample->id)): ?>
