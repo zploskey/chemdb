@@ -1,17 +1,10 @@
-<div id="navbar">
-    <ul>
-        <li><?=anchor('welcome', 'Main Menu')?></li> |
-        <li><?=anchor('samples', 'Sample List')?></li> |
-        <li><?=anchor('samples/edit','Add Sample')?></li>
-    </ul>
-</div>
+<?=$this->load->view('samples/nav')?>
+<?=form_open('samples/index')?>
+    Sample search: 
+    <input type="text" class="sample_name" value="<?=htmlentities($query)?>" name="query">
+    <input type="submit" value="Search">
+<?=form_close()?>
 <br>
-    <?=form_open('samples/index')?>
-        Sample search: 
-        <input type="text" class="sample_name" value="<?=htmlentities($query)?>" name="query">
-        <input type="submit" value="Search">
-    <?=form_close()?>
-    <br>
 
 <? if ($samples->count() > 0): ?>
 

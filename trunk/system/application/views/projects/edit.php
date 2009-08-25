@@ -1,8 +1,4 @@
-<div id="navbar">
-    <?=anchor('welcome','Return to Main Menu')?> | <?=anchor('projects','Projects')?>
-</div>
-<br>
-
+<?=$this->load->view('projects/nav')?>
 <p>
     <h2><?=$subtitle?> (<?=anchor("projects/view/$proj->id", 'View')?>)</h2> 
 </p>

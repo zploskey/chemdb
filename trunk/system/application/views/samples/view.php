@@ -1,11 +1,4 @@
-<div id="navbar">
-    <ul>
-        <li><?=anchor('welcome','Return to Main Menu')?> |</li>
-        <li><?=anchor('samples','Samples List')?> |</li>
-        <li><?=anchor('samples/edit', 'Add a Sample')?></li>
-    </ul>
-</div>
-<br>
+<?=$this->load->view('samples/nav')?>
 <p><h2><?=$subtitle?> (<?=anchor('samples/edit/'.$sample->id,'Edit')?>)</h2></p>
 <br>
 <div id="data">
@@ -67,10 +60,12 @@
 <br/><br/>
 
 <? if (isset($sample->Analysis)): ?>
+
     <h3>Analyses of this sample</h3>
     <table class="">
         <tr>
-            <th>Batch ID</th>
+            <th>Analysis<br>ID</th>
+            <th>Batch<br>ID</th>
             <th width="45%">Notes</th>
             <th>Be AMS<br>ID</th>
             <th>Al AMS<br>ID</th>
@@ -78,44 +73,64 @@
         </tr>
     <? for ($i = 0; $i < $sample->Analysis->count(); $i++): 
         $an = $sample->Analysis[$i]; ?>
-        
         <tr>
+            <td><?=$an->id?></td>
             <td align="center"><?=anchor('quartz_chem/final_report/'.$an->Batch->id, $an->Batch->id)?></td>
             <td><?=$an->notes?></td>
             
-        <? for ($ams = 0; $ams < $an->BeAms->count(); $ams++): ?>
-    
-            <? if ($ams == 0): ?>
+        <?  $nInputs = (isset($calcInput['exp'][$i])) ? count($calcInput['exp'][$i]) : 0;
+            if ($nInputs > 0):
+                for ($n = 0; $n < $nInputs; $n++): ?>
+
+                <? if ($n == 0): ?>
+                    <td align="center">
+                <? else: ?>
+                    <tr><td colspan="2"></td><td align="center">
+                <? endif; ?>
+                    <?=(isset($an['BeAms'][$n]['id']))
+                        ? anchor('be_ams/' . $an['BeAms'][$n]['id'], $an['BeAms'][$n]['id']) : '' ?>
+                </td>
                 <td align="center">
+                    <?=(isset($an['AlAms'][$n]['id'])) 
+                        ? anchor('al_ams/' . $an['AlAms'][$n]['id'], $an['AlAms'][$n]['id']) : '' ?>
+                </td>
+                <td>
+                    <form method="post" target="outputwindow" action="http://hess.ess.washington.edu/cgi-bin/matweb">
+                        <input type="submit" value="Calculate exposure age">
+                        <input type="hidden" name="requesting_ip" value="<?=getRealIp()?>">
+                        <input type="hidden" name="mlmfile" value="al_be_age_many_v22" >
+                        <input type="hidden" name="text_block" value="<?=$calcInput['exp'][$i][$n]?>">
+                    </form>
+                    <form method="post" target="outputwindow" action="http://hess.ess.washington.edu/cgi-bin/matweb">
+                        <input type="submit" value="Calculate erosion rate">
+                        <input type="hidden" name="requesting_ip" value="<?=getRealIp()?>">
+                        <input type="hidden" name="mlmfile" value="al_be_erosion_many_v22" >
+                        <input type="hidden" name="text_block" value="<?=$calcInput['eros'][$i][$n]?>">
+                    </form>
+                </td>
+                </tr>
+                <? endfor; // ams loop ?>
             <? else: ?>
-                <tr><td colspan="2"></td><td align="center">
+                <td colspan="4"></td></tr>
             <? endif; ?>
-                <?=anchor($an['BeAms'][$ams]['id'], $an['BeAms'][$ams]['id'])?>
-            </td>
-            <td align="center">
-                <?=(isset($an['AlAms'])) 
-                    ? anchor($an['AlAms'][$ams]['id'], $an['AlAms']['id']) 
-                    : '' ?>
-            </td>
-            <td>
-                <form method="post" target="outputwindow" action="http://hess.ess.washington.edu/cgi-bin/matweb">
-                    <input type="submit" value="Calculate exposure age">
-                    <input type="hidden" name="requesting_ip" value="<?=getRealIp()?>">
-                    <input type="hidden" name="mlmfile" value="al_be_age_many_v22" >
-                    <input type="hidden" name="text_block" value="<?=$exp_text[$i][$ams]?>">
-                </form>
-                <form method="post" target="outputwindow" action="http://hess.ess.washington.edu/cgi-bin/matweb">
-                    <input type="submit" value="Calculate erosion rate">
-                    <input type="hidden" name="requesting_ip" value="<?=getRealIp()?>">
-                    <input type="hidden" name="mlmfile" value="al_be_erosion_many_v22" >
-                    <input type="hidden" name="text_block" value="<?=$ero_text[$i][$ams]?>">
-                </form>
-            </td>
-        </tr>
+    <? endfor; // analysis loop ?>
 
-        <? endfor; // ams loop?>
-
-    <? endfor; // analysis loop?>
-
+    <tr>
+        <td colspan="100%" align="center">
+            <form method="post" target="outputwindow" action="http://hess.ess.washington.edu/cgi-bin/matweb">
+                <input type="submit" value="Calculate all exposure ages">
+                <input type="hidden" name="requesting_ip" value="<?=getRealIp()?>">
+                <input type="hidden" name="mlmfile" value="al_be_age_many_v22" >
+                <input type="hidden" name="text_block" value="<?=$calcInput['all_exp']?>">
+            </form>
+            <form method="post" target="outputwindow" action="http://hess.ess.washington.edu/cgi-bin/matweb">
+                <input type="submit" value="Calculate all erosion rates">
+                <input type="hidden" name="requesting_ip" value="<?=getRealIp()?>">
+                <input type="hidden" name="mlmfile" value="al_be_age_many_v22" >
+                <input type="hidden" name="text_block" value="<?=$calcInput['all_eros']?>">
+            </form>
+        </td>
+    </tr>
     </table>
+
 <? endif; ?>
