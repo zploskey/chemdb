@@ -1,10 +1,4 @@
-<div id="navbar">
-    <ul>
-        <li><?=anchor('welcome','Return to Main Menu')?> |</li>
-        <li><?=anchor('projects','Projects List')?></li>
-    </ul>
-</div>
-<br>
+<?=$this->load->view('projects/nav')?>
 <p><h2><?=$subtitle?> (<?=anchor('projects/edit/'.$proj->id, 'Edit')?>)</h2></p>
 <br>
 <div class="data">
