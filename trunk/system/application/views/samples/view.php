@@ -105,7 +105,7 @@
                         <input type="submit" value="Calculate erosion rate">
                         <input type="hidden" name="requesting_ip" value="<?=getRealIp()?>">
                         <input type="hidden" name="mlmfile" value="al_be_erosion_many_v22" >
-                        <input type="hidden" name="text_block" value="<?=$calcInput['eros'][$i][$n]?>">
+                        <input type="hidden" name="text_block" value="<?=$calcInput['ero'][$i][$n]?>">
                     </form>
                 </td>
                 </tr>
@@ -126,8 +126,8 @@
             <form method="post" target="outputwindow" action="http://hess.ess.washington.edu/cgi-bin/matweb">
                 <input type="submit" value="Calculate all erosion rates">
                 <input type="hidden" name="requesting_ip" value="<?=getRealIp()?>">
-                <input type="hidden" name="mlmfile" value="al_be_age_many_v22" >
-                <input type="hidden" name="text_block" value="<?=$calcInput['all_eros']?>">
+                <input type="hidden" name="mlmfile" value="al_be_erosion_many_v22" >
+                <input type="hidden" name="text_block" value="<?=$calcInput['all_ero']?>">
             </form>
         </td>
     </tr>

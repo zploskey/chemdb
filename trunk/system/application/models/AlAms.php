@@ -10,7 +10,7 @@ class AlAms extends BaseAlAms
     {
         $an = $this->Analysis;
         $alc = $an->Batch->BeCarrier;
-        
+
         // Do calculations on the blank first
         $blank = $an->Batch->getBlank('Al');
         $R_26to27_b = $blank->AlAms[0]->r_to_rstd * $blank->AlAms[0]->AlAmsStd->r26to27;

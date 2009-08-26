@@ -23,7 +23,7 @@ class Analysis extends BaseAnalysis
     {
         return $this->wt_diss_bottle_total - $this->wt_diss_bottle_tare;
     }
-    
+
     public function getSampleWt()
     {
         return $this->wt_diss_bottle_sample - $this->wt_diss_bottle_tare;
