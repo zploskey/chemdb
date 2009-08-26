@@ -20,7 +20,9 @@ em {
     text-decoration:underline;
 }
 
-table {}
+table {
+ empty-cells:show;
+}
 .xl24
     {font-family:Arial;
     font-size:10.0pt;}

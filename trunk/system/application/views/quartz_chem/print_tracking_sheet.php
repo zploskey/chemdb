@@ -2,7 +2,10 @@
     <head>
         <title>UW-CNL-DB</title>
         <style>
-        <!--table {}
+        <!--
+        table {
+            empty-cells:show;
+        }
         .arial10
             {font-family:Arial;
             font-size:10.0pt;}
@@ -28,7 +31,7 @@
                     Batch start date: <?php echo $batch->start_date; ?><br/>
                     Batch owner: <?php echo $batch->owner; ?><br/>
                     Batch description: <?php echo $batch->description; ?><br/>
-                    Logged in as: <?php echo $_SERVER['REMOTE_USER']; ?>
+                    Logged in as: <?php echo htmlentities($_SERVER['REMOTE_USER']); ?>
                 </td>
             </tr>
         </table>
@@ -79,6 +82,7 @@
                 </td>
                 <td></td><td></td><td></td><td></td><td></td><td></td>
             </tr>
+
         <?php endfor; ?>
 
         </table>
@@ -202,6 +206,5 @@
         </table>
 
     </body>
-    
-</html>
 
+</html>
