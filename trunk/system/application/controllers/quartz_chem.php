@@ -369,7 +369,7 @@ class Quartz_chem extends MY_Controller
                     if (count($HF_additions) == 0) {
                         $blankHFVolume = 5; // mL
                     } else {
-                        $blankHFVolume = roundToNearest(mean($HF_additions), 5) - 5;
+                        $blankHFVolume = roundDownToNearest(mean($HF_additions), 5);
                     }
                 }
                 $an_data['mlHf'] = $blankHFVolume;
