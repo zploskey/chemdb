@@ -126,7 +126,7 @@ function sse($vals, $xbar)
  * By default returns the sample standard deviation of $vals. You can change
  * the degrees of freedom w/ the second argument.
  */
-function mean($vals, $dof = 1)
+function meanStdDev($vals, $dof = 1)
 {
     $n = count($vals);
     if ($n == 1) {
@@ -136,4 +136,24 @@ function mean($vals, $dof = 1)
     } 
     $xbar = array_sum($vals) / $n;
     return array($xbar, sqrt(sse($vals, $xbar) / ($n - $dof)));
+}
+
+function mean($vals)
+{
+    return safe_divide(array_sum($vals), count($vals));
+}
+
+function roundToNearest($num, $toNearest = 5) {
+    $retval = 0;
+    $num = round($num);
+    if (func_num_args() != 2) {
+        $toNearest = round(abs($toNearest));
+    }
+    $mod = $num % $toNearest;
+    if( $mod >= 0 ) {
+        $retval = ($mod > ($toNearest / 2)) ? $num + ($toNearest - $mod) : $num - $mod;
+    } else {
+        $retval = ($mod > (-$toNearest / 2)) ? $num - $mod : $num + (-$toNearest - $mod);
+    }
+    return $retval;
 }

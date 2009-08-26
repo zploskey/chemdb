@@ -16,7 +16,7 @@ class Analysis extends BaseAnalysis
             }
         }
 
-        return mean($vals);
+        return meanStdDev($vals);
     }
     
     public function getSolnWt()
