@@ -143,17 +143,14 @@ function mean($vals)
     return safe_divide(array_sum($vals), count($vals));
 }
 
-function roundToNearest($num, $toNearest = 5) {
-    $retval = 0;
-    $num = round($num);
-    if (func_num_args() != 2) {
-        $toNearest = round(abs($toNearest));
-    }
-    $mod = $num % $toNearest;
-    if( $mod >= 0 ) {
-        $retval = ($mod > ($toNearest / 2)) ? $num + ($toNearest - $mod) : $num - $mod;
-    } else {
-        $retval = ($mod > (-$toNearest / 2)) ? $num - $mod : $num + (-$toNearest - $mod);
-    }
-    return $retval;
+function roundToNearest($num, $toNearest = 5)
+{
+    $nearest = abs($toNearest);
+    return round(safe_divide($num, $nearest)) * $nearest;
+}
+
+function roundDownToNearest($num, $toNearest = 5)
+{
+    $nearest = abs($toNearest);
+    return floor(safe_divide($num, $nearest)) * $nearest;
 }
