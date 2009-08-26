@@ -303,7 +303,7 @@ class Quartz_chem extends MY_Controller
             ->fetchOne();
 
         $numsamples = $batch->Analysis->count();
-
+        $HF_additions = array();
         for ($a = 0; $a < $numsamples; $a++) {
 
             $pquery = Doctrine_Query::create()
@@ -323,7 +323,13 @@ class Quartz_chem extends MY_Controller
 
             $tmpa[$a]['tmpSampleWt'] = $batch->Analysis[$a]->wt_diss_bottle_sample
                 - $batch->Analysis[$a]->wt_diss_bottle_tare;
-            $tmpa[$a]['mlHf'] = round($tmpa[$a]['tmpSampleWt']) * 5 + 5;
+            
+            if (strtoupper($batch->Analysis[$a]->sample_type) == 'SAMPLE') {
+                $HF_additions[] = $tmpa[$a]['mlHf'] = round($tmpa[$a]['tmpSampleWt']) * 5 + 5;
+            } else {
+                $tmpa[$a]['mlHf'] = 'BLANK';
+            }
+
 
             $tmpa[$a]['inAlDb'] = true;
             if ($precheck) {
@@ -356,6 +362,19 @@ class Quartz_chem extends MY_Controller
                 $tmpa[$a]['inAlDb'] = false;
             }
         }
+        
+        foreach ($tmpa as &$an_data) {
+            if ($an_data['mlHf'] == 'BLANK') {
+                if (!isset($blankHFVolume)) {
+                    if (count($HF_additions) == 0) {
+                        $blankHFVolume = 5; // mL
+                    } else {
+                        $blankHFVolume = roundToNearest(mean($HF_additions), 5) - 5;
+                    }
+                }
+                $an_data['mlHf'] = $blankHFVolume;
+            }
+        } unset($an_data);
 
         $data->batch = $batch;
         $data->tmpa = $tmpa;
