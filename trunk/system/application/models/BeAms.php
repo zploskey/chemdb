@@ -9,10 +9,6 @@ class BeAms extends BaseBeAms
 
     public function getConcBe10()
     {
-        /* if (isset($conc, $err) && !$this->isModified()) {
-            return array('conc'=>$this->conc, 'err'=>$this->err);
-        } */
-        
         $an = $this->Analysis; // the associated analysis
         $bec = $an->Batch->BeCarrier; // our Be carrier
         $blank = $an->Batch->getBlank(); // the blank in the batch
@@ -29,7 +25,7 @@ class BeAms extends BaseBeAms
             $M_cb_err * $R_10to9_b * AVOGADRO / MM_BE,
         );
         $n10_b_err = sqrt(sum_of_squares($n10_b_err_terms));
-        
+
         // Be10/Be9 ratio of the sample
         $R_10to9 = $this->r_to_rstd * $this->BeAmsStd->r10to9;
         // mass of the quartz in the sample
@@ -52,21 +48,6 @@ class BeAms extends BaseBeAms
         $be10_err = sqrt(sum_of_squares($err_terms));
 
         return array($be10_conc, $be10_err);
-    }
-    
-    /**
-     * Gets the input to the CRONUS calculator for calculating an erosion rate.
-     *
-     * @return string $erosCalcInput
-     **/
-    public function getErosCalcInput($BeAMS)
-    {
-        if (isset($this->erosCalcInput) && !$this->isModified(true)) {
-            return $this->erosCalcInput;
-        }
-
-        $this->getAgeCalcInput($BeAMS); // will set erosCalcInput as a side-effect
-        return $this->erosCalcInput;
     }
 
 }
