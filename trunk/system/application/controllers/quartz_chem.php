@@ -420,7 +420,7 @@ class Quartz_chem extends MY_Controller
             ->orderBy('a.id ASC')
             ->addOrderBy('s.split_num ASC')
             ->limit(1);
-        
+
         $batch = $query->fetchOne();
 
         if (! $batch) {

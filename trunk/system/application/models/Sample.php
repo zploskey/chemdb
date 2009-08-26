@@ -9,14 +9,17 @@ class Sample extends BaseSample
     /**
     * Calculate Be10 and 26Al concentrations and error, compile them with sample
     * information, and return the input string for the CRONUS calculator for
-    * this sample and its AMS measurement. 
+    * this sample and its AMS measurement. The passed parameters and this sample
+    * should be fully populated with data before calling this function.
     * 
     * These calculations are based on:
     *
     * Converting Al and Be isotope ratio measurements to nuclide concentrations in quartz.
     * Greg Balco, May 8, 2006
     * http://hess.ess.washington.edu/math/docs/common/ams_data_reduction.pdf
-    * @return string $ageCalcInput
+    * @param $BeAMS BeAms object
+    * @param $AlAMS AlAms object
+    * @return array of strings array($ageCalcInput, $eroCalcInput)
     */
     public function getCalcInput($BeAMS, $AlAMS=NULL)
     {
@@ -76,8 +79,8 @@ class Sample extends BaseSample
         $ageInput = implode(' ', $entries);
         // generate erosion rate input
         unset($entries['erosion_rate']); // remove erosion rate estimate
-        $erosInput = implode(' ', $entries);
-        return array($ageInput, $erosInput);
+        $eroInput = implode(' ', $entries);
+        return array($ageInput, $eroInput);
     }
 
     /**
@@ -99,13 +102,13 @@ class Sample extends BaseSample
                 } else {
                     $AlAMS = null;
                 }
-                list($expLine, $erosLine) = $this->getCalcInput($BeAMS, $AlAMS);
-                if ($expLine != '' && $erosLine != '') {
+                list($expLine, $eroLine) = $this->getCalcInput($BeAMS, $AlAMS);
+                if ($expLine != '' && $eroLine != '') {
                     $exp_text[$a][] = $expLine;
                     $all_exp .= $expLine . '
                     ';
-                    $ero_text[$a][] = $erosLine;
-                    $all_ero .= $erosLine . '
+                    $ero_text[$a][] = $eroLine;
+                    $all_ero .= $eroLine . '
                     ';
                 }
                 ++$i;
@@ -113,24 +116,28 @@ class Sample extends BaseSample
 
             if ($i < $an->AlAms->count()) {
                 for ($j = $i; $j < $an->AlAms->count(); $j++)
-                list($expLine, $erosLine) = $this->getCalcInput(null, $an->AlAms[$j]);
+                list($expLine, $eroLine) = $this->getCalcInput(null, $an->AlAms[$j]);
                 if ($expLine != '' && $eroLine != '') {
                     $exp_text[$a][] = $expLine;
                     $all_exp .= $expLine . '
                     ';
-                    $ero_text[$a][] = $erosLine;
-                    $all_ero .= $erosLine . '
+                    $ero_text[$a][] = $eroLine;
+                    $all_ero .= $eroLine . '
                     ';
                 }
             }
             ++$a;
         }
+
         return array('exp' => $exp_text,
-                     'eros' => $ero_text,
-                     'all_exp' => $all_exp,
-                     'all_eros' => $all_ero);
+                     'ero' => $ero_text,
+                     'all_exp' => trim($all_exp),
+                     'all_ero' => trim($all_ero));
     }
 
+    /**
+     * @return thickness of the sample in cm
+     */
     public function getThickness()
     {
         return abs($this->depth_bottom - $this->depth_top);
