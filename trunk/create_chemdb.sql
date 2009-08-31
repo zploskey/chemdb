@@ -381,4 +381,8 @@ CREATE TABLE `be_std_series` (
 
 ALTER TABLE `analysis` CHANGE `batch_id` smallint(6) unsigned NOT NULL default '0';
 
+/* Fix the ordering of split beaker IDs so that AB1 - AB80 are continuous. */
+UPDATE split_bkr sb SET sb.id = sb.id - 50 WHERE 70 < sb.id AND sb.id <= 80;
+UPDATE split s SET s.split_bkr_id = s.split_bkr_id - 50 WHERE 70 < s.split_bkr_id AND s.split_bkr_id <= 80;
+
 /* TODO: Finally, remove fields that are now redundant */
