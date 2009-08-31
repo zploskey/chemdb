@@ -3,7 +3,6 @@
 <input type="hidden" name="is_refresh" value="TRUE">
 
 <table width="800" class="arial10">
-    <?=$this->load->view('tr_main_link_hr')?>
     <tr>
         <td colspan="4" width="400">
         <h3>Batch information:</h3><p/>

@@ -5,7 +5,6 @@
     ))?>
 
 <table width="800" class="arial10">
-    <?=$this->load->view('tr_main_link_hr')?>
     <tr>
         <td>
         <h3>Batch information:</p></h3>
