@@ -5,7 +5,7 @@
     <head>
         <title>UW-CNL-DB -- <?=$title?></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <base href="<?php echo base_url(); ?>" />
+        <base href="<?=base_url()?>" />
         <style>
         table {}
         .arial10
