@@ -291,8 +291,8 @@ class Quartz_chem extends MY_Controller
 
             $(window).load(function(){
                 var btnOffset = $("#'.$btnId.'").offset().top;
-                // scroll the window so that the previously pressed button is
-                // in the center of the screen
+                // Scroll the window so that the previously pressed button is
+                // near the bottom of the screen.
                 window.scrollTo(0, btnOffset - window.innerHeight * 4 / 5);
             });
             </script>';
