@@ -232,7 +232,7 @@
             </tr>
             <tr>
                 <td colspan="11" align="center">
-                    <input type=submit value="Save and refresh">
+                    <input type="submit" value="Save and refresh" class="ancBtn" id="ln<?=$i?>">
                 </td>
             </tr>
         <? endif; ?>
