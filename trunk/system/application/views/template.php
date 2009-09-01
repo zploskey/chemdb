@@ -14,7 +14,7 @@
         base_url = '<?=base_url();?>';
         //]]>
         </script>
-        <script type="text/javascript" src="js/jquery-1.3.1.min.js"></script>
+        <script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
         <script type="text/javascript" src="js/autocomplete/lib/jquery.bgiframe.min.js"></script>
         <script type='text/javascript' src="js/autocomplete/lib/jquery.ajaxQueue.js"></script>
         <script type='text/javascript' src="js/autocomplete/lib/thickbox-compressed.js"></script>
