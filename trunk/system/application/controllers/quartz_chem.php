@@ -12,6 +12,7 @@ class Quartz_chem extends MY_Controller
     /**
      * Supplies data for the Al/Be Chemistry index page. Populates select boxes
      * with batches that the user can select to modify on the other pages.
+     * @param void
      * @return void
      */
     public function index()
@@ -41,6 +42,8 @@ class Quartz_chem extends MY_Controller
     /**
      * Form for adding a batch or for editing the batch information after it
      * has been added.
+     * @param void
+     * @return void
      */
     public function new_batch()
     {
@@ -95,6 +98,7 @@ class Quartz_chem extends MY_Controller
 
     /**
      * Shows the sample loading page.
+     * @param void
      * @return void
      **/
     public function load_samples()
@@ -142,8 +146,7 @@ class Quartz_chem extends MY_Controller
                 $analysis->wt_diss_bottle_sample = $wt_diss_bottle_sample[$a];
                 $analysis->wt_be_carrier = $wt_be_carrier[$a];
                 $analysis->wt_al_carrier = $wt_al_carrier[$a];
-            } 
-            unset($analysis);
+            } unset($analysis);
 
             if ($is_valid) {
                 // data is valid
@@ -275,30 +278,61 @@ class Quartz_chem extends MY_Controller
         $data->be_tot_wt = $be_tot_wt;
         $data->al_tot_wt = $al_tot_wt;
 
-        // template info
+        // Set up our javascript
         $btnId = $this->input->post('hash');
         $data->extraHeadContent = '
             <script type="text/javascript" src="js/sample_search.js"></script>
             <script type="text/javascript">
+            
             $(document).ready(function() {
                 // When one of the submit buttons is clicked, add a hidden hash field
-                // that can be redirected to to bring the user back to this button.
+                // that can be used to redirect the user back to this button.
                 $(".ancBtn").click(function() {
                     var id = $(this).attr("id");
                     $(this).after("<input type=hidden name=hash value="+id+">");
                 });
+                
+                // If any sample type is set to "BLANK" we make its sample_wt 
+                // to its tare wt and disable the sample weight input box.
+                // Likewise, if it is set to "SAMPLE" then the sample weight
+                // input box is made editable again.
+                $(".type").change(function() {
+                    // get the sample index
+                    var i = $(".type").index(this);
+                    var sampleWt = $(".sampleWt").eq(i);
+                    if ($(this).val() == "BLANK") {
+                        sampleWt.val($(".tareWt").eq(i).val());
+                        sampleWt.attr("disabled", true);
+                    } else {
+                        sampleWt.attr("disabled", false);
+                    }
+                }).change();
+                
+                // Whenever the a blank tare weight is updated
+                // update the corresponding sample weight to be the same.
+                $(".tareWt").bind("change keyup", function() {
+                    var i = $(".tareWt").index(this);
+                    var sampleWt = $(".sampleWt").eq(i);
+                    if (sampleWt.attr("disabled")) {
+                        sampleWt.val($(this).val());
+                    }
+                }).change();
+                
             });
-
+            
+            // Scroll the window down to the last-pressed button.
             $(window).load(function() {
                 var id = "'.$btnId.'";
                 if (id != "") {
-                    var btnOffset = $("\#"+id).offset().top;
+                    // Get the offset down the page of the pressed button.
+                    var btnOffset = $("\#" + id).offset().top;
                     // Scroll the window so that the previously pressed button is
                     // near the bottom of the screen.
                     window.scrollTo(0, btnOffset - window.innerHeight * 4 / 5);
                 }
-            });
-            </script>';
+            });    
+            </script>
+            ';
 
         $data->title = 'Sample weighing and carrier addition';
         $data->main = 'quartz_chem/load_samples';
@@ -307,6 +341,8 @@ class Quartz_chem extends MY_Controller
 
     /**
      * Produces a sheet to track the progress of samples through the rest of the process.
+     * @param void
+     * @return void
      */
     public function print_tracking_sheet()
     {
