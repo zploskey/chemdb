@@ -102,8 +102,6 @@ class Quartz_chem extends MY_Controller
         $refresh = (bool)$this->input->post('is_refresh');
         $batch_id = (int)$this->input->post('batch_id');
 
-        // if ($this->input->post('addsplit')) { }
-
         // grab the batch with carrier data
         $batch = Doctrine::getTable('Batch')->findWithCarriers($batch_id);
 
@@ -278,8 +276,27 @@ class Quartz_chem extends MY_Controller
         $data->al_tot_wt = $al_tot_wt;
 
         // template info
-        $data->extraHeadContent = 
-            '<script type="text/javascript" src="js/sample_search.js"></script>';
+        $btnId = $this->input->post('hash');
+        $data->extraHeadContent = '
+            <script type="text/javascript" src="js/sample_search.js"></script>
+            <script type="text/javascript">
+            $(document).ready(function(){
+                // When one of the submit buttons is clicked, add a hidden hash field
+                // that can be redirected to to bring the user back to this button.
+                $(".ancBtn").click(function(){
+                    var id = $(this).attr("id");
+                    $(this).after("<input type=hidden name=hash value="+id+">");
+                });
+            });
+
+            $(window).load(function(){
+                var btnOffset = $("#'.$btnId.'").offset().top;
+                // scroll the window so that the previously pressed button is
+                // in the center of the screen
+                window.scrollTo(0, btnOffset - window.innerHeight * 4 / 5);
+            });
+            </script>';
+
         $data->title = 'Sample weighing and carrier addition';
         $data->main = 'quartz_chem/load_samples';
         $this->load->view('template', $data);
