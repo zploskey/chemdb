@@ -280,20 +280,23 @@ class Quartz_chem extends MY_Controller
         $data->extraHeadContent = '
             <script type="text/javascript" src="js/sample_search.js"></script>
             <script type="text/javascript">
-            $(document).ready(function(){
+            $(document).ready(function() {
                 // When one of the submit buttons is clicked, add a hidden hash field
                 // that can be redirected to to bring the user back to this button.
-                $(".ancBtn").click(function(){
+                $(".ancBtn").click(function() {
                     var id = $(this).attr("id");
                     $(this).after("<input type=hidden name=hash value="+id+">");
                 });
             });
 
-            $(window).load(function(){
-                var btnOffset = $("#'.$btnId.'").offset().top;
-                // Scroll the window so that the previously pressed button is
-                // near the bottom of the screen.
-                window.scrollTo(0, btnOffset - window.innerHeight * 4 / 5);
+            $(window).load(function() {
+                var id = "'.$btnId.'";
+                if (id != "") {
+                    var btnOffset = $("\#"+id).offset().top;
+                    // Scroll the window so that the previously pressed button is
+                    // near the bottom of the screen.
+                    window.scrollTo(0, btnOffset - window.innerHeight * 4 / 5);
+                }
             });
             </script>';
 
