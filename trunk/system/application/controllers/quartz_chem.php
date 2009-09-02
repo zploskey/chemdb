@@ -195,7 +195,7 @@ class Quartz_chem extends MY_Controller
             }
             $diss_bottle_options[$a] = $html;
 
-            $temp_sample_wt = $an->wt_diss_bottle_sample - $an->wt_diss_bottle_tare;
+            $temp_sample_wt = $an->getSampleWt();
 
             // get cations while we're at it
             if (isset($an->Sample)) {
@@ -377,15 +377,13 @@ class Quartz_chem extends MY_Controller
             }
             $precheck = $pquery->fetchOne();
 
-            $tmpa[$a]['tmpSampleWt'] = $batch->Analysis[$a]->wt_diss_bottle_sample
-                - $batch->Analysis[$a]->wt_diss_bottle_tare;
+            $tmpa[$a]['tmpSampleWt'] = $batch->Analysis[$a]->getSampleWt();
             
             if (strtoupper($batch->Analysis[$a]->sample_type) == 'SAMPLE') {
                 $HF_additions[] = $tmpa[$a]['mlHf'] = round($tmpa[$a]['tmpSampleWt']) * 5 + 5;
             } else {
                 $tmpa[$a]['mlHf'] = 'BLANK';
             }
-
 
             $tmpa[$a]['inAlDb'] = true;
             if ($precheck) {
