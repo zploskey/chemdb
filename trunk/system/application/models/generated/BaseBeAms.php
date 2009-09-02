@@ -8,9 +8,9 @@
  * @property integer $id
  * @property integer $analysis_id
  * @property integer $be_ams_std_id
+ * @property integer $ams_lab_id
  * @property date $date
- * @property string $ams_sample_name
- * @property string $caams_num
+ * @property string $lab_num
  * @property float $r_to_rstd
  * @property float $interror
  * @property float $exterror
@@ -18,6 +18,7 @@
  * @property string $notes
  * @property Analysis $Analysis
  * @property BeAmsStd $BeAmsStd
+ * @property AmsLab $AmsLab
  * @property Doctrine_Collection $AmsCurrent
  * 
  * @package    ##PACKAGE##
@@ -53,6 +54,14 @@ abstract class BaseBeAms extends Doctrine_Record
              'autoincrement' => false,
              'length' => '4',
              ));
+        $this->hasColumn('ams_lab_id', 'integer', 4, array(
+             'type' => 'integer',
+             'unsigned' => '1',
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '4',
+             ));
         $this->hasColumn('date', 'date', 25, array(
              'type' => 'date',
              'primary' => false,
@@ -60,21 +69,13 @@ abstract class BaseBeAms extends Doctrine_Record
              'autoincrement' => false,
              'length' => '25',
              ));
-        $this->hasColumn('ams_sample_name', 'string', 160, array(
+        $this->hasColumn('lab_num', 'string', 255, array(
              'type' => 'string',
              'fixed' => 0,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '160',
-             ));
-        $this->hasColumn('caams_num', 'string', 60, array(
-             'type' => 'string',
-             'fixed' => 0,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
-             'length' => '60',
+             'length' => '255',
              ));
         $this->hasColumn('r_to_rstd', 'float', 2147483647, array(
              'type' => 'float',
@@ -108,13 +109,13 @@ abstract class BaseBeAms extends Doctrine_Record
              'autoincrement' => false,
              'length' => '2147483647',
              ));
-        $this->hasColumn('notes', 'string', 2147483647, array(
+        $this->hasColumn('notes', 'string', 700, array(
              'type' => 'string',
              'fixed' => 0,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '700',
              ));
     }
 
@@ -126,6 +127,10 @@ abstract class BaseBeAms extends Doctrine_Record
 
         $this->hasOne('BeAmsStd', array(
              'local' => 'be_ams_std_id',
+             'foreign' => 'id'));
+
+        $this->hasOne('AmsLab', array(
+             'local' => 'ams_lab_id',
              'foreign' => 'id'));
 
         $this->hasMany('AmsCurrent', array(
