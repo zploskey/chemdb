@@ -31,14 +31,29 @@ class Batch extends BaseBatch
                 ->limit(1)
                 ->fetchOne();
         }
-        
+
         return $blank;
     }
 
     /**
      * Do calculations for our reports. The batch must already have nearly all its data 
-     * to do these calculations. Populate the data structure first.
+     * to do these calculations. Populate the data structure first. If you specify that
+     * you want statistics with the first parameter, the resulting array will have
+     * additional fields:
      *
+     * Standard deviations for Al and Be
+     * al_sd
+     * be_sd are
+     *
+     * Percentage errors from the expected values for each element:
+     * al_pct_err
+     * be_pct_err
+     *
+     * Percentage recoveries:
+     * be_recovery
+     * al_recovery
+     *
+     * @param bool $stats default is false, true if you want statistics calculated.
      * @return array
      **/
     public function getReportArray($stats = false)
