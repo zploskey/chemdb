@@ -44,7 +44,7 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 | Values used in chemistry
 |
 */
-define ('AVOGADRO', 6.02214179e+23); // Avogadro's number (atoms/mol)
+define('AVOGADRO', 6.02214179e+23); // Avogadro's number (atoms/mol)
 define('MM_BE', 9.012182); // molar weight of Beryllium (g/mol)
 define('MM_AL', 26.981538); // Al molar weight (g/mol)
 

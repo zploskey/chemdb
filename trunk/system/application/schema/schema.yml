@@ -19,19 +19,19 @@ AlAms:
       primary: false
       notnull: false
       autoincrement: false
+    ams_lab_id:
+      type: integer(4)
+      unsigned: 1
+      primary: false
+      notnull: false
+      autoincrement: false
     date:
       type: date(25)
       primary: false
       notnull: false
       autoincrement: false
-    ams_sample_name:
-      type: string(160)
-      fixed: false
-      primary: false
-      notnull: false
-      autoincrement: false
-    caams_num:
-      type: string(60)
+    lab_num:
+      type: string(255)
       fixed: false
       primary: false
       notnull: false
@@ -61,7 +61,7 @@ AlAms:
       notnull: false
       autoincrement: false
     notes:
-      type: string(2147483647)
+      type: string(700)
       fixed: false
       primary: false
       notnull: false
@@ -388,6 +388,27 @@ AmsCurrent:
       primary: false
       notnull: false
       autoincrement: false
+AmsLab:
+  tableName: ams_lab
+  columns:
+    id:
+      type: integer(4)
+      unsigned: 1
+      primary: true
+      autoincrement: true
+    name:
+      type: string(255)
+      fixed: false
+      primary: false
+      default: ''
+      notnull: true
+      autoincrement: false
+    full_name:
+      type: string(700)
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false
 Analysis:
   tableName: analysis
   columns:
@@ -623,19 +644,19 @@ BeAms:
       primary: false
       notnull: false
       autoincrement: false
+    ams_lab_id:
+      type: integer(4)
+      unsigned: 1
+      primary: false
+      notnull: false
+      autoincrement: false
     date:
       type: date(25)
       primary: false
       notnull: false
       autoincrement: false
-    ams_sample_name:
-      type: string(160)
-      fixed: false
-      primary: false
-      notnull: false
-      autoincrement: false
-    caams_num:
-      type: string(60)
+    lab_num:
+      type: string(255)
       fixed: false
       primary: false
       notnull: false
@@ -665,7 +686,7 @@ BeAms:
       notnull: false
       autoincrement: false
     notes:
-      type: string(2147483647)
+      type: string(700)
       fixed: false
       primary: false
       notnull: false
