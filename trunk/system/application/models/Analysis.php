@@ -26,6 +26,9 @@ class Analysis extends BaseAnalysis
 
     public function getSampleWt()
     {
+        if ($this->sample_type == "BLANK") {
+            return 0;
+        }
         return $this->wt_diss_bottle_sample - $this->wt_diss_bottle_tare;
     }
 

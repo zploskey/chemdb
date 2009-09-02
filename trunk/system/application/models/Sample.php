@@ -39,13 +39,13 @@ class Sample extends BaseSample
 
         // we default to a zero aluminum analysis
         if (isset($AlAMS)) {
-            $al26_conc = $al26_err = 0;
-            $al_calc_code = 'KNSTD';
-        } else {
             // calculate aluminum concentration and error
             // temporary settings until we work out this calculation
             list($al26_conc, $al26_err) = $AlAMS->getConcAl26();
             $al_calc_code = $AlAMS->AlAmsStd->AlStdSeries->code;
+        } else {
+            $al26_conc = $al26_err = 0;
+            $al_calc_code = 'KNSTD';
         }
 
         // likewise for beryllium

@@ -217,7 +217,8 @@ EHC;
     }
 
     /**
-     * Shows the data for a sample.
+     * Shows the data for a sample and allows the user to calculate exposure ages for
+     * a given analysis and AMS measurement.
      *
      * @return void
      */
@@ -278,7 +279,8 @@ EHC;
         if (!isset($val) || $val == 1) {
             return true;
         }
-        $this->form_validation->set_message('sample[antarctic]', 'The %s field must be checked (set to 1) or not selected at all.');
+        $this->form_validation->set_message('sample[antarctic]',
+            'The %s field must be checked (set to 1) or not selected at all.');
         return false;
     }
 

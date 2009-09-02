@@ -147,15 +147,15 @@
             </td>
             <!-- Sample type dropdown -->
             <td>
-                <select name="sample_type[]">
+                <select name="sample_type[]" class="type">
 
-                    <?php if (strcmp(strtoupper($batch->Analysis[$i]->sample_type), 'BLANK') == 0): ?>
+                    <? if (strcmp(trim(strtoupper($batch->Analysis[$i]->sample_type)), 'BLANK') == 0): ?>
                         <option value="SAMPLE">Sample</option>
                         <option value="BLANK" selected>Blank</option>
-                    <?php else: ?>
+                    <? else: ?>
                         <option value="SAMPLE" selected>Sample</option>
                         <option value="BLANK">Blank</option>
-                    <?php endif; ?>
+                    <? endif; ?>
 
                 </select>
             </td>
@@ -169,12 +169,12 @@
 
             <!-- bottle tare wt -->
             <td>
-                <input type=text size=8 name="wt_diss_bottle_tare[]" value="<?=$batch->Analysis[$i]->wt_diss_bottle_tare?>">
+                <input type=text size=8 name="wt_diss_bottle_tare[]" class="tareWt" value="<?=$batch->Analysis[$i]->wt_diss_bottle_tare?>">
             </td>
 
             <!-- bottle + sample weight -->
             <td>
-                <input type=text size=8 name=wt_diss_bottle_sample[] value="<?=$batch->Analysis[$i]->wt_diss_bottle_sample?>">
+                <input type=text size=8 name="wt_diss_bottle_sample[]" class="sampleWt" value="<?=$batch->Analysis[$i]->wt_diss_bottle_sample?>">
             </td>
 
             <!-- Column 7. Sample weight -->
