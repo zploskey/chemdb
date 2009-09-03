@@ -14,7 +14,7 @@ class AlAms extends BaseAlAms
         // Do calculations on the blank first
         $blank = $an->Batch->getBlank('Al');
         $R_26to27_b = $blank->AlAms[0]->r_to_rstd * $blank->AlAms[0]->AlAmsStd->r26to27;
-        list($M_Al_b, $M_Al_b_err) = $blank->getMassAlIcp();
+        list($M_Al_b, $M_Al_b_err) = $blank->getMassIcp('Al');
         // Note, M_Al_b_err (error for mass of Al in blank) is a standard deviation.
 
         // Error propagation for the blank:
@@ -30,7 +30,7 @@ class AlAms extends BaseAlAms
         $R_26to27 = $this->r_to_rstd * $this->AlAmsStd->r26to27;
         // mass of the quartz in the sample
         $M_qtz = $an->getSampleWt();
-        list($M_Al, $M_Al_err) = $an->getMassAlIcp();
+        list($M_Al, $M_Al_err) = $an->getMassIcp('Al');
         // Estimate of Be10 concentration in sample
         $al26_conc = ($R_26to27 * $M_Al - $R_26to27_b * $M_Al_b) * AVOGADRO / ($M_qtz * MM_AL);
         // Calculate the error in Al26 concentration:
