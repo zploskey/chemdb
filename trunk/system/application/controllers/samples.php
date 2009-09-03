@@ -234,7 +234,20 @@ EHC;
             $data->projects = $sample->Project;
         }
 
+        $data->nAnalyses = $sample->Analysis->count();
         $data->calcInput = $sample->getCalcInputs();
+        
+        // Dalculate our derived data (weights and concentrations)
+        foreach ($sample->Analysis as $an) {
+            list($massAl) = $an->getMassIcp('Al');
+            list($massBe) = $an->getMassIcp('Be');
+            $data->ugAl[] = sprintf('%.4f', $massAl * 1e6);
+            $data->ugBe[] = sprintf('%.4f', $massBe * 1e6);
+            $ppmAl = safe_divide($massAl * 1e-6, $an->getSampleWt());
+            $data->ppmAl[] = sprintf('%.4e', $ppmAl);
+        }
+
+        $data->calcsExist = !empty($data->calcInput['exp'][0]);
         $data->title = 'View Sample';
         $data->subtitle = 'Viewing ' . $sample->name;
         $data->arg = $id;
