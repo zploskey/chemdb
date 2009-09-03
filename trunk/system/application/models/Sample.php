@@ -134,7 +134,7 @@ class Sample extends BaseSample
                      'all_exp' => trim($all_exp),
                      'all_ero' => trim($all_ero));
     }
-
+    
     /**
      * @return thickness of the sample in cm
      */

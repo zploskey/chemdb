@@ -2,15 +2,17 @@
 
 class Analysis extends BaseAnalysis
 {
-    public function getMassAlIcp()
+
+    public function getMassIcp($element)
     {
+        $element = strtolower($element);
         $vals = array();
         foreach ($this->Split as $sp) {
             foreach ($sp->IcpRun as $run) {
-                if ($run->use_be == 'y') {
+                if ($run["use_$element"] == 'y') {
                     // calculate Al mass from ICP measurement, in g
                     $vals[] = 
-                        $this->getSolnWt() * $run->al_result * $sp->getSolnWt()
+                        $this->getSolnWt() * $run["$element".'_result'] * $sp->getSolnWt()
                         * 1e-6 / $sp->getSplitWt();
                 }
             }
@@ -19,6 +21,13 @@ class Analysis extends BaseAnalysis
         return meanStdDev($vals);
     }
     
+    public function getConcPpm($element)
+    {
+        return safe_divide(
+            array_shift(getMassIcp($element)) * 1e-6,
+            $this->getSampleWt());
+    }
+
     public function getSolnWt()
     {
         return $this->wt_diss_bottle_total - $this->wt_diss_bottle_tare;
