@@ -57,11 +57,13 @@
         </tr>
     </table>
 </div>
-<br/><br/>
+<br/>
 
 <? if ($nAnalyses > 0): ?>
 
-    <h3>Analyses of this sample</h3>
+    <?=form_open('samples/submit_to_calc/'.$sample->id, array('target'=>'outputwindow'))?>
+
+    <h3>Analyses of this sample:</h3>
     <br>
     <table>
 
@@ -128,7 +130,6 @@
             <? endfor; ?>
         </tr>
 
-        
         <tr>
             <th>[Al] (ppm)</th>
             <? for ($i = 0; $i < $nAnalyses; $i++): ?>
@@ -137,62 +138,49 @@
         </tr>
 
         <? if ($calcsExist): ?>
+        
             <tr>
-
-                <!-- Calculations for all analyses -->
-
+                <th>Include in report?</th>
+                <?
+                for ($i = 0; $i < $nAnalyses; $i++) {
+                    $ai = $sample->Analysis[$i];
+                    if (isset($ai->BeAms[0]->BeAmsStd) || isset($ai->AlAms[0]->AlAmsStd)) {
+                        echo '<td>',
+                            form_checkbox('incInReport[]', $i, true),
+                            '</td>';
+                    }
+                }
+                ?>
+            </tr>
+        
+            <tr>
+                <!-- Perform calculations for all analyses -->
                 <td align="center">
-                    <form method="post" target="outputwindow" action="http://hess.ess.washington.edu/cgi-bin/matweb">
-                        <input type="submit" value="Calculate all exposure ages">
-                        <input type="hidden" name="requesting_ip" value="<?=getRealIp()?>">
-                        <input type="hidden" name="mlmfile" value="al_be_age_many_v22" >
-                        <input type="hidden" name="text_block" value="<?=$calcInput['all_exp']?>">
-                    </form>
-                    <form method="post" target="outputwindow" action="http://hess.ess.washington.edu/cgi-bin/matweb">
-                        <input type="submit" value="Calculate all erosion rates">
-                        <input type="hidden" name="requesting_ip" value="<?=getRealIp()?>">
-                        <input type="hidden" name="mlmfile" value="al_be_erosion_many_v22" >
-                        <input type="hidden" name="text_block" value="<?=$calcInput['all_ero']?>">
-                    </form>
+                    <?=form_submit('calcSelAge', 'Get Selected Exposure Ages')?><br/>
+                    <?=form_submit('calcSelEro', 'Get Selected Erosion Rates')?>
                 </td>
 
                 <!-- Calculations for individual analyses -->
-
-                <?  
-                for ($i = 0; $i < $nAnalyses; $i++):
-
-                    $nInputs = (isset($calcInput['exp'][$i])) ? count($calcInput['exp'][$i]) : 0;
-
-                    if ($nInputs > 0):
-
-                        for ($n = 0; $n < $nInputs; $n++): 
-                ?>
-
-                    <td align="center">
-                        <form method="post" target="outputwindow" action="http://hess.ess.washington.edu/cgi-bin/matweb">
-                            <input type="submit" value="Calculate exposure age">
-                            <input type="hidden" name="requesting_ip" value="<?=getRealIp()?>">
-                            <input type="hidden" name="mlmfile" value="al_be_age_many_v22" >
-                            <input type="hidden" name="text_block" value="<?=$calcInput['exp'][$i][$n]?>">
-                        </form>
-                        <form method="post" target="outputwindow" action="http://hess.ess.washington.edu/cgi-bin/matweb">
-                            <input type="submit" value="Calculate erosion rate">
-                            <input type="hidden" name="requesting_ip" value="<?=getRealIp()?>">
-                            <input type="hidden" name="mlmfile" value="al_be_erosion_many_v22" >
-                            <input type="hidden" name="text_block" value="<?=$calcInput['ero'][$i][$n]?>">
-                        </form>
-                    </td>
-
-                <?
-                        endfor; 
-                    endif;
-                endfor; 
-                ?>
+<?
+                for ($i = 0; $i < $nAnalyses; $i++) {
+                    $ai = $sample->Analysis[$i];
+                    if (isset($ai->BeAms[0]->BeAmsStd) || isset($ai->AlAms[0]->AlAmsStd)) {
+                        echo '<td>',
+                             form_submit('calcAge_'.$i, 'Get Exposure Age'), '<br/>',
+                             form_submit('calcEro_'.$i, 'Get Erosion Rate'),
+                             '</td>';
+                    } else {
+                        echo '<td></td>';
+                    }
+                }
+?>
                 
             </tr>
             
         <? endif; ?>
 
     </table>
+    
+    <?=form_close()?>
 
 <? endif; ?>
