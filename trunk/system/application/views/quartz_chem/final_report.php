@@ -99,7 +99,7 @@
         ?>
     
         <td><?=sprintf('%.1f', $a['al_avg'])?></td>
-        <td>+/-</td>
+        <td>&plusmn;</td>
         <td><?=sprintf('%.1f', $a['al_sd'])?></td>
     
         <td><?=sprintf('%.1f',$a['al_pct_err'])?></td>
@@ -212,7 +212,7 @@
     ?>
     
     <td><?=sprintf('%.1f', $a['be_avg'])?></td>
-    <td>+/-</td>
+    <td>&plusmn;</td>
     <td><?=sprintf('%.1f', $a['be_sd'])?></td>
 
     <td><?=sprintf('%.1f', $a['be_pct_err'])?></td>

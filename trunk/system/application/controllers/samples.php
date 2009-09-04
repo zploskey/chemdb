@@ -7,6 +7,7 @@ class Samples extends MY_Controller
     {
         parent::__construct();
         $this->load->library('session');
+        $this->load->library('calculator');
     }
 
     /**
@@ -196,7 +197,7 @@ class Samples extends MY_Controller
             $defaultSelect .= $defaultOption;
         }
         $data->defaultSelect = $defaultSelect;
-        $data->projOptions = $projOptions;
+        $data->projOptions   = $projOptions;
 
         // set up some javascript to add more project select boxes
         $data->extraHeadContent = <<<EHC
@@ -212,7 +213,7 @@ class Samples extends MY_Controller
 EHC;
 
         $data->sample = $sample;
-        $data->main = 'samples/edit';
+        $data->main   = 'samples/edit';
         $this->load->view('template', $data);
     }
 
@@ -235,25 +236,84 @@ EHC;
         }
 
         $data->nAnalyses = $sample->Analysis->count();
-        $data->calcInput = $sample->getCalcInputs();
-        
-        // Dalculate our derived data (weights and concentrations)
-        foreach ($sample->Analysis as $an) {
-            list($massAl) = $an->getMassIcp('Al');
-            list($massBe) = $an->getMassIcp('Be');
-            $data->ugAl[] = sprintf('%.4f', $massAl * 1e6);
-            $data->ugBe[] = sprintf('%.4f', $massBe * 1e6);
-            $ppmAl = safe_divide($massAl * 1e-6, $an->getSampleWt());
-            $data->ppmAl[] = sprintf('%.4e', $ppmAl);
+
+        // callback to convert from g to ug and round to 2 decimal places
+        function convAndRound($x) {
+            return sprintf('%.1f', round($x * 1e6, 1));
         }
 
-        $data->calcsExist = !empty($data->calcInput['exp'][0]);
-        $data->title = 'View Sample';
-        $data->subtitle = 'Viewing ' . $sample->name;
-        $data->arg = $id;
-        $data->sample = $sample;
-        $data->main = 'samples/view';
+        // Dalculate our derived data (weights and concentrations)
+        foreach ($sample->Analysis as $an) {
+            // convert and round the ICP weights
+            $massAl = array_map("convAndRound", $an->getMassIcp('Al'));
+            $massBe = array_map("convAndRound", $an->getMassIcp('Be'));
+            // add a +/- sign before the error
+            $data->ugAl[] = implode(' &plusmn; ', $massAl);
+            $data->ugBe[] = implode(' &plusmn; ', $massBe);
+            $ppmAl = safe_divide($massAl[0] * 1e-6, $an->getSampleWt());
+            $ppmAl = sprintf('%.3e', $ppmAl);
+            // and we'll show in value x 10^(superscript) style
+            $data->ppmAl[] = str_replace('e',' &times; 10<sup>', $ppmAl) . '</sup>';
+        }
+
+        $data->calcsExist = true; // for now, check later
+        $data->title      = 'View Sample';
+        $data->subtitle   = 'Viewing ' . $sample->name;
+        $data->arg        = $id;
+        $data->sample     = $sample;
+        $data->main       = 'samples/view';
         $this->load->view('template', $data);
+    }
+
+    function submit_to_calc($id)
+    {
+        $sample = Doctrine::getTable('Sample')->fetchViewdataById($id);
+        $calcInputs = $sample->getCalcInputs();
+        
+        // find out what the user wanted
+        $calcSel = true;
+        if ($this->input->post('calcSelEro')) {
+            $calcType = 'erosion';
+        } elseif ($this->input->post('calcSelAge')) {
+            $calcType = 'age';
+        } else {
+            $calcSel = false;
+            for ($i = 0; $i < $sample->Analysis->count(); $i++) {
+                if ($this->input->post('calcAge_'.$i)) {
+                    $calcType = 'age';
+                    $nToCalc = $i;
+                    break;
+                }
+                if ($this->input->post('calcEro_'.$i)) {
+                    $calcType = 'erosion';
+                    $nToCalc = $i;
+                    break;
+                }
+            }
+            $incInReport = array($nToCalc);
+        }
+        
+        if ($calcSel) {
+            $incInReport = $this->input->post('incInReport');
+            if (!is_array($incInReport)) {
+                die('You must select at least one analysis to send to the calculator.');
+            }
+            if (count($incInReport) == 0) {
+                die('You must select at least one analysis to submit.');
+            }
+        }
+        
+        if (!isset($calcType)) {
+            die('Error: Calculation type was not specified.');
+        }
+        
+        foreach ($incInReport as $i) {
+            $tmp[] = implode("\n", $calcInputs[$calcType][$i]);
+        }
+        $submitText = implode("\n", $tmp);
+        
+        $html = $this->calculator->send($submitText, $calcType);
+        echo $html;
     }
 
     /**
