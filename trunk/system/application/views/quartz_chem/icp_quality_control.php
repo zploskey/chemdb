@@ -86,14 +86,14 @@ for ($a = 0; $a < $batch['nsamples']; $a++):
         <td>Average ug:</td>
         <td colspan="2">
             <? printf('%.1f', $an['be_avg']); ?>
-            +/-
+            &plusmn;
             <?printf('%.1f', $an['be_sd']); ?>
         </td>
         <td></td>
 
         <td colspan="2">
             <? printf('%.1f', $an['al_avg']); ?>
-            +/- 
+            &plusmn; 
             <? printf('%.1f', $an['al_sd']); ?>
         </td>
     </tr>

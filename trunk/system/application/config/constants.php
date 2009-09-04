@@ -48,6 +48,17 @@ define('AVOGADRO', 6.02214179e+23); // Avogadro's number (atoms/mol)
 define('MM_BE', 9.012182); // molar weight of Beryllium (g/mol)
 define('MM_AL', 26.981538); // Al molar weight (g/mol)
 
+/*
+|--------------------------------------------------------------------------
+| Miscellaneous
+|--------------------------------------------------------------------------
+|
+*/
+define('CRONUS_PREFIX',   'http');
+define('CRONUS_HOSTNAME', 'hess.ess.washington.edu');
+define('CRONUS_BASE', CRONUS_PREFIX . '://' . CRONUS_HOSTNAME);
+define('CRONUS_PATH', '/cgi-bin/matweb');
+define('CRONUS_URI', CRONUS_BASE . CRONUS_PATH);
 
 /* End of file constants.php */
 /* Location: ./system/application/config/constants.php */
