@@ -129,8 +129,8 @@ class Sample extends BaseSample
             ++$a;
         }
 
-        return array('exp' => $exp_text,
-                     'ero' => $ero_text,
+        return array('age' => $exp_text,
+                     'erosion' => $ero_text,
                      'all_exp' => trim($all_exp),
                      'all_ero' => trim($all_ero));
     }
