@@ -74,7 +74,7 @@
             <?=$batch['BeCarrier']['name']?>
         </td>
         <td>
-            <?php echo $batch['BeCarrier']['be_conc'], ' +/- ', $batch['BeCarrier']['del_be_conc'];?>
+            <?php echo $batch['BeCarrier']['be_conc'], ' &plusmn; ', $batch['BeCarrier']['del_be_conc'];?>
         </td>
         <td>
             <?=$batch['wt_be_carrier_init']?>
@@ -92,7 +92,7 @@
             <?=$batch['AlCarrier']['name']?>
         </td>
         <td>
-            <?php echo $batch['AlCarrier']['al_conc'], ' +/- ', $batch['AlCarrier']['del_al_conc'];?>
+            <?php echo $batch['AlCarrier']['al_conc'], ' &plusmn; ', $batch['AlCarrier']['del_al_conc'];?>
         </td>
         <td>
             <?=$batch['wt_al_carrier_init']?>

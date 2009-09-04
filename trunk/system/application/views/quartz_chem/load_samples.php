@@ -43,7 +43,7 @@
             if ($batch->BeCarrier) {
                 echo $batch->BeCarrier->be_conc;
                 if (!is_null($batch->BeCarrier->del_be_conc)) {
-                    echo ' +/- ', $batch->BeCarrier->del_be_conc;
+                    echo ' &plusmn; ', $batch->BeCarrier->del_be_conc;
                 }
                 echo ' ug/g';
             } ?>
@@ -55,7 +55,7 @@
             if($batch->AlCarrier) {
                 echo $batch->AlCarrier->al_conc;
                 if (!is_null($batch->AlCarrier->del_al_conc)) {
-                    echo ' +/- ', $batch->AlCarrier->del_al_conc;
+                    echo ' &plusmn; ', $batch->AlCarrier->del_al_conc;
                 }
                 echo ' ug/g';
             } ?>
