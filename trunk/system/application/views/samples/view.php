@@ -139,6 +139,16 @@
 
         <? if ($calcsExist): ?>
         
+			<tr>
+				<th>Use which Al measure?</th>
+				<? for ($i = 0; $i < $nAnalyses; $i++): ?>
+					<td>
+						<input type="radio" name="analysis<?=$i?>" value="icp">ICP<br/>
+						<input type="radio" name="analysis<?=$i?>" value="carrier" checked>Carrier
+					</td>
+				<? endfor; ?>
+			</tr>
+
             <tr>
                 <th>Include in report?</th>
                 <?

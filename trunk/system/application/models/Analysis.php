@@ -17,7 +17,6 @@ class Analysis extends BaseAnalysis
                 }
             }
         }
-
         return meanStdDev($vals);
     }
     
