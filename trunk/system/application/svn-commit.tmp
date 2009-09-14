@@ -1,7 +1,0 @@
-Temporary deletion of Batch because I can't commit to it for some reason.
---This line, and those below, will be ignored--
-
-A    models/Project.php
-D    models/Batch.php
-A    models/Sample.php
-M    models/Analysis.php
