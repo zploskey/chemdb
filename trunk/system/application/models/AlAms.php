@@ -15,7 +15,7 @@ class AlAms extends BaseAlAms
         $blank = $an->Batch->getBlank('Al');
         $R_26to27_b = $blank->AlAms[0]->r_to_rstd * $blank->AlAms[0]->AlAmsStd->r26to27;
         list($M_Al_b, $M_Al_b_err) = $blank->getMassIcp('Al');
-        // Note, M_Al_b_err (error for mass of Al in blank) is a standard deviation.
+        // Note that $M_Al_b_err (error for mass of Al in blank) is a standard deviation.
 
         // Error propagation for the blank:
         $n26_b_err_terms = array(
