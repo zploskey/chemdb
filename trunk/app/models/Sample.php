@@ -21,7 +21,7 @@ class Sample extends BaseSample
     * @param $AlAMS AlAms object
     * @return array of strings array($ageCalcInput, $eroCalcInput)
     */
-    public function getCalcInput($BeAMS, $AlAMS=NULL)
+    public function getCalcInput($BeAMS, $AlAMS=NULL, $useIcpBe=FALSE)
     {
         if (isset($BeAMS)) {
             $an = $BeAMS->Analysis;
@@ -31,6 +31,7 @@ class Sample extends BaseSample
             throw new IllegalArgumentException(
                 'At least one argument must be an AMS measurement.');
         }
+
         $batch = $an->Batch;
         $bec = $an->Batch->BeCarrier;
         $alc = $an->Batch->AlCarrier;
@@ -50,7 +51,7 @@ class Sample extends BaseSample
 
         // likewise for beryllium
         if (isset($BeAMS)) {
-            list($be10_conc, $be10_err) = $BeAMS->getConcBe10();
+            list($be10_conc, $be10_err) = $BeAMS->getConcBe10($useIcpBe);
             $be_calc_code = $BeAMS->BeAmsStd->BeStdSeries->code;
         } else {
             $be10_conc = $be10_err = 0;
@@ -88,7 +89,7 @@ class Sample extends BaseSample
     * AMS results array(array(ams_result_text, ams_result_text, ...), array(...), ...).
     * @return array(string)
     */
-    public function getCalcInputs()
+    public function getCalcInputs($useIcpBe)
     {
         $ero_text = $exp_text = array(array());
         $all_exp = $all_ero = '';
@@ -102,7 +103,7 @@ class Sample extends BaseSample
                 } else {
                     $AlAMS = null;
                 }
-                list($expLine, $eroLine) = $this->getCalcInput($BeAMS, $AlAMS);
+                list($expLine, $eroLine) = $this->getCalcInput($BeAMS, $AlAMS, $useIcpBe[$a]);
                 if ($expLine != '' && $eroLine != '') {
                     $exp_text[$a][] = $expLine;
                     $all_exp .= $expLine . '
@@ -114,9 +115,8 @@ class Sample extends BaseSample
                 ++$i;
             }
 
-            if ($i < $an->AlAms->count()) {
-                for ($j = $i; $j < $an->AlAms->count(); $j++)
-                list($expLine, $eroLine) = $this->getCalcInput(null, $an->AlAms[$j]);
+            for ($j = $i; $j < $an->AlAms->count(); $j++) {
+                list($expLine, $eroLine) = $this->getCalcInput(null, $an->AlAms[$j], $useIcpBe[$a]);
                 if ($expLine != '' && $eroLine != '') {
                     $exp_text[$a][] = $expLine;
                     $all_exp .= $expLine . '

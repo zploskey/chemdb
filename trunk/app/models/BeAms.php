@@ -31,20 +31,26 @@ class BeAms extends BaseBeAms
         $R_10to9 = $this->r_to_rstd * $this->BeAmsStd->r10to9;
         // mass of the quartz in the sample
         $M_qtz = $an->getSampleWt();
-        // Mass of Be added as carrier (grams)
-        // Concentration is converted from ug.
-        $M_c = $an->wt_be_carrier * 1e-6 * $bec->be_conc;
-        $M_c_err = $M_c * $bec->del_be_conc * 1e-6;
+
+        if ($useIcpBe) {
+            list($M_Be, $M_Be_err) = $an->getMassIcp('Be');
+        } else {
+            // Mass of Be added as carrier (grams)
+            // Concentration is converted from ug.
+            $M_Be = $an->wt_be_carrier * 1e-6 * $bec->be_conc;
+            $M_Be_err = $bec->del_be_conc * 1e-6;
+        }
+
         // Estimate of Be10 concentration of sample
-        $be10_conc = ($R_10to9 * $M_c - $R_10to9_b * $M_cb) * AVOGADRO / ($M_qtz * MM_BE);
+        $be10_conc = ($R_10to9 * $M_Be - $R_10to9_b * $M_cb) * AVOGADRO / ($M_qtz * MM_BE);
         // Calculate the error in Be10 concentration ($be10_conc):
         // First, define the differentials for each error source. Each is
         // equivalent to del(Number of Be10 atoms)/del(source variable)
         // multiplied by the error in the source variable.
         $err_terms = array(
-            $this->exterror * $M_c * AVOGADRO / ($M_qtz * MM_BE), // from ams error
+            $this->exterror * $M_Be * AVOGADRO / ($M_qtz * MM_BE), // from ams error
             -$n10_b_err / $M_qtz, // from blank error
-            $M_c_err * $R_10to9 * AVOGADRO / ($M_qtz * MM_BE), // from carrier error
+            $M_Be_err * $R_10to9 * AVOGADRO / ($M_qtz * MM_BE), // from carrier error
         );
         $be10_err = sqrt(sum_of_squares($err_terms));
 

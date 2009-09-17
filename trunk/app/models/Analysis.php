@@ -20,6 +20,15 @@ class Analysis extends BaseAnalysis
         return meanStdDev($vals);
     }
     
+    public function getPctYield($el)
+    {
+        list($M_element) = $this->getMassIcp($el);
+        $lcEl = strtolower($el);
+        $M_carrier = $this['wt_' . $lcEl . '_carrier'] * 1e-6
+            * $this['Batch'][$el . 'Carrier'][$lcEl . '_conc'];
+        return safe_divide($M_element, $M_carrier) * 100;
+    }
+    
     public function getConcPpm($element)
     {
         return safe_divide(
