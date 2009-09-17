@@ -131,23 +131,23 @@
         </tr>
 
         <tr>
-            <th>[Al] (ppm)</th>
+            <th>Be Yield (%)</th>
             <? for ($i = 0; $i < $nAnalyses; $i++): ?>
-                <td><?=$ppmAl[$i]?></td>
+                <td><?=$yieldBe[$i]?></td>
             <? endfor; ?>
         </tr>
 
         <? if ($calcsExist): ?>
         
-			<tr>
-				<th>Use which Al measure?</th>
-				<? for ($i = 0; $i < $nAnalyses; $i++): ?>
-					<td>
-						<input type="radio" name="analysis<?=$i?>" value="icp">ICP<br/>
-						<input type="radio" name="analysis<?=$i?>" value="carrier" checked>Carrier
-					</td>
-				<? endfor; ?>
-			</tr>
+            <tr>
+                <th>Use which Be measure?</th>
+                <? for ($i = 0; $i < $nAnalyses; $i++): ?>
+                    <td>
+                        <input type="radio" name="analysis<?=$i?>" value="icp"> ICP<br/>
+                        <input type="radio" name="analysis<?=$i?>" value="carrier" checked> Carrier
+                    </td>
+                <? endfor; ?>
+            </tr>
 
             <tr>
                 <th>Include in report?</th>
@@ -155,9 +155,7 @@
                 for ($i = 0; $i < $nAnalyses; $i++) {
                     $ai = $sample->Analysis[$i];
                     if (isset($ai->BeAms[0]->BeAmsStd) || isset($ai->AlAms[0]->AlAmsStd)) {
-                        echo '<td>',
-                            form_checkbox('incInReport[]', $i, true),
-                            '</td>';
+                        echo '<td>', form_checkbox('incInReport[]', $i, true), '</td>';
                     }
                 }
                 ?>
