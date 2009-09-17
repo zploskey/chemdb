@@ -37,13 +37,13 @@ class AlAms extends BaseAlAms
         // First, define the differentials for each error source. Each is
         // equivalent to del(Number of Be10 atoms)/del(source variable)
         // multiplied by the error in the source variable.
+        
         $err_terms = array(
             $this->exterror * $M_Al * AVOGADRO / ($M_qtz * MM_AL), // from ams error
             -$n26_b_err / $M_qtz, // error from the atoms of Al26 in blank
             $M_Al_err * $R_26to27 * AVOGADRO / ($M_qtz * MM_AL), // from carrier error
         );
         $al26_err = sqrt(sum_of_squares($err_terms));
-
         return array($al26_conc, $al26_err);
     }
 }

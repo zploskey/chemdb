@@ -9,12 +9,13 @@ class Calculator {
             'mlmfile' => 'al_be_' . $calcType . '_many_v22',
             'text_block' => $submitText,
         );
+
         $options = array(
             CURLOPT_POST => count($fields),
             CURLOPT_RETURNTRANSFER => TRUE,
             CURLOPT_POSTFIELDS => http_build_query($fields),
-            CURLOPT_CONNECTTIMEOUT => 50,
-            CURLOPT_TIMEOUT => 60,
+            CURLOPT_CONNECTTIMEOUT => 90,
+            CURLOPT_TIMEOUT => 200,
         );
 
         
