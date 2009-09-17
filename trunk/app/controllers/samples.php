@@ -242,11 +242,11 @@ EHC;
             return sprintf('%.1f', round($x * 1e6, 1));
         }
 
-        // Dalculate our derived data (weights and concentrations)
+        // Calculate our derived data (weights and concentrations)
         foreach ($sample->Analysis as $an) {
             // convert and round the ICP weights
-            $massAl = array_map("convAndRound", $an->getMassIcp('Al'));
-            $massBe = array_map("convAndRound", $an->getMassIcp('Be'));
+            $massAl = array_map('convAndRound', $an->getMassIcp('Al'));
+            $massBe = array_map('convAndRound', $an->getMassIcp('Be'));
             // add a +/- sign before the error
             $data->ugAl[] = implode(' &plusmn; ', $massAl);
             $data->ugBe[] = implode(' &plusmn; ', $massBe);
@@ -254,6 +254,7 @@ EHC;
             $ppmAl = sprintf('%.3e', $ppmAl);
             // and we'll show in value x 10^(superscript) style
             $data->ppmAl[] = str_replace('e',' &times; 10<sup>', $ppmAl) . '</sup>';
+            $data->yieldBe[] = sprintf('%.3f', $an->getPctYield('Be'));
         }
 
         $data->calcsExist = true; // for now, check later
@@ -265,10 +266,19 @@ EHC;
         $this->load->view('template', $data);
     }
 
+    /**
+     *  Sends a request to the CRONUS calculator for dating and displays the results
+     *  in a new window.
+     */
     function submit_to_calc($id)
     {
         $sample = Doctrine::getTable('Sample')->fetchViewdataById($id);
-        $calcInputs = $sample->getCalcInputs();
+        $nAnalyses = $sample->Analysis->count();
+        $useIcpBe = array();
+        for ($i = 0; $i < $nAnalyses; $i++) {
+            $useIcpBe[$i] = ($this->input->post('analysis'.$i) == 'icp');
+        }
+        $calcInputs = $sample->getCalcInputs($useIcpBe);
         
         // find out what the user wanted
         $calcSel = true;
