@@ -138,7 +138,7 @@
         </tr>
 
         <? if ($calcsExist): ?>
-        
+
             <tr>
                 <th>Use which Be measure?</th>
                 <? for ($i = 0; $i < $nAnalyses; $i++): ?>
@@ -155,12 +155,13 @@
                 for ($i = 0; $i < $nAnalyses; $i++) {
                     $ai = $sample->Analysis[$i];
                     if (isset($ai->BeAms[0]->BeAmsStd) || isset($ai->AlAms[0]->AlAmsStd)) {
+                        // set flag that at least one analysis can be submitted to calc
                         echo '<td>', form_checkbox('incInReport[]', $i, true), '</td>';
                     }
                 }
                 ?>
             </tr>
-        
+
             <tr>
                 <!-- Perform calculations for all analyses -->
                 <td align="center">
@@ -184,7 +185,7 @@
 ?>
                 
             </tr>
-            
+
         <? endif; ?>
 
     </table>

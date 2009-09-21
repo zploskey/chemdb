@@ -243,6 +243,7 @@ EHC;
         }
 
         // Calculate our derived data (weights and concentrations)
+        $calcsExist = false;
         foreach ($sample->Analysis as $an) {
             // convert and round the ICP weights
             $massAl = array_map('convAndRound', $an->getMassIcp('Al'));
@@ -255,9 +256,12 @@ EHC;
             // and we'll show in value x 10^(superscript) style
             $data->ppmAl[] = str_replace('e',' &times; 10<sup>', $ppmAl) . '</sup>';
             $data->yieldBe[] = sprintf('%.3f', $an->getPctYield('Be'));
+            if (!$calcsExist) {
+                $calcsExist = isset($an->BeAms[0]->BeAmsStd) || isset($an->AlAms[0]->AlAmsStd);
+            }
         }
 
-        $data->calcsExist = true; // for now, check later
+        $data->calcsExist = $calcsExist;
         $data->title      = 'View Sample';
         $data->subtitle   = 'Viewing ' . $sample->name;
         $data->arg        = $id;
