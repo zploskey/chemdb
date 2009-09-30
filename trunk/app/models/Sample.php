@@ -39,9 +39,8 @@ class Sample extends BaseSample
         $pressure_flag = ($this->antarctic) ? 'ant' : 'std';
 
         // we default to a zero aluminum analysis
-        if (isset($AlAMS)) {
+        if (isset($AlAMS) && isset($AlAMS->id)) {
             // calculate aluminum concentration and error
-            // temporary settings until we work out this calculation
             list($al26_conc, $al26_err) = $AlAMS->getConcAl26();
             $al_calc_code = $AlAMS->AlAmsStd->AlStdSeries->code;
         } else {
@@ -98,7 +97,7 @@ class Sample extends BaseSample
             $i = 0; // ams result counter
             $all_exp = $all_ero = '';
             foreach ($an->BeAms as $BeAMS) {
-                if (isset($an['AlAms'])) {
+                if (isset($an['AlAms']) && isset($an['AlAms']['id'])) {
                     $AlAMS = $an['AlAms'][$i];
                 } else {
                     $AlAMS = null;
