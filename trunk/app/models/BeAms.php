@@ -14,12 +14,13 @@ class BeAms extends BaseBeAms
         $blank = $an->Batch->getBlank(); // the blank in the batch
 
         // ratio of Be10 / Be9
-        $R_10to9_b = $blank->BeAms[0]->r_to_rstd * $blank->BeAms[0]->BeAmsStd->r10to9;
+        $BlkAms = $blank->BeAms[0];
+        $R_10to9_b = $BlkAms->r_to_rstd * $BlkAms->BeAmsStd->r10to9;
         // mass of Be in carrier added to the blank (in g)
         $M_cb = $blank->wt_be_carrier * 1e-6 * $bec->be_conc;
         $M_cb_err = $M_cb * $bec->del_be_conc * 1e-6;
         // error propagation for blank
-        $blank_err = max($blank->BeAms[0]->exterror, $blank->BeAms[0]->interror);
+        $blank_err = $BlkAms->BeAmsStd->r10to9 * max($BlkAms->exterror, $BlkAms->interror);
         $n10_b_err_terms = array(
             // error from blank AMS measurement uncertainty
             $blank_err * $M_cb * AVOGADRO / MM_BE,
@@ -48,7 +49,7 @@ class BeAms extends BaseBeAms
         // First, define the differentials for each error source. Each is
         // equivalent to del(Number of Be10 atoms)/del(source variable)
         // multiplied by the error in the source variable.
-        $err = max($this->exterror, $this->interror);
+        $err = $this->BeAmsStd->r10to9 * max($this->exterror, $this->interror);
         $err_terms = array(
             $err * $M_Be * AVOGADRO / ($M_qtz * MM_BE), // from ams error
             -$n10_b_err / $M_qtz, // from blank error
