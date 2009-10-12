@@ -13,14 +13,16 @@ class AlAms extends BaseAlAms
 
         // Do calculations on the blank first
         $blank = $an->Batch->getBlank('Al');
-        $R_26to27_b = $blank->AlAms[0]->r_to_rstd * $blank->AlAms[0]->AlAmsStd->r26to27;
+        $BlkAms = $blank->AlAms[0];
+        $R_26to27_b = $BlkAms->r_to_rstd * $BlkAms->AlAmsStd->r26to27;
         list($M_Al_b, $M_Al_b_err) = $blank->getMassIcp('Al');
         // Note that $M_Al_b_err (error for mass of Al in blank) is a standard deviation.
 
         // Error propagation for the blank:
+        $blank_err = $BlkAms->AlAmsStd->r26to27 * max($BlkAms->exterror, $BlkAms->interror);
         $n26_b_err_terms = array(
             // error from blank AMS measurement
-            $blank->AlAms[0]->exterror * $M_Al_b * AVOGADRO / MM_AL,
+            $blank_err * $M_Al_b * AVOGADRO / MM_AL,
             // error from ICP measurement
             $M_Al_b_err * $R_26to27_b * AVOGADRO / MM_AL,
         );
@@ -37,9 +39,9 @@ class AlAms extends BaseAlAms
         // First, define the differentials for each error source. Each is
         // equivalent to del(Number of Be10 atoms)/del(source variable)
         // multiplied by the error in the source variable.
-        
+        $err = max($this->exterror, $this->interror);
         $err_terms = array(
-            $this->exterror * $M_Al * AVOGADRO / ($M_qtz * MM_AL), // from ams error
+            $err * $M_Al * AVOGADRO / ($M_qtz * MM_AL), // from ams error
             -$n26_b_err / $M_qtz, // error from the atoms of Al26 in blank
             $M_Al_err * $R_26to27 * AVOGADRO / ($M_qtz * MM_AL), // from carrier error
         );
