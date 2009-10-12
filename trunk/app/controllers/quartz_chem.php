@@ -301,10 +301,13 @@ class Quartz_chem extends MY_Controller
                     var i = $(".type").index(this);
                     var sampleWt = $(".sampleWt").eq(i);
                     if ($(this).val() == "BLANK") {
-                        sampleWt.val($(".tareWt").eq(i).val());
+                        weight = $(".tareWt").eq(i).val();
+                        sampleWt.val(weight);
                         sampleWt.attr("disabled", true);
+                        sampleWt.after("<input type=hidden value=" + weight + " name=wt_diss_bottle_sample[] id=hidWt" + i + ">");
                     } else {
                         sampleWt.attr("disabled", false);
+                        $("#hidWt" + i).remove();
                     }
                 }).change();
                 
@@ -315,6 +318,7 @@ class Quartz_chem extends MY_Controller
                     var sampleWt = $(".sampleWt").eq(i);
                     if (sampleWt.attr("disabled")) {
                         sampleWt.val($(this).val());
+                        $("#hidWt" + i).val($(this).val());
                     }
                 }).change();
                 
