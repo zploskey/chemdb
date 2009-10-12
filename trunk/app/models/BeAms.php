@@ -19,9 +19,10 @@ class BeAms extends BaseBeAms
         $M_cb = $blank->wt_be_carrier * 1e-6 * $bec->be_conc;
         $M_cb_err = $M_cb * $bec->del_be_conc * 1e-6;
         // error propagation for blank
+        $blank_err = max($blank->BeAms[0]->exterror, $blank->BeAms[0]->interror);
         $n10_b_err_terms = array(
             // error from blank AMS measurement uncertainty
-            $blank->BeAms[0]->exterror * $M_cb * AVOGADRO / MM_BE,
+            $blank_err * $M_cb * AVOGADRO / MM_BE,
             // error from carrier concentration uncertainty
             $M_cb_err * $R_10to9_b * AVOGADRO / MM_BE,
         );
@@ -47,8 +48,9 @@ class BeAms extends BaseBeAms
         // First, define the differentials for each error source. Each is
         // equivalent to del(Number of Be10 atoms)/del(source variable)
         // multiplied by the error in the source variable.
+        $err = max($this->exterror, $this->interror);
         $err_terms = array(
-            $this->exterror * $M_Be * AVOGADRO / ($M_qtz * MM_BE), // from ams error
+            $err * $M_Be * AVOGADRO / ($M_qtz * MM_BE), // from ams error
             -$n10_b_err / $M_qtz, // from blank error
             $M_Be_err * $R_10to9 * AVOGADRO / ($M_qtz * MM_BE), // from carrier error
         );
