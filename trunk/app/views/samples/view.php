@@ -107,7 +107,7 @@
             <th>Mass Be Carrier (ug)</th>
             <? foreach ($sample['Analysis'] as $an): ?>
                 <td>
-                    <?=$an['wt_be_carrier'] * $an['Batch']['BeCarrier']['be_conc'] ?>
+                    <?=sprintf('%.1f',$an['wt_be_carrier'] * $an['Batch']['BeCarrier']['be_conc'])?>
                 </td>
             <? endforeach; ?>
         </tr>
