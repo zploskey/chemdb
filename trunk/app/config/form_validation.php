@@ -1,7 +1,7 @@
 <?php 
 /*
 
-Customized functions should be put in
+Custom functions should be put in
 ./system/application/libraries/MY_Form_validation.php
 if they relate to validation, or in
 ./system/application/libraries/MY_Model.php
@@ -280,25 +280,33 @@ $config['al_add_icp_data'] = array(
         'label' => 'ICP [Be]',
         'rules' => 'trim|abs|callback__num'),
     array(
-        'field' => 'icp_ti[]',
-        'label' => 'ICP [Ti]',
+        'field' => 'icp_al[]',
+        'label' => 'ICP [Al]',
         'rules' => 'trim|abs|callback__num'),
     array(
         'field' => 'icp_fe[]',
         'label' => 'ICP [Fe]',
         'rules' => 'trim|abs|callback__num'),
     array(
-        'field' => 'icp_al[]',
-        'label' => 'ICP [Al]',
+        'field' => 'icp_ti[]',
+        'label' => 'ICP [Ti]',
         'rules' => 'trim|abs|callback__num'),
     array(
         'field' => 'icp_mg[]',
         'label' => 'ICP [Mg]',
         'rules' => 'trim|abs|callback__num'),
     array(
+        'field' => 'icp_k[]',
+        'label' => 'ICP [K]',
+        'rules' => 'trim|abs|callback__num'),
+    array(
         'field' => 'icp_date',
         'label' => 'ICP date',
         'rules' => 'trim|callback__valid_date'),
+    array(
+        'field' => 'notes[]',
+        'label' => 'notes',
+        'rules' => 'trim|htmlentities'),
 );
 
 $config['al_quick_add'] = array(
