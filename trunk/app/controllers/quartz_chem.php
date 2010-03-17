@@ -24,12 +24,12 @@ class Quartz_chem extends MY_Controller
 
         // build option tags for the select boxes
         foreach (Doctrine::getTable('Batch')->findOpenBatches() as $b) {
-            $data->open_batches .= "<option value=$b->id>$b->start_date "
+            $data->open_batches .= "<option value=$b->id>$b->id, $b->start_date "
                 . $b->owner . ' ' . substr($b->description, 0, 65);
         }
 
         foreach (Doctrine::getTable('Batch')->findAllBatches() as $b) {
-            $data->all_batches .= "<option value=$b->id>$b->start_date "
+            $data->all_batches .= "<option value=$b->id>$b->id, $b->start_date "
                 . $b->owner . ' ' . substr($b->description, 0, 65);
         }
 
@@ -666,16 +666,19 @@ EOH;
 
         $batch = $query->fetchOne();
 
-        if ($submit == true) {    
+        if ($submit) {
+            
+            // currently only validates the notes field
             $valid = $this->form_validation->run('add_icp_results');
             $batch->notes = $this->input->post('notes');
+            
             $raw_al = $this->input->post('al_text');
             $raw_be = $this->input->post('be_text');
             $al_lines = split("[\n]", $raw_al);
             $be_lines = split("[\n]", $raw_be);
 
             // now validate our entries
-            // this regexp to match a word followed by floating point numbers, just what we want
+            // this regexp to match a word followed by floating point numbers
             $valid_regexp = '/[\w-]+\s+([-+]?[0-9]*\.?[0-9]+)+/i';
             $split_regexp = '/\s+/'; // we'll split on whitespace if it is valid
             $is_al = true;
