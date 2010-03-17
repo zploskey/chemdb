@@ -244,7 +244,7 @@ class Alchecks extends MY_Controller
             show_404('page');
         }
 
-        $elements = array('be', 'ti', 'fe', 'al', 'mg');
+        $elements = array('be', 'al', 'fe', 'ti', 'mg', 'k');
 
         $data->errors = false;
         $nsamples = $batch->AlcheckAnalysis->count();
@@ -295,7 +295,7 @@ class Alchecks extends MY_Controller
 
         $data->nsamples = $nsamples;
         $data->batch = $batch;
-        $data->title = 'Add Al/Be/Fe/Ti/Mg concentrations';
+        $data->title = 'Add Be/Al/Fe/Ti/Mg/K concentrations';
         $data->main = 'alchecks/add_icp_data';
         $this->load->view('template', $data);
     }
