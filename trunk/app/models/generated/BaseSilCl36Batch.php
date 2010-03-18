@@ -1,4 +1,6 @@
 <?php
+// Connection Component Binding
+Doctrine_Manager::getInstance()->bindComponent('SilCl36Batch', 'dev_al_be_quartz_chem');
 
 /**
  * BaseSilCl36Batch
@@ -12,7 +14,7 @@
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
  * @author     ##NAME## <##EMAIL##>
- * @version    SVN: $Id: Builder.php 5845 2009-06-09 07:36:57Z jwage $
+ * @version    SVN: $Id: Builder.php 6820 2009-11-30 17:27:49Z jwage $
  */
 abstract class BaseSilCl36Batch extends Doctrine_Record
 {
@@ -21,7 +23,8 @@ abstract class BaseSilCl36Batch extends Doctrine_Record
         $this->setTableName('sil_cl36_batch');
         $this->hasColumn('id', 'integer', 4, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
              'length' => '4',
@@ -29,6 +32,7 @@ abstract class BaseSilCl36Batch extends Doctrine_Record
         $this->hasColumn('owner', 'string', 60, array(
              'type' => 'string',
              'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
@@ -36,7 +40,8 @@ abstract class BaseSilCl36Batch extends Doctrine_Record
              ));
         $this->hasColumn('cl_carrier_id', 'integer', 4, array(
              'type' => 'integer',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
@@ -44,4 +49,9 @@ abstract class BaseSilCl36Batch extends Doctrine_Record
              ));
     }
 
+    public function setUp()
+    {
+        parent::setUp();
+        
+    }
 }
