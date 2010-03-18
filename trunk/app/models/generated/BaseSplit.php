@@ -1,4 +1,6 @@
 <?php
+// Connection Component Binding
+Doctrine_Manager::getInstance()->bindComponent('Split', 'dev_al_be_quartz_chem');
 
 /**
  * BaseSplit
@@ -20,7 +22,7 @@
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
  * @author     ##NAME## <##EMAIL##>
- * @version    SVN: $Id: Builder.php 5845 2009-06-09 07:36:57Z jwage $
+ * @version    SVN: $Id: Builder.php 6820 2009-11-30 17:27:49Z jwage $
  */
 abstract class BaseSplit extends Doctrine_Record
 {
@@ -29,14 +31,16 @@ abstract class BaseSplit extends Doctrine_Record
         $this->setTableName('split');
         $this->hasColumn('id', 'integer', 4, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
              'length' => '4',
              ));
         $this->hasColumn('analysis_id', 'integer', 2, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => false,
              'default' => '',
              'notnull' => true,
@@ -45,7 +49,8 @@ abstract class BaseSplit extends Doctrine_Record
              ));
         $this->hasColumn('split_bkr_id', 'integer', 4, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => false,
              'default' => '',
              'notnull' => true,
@@ -54,52 +59,58 @@ abstract class BaseSplit extends Doctrine_Record
              ));
         $this->hasColumn('split_num', 'integer', 1, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => false,
              'default' => '1',
              'notnull' => true,
              'autoincrement' => false,
              'length' => '1',
              ));
-        $this->hasColumn('split_bkr_name', 'string', 2147483647, array(
+        $this->hasColumn('split_bkr_name', 'string', null, array(
              'type' => 'string',
              'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('wt_split_bkr_tare', 'float', 2147483647, array(
+        $this->hasColumn('wt_split_bkr_tare', 'float', null, array(
              'type' => 'float',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('wt_split_bkr_split', 'float', 2147483647, array(
+        $this->hasColumn('wt_split_bkr_split', 'float', null, array(
              'type' => 'float',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('wt_split_bkr_icp', 'float', 2147483647, array(
+        $this->hasColumn('wt_split_bkr_icp', 'float', null, array(
              'type' => 'float',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
     }
 
     public function setUp()
     {
+        parent::setUp();
         $this->hasOne('Analysis', array(
              'local' => 'analysis_id',
              'foreign' => 'id'));
