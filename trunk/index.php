@@ -111,8 +111,12 @@ else
 |
 | And away we go...
 |
-*/
+ */
+
+// load database configuration (and Doctrine) first
 require_once APPPATH.'config/database'.EXT;
+
+// load front controller
 require_once BASEPATH.'codeigniter/CodeIgniter'.EXT;
 
 /* End of file index.php */

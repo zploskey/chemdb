@@ -34,9 +34,10 @@ echo validation_errors();
         </td>
     </tr>
     <tr>
-        <td colspan="2" align="center"><hr><p/>
-            <input type="submit" value="Save and Refresh">
-            </p><hr>
+        <td colspan="2" align="center">
+            <hr>
+            <p><input type="submit" value="Save and Refresh"></p>
+            <hr>
         </td>
     </tr>
 </table>

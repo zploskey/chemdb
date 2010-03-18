@@ -38,7 +38,9 @@ $active_group = 'default';
 $active_record = FALSE;
 
 // quartz_chem
-$db['default']['hostname'] = 'ovid.u.washington.edu:23457';
+$host = 'ovid.u.washington.edu';
+$port = '23457';
+$db['default']['hostname'] = "$host:$port";
 $db['default']['username'] = 'root';
 $db['default']['password'] = 'Rea_Rocks';
 $db['default']['database'] = 'dev_al_be_quartz_chem';
@@ -53,25 +55,31 @@ $db['default']['dbcollat'] = 'latin1_general_ci';
 
 // Doctrine configuration
 
-// Create dsn from the info above
-$db[$active_group]['dsn'] = $db[$active_group]['dbdriver'] .
-				'://' . $db[$active_group]['username'] .
-				':' . $db[$active_group]['password'] .
-				'@' . $db[$active_group]['hostname'] .
-				'/' . $db[$active_group]['database'];
-
 // Require Doctrine.php
-require_once(realpath(dirname(__FILE__) . '/..') . DIRECTORY_SEPARATOR . 'libraries/Doctrine1/Doctrine.php');
+require_once(realpath(dirname(__FILE__) . '/..') . DIRECTORY_SEPARATOR
+        . 'libraries/database/Doctrine.php');
+// Create dsn from the info above
+// Load the Doctrine connection
+$dsn = $db[$active_group]['dbdriver']
+     . ':dbname=' . $db[$active_group]['database']
+     . ";host=$host;port=$port";
 
 // Set the autoloader
-spl_autoload_register(array('Doctrine', 'autoload'));
+spl_autoload_register(array('Doctrine_Core', 'autoload'));
+spl_autoload_register(array('Doctrine_Core', 'modelsAutoload'));
 
-// Load the Doctrine connection
-Doctrine_Manager::connection($db[$active_group]['dsn'], $db[$active_group]['database']);
+// create connection to main database
+$dbh = new PDO($dsn, $db[$active_group]['username'], $db[$active_group]['password']);
+Doctrine_Manager::connection($dbh, $db[$active_group]['database']);
+
+// Doctrine_Manager::connection($db[$active_group]['dsn'], $db[$active_group]['database']);
 
 // Set the model loading to conservative/lazy loading
 $manager = Doctrine_Manager::getInstance();
-$manager->setAttribute('model_loading', 'conservative');
+$manager->setAttribute(
+    Doctrine::ATTR_MODEL_LOADING,
+    Doctrine::MODEL_LOADING_CONSERVATIVE
+);
 $manager->setAttribute(Doctrine::ATTR_AUTOLOAD_TABLE_CLASSES, true);
 
 // Load the models for the autoloader
