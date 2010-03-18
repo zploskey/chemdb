@@ -1,4 +1,6 @@
 <?php
+// Connection Component Binding
+Doctrine_Manager::getInstance()->bindComponent('AlAms', 'dev_al_be_quartz_chem');
 
 /**
  * BaseAlAms
@@ -24,7 +26,7 @@
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
  * @author     ##NAME## <##EMAIL##>
- * @version    SVN: $Id: Builder.php 5845 2009-06-09 07:36:57Z jwage $
+ * @version    SVN: $Id: Builder.php 6820 2009-11-30 17:27:49Z jwage $
  */
 abstract class BaseAlAms extends Doctrine_Record
 {
@@ -33,14 +35,16 @@ abstract class BaseAlAms extends Doctrine_Record
         $this->setTableName('al_ams');
         $this->hasColumn('id', 'integer', 4, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
              'length' => '4',
              ));
         $this->hasColumn('analysis_id', 'integer', 2, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
@@ -48,7 +52,8 @@ abstract class BaseAlAms extends Doctrine_Record
              ));
         $this->hasColumn('al_ams_std_id', 'integer', 4, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
@@ -56,7 +61,8 @@ abstract class BaseAlAms extends Doctrine_Record
              ));
         $this->hasColumn('ams_lab_id', 'integer', 4, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
@@ -64,6 +70,8 @@ abstract class BaseAlAms extends Doctrine_Record
              ));
         $this->hasColumn('date', 'date', 25, array(
              'type' => 'date',
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
@@ -72,46 +80,52 @@ abstract class BaseAlAms extends Doctrine_Record
         $this->hasColumn('lab_num', 'string', 255, array(
              'type' => 'string',
              'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
              'length' => '255',
              ));
-        $this->hasColumn('r_to_rstd', 'float', 2147483647, array(
+        $this->hasColumn('r_to_rstd', 'float', null, array(
              'type' => 'float',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('interror', 'float', 2147483647, array(
+        $this->hasColumn('interror', 'float', null, array(
              'type' => 'float',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('exterror', 'float', 2147483647, array(
+        $this->hasColumn('exterror', 'float', null, array(
              'type' => 'float',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('truefrac', 'float', 2147483647, array(
+        $this->hasColumn('truefrac', 'float', null, array(
              'type' => 'float',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
         $this->hasColumn('notes', 'string', 700, array(
              'type' => 'string',
              'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
@@ -121,6 +135,7 @@ abstract class BaseAlAms extends Doctrine_Record
 
     public function setUp()
     {
+        parent::setUp();
         $this->hasOne('Analysis', array(
              'local' => 'analysis_id',
              'foreign' => 'id'));
