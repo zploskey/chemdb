@@ -1,4 +1,6 @@
 <?php
+// Connection Component Binding
+Doctrine_Manager::getInstance()->bindComponent('Project', 'dev_al_be_quartz_chem');
 
 /**
  * BaseProject
@@ -14,7 +16,7 @@
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
  * @author     ##NAME## <##EMAIL##>
- * @version    SVN: $Id: Builder.php 5845 2009-06-09 07:36:57Z jwage $
+ * @version    SVN: $Id: Builder.php 6820 2009-11-30 17:27:49Z jwage $
  */
 abstract class BaseProject extends Doctrine_Record
 {
@@ -23,7 +25,8 @@ abstract class BaseProject extends Doctrine_Record
         $this->setTableName('project');
         $this->hasColumn('id', 'integer', 4, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
              'length' => '4',
@@ -31,6 +34,7 @@ abstract class BaseProject extends Doctrine_Record
         $this->hasColumn('name', 'string', 255, array(
              'type' => 'string',
              'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'default' => '',
              'notnull' => true,
@@ -39,23 +43,27 @@ abstract class BaseProject extends Doctrine_Record
              ));
         $this->hasColumn('date_added', 'timestamp', 25, array(
              'type' => 'timestamp',
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
              'length' => '25',
              ));
-        $this->hasColumn('description', 'string', 2147483647, array(
+        $this->hasColumn('description', 'string', null, array(
              'type' => 'string',
              'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
     }
 
     public function setUp()
     {
+        parent::setUp();
         $this->hasMany('ProjectSample', array(
              'local' => 'id',
              'foreign' => 'project_id'));
