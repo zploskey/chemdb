@@ -1,4 +1,6 @@
 <?php
+// Connection Component Binding
+Doctrine_Manager::getInstance()->bindComponent('AmsLab', 'dev_al_be_quartz_chem');
 
 /**
  * BaseAmsLab
@@ -14,7 +16,7 @@
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
  * @author     ##NAME## <##EMAIL##>
- * @version    SVN: $Id: Builder.php 5845 2009-06-09 07:36:57Z jwage $
+ * @version    SVN: $Id: Builder.php 6820 2009-11-30 17:27:49Z jwage $
  */
 abstract class BaseAmsLab extends Doctrine_Record
 {
@@ -23,7 +25,8 @@ abstract class BaseAmsLab extends Doctrine_Record
         $this->setTableName('ams_lab');
         $this->hasColumn('id', 'integer', 4, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
              'length' => '4',
@@ -31,6 +34,7 @@ abstract class BaseAmsLab extends Doctrine_Record
         $this->hasColumn('name', 'string', 255, array(
              'type' => 'string',
              'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'default' => '',
              'notnull' => true,
@@ -40,6 +44,7 @@ abstract class BaseAmsLab extends Doctrine_Record
         $this->hasColumn('full_name', 'string', 700, array(
              'type' => 'string',
              'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
@@ -49,6 +54,7 @@ abstract class BaseAmsLab extends Doctrine_Record
 
     public function setUp()
     {
+        parent::setUp();
         $this->hasMany('AlAms', array(
              'local' => 'id',
              'foreign' => 'ams_lab_id'));

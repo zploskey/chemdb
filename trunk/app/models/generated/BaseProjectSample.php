@@ -1,4 +1,6 @@
 <?php
+// Connection Component Binding
+Doctrine_Manager::getInstance()->bindComponent('ProjectSample', 'dev_al_be_quartz_chem');
 
 /**
  * BaseProjectSample
@@ -13,7 +15,7 @@
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
  * @author     ##NAME## <##EMAIL##>
- * @version    SVN: $Id: Builder.php 5845 2009-06-09 07:36:57Z jwage $
+ * @version    SVN: $Id: Builder.php 6820 2009-11-30 17:27:49Z jwage $
  */
 abstract class BaseProjectSample extends Doctrine_Record
 {
@@ -22,14 +24,16 @@ abstract class BaseProjectSample extends Doctrine_Record
         $this->setTableName('project_sample');
         $this->hasColumn('project_id', 'integer', 4, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => true,
              'autoincrement' => false,
              'length' => '4',
              ));
         $this->hasColumn('sample_id', 'integer', 4, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => true,
              'autoincrement' => false,
              'length' => '4',
@@ -38,6 +42,7 @@ abstract class BaseProjectSample extends Doctrine_Record
 
     public function setUp()
     {
+        parent::setUp();
         $this->hasOne('Project', array(
              'local' => 'project_id',
              'foreign' => 'id'));

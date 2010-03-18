@@ -1,4 +1,6 @@
 <?php
+// Connection Component Binding
+Doctrine_Manager::getInstance()->bindComponent('AlCarrier', 'dev_al_be_quartz_chem');
 
 /**
  * BaseAlCarrier
@@ -18,7 +20,7 @@
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
  * @author     ##NAME## <##EMAIL##>
- * @version    SVN: $Id: Builder.php 5845 2009-06-09 07:36:57Z jwage $
+ * @version    SVN: $Id: Builder.php 6820 2009-11-30 17:27:49Z jwage $
  */
 abstract class BaseAlCarrier extends Doctrine_Record
 {
@@ -27,70 +29,80 @@ abstract class BaseAlCarrier extends Doctrine_Record
         $this->setTableName('al_carrier');
         $this->hasColumn('id', 'integer', 1, array(
              'type' => 'integer',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => true,
              'autoincrement' => true,
              'length' => '1',
              ));
-        $this->hasColumn('name', 'string', 2147483647, array(
+        $this->hasColumn('name', 'string', null, array(
              'type' => 'string',
              'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('al_conc', 'float', 2147483647, array(
+        $this->hasColumn('al_conc', 'float', null, array(
              'type' => 'float',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('del_al_conc', 'float', 2147483647, array(
+        $this->hasColumn('del_al_conc', 'float', null, array(
              'type' => 'float',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
         $this->hasColumn('in_service_date', 'date', 25, array(
              'type' => 'date',
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
              'length' => '25',
              ));
-        $this->hasColumn('mfg_lot_no', 'string', 2147483647, array(
+        $this->hasColumn('mfg_lot_no', 'string', null, array(
              'type' => 'string',
              'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('notes', 'string', 2147483647, array(
+        $this->hasColumn('notes', 'string', null, array(
              'type' => 'string',
              'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('in_use', 'string', 2147483647, array(
+        $this->hasColumn('in_use', 'string', null, array(
              'type' => 'string',
              'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
     }
 
     public function setUp()
     {
+        parent::setUp();
         $this->hasMany('Batch', array(
              'local' => 'id',
              'foreign' => 'al_carrier_id'));
