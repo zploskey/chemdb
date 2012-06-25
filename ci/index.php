@@ -9,7 +9,7 @@
 | For more info visit:  http://www.php.net/error_reporting
 |
 */
-	error_reporting(E_ALL);
+	error_reporting(E_ALL|E_STRICT);
 
 /*
 |---------------------------------------------------------------
@@ -23,7 +23,7 @@
 | NO TRAILING SLASH!
 |
 */
-	$system_folder = "system";
+	$system_folder = 'ci' . DIRECTORY_SEPARATOR . 'system';
 
 /*
 |---------------------------------------------------------------
@@ -40,7 +40,7 @@
 | NO TRAILING SLASH!
 |
 */
-	$application_folder = "application";
+	$application_folder = "app";
 
 /*
 |===============================================================
@@ -111,7 +111,12 @@ else
 |
 | And away we go...
 |
-*/
+ */
+
+// load database configuration (and Doctrine) first
+require_once APPPATH.'config/database'.EXT;
+
+// load front controller
 require_once BASEPATH.'codeigniter/CodeIgniter'.EXT;
 
 /* End of file index.php */
