@@ -14,7 +14,7 @@
         <td><i><b>Revisit initial weighings for existing batch</b></i></td>
     </tr>
     <tr>
-        <td class="options"><select name="batch_id"><?=$recentBatchOptions?></select></td>
+        <td class="options"><select name="batch_id"><?=$allBatchOptions?></select></td>
         <td class="option_button"><input type="submit" value="Sample loading for this batch"></td>
     </tr>
     <tr><td colspan="2"><hr></p></td></tr>
@@ -26,7 +26,7 @@
         <td><i><b>Add ICP solution weights to existing batch</i></b></td>
     </tr>
     <tr>
-        <td class="options"><select name="batch_id"><?=$recentBatchOptions?></select></td>
+        <td class="options"><select name="batch_id"><?=$allBatchOptions?></select></td>
         <td class="option_button"><input type="submit" value="Add ICP solution weights for this batch"></td>
     </tr>
     <tr><td colspan="2"><hr></p></td></tr>
@@ -38,7 +38,7 @@
         <td><i><b>Add Al-Be-Fe-Ti-Mg measurements to existing batch</i></b></td>
     </tr>
     <tr>
-        <td class="options"><select name="batch_id"><?=$recentBatchOptions?></select></td>
+        <td class="options"><select name="batch_id"><?=$allBatchOptions?></select></td>
         <td class="option_button"><input type="submit" value="Add ICP results for this batch"></td>
     </tr>
     <tr><td colspan="2"><hr></p></td></tr>

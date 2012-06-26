@@ -6,14 +6,9 @@ class Alchecks extends MY_Controller
     function index()
     {
         // generate html for the batch listboxes
-        $nBatch = 0;
         foreach (Doctrine::GetTable('AlcheckBatch')->findAllBatches() as $b) {
-            $tmpOpt = "<option value=$b->id>$b->prep_date $b->owner " .  substr($b->description, 0, 80);
-            if ($nBatch < 10) {
-                $data->recentBatchOptions .= $tmpOpt;
-            }
+            $tmpOpt = "<option value=$b->id>$b->id $b->owner $b->prep_date " .  substr($b->description, 0, 80);
             $data->allBatchOptions .= $tmpOpt;
-            $nBatch++;
         }
 
         $data->title = 'Al check options';
@@ -30,7 +25,7 @@ class Alchecks extends MY_Controller
         $data->allow_num_edit = (!$is_edit);
 
         if ($is_edit) {
-            // batch exits, find it
+            // batch exists, find it
             $batch = Doctrine::GetTable('AlcheckBatch')->find($batch_id);
             if (!$batch) {
                 show_404('page');
