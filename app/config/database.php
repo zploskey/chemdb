@@ -34,16 +34,20 @@
 | the active record class
 */
 
-$active_group = 'default';
+// Set active_group to 'default' for production
+// or 'dev' for the development database (see below)
+if (ENVIRONMENT == 'development') {
+    $active_group = 'dev';
+} else {
+    $active_group = 'default';
+}
 $active_record = FALSE;
 
 // quartz_chem
-$host = 'ovid01.u.washington.edu';
-$port = '23457';
-$db['default']['hostname'] = "$host:$port";
+$db['default']['hostname'] = 'ovid01.u.washington.edu:23457';
 $db['default']['username'] = 'root';
 $db['default']['password'] = 'password';
-$db['default']['database'] = 'dev_al_be_quartz_chem';
+$db['default']['database'] = 'al_be_quartz_chem';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
@@ -53,37 +57,36 @@ $db['default']['cachedir'] = '';
 $db['default']['char_set'] = 'latin1';
 $db['default']['dbcollat'] = 'latin1_general_ci';
 
+// development db
+$db['dev'] = $db['default'];
+$db['dev']['database'] = 'dev_al_be';
+
 // Doctrine configuration
 
-// Require Doctrine.php
-require_once(realpath(dirname(__FILE__) . '/..') . DIRECTORY_SEPARATOR
-        . 'libraries/database/Doctrine.php');
 // Create dsn from the info above
-// Load the Doctrine connection
-$dsn = $db[$active_group]['dbdriver']
-     . ':dbname=' . $db[$active_group]['database']
-     . ";host=$host;port=$port";
+$db[$active_group]['dsn'] = $db[$active_group]['dbdriver'] .
+                    '://' . $db[$active_group]['username'] .
+                      ':' . $db[$active_group]['password'] .
+                      '@' . $db[$active_group]['hostname'] .
+                      '/' . $db[$active_group]['database'];
+
+// Require Doctrine.php
+$doctrine_dir = dirname(__FILE__) . '/../libraries/Doctrine1/Doctrine.php';
+require_once($doctrine_dir);
 
 // Set the autoloader
-spl_autoload_register(array('Doctrine_Core', 'autoload'));
-spl_autoload_register(array('Doctrine_Core', 'modelsAutoload'));
+spl_autoload_register(array('Doctrine', 'autoload'));
 
-// create connection to main database
-$dbh = new PDO($dsn, $db[$active_group]['username'], $db[$active_group]['password']);
-Doctrine_Manager::connection($dbh, $db[$active_group]['database']);
-
-// Doctrine_Manager::connection($db[$active_group]['dsn'], $db[$active_group]['database']);
+// Load the Doctrine connection
+Doctrine_Manager::connection($db[$active_group]['dsn'], $db[$active_group]['database']);
 
 // Set the model loading to conservative/lazy loading
 $manager = Doctrine_Manager::getInstance();
-$manager->setAttribute(
-    Doctrine::ATTR_MODEL_LOADING,
-    Doctrine::MODEL_LOADING_CONSERVATIVE
-);
+$manager->setAttribute('model_loading', 'conservative');
 $manager->setAttribute(Doctrine::ATTR_AUTOLOAD_TABLE_CLASSES, true);
 
 // Load the models for the autoloader
-Doctrine::loadModels(realpath(dirname(__FILE__) . '/..') . DIRECTORY_SEPARATOR . 'models');
+Doctrine::loadModels(realpath(dirname(__FILE__) . '/..').'/models');
 
 /* End of file database.php */
 /* Location: ./system/application/config/database.php */
