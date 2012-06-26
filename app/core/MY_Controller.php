@@ -5,7 +5,7 @@ class MY_Controller extends CI_Controller
 
     function __construct()
     {
-        parent::Controller();
+        parent::__construct();
         
         $this->load->library('form_validation');
 
