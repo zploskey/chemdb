@@ -38,7 +38,7 @@ $active_group = 'default';
 $active_record = FALSE;
 
 // quartz_chem
-$host = 'ovid.u.washington.edu';
+$host = 'ovid01.u.washington.edu';
 $port = '23457';
 $db['default']['hostname'] = "$host:$port";
 $db['default']['username'] = 'root';
