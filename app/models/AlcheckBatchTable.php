@@ -13,7 +13,7 @@ class AlcheckBatchTable extends Doctrine_Table
     {
         return Doctrine_Query::create()
             ->from('AlcheckBatch b')
-            ->orderBy('b.prep_date desc')
+            ->orderBy('b.id desc')
             ->where('b.description != ?', 'Dummy batch')
             ->execute();
     }
