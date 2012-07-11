@@ -1,6 +1,4 @@
 <?php
-// Connection Component Binding
-Doctrine_Manager::getInstance()->bindComponent('BeAmsStd', 'dev_al_be_quartz_chem');
 
 /**
  * BaseBeAmsStd
@@ -19,7 +17,7 @@ Doctrine_Manager::getInstance()->bindComponent('BeAmsStd', 'dev_al_be_quartz_che
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
  * @author     ##NAME## <##EMAIL##>
- * @version    SVN: $Id: Builder.php 6820 2009-11-30 17:27:49Z jwage $
+ * @version    SVN: $Id: Builder.php 5845 2009-06-09 07:36:57Z jwage $
  */
 abstract class BaseBeAmsStd extends Doctrine_Record
 {
@@ -28,8 +26,7 @@ abstract class BaseBeAmsStd extends Doctrine_Record
         $this->setTableName('be_ams_std');
         $this->hasColumn('id', 'integer', 4, array(
              'type' => 'integer',
-             'fixed' => 0,
-             'unsigned' => true,
+             'unsigned' => '1',
              'primary' => true,
              'autoincrement' => true,
              'length' => '4',
@@ -37,7 +34,6 @@ abstract class BaseBeAmsStd extends Doctrine_Record
         $this->hasColumn('name', 'string', 255, array(
              'type' => 'string',
              'fixed' => 0,
-             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
@@ -45,45 +41,40 @@ abstract class BaseBeAmsStd extends Doctrine_Record
              ));
         $this->hasColumn('be_std_series_id', 'integer', 4, array(
              'type' => 'integer',
-             'fixed' => 0,
-             'unsigned' => true,
+             'unsigned' => '1',
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
              'length' => '4',
              ));
-        $this->hasColumn('r10to9', 'float', null, array(
+        $this->hasColumn('r10to9', 'float', 2147483647, array(
              'type' => 'float',
-             'fixed' => 0,
-             'unsigned' => false,
+             'unsigned' => 0,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '2147483647',
              ));
-        $this->hasColumn('error', 'float', null, array(
+        $this->hasColumn('error', 'float', 2147483647, array(
              'type' => 'float',
-             'fixed' => 0,
-             'unsigned' => false,
+             'unsigned' => 0,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '2147483647',
              ));
-        $this->hasColumn('notes', 'string', null, array(
+        $this->hasColumn('notes', 'string', 2147483647, array(
              'type' => 'string',
              'fixed' => 0,
-             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '2147483647',
              ));
     }
 
     public function setUp()
     {
-        parent::setUp();
         $this->hasOne('BeStdSeries', array(
              'local' => 'be_std_series_id',
              'foreign' => 'id'));

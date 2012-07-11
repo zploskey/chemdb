@@ -45,7 +45,7 @@ $active_record = FALSE;
 
 // quartz_chem
 $db['default']['hostname'] = 'ovid01.u.washington.edu:23457';
-$db['default']['username'] = 'root';
+$db['default']['username'] = 'username';
 $db['default']['password'] = 'password';
 $db['default']['database'] = 'al_be_quartz_chem';
 $db['default']['dbdriver'] = 'mysql';
@@ -71,22 +71,26 @@ $db[$active_group]['dsn'] = $db[$active_group]['dbdriver'] .
                       '/' . $db[$active_group]['database'];
 
 // Require Doctrine.php
-$doctrine_dir = dirname(__FILE__) . '/../libraries/Doctrine1/Doctrine.php';
+$doctrine_dir = dirname(__FILE__).'/../../doctrine1/lib/Doctrine.php';
 require_once($doctrine_dir);
 
 // Set the autoloader
 spl_autoload_register(array('Doctrine', 'autoload'));
+spl_autoload_register(array('Doctrine', 'modelsAutoload'));
 
 // Load the Doctrine connection
 Doctrine_Manager::connection($db[$active_group]['dsn'], $db[$active_group]['database']);
 
 // Set the model loading to conservative/lazy loading
 $manager = Doctrine_Manager::getInstance();
-$manager->setAttribute('model_loading', 'conservative');
+$manager->setAttribute(Doctrine_Core::ATTR_MODEL_LOADING,
+                       Doctrine_Core::MODEL_LOADING_CONSERVATIVE);
 $manager->setAttribute(Doctrine::ATTR_AUTOLOAD_TABLE_CLASSES, true);
 
 // Load the models for the autoloader
-Doctrine::loadModels(realpath(dirname(__FILE__) . '/..').'/models');
+$model_dir = realpath(dirname(__FILE__) . '/..').'/models';
+Doctrine::loadModels($model_dir);
+
 
 /* End of file database.php */
 /* Location: ./system/application/config/database.php */

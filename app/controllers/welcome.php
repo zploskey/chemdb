@@ -13,6 +13,3 @@ class Welcome extends MY_Controller {
     }
 
 }
-
-/* End of file welcome.php */
-/* Location: ./system/application/controllers/welcome.php */

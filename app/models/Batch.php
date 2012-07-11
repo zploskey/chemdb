@@ -285,11 +285,19 @@ class Batch extends BaseBatch
                         $s->IcpRun[] = $newRun;
                     }
                     if (isset($al_arr[$bkr_num][$r])) {
-                        $s->IcpRun[$r]->al_result = $al_arr[$bkr_num][$r];
+                        if ($al_arr[$bkr_num][$r] < 0) {
+                            $s->IcpRun[$r]->al_result = 0;
+                        } else {
+                            $s->IcpRun[$r]->al_result = $al_arr[$bkr_num][$r];
+                        }
                         $s->IcpRun[$r]->use_al = 'y';
                     }
                     if (isset($be_arr[$bkr_num][$r])) {
-                        $s->IcpRun[$r]->be_result = $be_arr[$bkr_num][$r];
+                        if ($be_arr[$bkr_num][$r] < 0) {
+                            $s->IcpRun[$r]->be_result = 0;
+                        } else {
+                            $s->IcpRun[$r]->be_result = $be_arr[$bkr_num][$r];
+                        }
                         $s->IcpRun[$r]->use_be = 'y';
                     }
                 }

@@ -124,11 +124,9 @@
 
         <p/>
 
-        <table width="480" height="60" border="1" cellspacing="0" class="arial8">
+        <table height="60" border="1" cellspacing="0" class="arial8">
             <tr><td colspan="6">Dry-down and chloride conversion:</td></tr>
             <tr>
-                <td width="80" align="center">0.5 ml<br>8M HNO3</td>
-                <td width="80" align="center">3 ml<br>6M HCl</td>
                 <td width="80" align="center">Dried to<br>fluoride</td>
                 <td width="80" align="center">6M HCl</td>
                 <td width="80" align="center">6M HCl</td>
@@ -140,7 +138,7 @@
 
         <p/>
 
-        <table width="500" height="70" border="1" cellspacing="0" class="arial8">
+        <table height="70" border="1" cellspacing="0" class="arial8">
             <tr><td colspan="5">Anion exchange:</td></tr>
             <tr><td colspan="2" align="center">Column prep</td><td colspan="3" align="center">Run</td></tr>
             <tr>
@@ -173,7 +171,7 @@
 
         <p/>
 
-        <table width="640" height="75" border="1" cellspacing="0" class="arial8">
+        <table height="75" border="1" cellspacing="0" class="arial8">
             <tr><td colspan="8">Cation exchange:</td></tr>
             <tr>
                 <td colspan="3" align="center">Column prep</td>
@@ -181,11 +179,10 @@
             </tr>
             <tr>
                 <td width="80" align="center">Clean resin<br>3M HCl</td>
-                <td width="80" align="center">Condition<br>1.2M HCl</td>
-                <td width="80" align="center">Condition<br>0.25M H2SO4</td>
+                <td width="80" align="center">Condition<br>0.2M H2SO4</td>
                 <td width="80" align="center">Load<br>sample</td>
                 <td width="80" align="center">Rinse<br>1 ml 0.5M<br/>H2SO4</td>
-                <td width="80" align="center">Elute Ti<br>12 ml<br>0.5M H2SO4</td>
+                <td width="80" align="center">Elute Ti<br>10-12 ml<br>0.5M H2SO4</td>
                 <td width="80" align="center">Elute Be<br>10 ml<br>1.2M HCl</td>
                 <td width="80" align="center">Elute Al<br>6 ml<br>3M HCl</td>
             </tr>

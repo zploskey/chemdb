@@ -1,6 +1,4 @@
 <?php
-// Connection Component Binding
-Doctrine_Manager::getInstance()->bindComponent('AmsCurrent', 'dev_al_be_quartz_chem');
 
 /**
  * BaseAmsCurrent
@@ -17,7 +15,7 @@ Doctrine_Manager::getInstance()->bindComponent('AmsCurrent', 'dev_al_be_quartz_c
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
  * @author     ##NAME## <##EMAIL##>
- * @version    SVN: $Id: Builder.php 6820 2009-11-30 17:27:49Z jwage $
+ * @version    SVN: $Id: Builder.php 5845 2009-06-09 07:36:57Z jwage $
  */
 abstract class BaseAmsCurrent extends Doctrine_Record
 {
@@ -26,25 +24,22 @@ abstract class BaseAmsCurrent extends Doctrine_Record
         $this->setTableName('ams_current');
         $this->hasColumn('id', 'integer', 4, array(
              'type' => 'integer',
-             'fixed' => 0,
-             'unsigned' => true,
+             'unsigned' => '1',
              'primary' => true,
              'autoincrement' => true,
              'length' => '4',
              ));
-        $this->hasColumn('current', 'float', null, array(
+        $this->hasColumn('current', 'float', 2147483647, array(
              'type' => 'float',
-             'fixed' => 0,
-             'unsigned' => false,
+             'unsigned' => 0,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '2147483647',
              ));
         $this->hasColumn('be_ams_id', 'integer', 4, array(
              'type' => 'integer',
-             'fixed' => 0,
-             'unsigned' => true,
+             'unsigned' => '1',
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
@@ -52,8 +47,7 @@ abstract class BaseAmsCurrent extends Doctrine_Record
              ));
         $this->hasColumn('al_ams_id', 'integer', 4, array(
              'type' => 'integer',
-             'fixed' => 0,
-             'unsigned' => true,
+             'unsigned' => '1',
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
@@ -63,7 +57,6 @@ abstract class BaseAmsCurrent extends Doctrine_Record
 
     public function setUp()
     {
-        parent::setUp();
         $this->hasOne('BeAms', array(
              'local' => 'be_ams_id',
              'foreign' => 'id'));

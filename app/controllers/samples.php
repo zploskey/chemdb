@@ -373,5 +373,3 @@ EHC;
 
 }
 
-/* End of file samples.php */
-/* Location: ./system/application/controllers/samples.php */
