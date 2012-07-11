@@ -1,722 +1,704 @@
-detect_relations: true
 AlAms:
-  connection: dev_al_be_quartz_chem
   tableName: al_ams
   columns:
     id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: true
       autoincrement: true
     analysis_id:
-      type: integer(4)
-      fixed: false
-      unsigned: true
+      type: integer(2)
+      unsigned: '1'
       primary: false
       notnull: false
       autoincrement: false
     al_ams_std_id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: false
       notnull: false
       autoincrement: false
     ams_lab_id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: false
       notnull: false
       autoincrement: false
     date:
       type: date(25)
-      fixed: false
-      unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     lab_num:
       type: string(255)
-      fixed: false
-      unsigned: false
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
     r_to_rstd:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     interror:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     exterror:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     truefrac:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     notes:
       type: string(700)
-      fixed: false
-      unsigned: false
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
+  relations:
+    Analysis:
+      local: analysis_id
+      foreign: id
+      type: one
+    AlAmsStd:
+      local: al_ams_std_id
+      foreign: id
+      type: one
+    AmsLab:
+      local: ams_lab_id
+      foreign: id
+      type: one
+    AmsCurrent:
+      local: id
+      foreign: al_ams_id
+      type: many
 AlAmsStd:
-  connection: dev_al_be_quartz_chem
   tableName: al_ams_std
   columns:
     id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: true
       autoincrement: true
     name:
       type: string(255)
-      fixed: false
-      unsigned: false
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
     al_std_series_id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: false
       notnull: false
       autoincrement: false
     r26to27:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     error:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     notes:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
+  relations:
+    AlStdSeries:
+      local: al_std_series_id
+      foreign: id
+      type: one
+    AlAms:
+      local: id
+      foreign: al_ams_std_id
+      type: many
 AlCarrier:
-  connection: dev_al_be_quartz_chem
   tableName: al_carrier
   columns:
     id:
       type: integer(1)
-      fixed: false
-      unsigned: false
+      unsigned: 0
       primary: true
       autoincrement: true
     name:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
     al_conc:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     del_al_conc:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     in_service_date:
       type: date(25)
-      fixed: false
-      unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     mfg_lot_no:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
     notes:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
     in_use:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
+  relations:
+    Batch:
+      local: id
+      foreign: al_carrier_id
+      type: many
 AlStdSeries:
-  connection: dev_al_be_quartz_chem
   tableName: al_std_series
   columns:
     id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: true
       autoincrement: true
     code:
       type: string(60)
-      fixed: false
-      unsigned: false
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
     notes:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
+  relations:
+    AlAmsStd:
+      local: id
+      foreign: al_std_series_id
+      type: many
 AlcheckAnalysis:
-  connection: dev_al_be_quartz_chem
   tableName: alcheck_analysis
   columns:
     id:
       type: integer(3)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: true
       autoincrement: true
     sample_id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: false
       notnull: false
       autoincrement: false
     alcheck_batch_id:
       type: integer(2)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: false
       default: '0'
       notnull: true
       autoincrement: false
     number_within_batch:
       type: integer(1)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: false
       default: '0'
       notnull: true
       autoincrement: false
     sample_name:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       default: ''
       notnull: true
       autoincrement: false
     bkr_number:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       default: ''
       notnull: true
       autoincrement: false
     wt_bkr_tare:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '0'
       notnull: true
       autoincrement: false
     flag_bkr_tare_avg:
       type: integer(1)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: false
       default: '0'
       notnull: true
       autoincrement: false
     wt_bkr_sample:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '0'
       notnull: true
       autoincrement: false
     wt_bkr_soln:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '0'
       notnull: false
       autoincrement: false
     icp_al:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '0'
       notnull: false
       autoincrement: false
     icp_ba:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '0'
       notnull: false
       autoincrement: false
     icp_be:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '0'
       notnull: false
       autoincrement: false
     icp_ca:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '0'
       notnull: false
       autoincrement: false
     icp_fe:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '0'
       notnull: false
       autoincrement: false
     icp_k:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '0'
       notnull: false
       autoincrement: false
     icp_mg:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '0'
       notnull: false
       autoincrement: false
     icp_mn:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '0'
       notnull: false
       autoincrement: false
     icp_na:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '0'
       notnull: false
       autoincrement: false
     icp_ti:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '0'
       notnull: false
       autoincrement: false
     addl_dil_factor:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '1'
       notnull: true
       autoincrement: false
     notes:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
+  relations:
+    Sample:
+      local: sample_id
+      foreign: id
+      type: one
+    AlcheckBatch:
+      local: alcheck_batch_id
+      foreign: id
+      type: one
 AlcheckBatch:
-  connection: dev_al_be_quartz_chem
   tableName: alcheck_batch
   columns:
     id:
       type: integer(2)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: true
       autoincrement: true
     owner:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
     prep_date:
       type: date(25)
-      fixed: false
-      unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     icp_date:
       type: date(25)
-      fixed: false
-      unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     description:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
     notes:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
+  relations:
+    AlcheckAnalysis:
+      local: id
+      foreign: alcheck_batch_id
+      type: many
 AmsCurrent:
-  connection: dev_al_be_quartz_chem
   tableName: ams_current
   columns:
     id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: true
       autoincrement: true
     current:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     be_ams_id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: false
       notnull: false
       autoincrement: false
     al_ams_id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: false
       notnull: false
       autoincrement: false
+  relations:
+    BeAms:
+      local: be_ams_id
+      foreign: id
+      type: one
+    AlAms:
+      local: al_ams_id
+      foreign: id
+      type: one
 AmsLab:
-  connection: dev_al_be_quartz_chem
   tableName: ams_lab
   columns:
     id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: true
       autoincrement: true
     name:
       type: string(255)
-      fixed: false
-      unsigned: false
+      fixed: 0
       primary: false
       default: ''
       notnull: true
       autoincrement: false
     full_name:
       type: string(700)
-      fixed: false
-      unsigned: false
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
+  relations:
+    AlAms:
+      local: id
+      foreign: ams_lab_id
+      type: many
+    BeAms:
+      local: id
+      foreign: ams_lab_id
+      type: many
 Analysis:
-  connection: dev_al_be_quartz_chem
   tableName: analysis
   columns:
     id:
       type: integer(2)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: true
       autoincrement: true
     batch_id:
       type: integer(2)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: false
       default: '0'
       notnull: true
       autoincrement: false
     sample_id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: false
       notnull: false
       autoincrement: false
     number_within_batch:
       type: integer(1)
-      fixed: false
-      unsigned: false
+      unsigned: 0
       primary: false
       default: '0'
       notnull: true
       autoincrement: false
     sample_name:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       default: ''
       notnull: true
       autoincrement: false
     sample_type:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       default: ''
       notnull: true
       autoincrement: false
     diss_bottle_id:
       type: integer(4)
-      fixed: false
-      unsigned: false
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     diss_bottle_number:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       default: ''
       notnull: true
       autoincrement: false
     wt_diss_bottle_tare:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '0'
       notnull: true
       autoincrement: false
     wt_diss_bottle_sample:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '0'
       notnull: true
       autoincrement: false
     wt_be_carrier:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '0'
       notnull: true
       autoincrement: false
     wt_al_carrier:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '0'
       notnull: true
       autoincrement: false
     wt_diss_bottle_total:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '0'
       notnull: true
       autoincrement: false
     notes:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       default: ''
       notnull: true
       autoincrement: false
+  relations:
+    Batch:
+      local: batch_id
+      foreign: id
+      type: one
+    Sample:
+      local: sample_id
+      foreign: id
+      type: one
+    DissBottle:
+      local: diss_bottle_id
+      foreign: id
+      type: one
+    Split:
+      local: id
+      foreign: analysis_id
+      type: many
+    AlAms:
+      local: id
+      foreign: analysis_id
+      type: many
+    BeAms:
+      local: id
+      foreign: analysis_id
+      type: many
 Batch:
-  connection: dev_al_be_quartz_chem
   tableName: batch
   columns:
     id:
       type: integer(2)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: true
       autoincrement: true
     al_carrier_id:
-      type: integer(4)
-      fixed: false
-      unsigned: false
+      type: integer(1)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     be_carrier_id:
-      type: integer(4)
-      fixed: false
-      unsigned: false
+      type: integer(1)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     owner:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
     description:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
     start_date:
       type: date(25)
-      fixed: false
-      unsigned: false
       primary: false
       default: '0000-00-00'
       notnull: true
       autoincrement: false
     split_date:
       type: date(25)
-      fixed: false
-      unsigned: false
       primary: false
       default: '0000-00-00'
       notnull: true
       autoincrement: false
     icp_date:
       type: date(25)
-      fixed: false
-      unsigned: false
       primary: false
       default: '0000-00-00'
       notnull: true
       autoincrement: false
     be_carrier_name:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       default: ''
       notnull: true
       autoincrement: false
     wt_be_carrier_init:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '0'
       notnull: true
       autoincrement: false
     wt_be_carrier_final:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '0'
       notnull: true
       autoincrement: false
     al_carrier_name:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       default: ''
       notnull: true
       autoincrement: false
     wt_al_carrier_init:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '0'
       notnull: true
       autoincrement: false
     wt_al_carrier_final:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '0'
       notnull: true
       autoincrement: false
     notes:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
     completed:
       type: enum(1)
-      fixed: false
-      unsigned: false
+      fixed: 0
       values:
         - y
         - n
@@ -725,311 +707,316 @@ Batch:
       notnull: true
       autoincrement: false
     spreadsheet_name:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
     csv_name:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
+  relations:
+    AlCarrier:
+      local: al_carrier_id
+      foreign: id
+      type: one
+    BeCarrier:
+      local: be_carrier_id
+      foreign: id
+      type: one
+    Analysis:
+      local: id
+      foreign: batch_id
+      type: many
 BeAms:
-  connection: dev_al_be_quartz_chem
   tableName: be_ams
   columns:
     id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: true
       autoincrement: true
     analysis_id:
-      type: integer(4)
-      fixed: false
-      unsigned: true
+      type: integer(2)
+      unsigned: '1'
       primary: false
       notnull: false
       autoincrement: false
     be_ams_std_id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: false
       notnull: false
       autoincrement: false
     ams_lab_id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: false
       notnull: false
       autoincrement: false
     date:
       type: date(25)
-      fixed: false
-      unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     lab_num:
       type: string(255)
-      fixed: false
-      unsigned: false
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
     r_to_rstd:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     interror:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     exterror:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     truefrac:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     notes:
       type: string(700)
-      fixed: false
-      unsigned: false
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
+  relations:
+    Analysis:
+      local: analysis_id
+      foreign: id
+      type: one
+    BeAmsStd:
+      local: be_ams_std_id
+      foreign: id
+      type: one
+    AmsLab:
+      local: ams_lab_id
+      foreign: id
+      type: one
+    AmsCurrent:
+      local: id
+      foreign: be_ams_id
+      type: many
 BeAmsStd:
-  connection: dev_al_be_quartz_chem
   tableName: be_ams_std
   columns:
     id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: true
       autoincrement: true
     name:
       type: string(255)
-      fixed: false
-      unsigned: false
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
     be_std_series_id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: false
       notnull: false
       autoincrement: false
     r10to9:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     error:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     notes:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
+  relations:
+    BeStdSeries:
+      local: be_std_series_id
+      foreign: id
+      type: one
+    BeAms:
+      local: id
+      foreign: be_ams_std_id
+      type: many
 BeCarrier:
-  connection: dev_al_be_quartz_chem
   tableName: be_carrier
   columns:
     id:
       type: integer(1)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: true
       autoincrement: true
     name:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       default: ''
       notnull: true
       autoincrement: false
     be_conc:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     del_be_conc:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     al_conc:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     del_al_conc:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     in_service_date:
       type: date(25)
-      fixed: false
-      unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     mfg_lot_no:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
     owner:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
     notes:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
     in_use:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
+  relations:
+    Batch:
+      local: id
+      foreign: be_carrier_id
+      type: many
 BeStdSeries:
-  connection: dev_al_be_quartz_chem
   tableName: be_std_series
   columns:
     id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: true
       autoincrement: true
     code:
       type: string(60)
-      fixed: false
-      unsigned: false
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
     notes:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
+  relations:
+    BeAmsStd:
+      local: id
+      foreign: be_std_series_id
+      type: many
 DissBottle:
-  connection: dev_al_be_quartz_chem
   tableName: diss_bottle
   columns:
     id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: true
       autoincrement: true
     bottle_number:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
+  relations:
+    Analysis:
+      local: id
+      foreign: diss_bottle_id
+      type: many
 IcpRun:
-  connection: dev_al_be_quartz_chem
   tableName: icp_run
   columns:
     id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: true
       autoincrement: true
     split_id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: false
       notnull: false
       autoincrement: false
     run_num:
       type: integer(1)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: false
       default: '1'
       notnull: true
       autoincrement: false
     al_result:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '0'
       notnull: true
       autoincrement: false
     be_result:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '0'
       notnull: true
       autoincrement: false
     use_al:
       type: enum(1)
-      fixed: false
-      unsigned: false
+      fixed: 0
       values:
         - y
         - n
@@ -1039,8 +1026,7 @@ IcpRun:
       autoincrement: false
     use_be:
       type: enum(1)
-      fixed: false
-      unsigned: false
+      fixed: 0
       values:
         - y
         - n
@@ -1048,193 +1034,209 @@ IcpRun:
       default: y
       notnull: true
       autoincrement: false
+  relations:
+    Split:
+      local: split_id
+      foreign: id
+      type: one
 Project:
-  connection: dev_al_be_quartz_chem
   tableName: project
   columns:
     id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: true
       autoincrement: true
     name:
       type: string(255)
-      fixed: false
-      unsigned: false
+      fixed: 0
       primary: false
       default: ''
       notnull: true
       autoincrement: false
     date_added:
       type: timestamp(25)
-      fixed: false
-      unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     description:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
+  relations:
+    ProjectSample:
+      local: id
+      foreign: project_id
+      type: many
+    Sample:
+      refClass: ProjectSample
+      local: project_id
+      foreign: sample_id
+      type: many
 ProjectSample:
-  connection: dev_al_be_quartz_chem
   tableName: project_sample
   columns:
     project_id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: true
       autoincrement: false
     sample_id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: true
       autoincrement: false
+  relations:
+    Project:
+      local: project_id
+      foreign: id
+      type: one
+    Sample:
+      local: sample_id
+      foreign: id
+      type: one
 Sample:
-  connection: dev_al_be_quartz_chem
   tableName: sample
   columns:
     id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: true
       autoincrement: true
     name:
       type: string(255)
-      fixed: false
-      unsigned: false
+      fixed: 0
       primary: false
       default: ''
       notnull: true
       autoincrement: false
     latitude:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     longitude:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     altitude:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     antarctic:
       type: integer(1)
-      fixed: false
-      unsigned: false
+      unsigned: 0
       primary: false
       default: '0'
       notnull: true
       autoincrement: false
     shield_factor:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     depth_top:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     depth_bottom:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     density:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     erosion_rate:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     notes:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
+  relations:
+    AlcheckAnalysis:
+      local: id
+      foreign: sample_id
+      type: many
+    Analysis:
+      local: id
+      foreign: sample_id
+      type: many
+    ProjectSample:
+      local: id
+      foreign: sample_id
+      type: many
+    SilCl36Analysis:
+      local: id
+      foreign: sample_id
+      type: many
+    Project:
+      refClass: ProjectSample
+      local: sample_id
+      foreign: project_id
+      type: many
 SilCl36Analysis:
-  connection: dev_al_be_quartz_chem
   tableName: sil_cl36_analysis
   columns:
     id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: true
       autoincrement: true
     sample_id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: false
       notnull: false
       autoincrement: false
     sample_name:
       type: string(255)
-      fixed: false
-      unsigned: false
+      fixed: 0
       primary: false
       default: ''
       notnull: true
       autoincrement: false
     cl36_batch_id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: false
       notnull: false
       autoincrement: false
     calib_id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: false
       notnull: false
       autoincrement: false
     cl37_spike_id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: false
       notnull: false
       autoincrement: false
     sample_type:
       type: enum(6)
-      fixed: false
-      unsigned: false
+      fixed: 0
       values:
         - SAMPLE
         - CALIB
@@ -1244,129 +1246,133 @@ SilCl36Analysis:
       notnull: true
       autoincrement: false
     wt_spike:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     wt_bkr_tare:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
     wt_bkr_sample:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
+  relations:
+    Sample:
+      local: sample_id
+      foreign: id
+      type: one
 SilCl36Batch:
-  connection: dev_al_be_quartz_chem
   tableName: sil_cl36_batch
   columns:
     id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: true
       autoincrement: true
     owner:
       type: string(60)
-      fixed: false
-      unsigned: false
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
     cl_carrier_id:
       type: integer(4)
-      fixed: false
-      unsigned: false
+      unsigned: 0
       primary: false
       notnull: false
       autoincrement: false
 Split:
-  connection: dev_al_be_quartz_chem
   tableName: split
   columns:
     id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: true
       autoincrement: true
     analysis_id:
       type: integer(2)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: false
       default: ''
       notnull: true
       autoincrement: false
     split_bkr_id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: false
       default: ''
       notnull: true
       autoincrement: false
     split_num:
       type: integer(1)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: false
       default: '1'
       notnull: true
       autoincrement: false
     split_bkr_name:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
     wt_split_bkr_tare:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '0'
       notnull: true
       autoincrement: false
     wt_split_bkr_split:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '0'
       notnull: true
       autoincrement: false
     wt_split_bkr_icp:
-      type: float()
-      fixed: false
-      unsigned: false
+      type: float(2147483647)
+      unsigned: 0
       primary: false
       default: '0'
       notnull: true
       autoincrement: false
+  relations:
+    Analysis:
+      local: analysis_id
+      foreign: id
+      type: one
+    SplitBkr:
+      local: split_bkr_id
+      foreign: id
+      type: one
+    IcpRun:
+      local: id
+      foreign: split_id
+      type: many
 SplitBkr:
-  connection: dev_al_be_quartz_chem
   tableName: split_bkr
   columns:
     id:
       type: integer(4)
-      fixed: false
-      unsigned: true
+      unsigned: '1'
       primary: true
       autoincrement: true
     bkr_number:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(2147483647)
+      fixed: 0
       primary: false
       notnull: false
       autoincrement: false
+  relations:
+    Split:
+      local: id
+      foreign: split_bkr_id
+      type: many

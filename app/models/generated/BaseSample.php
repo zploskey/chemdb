@@ -1,6 +1,4 @@
 <?php
-// Connection Component Binding
-Doctrine_Manager::getInstance()->bindComponent('Sample', 'dev_al_be_quartz_chem');
 
 /**
  * BaseSample
@@ -27,7 +25,7 @@ Doctrine_Manager::getInstance()->bindComponent('Sample', 'dev_al_be_quartz_chem'
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
  * @author     ##NAME## <##EMAIL##>
- * @version    SVN: $Id: Builder.php 6820 2009-11-30 17:27:49Z jwage $
+ * @version    SVN: $Id: Builder.php 5845 2009-06-09 07:36:57Z jwage $
  */
 abstract class BaseSample extends Doctrine_Record
 {
@@ -36,8 +34,7 @@ abstract class BaseSample extends Doctrine_Record
         $this->setTableName('sample');
         $this->hasColumn('id', 'integer', 4, array(
              'type' => 'integer',
-             'fixed' => 0,
-             'unsigned' => true,
+             'unsigned' => '1',
              'primary' => true,
              'autoincrement' => true,
              'length' => '4',
@@ -45,109 +42,97 @@ abstract class BaseSample extends Doctrine_Record
         $this->hasColumn('name', 'string', 255, array(
              'type' => 'string',
              'fixed' => 0,
-             'unsigned' => false,
              'primary' => false,
              'default' => '',
              'notnull' => true,
              'autoincrement' => false,
              'length' => '255',
              ));
-        $this->hasColumn('latitude', 'float', null, array(
+        $this->hasColumn('latitude', 'float', 2147483647, array(
              'type' => 'float',
-             'fixed' => 0,
-             'unsigned' => false,
+             'unsigned' => 0,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '2147483647',
              ));
-        $this->hasColumn('longitude', 'float', null, array(
+        $this->hasColumn('longitude', 'float', 2147483647, array(
              'type' => 'float',
-             'fixed' => 0,
-             'unsigned' => false,
+             'unsigned' => 0,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '2147483647',
              ));
-        $this->hasColumn('altitude', 'float', null, array(
+        $this->hasColumn('altitude', 'float', 2147483647, array(
              'type' => 'float',
-             'fixed' => 0,
-             'unsigned' => false,
+             'unsigned' => 0,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '2147483647',
              ));
         $this->hasColumn('antarctic', 'integer', 1, array(
              'type' => 'integer',
-             'fixed' => 0,
-             'unsigned' => false,
+             'unsigned' => 0,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
              'length' => '1',
              ));
-        $this->hasColumn('shield_factor', 'float', null, array(
+        $this->hasColumn('shield_factor', 'float', 2147483647, array(
              'type' => 'float',
-             'fixed' => 0,
-             'unsigned' => false,
+             'unsigned' => 0,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '2147483647',
              ));
-        $this->hasColumn('depth_top', 'float', null, array(
+        $this->hasColumn('depth_top', 'float', 2147483647, array(
              'type' => 'float',
-             'fixed' => 0,
-             'unsigned' => false,
+             'unsigned' => 0,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '2147483647',
              ));
-        $this->hasColumn('depth_bottom', 'float', null, array(
+        $this->hasColumn('depth_bottom', 'float', 2147483647, array(
              'type' => 'float',
-             'fixed' => 0,
-             'unsigned' => false,
+             'unsigned' => 0,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '2147483647',
              ));
-        $this->hasColumn('density', 'float', null, array(
+        $this->hasColumn('density', 'float', 2147483647, array(
              'type' => 'float',
-             'fixed' => 0,
-             'unsigned' => false,
+             'unsigned' => 0,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '2147483647',
              ));
-        $this->hasColumn('erosion_rate', 'float', null, array(
+        $this->hasColumn('erosion_rate', 'float', 2147483647, array(
              'type' => 'float',
-             'fixed' => 0,
-             'unsigned' => false,
+             'unsigned' => 0,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '2147483647',
              ));
-        $this->hasColumn('notes', 'string', null, array(
+        $this->hasColumn('notes', 'string', 2147483647, array(
              'type' => 'string',
              'fixed' => 0,
-             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '2147483647',
              ));
     }
 
     public function setUp()
     {
-        parent::setUp();
         $this->hasMany('AlcheckAnalysis', array(
              'local' => 'id',
              'foreign' => 'sample_id'));

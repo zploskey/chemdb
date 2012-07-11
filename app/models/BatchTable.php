@@ -42,20 +42,6 @@ class BatchTable extends Doctrine_Table
     }
 
     /**
-     * Finds batches that have not yet been set to completed.
-     * @return Batch
-     */
-    public function findOpenBatches()
-    {
-        return Doctrine_Query::create()
-            ->from('Batch b')
-            ->select('b.id, b.owner, b.description, b.start_date')
-            ->where('b.completed = ?', 'n')
-            ->orderBy('b.start_date desc')
-            ->execute();
-    }
-
-    /**
      *
      * @return Batch
      */
@@ -63,8 +49,8 @@ class BatchTable extends Doctrine_Table
     {
         return Doctrine_Query::create()
             ->from('Batch b')
-            ->select('b.id, b.owner, b.description, b.start_date')
-            ->orderBy('b.start_date desc')
+            ->select('b.id, b.owner, b.description, b.start_date, b.completed')
+            ->orderBy('b.id desc')
             ->execute();
     }
 
