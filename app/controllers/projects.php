@@ -191,6 +191,3 @@ class Projects extends MY_Controller
     }
 
 }
-
-/* End of file projects.php */
-/* Location: ./system/application/controllers/projects.php */

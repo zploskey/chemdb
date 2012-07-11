@@ -1,3 +1,6 @@
 [submodule "ci"]
 	path = ci
 	url = git://github.com/EllisLab/CodeIgniter.git
+[submodule "doctrine1"]
+	path = doctrine1
+	url = git://github.com/doctrine/doctrine1.git
