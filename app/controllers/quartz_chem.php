@@ -22,15 +22,18 @@ class Quartz_chem extends MY_Controller
             Doctrine::getTable('Batch')->lock($batch_id);
         }
 
-        // build option tags for the select boxes
-        foreach (Doctrine::getTable('Batch')->findOpenBatches() as $b) {
-            $data->open_batches .= "<option value=$b->id>$b->id, $b->start_date "
-                . $b->owner . ' ' . substr($b->description, 0, 65);
-        }
+        $batches = Doctrine::getTable('Batch')->findAllBatches(); 
+        $data->open_batches = '';
+        $data->all_batches = '';
 
-        foreach (Doctrine::getTable('Batch')->findAllBatches() as $b) {
-            $data->all_batches .= "<option value=$b->id>$b->id, $b->start_date "
-                . $b->owner . ' ' . substr($b->description, 0, 65);
+        // build option tags for the select boxes
+        foreach ($batches as $b) {
+            $opt = "<option value=$b->id>$b->id $b->owner $b->start_date "
+                . substr($b->description, 0, 65);
+            $data->all_batches .= $opt;
+            if ($b->completed == 'n') {
+                $data->open_batches .= $opt;
+            }
         }
 
         $data->title = 'Quartz Al-Be chemistry';
@@ -254,8 +257,6 @@ class Quartz_chem extends MY_Controller
                                     $batch->be_carrier_id, $batch->start_date);
         $data->al_prev = Doctrine::getTable('Batch')->findPrevAlCarrierWt(
                                     $batch->al_carrier_id, $batch->start_date);
-
-       // die("$batch->be_carrier_id = be, al = $batch->al_carrier_id
 
         // create the lists of carrier options
         $data->be_carrier_options = Doctrine::getTable('BeCarrier')
@@ -666,19 +667,16 @@ EOH;
 
         $batch = $query->fetchOne();
 
-        if ($submit) {
-            
-            // currently only validates the notes field
+        if ($submit == true) {    
             $valid = $this->form_validation->run('add_icp_results');
             $batch->notes = $this->input->post('notes');
-            
             $raw_al = $this->input->post('al_text');
             $raw_be = $this->input->post('be_text');
             $al_lines = split("[\n]", $raw_al);
             $be_lines = split("[\n]", $raw_be);
 
             // now validate our entries
-            // this regexp to match a word followed by floating point numbers
+            // this regexp to match a word followed by floating point numbers, just what we want
             $valid_regexp = '/[\w-]+\s+([-+]?[0-9]*\.?[0-9]+)+/i';
             $split_regexp = '/\s+/'; // we'll split on whitespace if it is valid
             $is_al = true;
@@ -866,5 +864,3 @@ EOH;
 
 }
 
-/* End of file quartz_chem.php */
-/* Location: ./system/application/controllers/quartz_chem.php */

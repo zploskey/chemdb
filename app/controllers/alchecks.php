@@ -82,7 +82,7 @@ class Alchecks extends MY_Controller
 
         $batch = Doctrine::getTable('AlcheckBatch')
                ->getJoinQuery($batch_id)->fetchOne();
-
+	
         if (! $batch) {
             show_404('page');
         }

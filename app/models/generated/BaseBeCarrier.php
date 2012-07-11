@@ -1,6 +1,4 @@
 <?php
-// Connection Component Binding
-Doctrine_Manager::getInstance()->bindComponent('BeCarrier', 'dev_al_be_quartz_chem');
 
 /**
  * BaseBeCarrier
@@ -23,7 +21,7 @@ Doctrine_Manager::getInstance()->bindComponent('BeCarrier', 'dev_al_be_quartz_ch
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
  * @author     ##NAME## <##EMAIL##>
- * @version    SVN: $Id: Builder.php 6820 2009-11-30 17:27:49Z jwage $
+ * @version    SVN: $Id: Builder.php 5845 2009-06-09 07:36:57Z jwage $
  */
 abstract class BaseBeCarrier extends Doctrine_Record
 {
@@ -32,108 +30,95 @@ abstract class BaseBeCarrier extends Doctrine_Record
         $this->setTableName('be_carrier');
         $this->hasColumn('id', 'integer', 1, array(
              'type' => 'integer',
-             'fixed' => 0,
-             'unsigned' => true,
+             'unsigned' => '1',
              'primary' => true,
              'autoincrement' => true,
              'length' => '1',
              ));
-        $this->hasColumn('name', 'string', null, array(
+        $this->hasColumn('name', 'string', 2147483647, array(
              'type' => 'string',
              'fixed' => 0,
-             'unsigned' => false,
              'primary' => false,
              'default' => '',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '2147483647',
              ));
-        $this->hasColumn('be_conc', 'float', null, array(
+        $this->hasColumn('be_conc', 'float', 2147483647, array(
              'type' => 'float',
-             'fixed' => 0,
-             'unsigned' => false,
+             'unsigned' => 0,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '2147483647',
              ));
-        $this->hasColumn('del_be_conc', 'float', null, array(
+        $this->hasColumn('del_be_conc', 'float', 2147483647, array(
              'type' => 'float',
-             'fixed' => 0,
-             'unsigned' => false,
+             'unsigned' => 0,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '2147483647',
              ));
-        $this->hasColumn('al_conc', 'float', null, array(
+        $this->hasColumn('al_conc', 'float', 2147483647, array(
              'type' => 'float',
-             'fixed' => 0,
-             'unsigned' => false,
+             'unsigned' => 0,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '2147483647',
              ));
-        $this->hasColumn('del_al_conc', 'float', null, array(
+        $this->hasColumn('del_al_conc', 'float', 2147483647, array(
              'type' => 'float',
-             'fixed' => 0,
-             'unsigned' => false,
+             'unsigned' => 0,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '2147483647',
              ));
         $this->hasColumn('in_service_date', 'date', 25, array(
              'type' => 'date',
-             'fixed' => 0,
-             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
              'length' => '25',
              ));
-        $this->hasColumn('mfg_lot_no', 'string', null, array(
+        $this->hasColumn('mfg_lot_no', 'string', 2147483647, array(
              'type' => 'string',
              'fixed' => 0,
-             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '2147483647',
              ));
-        $this->hasColumn('owner', 'string', null, array(
+        $this->hasColumn('owner', 'string', 2147483647, array(
              'type' => 'string',
              'fixed' => 0,
-             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '2147483647',
              ));
-        $this->hasColumn('notes', 'string', null, array(
+        $this->hasColumn('notes', 'string', 2147483647, array(
              'type' => 'string',
              'fixed' => 0,
-             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '2147483647',
              ));
-        $this->hasColumn('in_use', 'string', null, array(
+        $this->hasColumn('in_use', 'string', 2147483647, array(
              'type' => 'string',
              'fixed' => 0,
-             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '2147483647',
              ));
     }
 
     public function setUp()
     {
-        parent::setUp();
         $this->hasMany('Batch', array(
              'local' => 'id',
              'foreign' => 'be_carrier_id'));
