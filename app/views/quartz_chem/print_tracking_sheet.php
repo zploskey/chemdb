@@ -142,7 +142,7 @@
             <tr><td colspan="5">Anion exchange:</td></tr>
             <tr><td colspan="2" align="center">Column prep</td><td colspan="3" align="center">Run</td></tr>
             <tr>
-                <td width="100" align="center">Clean resin<br>1.2M HCl</td>
+                <td width="100" align="center">Clean resin<br>0.3M HCl</td>
                 <td width="100" align="center">Condition<br>6M HCl</td>
                 <td width="100" align="center">Load<br>sample</td>
                 <td width="100" align="center">Rinse</td>
