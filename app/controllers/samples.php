@@ -117,6 +117,7 @@ class Samples extends MY_Controller
             ->from('Sample s, s.Project p')
             ->where('s.id = ?', $id);
 
+        $data = new stdClass();
         if ($id) {
             // edit an existing sample
             $sample = $query->fetchOne();
@@ -231,6 +232,7 @@ EHC;
             show_404('page');
         }
 
+        $data = new stdClass();
         if (isset($sample->Project)) {
             $data->projects = $sample->Project;
         }
