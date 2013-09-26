@@ -6,6 +6,7 @@ class Alchecks extends MY_Controller
     function index()
     {
         // generate html for the batch listboxes
+        $data = new stdClass();
         $data->allBatchOptions = '';
         foreach (Doctrine::GetTable('AlcheckBatch')->findAllBatches() as $b) {
             $tmpOpt = "<option value=$b->id>$b->id $b->owner $b->prep_date " .  substr($b->description, 0, 80);
@@ -23,6 +24,7 @@ class Alchecks extends MY_Controller
         $batch_id = (int)$this->input->post('batch_id');
         $is_edit = (bool)$batch_id;
         $refresh = (bool)$this->input->post('refresh');
+        $data = new stdClass();
         $data->allow_num_edit = (!$is_edit);
 
         if ($is_edit) {
@@ -93,7 +95,8 @@ class Alchecks extends MY_Controller
         } else {
             $nsamples = 0;
         }
-
+        
+        $data = new stdClass();
         $data->errors = false;
         if ($add) {
             // add a sample to this batch and redirect
@@ -188,7 +191,8 @@ class Alchecks extends MY_Controller
         if (! $batch) {
             show_404('page');
         }
-
+        
+        $data = new stdClass();
         $data->errors = false;
         $nsamples = $batch->AlcheckAnalysis->count();
         if ($refresh) {
@@ -242,6 +246,7 @@ class Alchecks extends MY_Controller
 
         $elements = array('be', 'al', 'fe', 'ti', 'mg', 'k');
 
+        $data = new stdClass();
         $data->errors = false;
         $nsamples = $batch->AlcheckAnalysis->count();
         if ($refresh) {
@@ -321,7 +326,7 @@ class Alchecks extends MY_Controller
             foreach ($elements as $el) {
                  $data->{"qtz_$el"}[] = $df * $a["icp_$el"];
             }
-            $data->sample_name[] = (isset($a['Sample'])) ? $a['Sample']['name'] : $a['sample_name'];
+            $sample_name[] = (isset($a['Sample'])) ? $a['Sample']['name'] : $a['sample_name'];
         }
 
         for ($a = 0; $a < $nsamples; $a++) {
@@ -338,6 +343,7 @@ class Alchecks extends MY_Controller
         }
 
         $data->nsamples = $nsamples;
+        $data->sample_name = $sample_name
         $data->sample_wt = $sample_wt;
         $data->batch = $batch;
         $this->load->view('alchecks/report', $data);
