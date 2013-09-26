@@ -18,3 +18,9 @@ appropriate value according to the Doctrine 1.x documentation, located at:
 http://docs.doctrine-project.org/projects/doctrine1/en/latest/en/index.html
 
 TODO: describe creating the database
+
+ChemDB uses encrypted sessions. You will need to set a unique encryption key.
+In chemdb/app/config/config.php, set $config['encryption_key'] to a 32
+character passphrase/key containing numbers and upper- and lower-case letters.
+There are various ways to generate random passwords. Feel free to use whatever
+method you like.
