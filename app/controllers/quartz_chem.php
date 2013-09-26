@@ -23,6 +23,7 @@ class Quartz_chem extends MY_Controller
         }
 
         $batches = Doctrine::getTable('Batch')->findAllBatches(); 
+        $data  = new stdClass();
         $data->open_batches = '';
         $data->all_batches = '';
 
@@ -52,6 +53,7 @@ class Quartz_chem extends MY_Controller
     {
         $id = $this->input->post('batch_id');
         $is_edit = (bool)$id;
+        $data = new stdClass();
         $data->allow_num_edit = !$is_edit;
 
         if ($is_edit) {
@@ -252,6 +254,7 @@ class Quartz_chem extends MY_Controller
             $al_tot_wt += $an->wt_al_carrier;
         }
 
+        $data = new stdClass();
         // get previous carrier weights
         $data->be_prev = Doctrine::getTable('Batch')->findPrevBeCarrierWt(
                                     $batch->be_carrier_id, $batch->start_date);
@@ -410,8 +413,7 @@ class Quartz_chem extends MY_Controller
                 if ($batch->Analysis[$a]->wt_al_carrier > 0) {
                     $tmpa[$a]['tot_al'] = sprintf('%.2f',
                         ($batch->Analysis[$a]->wt_al_carrier * $batch->AlCarrier->al_conc) / 1000);
-                }
-                else {
+                } else {
                     $tmpa[$a]['tot_al'] = ' -- ';
                 }
                 $tmpa[$a]['tot_ti'] = ' -- ';
@@ -435,9 +437,21 @@ class Quartz_chem extends MY_Controller
             }
         } unset($an_data);
 
+        $data = new stdClass();
         $data->batch = $batch;
         $data->tmpa = $tmpa;
+        $data->user = $this->get_remote_user_html();
         $this->load->view('quartz_chem/print_tracking_sheet', $data);
+    }
+
+    private function get_remote_user_html()
+    {
+        if (isset($_SERVER['REMOTE_USER'])) {
+            $user = htmlentities($_SERVER['REMOTE_USER']);
+        } else {
+            $user = '(None)';
+        }
+        return $user;
     }
 
     /**
@@ -474,7 +488,8 @@ class Quartz_chem extends MY_Controller
                 $errors = true;
             }
         }
-
+        
+        $data = new stdClass();
         $data->errors = $errors;
         $data->numsamples = $batch->Analysis->count();
         $data->title = 'Add total solution weights';

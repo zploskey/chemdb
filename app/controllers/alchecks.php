@@ -350,7 +350,8 @@ class Alchecks extends MY_Controller
         $refresh = $this->input->post('refresh');
         
         $an = new AlcheckAnalysis;
-
+        
+        $data = new stdClass();
         $data->errors = true;
         if ($refresh) {
             $valid = $this->form_validation->run('al_quick_add');

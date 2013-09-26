@@ -31,7 +31,7 @@
                     Batch start date: <?php echo $batch->start_date; ?><br/>
                     Batch owner: <?php echo $batch->owner; ?><br/>
                     Batch description: <?php echo $batch->description; ?><br/>
-                    Logged in as: <?php echo htmlentities($_SERVER['REMOTE_USER']); ?>
+                    Logged in as: <?php echo $user; ?>
                 </td>
             </tr>
         </table>
