@@ -66,6 +66,8 @@ class Projects extends MY_Controller
     function edit($id = 0) 
     {   
         $is_refresh = $this->input->post('is_refresh');
+
+        $data = new stdClass();
         // are we editing an existing project?
         if ($id) {
             // Get the project data.
@@ -157,7 +159,8 @@ class Projects extends MY_Controller
         if ( ! $proj) {
             show_404('page');
         }
-
+        
+        $data = new stdClass();
         $data->title = 'View Project';
         $data->subtitle = 'Viewing '.$proj->name;
         $data->arg = '/'.$id;
