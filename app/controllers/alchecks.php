@@ -3,7 +3,7 @@
 class Alchecks extends MY_Controller
 {
 
-    function index()
+    public function index()
     {
         // generate html for the batch listboxes
         $data = new stdClass();
@@ -19,7 +19,7 @@ class Alchecks extends MY_Controller
         $this->load->view('template', $data);
     }
 
-    function new_batch()
+    public function new_batch()
     {
         $batch_id = (int)$this->input->post('batch_id');
         $is_edit = (bool)$batch_id;
@@ -77,7 +77,7 @@ class Alchecks extends MY_Controller
         $this->load->view('template', $data);
     }
 
-    function sample_loading()
+    public function sample_loading()
     {
         $batch_id = (int)$this->input->post('batch_id');
         $refresh = (bool)$this->input->post('refresh');
@@ -180,7 +180,7 @@ class Alchecks extends MY_Controller
         $this->load->view('template', $data);
     }
 
-    function add_solution_weights()
+    public function add_solution_weights()
     {
         $batch_id = (int)$this->input->post('batch_id');
         $refresh = (bool)$this->input->post('refresh');
@@ -232,7 +232,7 @@ class Alchecks extends MY_Controller
         $this->load->view('template', $data);
     }
 
-    function add_icp_data()
+    public function add_icp_data()
     {
         $batch_id = (int)$this->input->post('batch_id');
         $refresh = (bool)$this->input->post('refresh');
@@ -301,7 +301,7 @@ class Alchecks extends MY_Controller
         $this->load->view('template', $data);
     }
 
-    function report()
+    public function report()
     {
         $batch_id = (int)$this->input->post('batch_id');
 
@@ -343,13 +343,13 @@ class Alchecks extends MY_Controller
         }
 
         $data->nsamples = $nsamples;
-        $data->sample_name = $sample_name
+        $data->sample_name = $sample_name;
         $data->sample_wt = $sample_wt;
         $data->batch = $batch;
         $this->load->view('alchecks/report', $data);
     }
 
-    function quick_add()
+    public function quick_add()
     {
         $batch_id = $this->input->post('batch_id');
         $analysis_id = $this->input->post('analysis_id');
