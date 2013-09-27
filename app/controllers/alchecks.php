@@ -373,10 +373,21 @@ class Alchecks extends MY_Controller
             $an->wt_bkr_sample = 100;
             $an->wt_bkr_soln = 100;
 
-            $sample = Doctrine::getTable('Sample')->findByName($an->sample_name);
-            if ($sample && $sample->name != '') {
-                $an->Sample = $sample[0];
+            $samples = Doctrine::getTable('Sample')->findByName($an->sample_name);
+            $num_named = 0;
+            for ($i = 0; $i < $samples->count(); $i++) {
+                if ($samples[$i]->name != '') {
+                    $num_named++;
+                }
             }
+
+            if ($num_named != 0) {
+                if ($num_named > 1) {
+                    die("Error: Multiple samples named " . $an->sample_name);
+                }
+                // Found a single sample 
+                $an->Sample = $samples[0];
+            } 
 
             if (! $batch_id) {
                 // create the dummy batch
