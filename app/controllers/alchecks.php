@@ -354,12 +354,13 @@ class Alchecks extends MY_Controller
         $batch_id = $this->input->post('batch_id');
         $analysis_id = $this->input->post('analysis_id');
         $refresh = $this->input->post('refresh');
+        $close = $this->input->post('close');
         
         $an = new AlcheckAnalysis;
         
         $data = new stdClass();
         $data->errors = true;
-        if ($refresh) {
+        if ($refresh || $close) {
             $valid = $this->form_validation->run('al_quick_add');
             // get postdata
             $an->sample_name = $this->input->post('sample_name');
@@ -420,6 +421,11 @@ class Alchecks extends MY_Controller
                 $analysis_id = $batch->AlcheckAnalysis->end()->id;
             } else {
                 $data->errors = true;
+            }
+
+            if ($close) {
+                // they clicked done, close the window
+                echo "<script>window.close();</script>";
             }
         }
 
