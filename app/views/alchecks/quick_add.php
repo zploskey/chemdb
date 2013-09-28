@@ -1,7 +1,5 @@
 <?=form_open('alchecks/quick_add')?>
 
-<input type=hidden name=refresh value="yes">
-
 <? if ($batch_id): // a batch has already been created, keep track of its id ?>
     <input type="hidden" name="batch_id" value="<?=$batch_id?>">
     <? if ($analysis): ?>
@@ -44,20 +42,16 @@
 
 <tr>
     <td colspan="4" align="center">
-        <input type="submit" value="Save and refresh">
+        <input type="submit" name="refresh" value="Save and refresh">
     </td>
 </tr>
 
 </table>
 
-<?=form_close()?>
-
-<?=form_open('alchecks/quick_add')?>
-
 <table width="800"><tr><td><hr></td></tr>
     <tr>
         <td align="center">
-        <input type="submit" value="Done with this one -- create a new dummy Al check">
+        <input type="submit" name="close" value="Save and close">
         </td>
     </tr>
     <tr><td><hr></td></tr>
