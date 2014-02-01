@@ -284,6 +284,10 @@ $config['al_add_icp_data'] = array(
         'label' => 'ICP [Be]',
         'rules' => 'trim|noreq_numeric|negis0'),
     array(
+        'field' => 'icp_ca[]',
+        'label' => 'ICP [Ca]',
+        'rules' => 'trim|noreq_numeric|negis0'),
+    array(
         'field' => 'icp_ti[]',
         'label' => 'ICP [Ti]',
         'rules' => 'trim|noreq_numeric|negis0'),
