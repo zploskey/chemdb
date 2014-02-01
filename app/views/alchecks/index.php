@@ -35,7 +35,7 @@
 <!--- ADD AL-BE-FE-TI-MG CONCENTRATIONS -->
 <?=form_open('alchecks/add_icp_data')?>
     <tr>
-        <td><i><b>Add Al-Be-Fe-Ti-Mg measurements to existing batch</i></b></td>
+        <td><i><b>Add Be-Mg-Al-Ca-Ti-Fe measurements to existing batch</i></b></td>
     </tr>
     <tr>
         <td class="options"><select name="batch_id"><?=$allBatchOptions?></select></td>
