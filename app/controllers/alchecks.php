@@ -244,7 +244,7 @@ class Alchecks extends MY_Controller
             show_404('page');
         }
 
-        $elements = array('be', 'al', 'fe', 'ti', 'mg', 'k');
+        $elements = array('be', 'al', 'ca', 'fe', 'ti', 'mg', 'k');
 
         $data = new stdClass();
         $data->errors = false;
@@ -296,7 +296,7 @@ class Alchecks extends MY_Controller
 
         $data->nsamples = $nsamples;
         $data->batch = $batch;
-        $data->title = 'Add Be/Al/Fe/Ti/Mg/K concentrations';
+        $data->title = 'Add Be/Al/Ca/Fe/Ti/Mg/K concentrations';
         $data->main = 'alchecks/add_icp_data';
         $this->load->view('template', $data);
     }
@@ -312,10 +312,12 @@ class Alchecks extends MY_Controller
             show_404('page');
         }
 
-        $elements = array('be', 'ti', 'fe', 'al', 'mg');
+        $elements = array('be', 'ca', 'ti', 'fe', 'al', 'mg');
         $nsamples = $batch->AlcheckAnalysis->count();
+        
         // calculate quartz weights and set sample names
         $sample_name = $sample_wt = array();
+        
         for ($i = 0; $i < $nsamples; $i++) {
             $a = $batch['AlcheckAnalysis'][$i];
             // temporary variable calculations
@@ -346,6 +348,12 @@ class Alchecks extends MY_Controller
         $data->sample_name = $sample_name;
         $data->sample_wt = $sample_wt;
         $data->batch = $batch;
+        if (isset($_SERVER['REMOTE_USER'])) {
+            $user = htmlentities($_SERVER['REMOTE_USER']);
+        } else {
+            $user = '';
+        }
+        $data->user = $user;
         $this->load->view('alchecks/report', $data);
     }
 
