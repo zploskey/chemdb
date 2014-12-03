@@ -706,7 +706,7 @@ EOH;
                 foreach ($lines as $ln) {
                     if (preg_match($valid_regexp, $ln)) {
                         $tmp = preg_split($split_regexp, trim($ln));
-                        $key = array_shift($tmp);
+                        $key = strval(array_shift($tmp));
                         // make the key of the final array the beaker number, one for be and one for al
                         ${$arr}[$key] = $tmp; 
                     } elseif ($ln !== "") {
@@ -748,7 +748,7 @@ EOH;
             }
 
             // test that all submitted split beakers exist
-            $bkrs = array_unique(array_keys(array_merge($al_arr, $be_arr)));
+            $bkrs = array_unique(array_keys(array_push($al_arr, $be_arr)));
             $missing = Doctrine::getTable('SplitBkr')->findMissingBkrs($bkrs);
             if (count($missing) != 0) {
                 echo "The beakers ";
