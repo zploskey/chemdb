@@ -1,4 +1,4 @@
-<?=form_open('alchecks/add_solution_weights', '', 
+<?=form_open('alchecks/add_solution_weights', '',
     array( // hidden variables
         'refresh' => 'true',
         'batch_id' => $batch->id)
@@ -13,7 +13,7 @@ Batch description: <?=$batch->description?><br/>
 <?
 if ($errors) {
     echo '<hr>' . validation_errors();
-} 
+}
 ?>
 
 <table width="800">
@@ -40,26 +40,26 @@ if ($errors) {
     </tr>
     <tr><td colspan="9"><p><hr></p></td></tr>
 
-<? for ($a = 0; $a < $nsamples; $a++): 
+<? for ($a = 0; $a < $nsamples; $a++):
     $an = $batch['AlcheckAnalysis'][$a];
 ?>
-     
+
     <tr>
         <td align="center"><?=$an['number_within_batch']?></td>
         <td><?=$sample_name[$a]?></td>
         <td align="center"><?=$an['bkr_number']?></td>
         <td align="center"><?=sprintf('%.4f', $sample_wt[$a])?></td>
          <td align="center">
-            <input type="text" name="wt_bkr_soln[]" value="<?=$an->wt_bkr_soln?>" size="8"> 
+            <input type="text" name="wt_bkr_soln[]" value="<?=$an->wt_bkr_soln?>" size="8">
         </td>
         <td><?=sprintf('%.4f', $soln_wt[$a])?></td>
         <td align="center">
-            <input type="text" size="2" name='addl_dil_factor[]' value="<?=$an->addl_dil_factor?>" size="5"> 
+            <input type="text" size="2" name='addl_dil_factor[]' value="<?=$an->addl_dil_factor?>" size="5">
         </td>
         <td align="center"><?=sprintf('%.2f', $tot_df[$a])?></td>
         <td><input type="text" name="notes[]" value="<?=$an->notes?>" size="36"></td>
     </tr>
-    
+
 <? endfor; ?>
 
 </table>

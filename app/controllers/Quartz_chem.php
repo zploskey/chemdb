@@ -1,7 +1,7 @@
  <?php
 /**
  * Business logic for the quartz chemistry pages.
- * 
+ *
  * Methods appear in the same order as they are listed in the front page for
  * the Quartz Chemistry section.
  */
@@ -22,7 +22,7 @@ class Quartz_chem extends MY_Controller
             Doctrine::getTable('Batch')->lock($batch_id);
         }
 
-        $batches = Doctrine::getTable('Batch')->findAllBatches(); 
+        $batches = Doctrine::getTable('Batch')->findAllBatches();
         $data  = new stdClass();
         $data->open_batches = '';
         $data->all_batches = '';
@@ -134,7 +134,7 @@ class Quartz_chem extends MY_Controller
             $batch->wt_be_carrier_final = $this->input->post('wt_be_carrier_final');
             $batch->wt_al_carrier_final = $this->input->post('wt_al_carrier_final');
             // and array fields for each analysis
-            $sample_name = $this->input->post('sample_name');   
+            $sample_name = $this->input->post('sample_name');
             $sample_type = $this->input->post('sample_type');
             $diss_bottle_id = $this->input->post('diss_bottle_id');
             $wt_diss_bottle_tare = $this->input->post('wt_diss_bottle_tare');
@@ -229,7 +229,7 @@ class Quartz_chem extends MY_Controller
                 $temp_al = $precheck['icp_al'] * $temp_df * $temp_sample_wt / 1000;
                 $temp_fe = $precheck['icp_fe'] * $temp_df * $temp_sample_wt / 1000;
                 $temp_ti = $precheck['icp_ti'] * $temp_df * $temp_sample_wt / 1000;
-                $temp_tot_al = $temp_al + 
+                $temp_tot_al = $temp_al +
                     ($an->wt_al_carrier * $batch->AlCarrier->al_conc) / 1000;
 
                 $prechecks[$a]['conc_al'] = sprintf('%.1f', $precheck['icp_al'] * $temp_df);
@@ -287,7 +287,7 @@ class Quartz_chem extends MY_Controller
         $data->extraHeadContent = '
             <script type="text/javascript" src="js/sample_search.js"></script>
             <script type="text/javascript">
-            
+
             $(document).ready(function() {
                 // When one of the submit buttons is clicked, add a hidden hash field
                 // that can be used to redirect the user back to this button.
@@ -295,8 +295,8 @@ class Quartz_chem extends MY_Controller
                     var id = $(this).attr("id");
                     $(this).after("<input type=hidden name=hash value="+id+">");
                 });
-                
-                // If any sample type is set to "BLANK" we make its sample_wt 
+
+                // If any sample type is set to "BLANK" we make its sample_wt
                 // to its tare wt and disable the sample weight input box.
                 // Likewise, if it is set to "SAMPLE" then the sample weight
                 // input box is made editable again.
@@ -314,7 +314,7 @@ class Quartz_chem extends MY_Controller
                         $("#hidWt" + i).remove();
                     }
                 }).change();
-                
+
                 // Whenever the a blank tare weight is updated
                 // update the corresponding sample weight to be the same.
                 $(".tareWt").bind("change keyup", function() {
@@ -325,9 +325,9 @@ class Quartz_chem extends MY_Controller
                         $("#hidWt" + i).val($(this).val());
                     }
                 }).change();
-                
+
             });
-            
+
             // Scroll the window down to the last-pressed button.
             $(window).load(function() {
                 var id = "'.$btnId.'";
@@ -338,7 +338,7 @@ class Quartz_chem extends MY_Controller
                     // near the bottom of the screen.
                     window.scrollTo(0, btnOffset - window.innerHeight * 4 / 5);
                 }
-            });    
+            });
             </script>
             ';
 
@@ -386,7 +386,7 @@ class Quartz_chem extends MY_Controller
             $precheck = $pquery->fetchOne();
 
             $tmpa[$a]['tmpSampleWt'] = $batch->Analysis[$a]->getSampleWt();
-            
+
             if (strtoupper($batch->Analysis[$a]->sample_type) == 'SAMPLE') {
                 $HF_additions[] = $tmpa[$a]['mlHf'] = round($tmpa[$a]['tmpSampleWt']) * 5 + 5;
             } else {
@@ -423,7 +423,7 @@ class Quartz_chem extends MY_Controller
                 $tmpa[$a]['inAlDb'] = false;
             }
         }
-        
+
         foreach ($tmpa as &$an_data) {
             if ($an_data['mlHf'] == 'BLANK') {
                 if (!isset($blankHFVolume)) {
@@ -457,7 +457,7 @@ class Quartz_chem extends MY_Controller
     /**
      * Form to submit solution weights.
      */
-    public function add_solution_weights() 
+    public function add_solution_weights()
     {
         $batch_id = (int)$this->input->post('batch_id');
         $refresh = (bool)$this->input->post('is_refresh');
@@ -488,7 +488,7 @@ class Quartz_chem extends MY_Controller
                 $errors = true;
             }
         }
-        
+
         $data = new stdClass();
         $data->errors = $errors;
         $data->numsamples = $batch->Analysis->count();
@@ -498,7 +498,7 @@ class Quartz_chem extends MY_Controller
         $this->load->view('template', $data);
     }
 
-    public function add_split_weights() 
+    public function add_split_weights()
     {
         $batch_id = (int)$this->input->post('batch_id');
         $refresh = (bool)$this->input->post('is_refresh');
@@ -602,7 +602,7 @@ EOH;
      * Form for submitting ICP weighings.
      * @return void
      */
-    public function add_icp_weights() 
+    public function add_icp_weights()
     {
         $batch_id = (int)$this->input->post('batch_id');
         $refresh = (bool)$this->input->post('is_refresh');
@@ -664,7 +664,7 @@ EOH;
     *
     * @return void
     **/
-    public function add_icp_results() 
+    public function add_icp_results()
     {
         $submit = (bool)$this->input->post('submit');
         $batch_id = (int)$this->input->post('batch_id');
@@ -682,7 +682,7 @@ EOH;
 
         $batch = $query->fetchOne();
 
-        if ($submit == true) {    
+        if ($submit == true) {
             $valid = $this->form_validation->run('add_icp_results');
             $batch->notes = $this->input->post('notes');
             $raw_al = $this->input->post('al_text');
@@ -708,10 +708,10 @@ EOH;
                         $tmp = preg_split($split_regexp, trim($ln));
                         $key = strval(array_shift($tmp));
                         // make the key of the final array the beaker number, one for be and one for al
-                        ${$arr}[$key] = $tmp; 
+                        ${$arr}[$key] = $tmp;
                     } elseif ($ln !== "") {
                         die("Error in $element input on line: $ln");
-                    } 
+                    }
                 }
                 $is_al = false;
             }
@@ -753,7 +753,7 @@ EOH;
             if (count($missing) != 0) {
                 echo "The beakers ";
                 // comma separated list, true indicates we want an 'and' before last element
-                echo comma_str($missing, true); 
+                echo comma_str($missing, true);
                 die(' were not found in the database.<br>'
                   . 'Please ensure that you have spelled all '
                   . 'their names correctly or add them to the database.');
@@ -820,7 +820,7 @@ EOH;
      * Does calculations and prints an intermediate report on the samples.
      * @return void
      */
-    public function intermediate_report() 
+    public function intermediate_report()
     {
         $batch_id = (int)$this->uri->segment(3, $this->input->post('batch_id'));
         try {
@@ -866,7 +866,7 @@ EOH;
      * @param string $date date in YYYY-MM-DD format
      * @access private
      */
-    function _valid_date($date) 
+    function _valid_date($date)
     {
         if ($this->form_validation->valid_date($date)) {
             return true;

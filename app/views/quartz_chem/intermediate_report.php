@@ -40,7 +40,7 @@
                 <p>Spreadsheet: <?=$batch['spreadsheet_name']?></p>
                 <p>CSV file: <?=$batch['csv_name']?></p>
             <?php endif; ?>
-            
+
         </td>
     </tr>
     <tr><td colspan="3"><hr><hr></td></tr>
@@ -179,14 +179,14 @@
         } else {
             $first = false;
         }
-        echo '<td>', 
-                (isset($s['SplitBkr'])) ? $s['SplitBkr']['bkr_number'] : '', 
+        echo '<td>',
+                (isset($s['SplitBkr'])) ? $s['SplitBkr']['bkr_number'] : '',
             '</td>',
             '<td>', $s['wt_split_bkr_tare'], '</td>',
             '<td>', $s['wt_split_bkr_split'], '</td>',
             '<td>', $s['wt_split_bkr_icp'], '</td></tr>';
     }
-    
+
     if ($first) echo '</tr>';
     ?>
 
@@ -225,13 +225,13 @@
                 Split <?=$s?><br>split wt.
             </td>
         <? endfor; ?>
-        
+
         <? for ($s = 1; $s <= $batch['max_nsplits']; $s++): ?>
             <td align="center">
                 Split <?=$s?><br>ICP wt.
             </td>
         <? endfor; ?>
-        
+
         <? for ($s = 1; $s <= $batch['max_nsplits']; $s++): ?>
             <td>
                 Split <?=$s?><br>multiplier
@@ -243,8 +243,8 @@
     </tr>
 
 <?
-for ($i = 0; $i < $batch['nsamples']; $i++): 
-    $a = $batch['Analysis'][$i]; 
+for ($i = 0; $i < $batch['nsamples']; $i++):
+    $a = $batch['Analysis'][$i];
 ?>
 
     <tr align="center">
@@ -257,14 +257,14 @@ for ($i = 0; $i < $batch['nsamples']; $i++):
     <?php
     for ($s = 0; $s < $batch['max_nsplits']; $s++) {
         if ($s < $a['nsplits']) {
-            echo '<td>', 
-                 sprintf('%.4f', $a['Split'][$s]['wt_split']), 
+            echo '<td>',
+                 sprintf('%.4f', $a['Split'][$s]['wt_split']),
                  '</td>';
         } else {
             echo '<td></td>';
-        } 
+        }
     }
-    
+
     for ($s = 0; $s < $batch['max_nsplits']; $s++) {
         if ($s < $a['nsplits']) {
             echo '<td>',
@@ -274,7 +274,7 @@ for ($i = 0; $i < $batch['nsamples']; $i++):
             echo '<td></td>';
         }
     }
-    
+
     for ($s = 0; $s < $batch['max_nsplits']; $s++) {
         if ($s < $a['nsplits']) {
             echo '<td>',
@@ -285,7 +285,7 @@ for ($i = 0; $i < $batch['nsamples']; $i++):
         }
     } ?>
     </tr>
-    
+
 <? endfor; ?>
 
     <tr><td colspan="<?php echo 6 + 3 * $batch['max_nsplits']?>"><hr><hr></td></tr>

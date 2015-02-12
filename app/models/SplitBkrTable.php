@@ -16,7 +16,7 @@ class SplitBkrTable extends Doctrine_Table
             ->orderBy('b.id ASC')
             ->execute();
     }
-    
+
     /**
      * Finds and returns an array of beakers missing from the database.
      *

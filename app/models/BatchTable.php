@@ -103,7 +103,7 @@ class BatchTable extends Doctrine_Table
      * Fetches a Batch object with the final aluminum carrier weight and start
      * date fields populated. The object will always have a start_date that is
      * older than the start date of the passed to this function.
-     * 
+     *
      * @param int $carrier_id
      * @param string $start_date a valid MySQL date format
      * @return Batch

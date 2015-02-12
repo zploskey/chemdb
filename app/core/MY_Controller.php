@@ -6,43 +6,43 @@ class MY_Controller extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        
+
         $this->load->library('form_validation');
 
         // Global error settings:
         $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-        
+
         // Uncommenting the following enables the profiler, which gives stats
         // for our queries and page loads, shows POST data, etc.
         // $this->output->enable_profiler(TRUE);
     }
-    
+
     // ----------
     // CALLBACKS:
     // ----------
-    
+
     function _is_natural_no_zero($val)
     {
         if ($val == '' || $this->form_validation->is_natural_no_zero($val)) {
             return true;
         }
-        $this->form_validation->set_message('_is_natural', 
+        $this->form_validation->set_message('_is_natural',
             'The $s field must contain only positive integers.');
         return false;
     }
-    
+
     function _is_unique($val, $field)
     {
         $id = $this->uri->segment(3, null);
-        
+
         if ($this->form_validation->is_unique($val, $field, $id)) {
             return true;
         }
-        $this->form_validation->set_message('_is_unique', 
+        $this->form_validation->set_message('_is_unique',
             'The %s field already exists in the database, please choose a different one.');
         return false;
     }
-    
+
     function _noreq_alpha_dot_dash($val)
     {
         if ($val == '' || $this->form_validation->alpha_dot_dash($val)) {
@@ -81,7 +81,7 @@ class MY_Controller extends CI_Controller
         if ($val == '' || is_numeric($val)) {
             return true;
         }
-        
+
         $this->form_validation->set_message('_num', 'The %s field must be a number.');
         return false;
     }

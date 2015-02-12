@@ -11,7 +11,7 @@ class Sample extends BaseSample
     * information, and return the input string for the CRONUS calculator for
     * this sample and its AMS measurement. The passed parameters and this sample
     * should be fully populated with data before calling this function.
-    * 
+    *
     * These calculations are based on:
     *
     * Converting Al and Be isotope ratio measurements to nuclide concentrations in quartz.
@@ -133,7 +133,7 @@ class Sample extends BaseSample
                      'all_exp' => trim($all_exp),
                      'all_ero' => trim($all_ero));
     }
-    
+
     /**
      * @return thickness of the sample in cm
      */

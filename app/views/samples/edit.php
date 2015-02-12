@@ -1,6 +1,6 @@
 <?=$this->load->view('samples/nav')?>
 <p><h2>
-    <?=$subtitle?> 
+    <?=$subtitle?>
     <? if (!is_null($sample->id)): ?>
         (<?=anchor('samples/view/'.$sample->id, 'View')?>)
     <? endif; ?>
@@ -42,7 +42,7 @@
                 <th>Longitude:</th>
                 <td>
                     <input type="text" name="sample[longitude]" value="<?=$sample->longitude?>" size="10" /> &nbsp;
-                    East longitudes are positive. West longitudes are negative. 
+                    East longitudes are positive. West longitudes are negative.
                 </td>
             </tr>
 
