@@ -75,7 +75,7 @@
                 </td>
             <? endforeach; ?>
         </tr>
-        
+
         <tr>
             <th>Batch ID</th>
             <? foreach ($sample['Analysis'] as $an): ?>
@@ -84,7 +84,7 @@
                 </td>
             <? endforeach; ?>
         </tr>
-        
+
         <tr>
             <th>Sample Wt (g)</th>
             <? foreach ($sample['Analysis'] as $an): ?>
@@ -93,7 +93,7 @@
                 </td>
             <? endforeach; ?>
         </tr>
-        
+
         <tr>
             <th>Carrier ID</th>
             <? foreach ($sample['Analysis'] as $an): ?>
@@ -102,7 +102,7 @@
                 </td>
             <? endforeach; ?>
         </tr>
-        
+
         <tr>
             <th>Mass Be Carrier (ug)</th>
             <? foreach ($sample['Analysis'] as $an): ?>
@@ -111,7 +111,7 @@
                 </td>
             <? endforeach; ?>
         </tr>
-        
+
         <tr>
             <th>ICP Mass Be (ug)</th>
             <? for ($i = 0; $i < $nAnalyses; $i++): ?>
@@ -120,7 +120,7 @@
                 </td>
             <? endfor; ?>
         </tr>
-        
+
         <tr>
             <th>ICP Mass Al (ug)</th>
             <? for ($i = 0; $i < $nAnalyses; $i++): ?>
@@ -183,13 +183,13 @@
                     }
                 }
 ?>
-                
+
             </tr>
 
         <? endif; ?>
 
     </table>
-    
+
     <?=form_close()?>
 
 <? endif; ?>

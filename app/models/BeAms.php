@@ -2,7 +2,7 @@
 
 /**
  * BeAms
- * 
+ *
  */
 class BeAms extends BaseBeAms
 {

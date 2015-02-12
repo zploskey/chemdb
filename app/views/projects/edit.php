@@ -1,6 +1,6 @@
 <?=$this->load->view('projects/nav')?>
 <p>
-    <h2><?=$subtitle?> (<?=anchor("projects/view/$proj->id", 'View')?>)</h2> 
+    <h2><?=$subtitle?> (<?=anchor("projects/view/$proj->id", 'View')?>)</h2>
 </p>
 <br>
 

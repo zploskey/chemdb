@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
 
 Customized functions should be put in
@@ -325,7 +325,7 @@ $config['al_quick_add'] = array(
     array(
         'field' => 'icp_ti',
         'label' => '[Ti]',
-        'rules' => 'trim|required|numeric|abs'),    
+        'rules' => 'trim|required|numeric|abs'),
 );
 
 /* End of file form_validation.php */

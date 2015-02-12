@@ -3,11 +3,11 @@
 <?=form_open('alchecks/new_batch')?>
     <tr>
         <td><i><b>Start new batch of Al checks</i></b></td>
-        <td class="option_button"><input type="submit" value="Start a new batch"></td>      
+        <td class="option_button"><input type="submit" value="Start a new batch"></td>
     </tr>
     <tr><td colspan="2"><hr></p></td></tr>
 <?=form_close()?>
-    
+
 <!--- REVISIT INITIAL WEIGHINGS FOR EXISTING BATCH -->
 <?=form_open('alchecks/sample_loading', '', array('retrieval' => 'true'))?>
     <tr>
@@ -19,7 +19,7 @@
     </tr>
     <tr><td colspan="2"><hr></p></td></tr>
 <?=form_close()?>
-    
+
     <!--- ADD ICP SOLUTION WEIGHTS -->
 <?=form_open('alchecks/add_solution_weights')?>
     <tr>

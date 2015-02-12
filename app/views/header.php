@@ -9,7 +9,7 @@
         </span>
     </div>
     <hr>
-    <b><em>You are logged in as: 
+    <b><em>You are logged in as:
         <?=htmlentities($this->input->server('REMOTE_USER'))?>
     </em></b>
     <hr>

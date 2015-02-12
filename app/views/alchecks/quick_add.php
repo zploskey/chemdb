@@ -10,11 +10,11 @@
 <table width="800" class="arial10">
 
 <tr>
-    <td>Sample name: 
-        <input type="text" size="20" name="sample_name" 
+    <td>Sample name:
+        <input type="text" size="20" name="sample_name"
          value="<?=$analysis->sample_name?>">
     </td>
-        
+
     <td>[Al] (ppm in qtz):
         <input type="text" size="7" name="icp_al" value="<?=$analysis->icp_al?>">
     </td>
@@ -22,10 +22,10 @@
     <td>[Fe] (ppm in qtz):
         <input type=text size="7" name="icp_fe" value="<?=$analysis->icp_fe?>">
     </td>
-        
+
     <td>[Ti] (ppm in qtz):
         <input type="text" size="7" name="icp_ti" value="<?=$analysis->icp_ti?>">
-    </td>       
+    </td>
 </tr>
 
 <tr>
@@ -33,7 +33,7 @@
     <?
     if ($errors) {
         echo validation_errors() . '<hr>';
-    } 
+    }
     ?>
     </td>
 </tr>

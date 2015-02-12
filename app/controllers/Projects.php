@@ -1,7 +1,7 @@
 <?php
 
 class Projects extends MY_Controller
-{   
+{
 
     /**
      * Loads a page listing projects.
@@ -58,13 +58,13 @@ class Projects extends MY_Controller
     }
 
     /**
-     * Displays the edit form and evaluates submits. If the submit validates properly, 
+     * Displays the edit form and evaluates submits. If the submit validates properly,
      * it makes change to project in database and redirects.
      *
      * @param int id The id of the project to edit. Default is zero for a new project.
      */
-    function edit($id = 0) 
-    {   
+    function edit($id = 0)
+    {
         $is_refresh = $this->input->post('is_refresh');
 
         $data = new stdClass();
@@ -96,7 +96,7 @@ class Projects extends MY_Controller
         }
 
         // set up some javascript to add more project select boxes
-        $data->extraHeadContent = 
+        $data->extraHeadContent =
             '<script type="text/javascript" src="js/sample_search.js"></script>';
 
         // validate anything that was submitted
@@ -120,7 +120,7 @@ class Projects extends MY_Controller
                     } else {
                         $n = 0;
                     }
-                    
+
                     $exists = false;
                     foreach ($sample->ProjectSample->toArray() as $link) {
                         if ($link['project_id'] == $proj->id) {
@@ -159,7 +159,7 @@ class Projects extends MY_Controller
         if ( ! $proj) {
             show_404('page');
         }
-        
+
         $data = new stdClass();
         $data->title = 'View Project';
         $data->subtitle = 'Viewing '.$proj->name;

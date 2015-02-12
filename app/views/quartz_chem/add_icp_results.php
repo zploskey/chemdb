@@ -3,7 +3,7 @@
 <table width="800" class="arial10">
     <?=$this->load->view('tr_main_link_hr')?>
     <tr>
-        <td> 
+        <td>
         <h3>Batch information:</p></h3>
         Batch ID: <?=$batch->id?> <br>
         Batch start date: <?=$batch->start_date?> <br>
@@ -36,7 +36,7 @@
         <td><b>Aluminum:</b></td>
         <td><b>Beryllium:</b></td>
     </tr>
-    <tr> 
+    <tr>
         <td><textarea name="al_text" rows="<?=$nrows?>" cols="48"><?=$al_text?></textarea></td>
         <td><textarea name="be_text" rows="<?=$nrows?>" cols="48"><?=$be_text?></textarea></td>
     </tr>

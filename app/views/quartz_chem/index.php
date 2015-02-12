@@ -8,15 +8,15 @@
             </td>
         </tr>
     <?=form_close()?>
-    
+
     <tr><td colspan="2"><hr></td></tr>
     <p/>
     <!--- SAMPLE LOADING AND CARRIER ADDITION -->
-    
+
     <tr>
         <td colspan="2"><i><b>Sample loading and carrier addition</b></i></td>
     </tr>
-    
+
     <?=form_open(site_url('quartz_chem/load_samples'))?>
         <tr>
             <td align="center">
@@ -30,12 +30,12 @@
             </td>
         </tr>
     <?=form_close()?>
-    
+
     <tr><td colspan="2"><hr/></td></tr>
     <p/>
-    
+
     <!--- PRINT THE TRACKING SHEET -->
-    
+
     <tr>
         <td colspan="2"><i><b>Print lab tracking sheet</b></i></td>
     </tr>
@@ -54,9 +54,9 @@
     <?=form_close()?>
     <tr><td colspan="2"><hr></td></tr>
     <p/>
-    
+
     <!--- ADD TOTAL SOLUTION WEIGHTS -->
-    
+
     <tr>
         <td colspan="2"><i><b>Add total solution weights</b></i></td>
     </tr>
@@ -75,9 +75,9 @@
     <?=form_close()?>
     <tr><td colspan="2"><hr></td></tr>
     <p/>
-    
+
     <!--- ADD SPLIT WEIGHTS -->
-    
+
     <tr>
         <td colspan="2">
             <b><i>Add split weights</i></b>
@@ -86,7 +86,7 @@
     <?=form_open('quartz_chem/add_split_weights')?>
         <tr>
             <td align="center">
-                <i>Batch:</i>   
+                <i>Batch:</i>
                 <select name="batch_id">
                     <?=$open_batches?>
                 </select>
@@ -97,19 +97,19 @@
         </tr>
     <?=form_close()?>
     <tr><td colspan="2"><hr></td></tr><p/>
-    
+
     <!--- ADD ICP WEIGHTS -->
-    
+
     <tr>
         <td colspan="2">
             <i><b>Add ICP solution weights</b></i>
         </td>
     </tr>
-    
+
     <?=form_open('quartz_chem/add_icp_weights')?>
         <tr>
             <td align="center">
-                <i>Batch:</i>   
+                <i>Batch:</i>
                 <select name="batch_id">
                     <?=$open_batches?>
                 </select>
@@ -119,21 +119,21 @@
             </td>
         </tr>
     <?=form_close()?>
-    
+
     <tr><td colspan="2"><hr></td></tr><p/>
-    
+
     <!--- ADD ICP RESULTS -->
-    
+
     <tr>
         <td colspan="2">
             <i><b>Enter ICP results</b></i>
         </td>
     </tr>
-    
-    <?=form_open('quartz_chem/add_icp_results')?>   
+
+    <?=form_open('quartz_chem/add_icp_results')?>
         <tr>
             <td align="center">
-                <i>Batch:</i>   
+                <i>Batch:</i>
                 <select name="batch_id">
                     <?=$open_batches?>
                 </select>
@@ -144,18 +144,18 @@
         </tr>
     <?=form_close()?>
     <tr><td colspan="2"><hr></p></td></tr>
-    
+
     <!-- ICQ QUALITY CONTROL -->
     <tr>
         <td colspan="2">
             <i><b>ICP Quality Control</b></i>
         </td>
     </tr>
-    
-    <?=form_open('quartz_chem/icp_quality_control')?>   
+
+    <?=form_open('quartz_chem/icp_quality_control')?>
         <tr>
             <td align="center">
-                <i>Batch:</i>   
+                <i>Batch:</i>
                 <select name="batch_id">
                     <?=$open_batches?>
                 </select>
@@ -166,15 +166,15 @@
         </tr>
     <?=form_close()?>
     <tr><td colspan="2"><hr></p></td></tr>
-    
+
     <!--- FINAL REPORT -->
-    
+
     <tr>
         <td colspan="2">
             <i><b>Final report</b></i>
         </td>
     </tr>
-    
+
     <?=form_open('quartz_chem/final_report')?>
         <tr>
             <td align="center">
@@ -189,13 +189,13 @@
         </tr>
     <?=form_close()?>
     <tr><td colspan="2"><hr></td></tr>
-    
+
     <tr>
         <td colspan="2">
             <i><b>Take a completed batch off the active list</b></i>
         </td>
     </tr>
-    
+
     <?=form_open('quartz_chem/index')?>
         <input type="hidden" name="is_lock" value="true">
         <tr>
@@ -210,7 +210,7 @@
             </td>
         </tr>
     <?=form_close()?>
-    
+
     <tr><td colspan="2" ><hr></td></tr>
 </table>
 
