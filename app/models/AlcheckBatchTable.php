@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Interfaces with the AlcheckBatch table in the Database.
  */
@@ -30,6 +30,6 @@ class AlcheckBatchTable extends Doctrine_Table
             ->leftJoin('a.Sample s')
             ->select('b.*, a.*, s.id, s.name')
             ->where('b.id = ?', $batch_id)
-            ->orderBy('a.number_within_batch ASC'); 
+            ->orderBy('a.number_within_batch ASC');
     }
 }

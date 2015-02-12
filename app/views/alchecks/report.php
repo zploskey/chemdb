@@ -36,8 +36,8 @@
 .green
     {font-family:Arial;
     font-size:8.0pt;
-    background-color:#78FF78}   
-    
+    background-color:#78FF78}
+
 -->
 </style>
 
@@ -69,7 +69,7 @@
 </table>
 
 <table width="800" class="xl29" cellpadding=0>
-    
+
 
 <thead>
     <tr>
@@ -77,18 +77,18 @@
         <td align="left" width="120" class="xl29">Sample name</td>
         <td align="center" >Bkr. ID</td>
         <td align="center" class="xl29">Sample wt.</td>
-        
+
         <td width="10"></td>
-        
+
         <td align="center" width="40" >ICP<br>[Be]</td>
         <td align="center" width="40" >ICP<br>[Mg]</td>
         <td align="center" width="40" >ICP<br>[Al]</td>
         <td align="center" width="40" >ICP<br>[Ca]</td>
         <td align="center" width="40" >ICP<br>[Ti]</td>
         <td align="center" width="40" >ICP<br>[Fe]</td>
-        
+
         <td width="10"></td>
-        
+
         <td align="right" width="30" class="xl29">Qtz<br>[Be]</td>
         <td align="right" width="30" class="xl29">Qtz<br>[Mg]</td>
         <td align="right" width="30" class="xl29">Qtz<br>[Al]</td>
@@ -103,17 +103,17 @@
 <tbody>
 
 <?php
-for ($a = 0; $a < $nsamples; $a++): 
+for ($a = 0; $a < $nsamples; $a++):
     $an = $batch['AlcheckAnalysis'][$a];
 ?>
- 
-    <tr>    
-        <td><?=$an['id']?></td> 
+
+    <tr>
+        <td><?=$an['id']?></td>
         <td class=<?=$color[$a]?>><?=$sample_name[$a]?></td>
-        <td align="center"><?=$an['bkr_number']?></td>  
+        <td align="center"><?=$an['bkr_number']?></td>
         <td align="center" class="xl29"><?=sprintf('%.4f', $sample_wt[$a])?></td>
         <td></td>
-        <td align="center" class="xl29"><?=sprintf('%.3f', $an['icp_be'])?></td>    
+        <td align="center" class="xl29"><?=sprintf('%.3f', $an['icp_be'])?></td>
         <td align="center" class="xl29"><?=sprintf('%.3f', $an['icp_mg'])?></td>
         <td align="center" class="xl29"><?=sprintf('%.3f', $an['icp_al'])?></td>
         <td align="center" class="xl29"><?=sprintf('%.3f', $an['icp_ca'])?></td>
@@ -126,10 +126,10 @@ for ($a = 0; $a < $nsamples; $a++):
         <td align="right" class=<?=$color[$a]?>><?=sprintf('%.1f', $qtz_ca[$a])?></td>
         <td align="right" class=<?=$color[$a]?>><?=sprintf('%.1f', $qtz_ti[$a])?></td>
         <td align="right" class=<?=$color[$a]?>><?=sprintf('%.1f', $qtz_fe[$a])?></td>
-        <td></td>   
+        <td></td>
         <td align="left"><?=$an['notes']?></td>
     </tr>
-    
+
 <?php endfor; ?>
 
 </tbody>

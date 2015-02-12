@@ -51,7 +51,7 @@
         <td></td>
         <td>
             [Al]:
-            <? 
+            <?
             if($batch->AlCarrier) {
                 echo $batch->AlCarrier->al_conc;
                 if (!is_null($batch->AlCarrier->del_al_conc)) {
@@ -116,8 +116,8 @@
         <td colspan="3" class="arial12">Sample information:</td>
         <td colspan="7" class="arial10">
             <i>Open new window to create Al/Fe/Ti concentrations for samples not in database:
-                <?=anchor('alchecks/quick_add', 
-                    'click here', 
+                <?=anchor('alchecks/quick_add',
+                    'click here',
                     array('target' => 'dummy_alcheck_window')
                 )?>
             </i>
@@ -142,7 +142,7 @@
         <tr>
             <td> <?=$batch->Analysis[$i]->id?> </td>
             <td>
-                <input type="text" class="sample_name" size=16 name="sample_name[]" 
+                <input type="text" class="sample_name" size=16 name="sample_name[]"
                     value="<?=$batch->Analysis[$i]->sample_name?>">
             </td>
             <!-- Sample type dropdown -->

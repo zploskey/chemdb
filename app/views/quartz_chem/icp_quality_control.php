@@ -1,9 +1,9 @@
-<?=form_open('quartz_chem/icp_quality_control', '', 
+<?=form_open('quartz_chem/icp_quality_control', '',
     array('batch_id' => $batch['id'], 'refresh' => true)) // hidden vars ?>
 
 <table width="800" class="arial10">
     <tr>
-        <td> 
+        <td>
         <h3>Batch information:</p></h3>
         Batch ID: <?=$batch['id']?> <br>
         Batch start date: <?=$batch['start_date']?> <br>
@@ -22,7 +22,7 @@
 <?php if ($errors) echo validation_errors(); ?>
 
 <table width="800" class="arial8">
-<?php 
+<?php
 // save the column labels for repeated printing within the analysis loop
 echo $cols = <<<COL
 <tr><td colspan="11"><hr></td></tr>
@@ -44,26 +44,26 @@ COL;
 for ($a = 0; $a < $batch['nsamples']; $a++):
     $an = &$batch['Analysis'][$a]; ?>
     <tr><td colspan="11"><hr></td></tr>
-    <tr>    
+    <tr>
     <? for ($s = 0; $s < $an['nsplits']; $s++): ?>
-    
+
         <? if ($s == 0): ?>
             <td><?=$an['id']?></td>
             <td><?=$an['sample_name']?></td>
         <? else: ?>
             <td colspan="2"></td>
         <? endif; ?>
-        
+
         <? for ($r = 0; $r < $an['Split'][$s]['nruns']; $r++): // ICP run loop
             $run = &$an['Split'][$s]['IcpRun'][$r];  ?>
-            
+
             <? if ($r == 0):?>
                 <td>Split <?=$an['Split'][$s]['split_num']?></td>
                 <td><?=$an['Split'][$s]['SplitBkr']['bkr_number']?></td>
             <? else: ?>
                 <td colspan="4"></td>
             <? endif; ?>
-            
+
             <td>Run <?=$run['run_num']?></td>
             <td><? printf('%.4f', $run['be_result']); ?></td>
             <td><? printf('%.1f', $run['be_tot']); ?></td>
@@ -77,9 +77,9 @@ for ($a = 0; $a < $batch['nsamples']; $a++):
             </td>
         </tr>
         <? endfor; // runs?>
-            
+
     <? endfor; // splits ?>
-    
+
     <!-- Row 6: Averages -->
     <tr>
         <td colspan="5"></td>
@@ -93,7 +93,7 @@ for ($a = 0; $a < $batch['nsamples']; $a++):
 
         <td colspan="2">
             <? printf('%.1f', $an['al_avg']); ?>
-            &plusmn; 
+            &plusmn;
             <? printf('%.1f', $an['al_sd']); ?>
         </td>
     </tr>
@@ -125,7 +125,7 @@ for ($a = 0; $a < $batch['nsamples']; $a++):
         </tr>
         <? if ($a != $batch['nsamples'] - 1) echo $cols; ?>
     <? endif; ?>
-    
+
 <? endfor; // analyses ?>
 
 <tr><td colspan="11"><hr></td></tr>
@@ -137,5 +137,5 @@ for ($a = 0; $a < $batch['nsamples']; $a++):
 <?=form_open('quartz_chem/index')?>
     <div align="center">
         <input type="submit" value="I'm done -- back to main menu">
-    </div>  
+    </div>
 <?=form_close()?>

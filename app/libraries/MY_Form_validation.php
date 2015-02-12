@@ -23,7 +23,7 @@ class MY_Form_validation extends CI_Form_validation
             ->from($table)
             ->where("$column = ?", $value)
             ->execute();
-        
+
         if ($result->count() == 0) {
             return true; // it's a unique name
         } else {
@@ -49,7 +49,7 @@ class MY_Form_validation extends CI_Form_validation
         list($year, $month, $day) = explode('-', $tdate);
         return checkdate($month, $day, $year);
     }
-    
+
     function alpha_dot_dash($val)
     {
         return (!preg_match("/^([\.-a-z0-9_-])+$/i", $val)) ? FALSE : TRUE;
@@ -60,7 +60,7 @@ class MY_Form_validation extends CI_Form_validation
         if ($val == '' || is_numeric($val)) {
             return true;
         }
-        
+
         $this->set_message(__FUNCTION__, 'The %s field must be a number.');
         return false;
     }
@@ -85,19 +85,19 @@ class MY_Form_validation extends CI_Form_validation
     {
         return ($val == '' || $this->is_natural_no_zero($val));
     }
-    
+
     function _is_unique($val, $field)
     {
         $id = $this->uri->segment(3, null);
-        
+
         if ($this->is_unique($val, $field, $id)) {
             return true;
         }
-        $this->set_message(__FUNCTION__, 
+        $this->set_message(__FUNCTION__,
             'The %s field already exists in the database, please choose a different one.');
         return false;
     }
-    
+
     function noreq_alpha_dot_dash($val)
     {
         return ($val == '' || $this->alpha_dot_dash($val));
@@ -110,7 +110,7 @@ class MY_Form_validation extends CI_Form_validation
     {
         return (is_numeric($val) && abs($val) <= 180);
     }
-    
+
     function noreq_latlong($val)
     {
         return ($val == '' || $this->latlong($val));
@@ -120,7 +120,7 @@ class MY_Form_validation extends CI_Form_validation
     {
         return (is_numeric($val) && abs($val) <= 1);
     }
-    
+
     function noreq_shield_factor($val)
     {
         return ($val == '' || $this->shield_factor($val));

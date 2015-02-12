@@ -36,7 +36,7 @@ class Batch extends BaseBatch
     }
 
     /**
-     * Do calculations for our reports. The batch must already have nearly all its data 
+     * Do calculations for our reports. The batch must already have nearly all its data
      * to do these calculations. Populate the data structure first. If you specify that
      * you want statistics with the first parameter, the resulting array will have
      * additional fields:
@@ -59,7 +59,7 @@ class Batch extends BaseBatch
     public function getReportArray($stats = false)
     {
         // get an array representation of the batch
-        $batch = $this->toArray(); 
+        $batch = $this->toArray();
         // do some math for the derived weights and statistics
         $batch['nsamples'] = count($batch['Analysis']);
         $batch['max_nsplits'] = 0;
@@ -105,7 +105,7 @@ class Batch extends BaseBatch
 
             if ($precheck) { // we found it
                 $alcheck_df = safe_divide(
-                                ($precheck['wt_bkr_soln'] - $precheck['wt_bkr_tare']), 
+                                ($precheck['wt_bkr_soln'] - $precheck['wt_bkr_tare']),
                                 ($precheck['wt_bkr_sample'] - $precheck['wt_bkr_tare'])
                               );
                 $check_al = $precheck['icp_al'] * $alcheck_df * $a['wt_sample'];
@@ -150,7 +150,7 @@ class Batch extends BaseBatch
         $temp_tot_be = 0;
         $n_al = 0;
         $n_be = 0;
-        foreach ($a['Split'] as &$s) { 
+        foreach ($a['Split'] as &$s) {
             foreach ($s['IcpRun'] as &$r) {
                 $r['al_tot'] = $r['al_result'] * $s['tot_df'];
                 $r['be_tot'] = $r['be_result'] * $s['tot_df'];
@@ -197,7 +197,7 @@ class Batch extends BaseBatch
 
     /**
      * Creates splits and runs for all the analyses in the batch if none exist yet.
-     * 
+     *
      * @return bool true if changes were made to the object
      */
     public function initializeSplitsRuns()
@@ -231,7 +231,7 @@ class Batch extends BaseBatch
      * @return array of generated aluminum text, beryllium text, and the number of rows in the text
      **/
     public function generateIcpResultsText()
-    {   
+    {
         $al_text = '';
         $be_text = '';
         $nrows = 0;
@@ -248,7 +248,7 @@ class Batch extends BaseBatch
             }
         }
 
-        return array($al_text, $be_text, $nrows);        
+        return array($al_text, $be_text, $nrows);
     }
 
     /**
@@ -312,7 +312,7 @@ class Batch extends BaseBatch
      * result in calculations. If an IcpRun id is within the $use_be array then
      * that run's use_be field will be set to 'y', otherwise it is set to 'n'. The
      * same holds for $use_al.
-     * 
+     *
      * @param array $use_be array containing run id values for Be ICP results deemed OK
      * @param array $use_al array containing run id values for Al ICP results deemed OK
      * @throws InvalidArgumentException if either argument is not an array

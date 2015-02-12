@@ -1,6 +1,6 @@
 <?=$this->load->view('samples/nav')?>
 <?=form_open('samples/index')?>
-    Sample search: 
+    Sample search:
     <input type="text" class="sample_name" value="<?=htmlentities($query)?>" name="query">
     <input type="submit" value="Search">
 <?=form_close()?>
@@ -47,11 +47,11 @@
             <?=$pagination?>
         </div>
     <?php endif; ?>
-    
+
 <? else: ?>
 
     <br>
     No sample matching '<em><?=htmlentities($query)?></em>' could be found.<br><br>
     Would you like to <?=anchor('samples/edit', 'add')?> it?
-    
+
 <? endif; ?>

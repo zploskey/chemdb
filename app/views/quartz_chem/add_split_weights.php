@@ -87,7 +87,7 @@
 
             <td>Split <?=$s+1?>:</td>
             <td>
-                <select name="split_bkr[]" class="bkr_select" 
+                <select name="split_bkr[]" class="bkr_select"
                  onClick="javascript:setBeakerSequence();">
                     <?php
                     foreach ($bkr_list as $b) {

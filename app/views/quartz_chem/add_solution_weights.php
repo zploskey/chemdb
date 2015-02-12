@@ -19,7 +19,7 @@
             </center>
         </td>
     </tr>
-    <tr><td><hr></td></tr> 
+    <tr><td><hr></td></tr>
 </table>
 
 <?php if ($errors): ?>

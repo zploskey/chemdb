@@ -1,6 +1,6 @@
 <?=$this->load->view('projects/nav')?>
 <div class="pagination">
-    <? 
+    <?
     if ($paginate) {
         $pagstring = "Go to page: $pagination";
         echo $pagstring;
@@ -15,9 +15,9 @@
                 </th>
                 <th>Actions</th>
             </tr>
-            
+
             <?php foreach($projects as $p): ?>
-            
+
                 <tr>
                     <td id="name"><?=$p->name?></td>
                     <td>
@@ -29,9 +29,9 @@
                         </span>
                     </td>
                 </tr>
-        
+
             <?php endforeach; ?>
-        
+
         </table>
     </p>
 </div>
