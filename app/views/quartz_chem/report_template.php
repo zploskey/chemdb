@@ -28,5 +28,5 @@
             <?=$this->load->view($main)?>
         </div>
     </body>
-    
+
 </html>

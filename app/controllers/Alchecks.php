@@ -85,7 +85,7 @@ class Alchecks extends MY_Controller
 
         $batch = Doctrine::getTable('AlcheckBatch')
                ->getJoinQuery($batch_id)->fetchOne();
-	
+
         if (! $batch) {
             show_404('page');
         }
@@ -95,7 +95,7 @@ class Alchecks extends MY_Controller
         } else {
             $nsamples = 0;
         }
-        
+
         $data = new stdClass();
         $data->errors = false;
         if ($add) {
@@ -170,7 +170,7 @@ class Alchecks extends MY_Controller
         }
 
         // for autocomplete to work we need to load the script
-        $data->extraHeadContent = 
+        $data->extraHeadContent =
             '<script type="text/javascript" src="js/sample_search.js"></script>';
         $data->sample_name = $sample_name;
         $data->nsamples = $nsamples;
@@ -191,7 +191,7 @@ class Alchecks extends MY_Controller
         if (! $batch) {
             show_404('page');
         }
-        
+
         $data = new stdClass();
         $data->errors = false;
         $nsamples = $batch->AlcheckAnalysis->count();
@@ -314,10 +314,10 @@ class Alchecks extends MY_Controller
 
         $elements = array('be', 'ca', 'ti', 'fe', 'al', 'mg');
         $nsamples = $batch->AlcheckAnalysis->count();
-        
+
         // calculate quartz weights and set sample names
         $sample_name = $sample_wt = array();
-        
+
         for ($i = 0; $i < $nsamples; $i++) {
             $a = $batch['AlcheckAnalysis'][$i];
             // temporary variable calculations
@@ -333,7 +333,7 @@ class Alchecks extends MY_Controller
 
         for ($a = 0; $a < $nsamples; $a++) {
             //figure out qtz Al concentration
-            if ($data->qtz_al[$a] > 250) { 
+            if ($data->qtz_al[$a] > 250) {
                 $color = "red";
             } elseif ($data->qtz_al[$a] > 150) {
                 $color = "yellow";
@@ -363,9 +363,9 @@ class Alchecks extends MY_Controller
         $analysis_id = $this->input->post('analysis_id');
         $refresh = $this->input->post('refresh');
         $close = $this->input->post('close');
-        
+
         $an = new AlcheckAnalysis;
-        
+
         $data = new stdClass();
         $data->errors = true;
         if ($refresh || $close) {
@@ -394,9 +394,9 @@ class Alchecks extends MY_Controller
                 if ($num_named > 1) {
                     die("Error: Multiple samples named " . $an->sample_name);
                 }
-                // Found a single sample 
+                // Found a single sample
                 $an->Sample = $samples[0];
-            } 
+            }
 
             if (! $batch_id) {
                 // create the dummy batch
@@ -414,7 +414,7 @@ class Alchecks extends MY_Controller
                     die('Batch not found.');
                 }
             }
-            
+
             if ($analysis_id) {
                 $n = $batch->AlcheckAnalysis->count();
                 $an->id = $batch->AlcheckAnalysis->end()->id;
@@ -422,7 +422,7 @@ class Alchecks extends MY_Controller
             } else {
                 $batch->AlcheckAnalysis[] = $an;
             }
-            
+
             if ($valid) {
                 $batch->save();
                 $batch_id = $batch->id;
@@ -449,7 +449,7 @@ class Alchecks extends MY_Controller
     /**
      * @param string $date date in YYYY-MM-DD format
      */
-    function _valid_date($date) 
+    function _valid_date($date)
     {
         if ($this->form_validation->valid_date($date)) {
             return true;

@@ -10,7 +10,7 @@ class SampleTable extends Doctrine_Table
                ->where('s.name LIKE ?', "%$name%")
                ->execute(array(), Doctrine::HYDRATE_SINGLE_SCALAR);
     }
-    
+
     public function fetchViewdataById($id)
     {
         return Doctrine_Query::create()

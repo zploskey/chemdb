@@ -23,7 +23,7 @@ class Samples extends MY_Controller
         $display_data = array(
             'title'            => 'Manage Samples',
             'main'             => 'samples/index',
-            'extraHeadContent' => 
+            'extraHeadContent' =>
                 '<script type="text/javascript" src="js/sample_search.js"></script>',
         );
 
@@ -105,14 +105,14 @@ class Samples extends MY_Controller
     }
 
     /**
-     * Displays the edit form and evaluates submits. If the submit validates properly, 
+     * Displays the edit form and evaluates submits. If the submit validates properly,
      * it makes change to sample in database and redirects.
      *
      */
-    function edit($id = 0) 
+    function edit($id = 0)
     {
         $is_refresh = $this->input->post('is_refresh');
-        
+
         $query = Doctrine_Query::create()
             ->from('Sample s, s.Project p')
             ->where('s.id = ?', $id);
@@ -164,7 +164,7 @@ class Samples extends MY_Controller
                         continue;
                     }
                     $sample['ProjectSample'][$i-$off]['project_id'] = $proj[$i];
-                    $sample['ProjectSample'][$i-$off]['sample_id'] = $sample->id; 
+                    $sample['ProjectSample'][$i-$off]['sample_id'] = $sample->id;
                 }
                 $sample->save();
                 $sample = $query->where('s.id = ?', $sample->id)->fetchOne();
@@ -285,7 +285,7 @@ EHC;
             $useIcpBe[$i] = ($this->input->post('analysis'.$i) == 'icp');
         }
         $calcInputs = $sample->getCalcInputs($useIcpBe);
-        
+
         // find out what the user wanted
         $calcSel = true;
         if ($this->input->post('calcSelEro')) {
@@ -308,7 +308,7 @@ EHC;
             }
             $incInReport = array($nToCalc);
         }
-        
+
         if ($calcSel) {
             $incInReport = $this->input->post('incInReport');
             if (!is_array($incInReport)) {
@@ -318,16 +318,16 @@ EHC;
                 die('You must select at least one analysis to submit.');
             }
         }
-        
+
         if (!isset($calcType)) {
             die('Error: Calculation type was not specified.');
         }
-        
+
         foreach ($incInReport as $i) {
             $tmp[] = implode("\n", $calcInputs[$calcType][$i]);
         }
         $submitText = implode("\n", $tmp);
-        
+
         $html = $this->calculator->send($submitText, $calcType);
         echo $html;
     }
@@ -357,7 +357,7 @@ EHC;
             echo "$s->name\n";
         }
     }
-    
+
     /**
      * Validates the antarctic checkbox. Returns true if the value is 1.
      *

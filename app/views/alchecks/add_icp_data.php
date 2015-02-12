@@ -1,5 +1,5 @@
 <?php
-echo form_open('alchecks/add_icp_data', '', 
+echo form_open('alchecks/add_icp_data', '',
                array('batch_id' => $batch->id,
                      'refresh'  => true));
 ?>
@@ -29,7 +29,7 @@ Batch description: <?=$batch->description?><br/>
         <td align="center">No.</td>
         <td>Sample name</td>
         <td align="center">Bkr. ID</td>
-        
+
         <td align="center">ICP<br>[Be]</td>
         <td align="center">ICP<br>[Mg]</td>
         <td align="center">ICP<br>[Al]</td>
@@ -48,7 +48,7 @@ Batch description: <?=$batch->description?><br/>
     </tr>
 
 <?php
-for ($a = 0; $a < $nsamples; $a++): 
+for ($a = 0; $a < $nsamples; $a++):
     $an = $batch['AlcheckAnalysis'][$a];
 ?>
 
@@ -72,9 +72,9 @@ for ($a = 0; $a < $nsamples; $a++):
 
         <td align="left"><input type=text name=notes[] value="<?=$an['notes']?>"></td>
     </tr>
-    
+
 <?php endfor; ?>
-    
+
 </table>
 
 <table width="800">

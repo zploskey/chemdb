@@ -18,7 +18,7 @@ class Calculator {
             CURLOPT_TIMEOUT => 200,
         );
 
-        
+
         // send the request with curl
         $ch = curl_init(CRONUS_URI);
         curl_setopt_array($ch, $options);
@@ -26,7 +26,7 @@ class Calculator {
         if (!$result) {
             die('Error retrieving calculator result:<br>' . curl_error($ch));
         }
-        
+
         curl_close($ch);
         $rep = '<head><base href="' . CRONUS_BASE . '" />';
         $html = str_replace('<head>', $rep, $result);

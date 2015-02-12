@@ -11,7 +11,7 @@ class Analysis extends BaseAnalysis
             foreach ($sp->IcpRun as $run) {
                 if ($run["use_$element"] == 'y') {
                     // calculate Al mass from ICP measurement, in g
-                    $vals[] = 
+                    $vals[] =
                         $this->getSolnWt() * $run["$element".'_result'] * $sp->getSolnWt()
                         * 1e-6 / $sp->getSplitWt();
                 }
@@ -19,7 +19,7 @@ class Analysis extends BaseAnalysis
         }
         return meanStdDev($vals);
     }
-    
+
     public function getPctYield($el)
     {
         list($M_element) = $this->getMassIcp($el);
@@ -28,7 +28,7 @@ class Analysis extends BaseAnalysis
             * $this['Batch'][$el . 'Carrier'][$lcEl . '_conc'];
         return safe_divide($M_element, $M_carrier) * 100;
     }
-    
+
     public function getConcPpm($element)
     {
         return safe_divide(
