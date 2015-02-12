@@ -7,7 +7,7 @@ class Samples extends MY_Controller
     {
         parent::__construct();
         $this->load->library('session');
-        $this->load->library('calculator');
+        $this->load->library('Calculator');
     }
 
     /**
