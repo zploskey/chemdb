@@ -43,7 +43,7 @@ class Samples extends MY_Controller
         $query = $this->input->post('query');
         $is_continuation = $this->uri->segment(3);
 
-        if ($query !== false) {
+        if ($query) {
             $this->session->set_userdata('sample_query', trim($query));
         } elseif ($is_continuation) {
             $query = $this->session->userdata('sample_query');
