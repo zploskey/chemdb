@@ -174,7 +174,7 @@
     <?
     $first = true;
     foreach ($a['Split'] as $s) {
-        if ($first == false) {
+        if (!$first) {
             echo '<tr align="center"><td colspan="8"></td>';
         } else {
             $first = false;
