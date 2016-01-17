@@ -15,7 +15,7 @@
             <td><?=$batch->start_date?></td>
         </tr>
         <tr>
-            <td>Number of samples: </td>
+            <td>Number of samples (including blanks): </td>
             <td>
             <?php if ($allow_num_edit): ?>
                 <input type="text" name="numsamples" size="50" value="<?=$numsamples?>">
