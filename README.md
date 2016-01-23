@@ -9,6 +9,7 @@ software, so you are free to use it and change it to adapt it to your needs.
 
 Features
 --------
+
 - Collect sample location and field notes.
 - Organize samples by Project.
 - Store all of your sample preparation data in one place.
@@ -27,16 +28,16 @@ database servers that are supported by Doctrine1.
 
 To install using git:
 
-$ git clone https://github.com/cosmolab/chemdb.git /path/to/chemdb
-$ cd /path/to/chemdb
+    git clone https://github.com/cosmolab/chemdb.git /path/to/chemdb
+    cd /path/to/chemdb
 
 Now we need to install our dependencies (Doctrine version 1 and CodeIgniter).
 CodeIgniter is the web framework on which ChemDB is built. Doctrine is a
 database abstraction layer and object-relational mapper used to interact
 with the internal database:
 
-$ git submodule init
-$ git submodule update
+    git submodule init
+    git submodule update
 
 Basic Configuration
 -------------------
@@ -56,8 +57,8 @@ http://docs.doctrine-project.org/projects/doctrine1/en/latest/en/index.html
 Once your database is properly configured, run the doctrine command line tool
 to create the databases and tables. From the chemdb directory, run:
 
-    $ app/doctrine create-db
-    $ app/doctrine create-tables
+    app/doctrine create-db
+    app/doctrine create-tables
 
 Encrypted Sessions
 ------------------
