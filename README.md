@@ -74,11 +74,13 @@ A Note of Logins and Security
 
 By default, ChemDB does not provide a login mechanism. Unless you want the
 database to be publicly accessible (not recommended), you will need to
-limit access only to users who you want to allow to edit the database. Your
-University may provide such a mechanism that you can put into your .htaccess
-file in the base of the installation directory, or you can configure it with
-password protection using an .htpasswd file. See the documentation for your
-web server on how to create one.
+limit access only to users who you want to allow to edit the database.
+If you are at a university or other large institution,
+they may provide such a mechanism that you can put into your .htaccess
+file in the base of the installation directory.
+Otherwise you can configure limited access with
+password protection by using an .htpasswd file.
+See the documentation for your web server on how to create one.
 
 Test the installation
 ---------------------
