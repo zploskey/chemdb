@@ -45,22 +45,6 @@ table {
  text-align:center;   
 }
 
-/* td {
-    border-top: 0px;
-    border-left: 0px;
-    border-right: 0px;
-    
-    //border-width: 0px 0px 0px 0px;
-    //padding: 0px 0px 0px 0px;
-    //-moz-border-radius: 0px 0px 0px 0px;
-} */
-
-/* tr {
-    border-top: 0px;
-    border-left: 0px;
-    border-right: 0px;
-} */
-
 div#wrapper {
  margin-left: auto;
  margin-right: auto;
@@ -86,7 +70,6 @@ div#data table {
 
 .formblock label, .formblock input, .formblock select {
     display: block;
-/*  width: 150px; */
     float: left;
     margin-bottom: 10px;
 }
@@ -139,10 +122,6 @@ th {
     border-top: 0px;
     border-left: 0px;
     border-right: 0px;
-/*  border-right: 0px solid #C1DAD7; 
-    border-width: 0px 0px 0px 0px;
-    padding: 0px 0px 0px 0px;
-    -moz-border-radius: 0px 0px 0px 0px; */
 }
 
 .itemlist table {
