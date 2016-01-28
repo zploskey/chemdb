@@ -22,14 +22,16 @@ abstract class BaseProjectSample extends Doctrine_Record
         $this->setTableName('project_sample');
         $this->hasColumn('project_id', 'integer', 4, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => true,
              'autoincrement' => false,
              'length' => '4',
              ));
         $this->hasColumn('sample_id', 'integer', 4, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => true,
              'autoincrement' => false,
              'length' => '4',

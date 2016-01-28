@@ -21,18 +21,20 @@ abstract class BaseSplitBkr extends Doctrine_Record
         $this->setTableName('split_bkr');
         $this->hasColumn('id', 'integer', 4, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
              'length' => '4',
              ));
-        $this->hasColumn('bkr_number', 'string', 2147483647, array(
+        $this->hasColumn('bkr_number', 'string', null, array(
              'type' => 'string',
              'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
     }
 
