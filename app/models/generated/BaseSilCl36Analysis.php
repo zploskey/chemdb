@@ -29,14 +29,16 @@ abstract class BaseSilCl36Analysis extends Doctrine_Record
         $this->setTableName('sil_cl36_analysis');
         $this->hasColumn('id', 'integer', 4, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
              'length' => '4',
              ));
         $this->hasColumn('sample_id', 'integer', 4, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
@@ -45,6 +47,7 @@ abstract class BaseSilCl36Analysis extends Doctrine_Record
         $this->hasColumn('sample_name', 'string', 255, array(
              'type' => 'string',
              'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'default' => '',
              'notnull' => true,
@@ -53,7 +56,8 @@ abstract class BaseSilCl36Analysis extends Doctrine_Record
              ));
         $this->hasColumn('cl36_batch_id', 'integer', 4, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
@@ -61,7 +65,8 @@ abstract class BaseSilCl36Analysis extends Doctrine_Record
              ));
         $this->hasColumn('calib_id', 'integer', 4, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
@@ -69,7 +74,8 @@ abstract class BaseSilCl36Analysis extends Doctrine_Record
              ));
         $this->hasColumn('cl37_spike_id', 'integer', 4, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
@@ -78,6 +84,7 @@ abstract class BaseSilCl36Analysis extends Doctrine_Record
         $this->hasColumn('sample_type', 'enum', 6, array(
              'type' => 'enum',
              'fixed' => 0,
+             'unsigned' => false,
              'values' => 
              array(
               0 => 'SAMPLE',
@@ -90,29 +97,32 @@ abstract class BaseSilCl36Analysis extends Doctrine_Record
              'autoincrement' => false,
              'length' => '6',
              ));
-        $this->hasColumn('wt_spike', 'float', 2147483647, array(
+        $this->hasColumn('wt_spike', 'float', null, array(
              'type' => 'float',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('wt_bkr_tare', 'float', 2147483647, array(
+        $this->hasColumn('wt_bkr_tare', 'float', null, array(
              'type' => 'float',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('wt_bkr_sample', 'float', 2147483647, array(
+        $this->hasColumn('wt_bkr_sample', 'float', null, array(
              'type' => 'float',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
     }
 

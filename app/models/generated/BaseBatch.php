@@ -39,14 +39,16 @@ abstract class BaseBatch extends Doctrine_Record
         $this->setTableName('batch');
         $this->hasColumn('id', 'integer', 2, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
              'length' => '2',
              ));
         $this->hasColumn('al_carrier_id', 'integer', 1, array(
              'type' => 'integer',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
@@ -54,30 +56,35 @@ abstract class BaseBatch extends Doctrine_Record
              ));
         $this->hasColumn('be_carrier_id', 'integer', 1, array(
              'type' => 'integer',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
              'length' => '1',
              ));
-        $this->hasColumn('owner', 'string', 2147483647, array(
+        $this->hasColumn('owner', 'string', null, array(
              'type' => 'string',
              'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('description', 'string', 2147483647, array(
+        $this->hasColumn('description', 'string', null, array(
              'type' => 'string',
              'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
         $this->hasColumn('start_date', 'date', 25, array(
              'type' => 'date',
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'default' => '0000-00-00',
              'notnull' => true,
@@ -86,6 +93,8 @@ abstract class BaseBatch extends Doctrine_Record
              ));
         $this->hasColumn('split_date', 'date', 25, array(
              'type' => 'date',
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'default' => '0000-00-00',
              'notnull' => true,
@@ -94,77 +103,85 @@ abstract class BaseBatch extends Doctrine_Record
              ));
         $this->hasColumn('icp_date', 'date', 25, array(
              'type' => 'date',
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'default' => '0000-00-00',
              'notnull' => true,
              'autoincrement' => false,
              'length' => '25',
              ));
-        $this->hasColumn('be_carrier_name', 'string', 2147483647, array(
+        $this->hasColumn('be_carrier_name', 'string', null, array(
              'type' => 'string',
              'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
-             'default' => '',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('wt_be_carrier_init', 'float', 2147483647, array(
+        $this->hasColumn('wt_be_carrier_init', 'float', null, array(
              'type' => 'float',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('wt_be_carrier_final', 'float', 2147483647, array(
+        $this->hasColumn('wt_be_carrier_final', 'float', null, array(
              'type' => 'float',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('al_carrier_name', 'string', 2147483647, array(
+        $this->hasColumn('al_carrier_name', 'string', null, array(
              'type' => 'string',
              'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
-             'default' => '',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('wt_al_carrier_init', 'float', 2147483647, array(
+        $this->hasColumn('wt_al_carrier_init', 'float', null, array(
              'type' => 'float',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('wt_al_carrier_final', 'float', 2147483647, array(
+        $this->hasColumn('wt_al_carrier_final', 'float', null, array(
              'type' => 'float',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('notes', 'string', 2147483647, array(
+        $this->hasColumn('notes', 'string', null, array(
              'type' => 'string',
              'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
         $this->hasColumn('completed', 'enum', 1, array(
              'type' => 'enum',
              'fixed' => 0,
+             'unsigned' => false,
              'values' => 
              array(
               0 => 'y',
@@ -176,21 +193,23 @@ abstract class BaseBatch extends Doctrine_Record
              'autoincrement' => false,
              'length' => '1',
              ));
-        $this->hasColumn('spreadsheet_name', 'string', 2147483647, array(
+        $this->hasColumn('spreadsheet_name', 'string', null, array(
              'type' => 'string',
              'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('csv_name', 'string', 2147483647, array(
+        $this->hasColumn('csv_name', 'string', null, array(
              'type' => 'string',
              'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
     }
 

@@ -22,9 +22,9 @@
  * @property Batch $Batch
  * @property Sample $Sample
  * @property DissBottle $DissBottle
- * @property Doctrine_Collection $Split
  * @property Doctrine_Collection $AlAms
  * @property Doctrine_Collection $BeAms
+ * @property Doctrine_Collection $Split
  * 
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
@@ -38,14 +38,16 @@ abstract class BaseAnalysis extends Doctrine_Record
         $this->setTableName('analysis');
         $this->hasColumn('id', 'integer', 2, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
              'length' => '2',
              ));
         $this->hasColumn('batch_id', 'integer', 2, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
@@ -54,7 +56,8 @@ abstract class BaseAnalysis extends Doctrine_Record
              ));
         $this->hasColumn('sample_id', 'integer', 4, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
@@ -62,101 +65,108 @@ abstract class BaseAnalysis extends Doctrine_Record
              ));
         $this->hasColumn('number_within_batch', 'integer', 1, array(
              'type' => 'integer',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
              'length' => '1',
              ));
-        $this->hasColumn('sample_name', 'string', 2147483647, array(
+        $this->hasColumn('sample_name', 'string', null, array(
              'type' => 'string',
              'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
-             'default' => '',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('sample_type', 'string', 2147483647, array(
+        $this->hasColumn('sample_type', 'string', null, array(
              'type' => 'string',
              'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
-             'default' => '',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
         $this->hasColumn('diss_bottle_id', 'integer', 4, array(
              'type' => 'integer',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
              'length' => '4',
              ));
-        $this->hasColumn('diss_bottle_number', 'string', 2147483647, array(
+        $this->hasColumn('diss_bottle_number', 'string', null, array(
              'type' => 'string',
              'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
-             'default' => '',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('wt_diss_bottle_tare', 'float', 2147483647, array(
+        $this->hasColumn('wt_diss_bottle_tare', 'float', null, array(
              'type' => 'float',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('wt_diss_bottle_sample', 'float', 2147483647, array(
+        $this->hasColumn('wt_diss_bottle_sample', 'float', null, array(
              'type' => 'float',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('wt_be_carrier', 'float', 2147483647, array(
+        $this->hasColumn('wt_be_carrier', 'float', null, array(
              'type' => 'float',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('wt_al_carrier', 'float', 2147483647, array(
+        $this->hasColumn('wt_al_carrier', 'float', null, array(
              'type' => 'float',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('wt_diss_bottle_total', 'float', 2147483647, array(
+        $this->hasColumn('wt_diss_bottle_total', 'float', null, array(
              'type' => 'float',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('notes', 'string', 2147483647, array(
+        $this->hasColumn('notes', 'string', null, array(
              'type' => 'string',
              'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
-             'default' => '',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
     }
 
@@ -175,15 +185,15 @@ abstract class BaseAnalysis extends Doctrine_Record
              'local' => 'diss_bottle_id',
              'foreign' => 'id'));
 
-        $this->hasMany('Split', array(
-             'local' => 'id',
-             'foreign' => 'analysis_id'));
-
         $this->hasMany('AlAms', array(
              'local' => 'id',
              'foreign' => 'analysis_id'));
 
         $this->hasMany('BeAms', array(
+             'local' => 'id',
+             'foreign' => 'analysis_id'));
+
+        $this->hasMany('Split', array(
              'local' => 'id',
              'foreign' => 'analysis_id'));
     }

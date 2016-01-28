@@ -26,14 +26,16 @@ abstract class BaseIcpRun extends Doctrine_Record
         $this->setTableName('icp_run');
         $this->hasColumn('id', 'integer', 4, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
              'length' => '4',
              ));
         $this->hasColumn('split_id', 'integer', 4, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
@@ -41,34 +43,38 @@ abstract class BaseIcpRun extends Doctrine_Record
              ));
         $this->hasColumn('run_num', 'integer', 1, array(
              'type' => 'integer',
-             'unsigned' => '1',
+             'fixed' => 0,
+             'unsigned' => true,
              'primary' => false,
              'default' => '1',
              'notnull' => true,
              'autoincrement' => false,
              'length' => '1',
              ));
-        $this->hasColumn('al_result', 'float', 2147483647, array(
+        $this->hasColumn('al_result', 'float', null, array(
              'type' => 'float',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
-        $this->hasColumn('be_result', 'float', 2147483647, array(
+        $this->hasColumn('be_result', 'float', null, array(
              'type' => 'float',
-             'unsigned' => 0,
+             'fixed' => 0,
+             'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '2147483647',
+             'length' => '',
              ));
         $this->hasColumn('use_al', 'enum', 1, array(
              'type' => 'enum',
              'fixed' => 0,
+             'unsigned' => false,
              'values' => 
              array(
               0 => 'y',
@@ -83,6 +89,7 @@ abstract class BaseIcpRun extends Doctrine_Record
         $this->hasColumn('use_be', 'enum', 1, array(
              'type' => 'enum',
              'fixed' => 0,
+             'unsigned' => false,
              'values' => 
              array(
               0 => 'y',
