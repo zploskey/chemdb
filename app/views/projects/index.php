@@ -36,5 +36,5 @@
     </p>
 </div>
 <div class="pagination">
-    <? if ($paginate) echo $pagstring; ?>
+    <?php if ($paginate) echo $pagstring; ?>
 </div>

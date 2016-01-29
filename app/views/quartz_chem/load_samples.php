@@ -64,16 +64,16 @@
     <tr>
         <td>Be carrier previous wt:</td>
         <td>
-            <? if ($be_prev): ?>
+            <?php if ($be_prev): ?>
                 <?php echo $be_prev->wt_be_carrier_final; ?> (<?php echo $be_prev->start_date; ?>)
-            <? endif; ?>
+            <?php endif; ?>
         </td>
 
         <td>Al carrier previous wt:</td>
         <td>
-            <? if ($al_prev): ?>
+            <?php if ($al_prev): ?>
                 <?php echo $al_prev->wt_al_carrier_final; ?> (<?php echo $al_prev->start_date; ?>)
-            <? endif; ?>
+            <?php endif; ?>
         </td>
     </tr>
     <tr>
@@ -107,7 +107,7 @@
     <tr><td colspan="4"><hr></td></tr>
 </table>
 
-<? if ($errors) {
+<?php if ($errors) {
     echo validation_errors();
 } ?>
 
@@ -149,13 +149,13 @@
             <td>
                 <select name="sample_type[]" class="type">
 
-                    <? if (strcmp(trim(strtoupper($batch->Analysis[$i]->sample_type)), 'BLANK') == 0): ?>
+                    <?php if (strcmp(trim(strtoupper($batch->Analysis[$i]->sample_type)), 'BLANK') == 0): ?>
                         <option value="SAMPLE">Sample</option>
                         <option value="BLANK" selected>Blank</option>
-                    <? else: ?>
+                    <?php else: ?>
                         <option value="SAMPLE" selected>Sample</option>
                         <option value="BLANK">Blank</option>
-                    <? endif; ?>
+                    <?php endif; ?>
 
                 </select>
             </td>
@@ -226,7 +226,7 @@
         </tr>
 
         <!-- Print save and refresh button every two rows -->
-        <? if ( ($i % 2) != 0): ?>
+        <?php if ( ($i % 2) != 0): ?>
             <tr>
                 <td colspan="11"><hr></td>
             </tr>
@@ -235,7 +235,7 @@
                     <input type="submit" value="Save and refresh" class="ancBtn" id="ln<?php echo $i; ?>">
                 </td>
             </tr>
-        <? endif; ?>
+        <?php endif; ?>
     <?php endfor; // main display loop ?>
 
     <tr><td colspan="10"><hr></td></tr>
@@ -259,11 +259,11 @@
     <tr class="arial10">
         <td>Al carrier: </td>
         <td> Final less initial wt:</td>
-        <td><? printf('%.4f', $al_diff_wt) ?></td>
+        <td><?php printf('%.4f', $al_diff_wt) ?></td>
         <td> Sum of indiv. wts.:</td>
-        <td><? printf('%.4f', $al_tot_wt) ?></td>
+        <td><?php printf('%.4f', $al_tot_wt) ?></td>
         <td> Difference:</td>
-        <td><? printf('%.4f', $al_diff) ?></td>
+        <td><?php printf('%.4f', $al_diff) ?></td>
     </tr>
 </table>
 

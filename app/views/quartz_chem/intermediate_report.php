@@ -220,23 +220,23 @@
         <td align="center">
             Al wt. total<br>per Al check
         </td>
-        <? for ($s = 1; $s <= $batch['max_nsplits']; $s++): ?>
+        <?php for ($s = 1; $s <= $batch['max_nsplits']; $s++): ?>
             <td align="center">
                 Split <?php echo $s; ?><br>split wt.
             </td>
-        <? endfor; ?>
+        <?php endfor; ?>
 
-        <? for ($s = 1; $s <= $batch['max_nsplits']; $s++): ?>
+        <?php for ($s = 1; $s <= $batch['max_nsplits']; $s++): ?>
             <td align="center">
                 Split <?php echo $s; ?><br>ICP wt.
             </td>
-        <? endfor; ?>
+        <?php endfor; ?>
 
-        <? for ($s = 1; $s <= $batch['max_nsplits']; $s++): ?>
+        <?php for ($s = 1; $s <= $batch['max_nsplits']; $s++): ?>
             <td>
                 Split <?php echo $s; ?><br>multiplier
             </td>
-        <? endfor; ?>
+        <?php endfor; ?>
     </tr>
     <tr>
         <td colspan="<?php echo 6 + 3 * $batch['max_nsplits']; ?>"><hr></td>
@@ -249,11 +249,11 @@ for ($i = 0; $i < $batch['nsamples']; $i++):
 
     <tr align="center">
         <td align="left"><?php echo $a['sample_name']; ?></td>
-        <td><? printf('%.4f', $a['wt_sample']); ?></td>
-        <td><? printf('%.4f', $a['wt_HF_soln']); ?></td>
-        <td><? printf('%.1f', $a['wt_be']); ?></td>
-        <td><? printf('%.1f', $a['wt_al_fromc']); ?></td>
-        <td><? printf('%.1f', $a['check_tot_al']); ?></td>
+        <td><?php printf('%.4f', $a['wt_sample']); ?></td>
+        <td><?php printf('%.4f', $a['wt_HF_soln']); ?></td>
+        <td><?php printf('%.1f', $a['wt_be']); ?></td>
+        <td><?php printf('%.1f', $a['wt_al_fromc']); ?></td>
+        <td><?php printf('%.1f', $a['check_tot_al']); ?></td>
     <?php
     for ($s = 0; $s < $batch['max_nsplits']; $s++) {
         if ($s < $a['nsplits']) {
@@ -286,7 +286,7 @@ for ($i = 0; $i < $batch['nsamples']; $i++):
     } ?>
     </tr>
 
-<? endfor; ?>
+<?php endfor; ?>
 
     <tr><td colspan="<?php echo 6 + 3 * $batch['max_nsplits']; ?>"><hr><hr></td></tr>
 </table>

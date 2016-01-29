@@ -1,11 +1,11 @@
 <?php echo form_open('alchecks/quick_add'); ?>
 
-<? if ($batch_id): // a batch has already been created, keep track of its id ?>
+<?php if ($batch_id): // a batch has already been created, keep track of its id ?>
     <input type="hidden" name="batch_id" value="<?php echo $batch_id; ?>">
-    <? if ($analysis): ?>
+    <?php if ($analysis): ?>
         <input type="hidden" name="analysis_id" value="<?php echo $analysis->id; ?>">
-    <? endif; ?>
-<? endif; ?>
+    <?php endif; ?>
+<?php endif; ?>
 
 <table width="800" class="arial10">
 

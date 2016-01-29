@@ -6,7 +6,7 @@
 <?php echo form_close(); ?>
 <br>
 
-<? if ($samples->count() > 0): ?>
+<?php if ($samples->count() > 0): ?>
 
     <?php if ($paginate): ?>
         <div class="pagination">
@@ -48,10 +48,10 @@
         </div>
     <?php endif; ?>
 
-<? else: ?>
+<?php else: ?>
 
     <br>
     No sample matching '<em><?php echo htmlentities($query); ?></em>' could be found.<br><br>
     Would you like to <?php echo anchor('samples/edit', 'add'); ?> it?
 
-<? endif; ?>
+<?php endif; ?>

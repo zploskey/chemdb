@@ -47,7 +47,7 @@
         <td colspan="<?php echo (6 + $batch['max_nsplits'] * $batch['max_nruns'] * 3); ?>"><hr></td>
     </td>
 
-<? foreach ($batch['Analysis'] as $a): ?>
+<?php foreach ($batch['Analysis'] as $a): ?>
 
     <tr align="center">
 
@@ -107,7 +107,7 @@
         <td><?php echo sprintf('%.1f', $a['al_recovery']); ?></td>
     </tr>
 
-<? endforeach; ?>
+<?php endforeach; ?>
 
     <tr><td colspan="<?php echo (6 + $batch['max_nsplits'] * $batch['max_nruns'] * 3); ?>">
     <hr><hr></td>
@@ -161,7 +161,7 @@
         <td colspan="<?php echo (6 + $batch['max_nsplits'] * $batch['max_nruns'] * 3); ?>"><hr></td>
     </td>
 
-<? foreach ($batch['Analysis'] as $a): ?>
+<?php foreach ($batch['Analysis'] as $a): ?>
 
     <tr align="center">
     <td align="left"><?php echo $a['sample_name']; ?></td>
@@ -219,7 +219,7 @@
 
     <td><?php echo sprintf('%.1f', $a['be_recovery']); ?></td>
 
-<? endforeach; ?>
+<?php endforeach; ?>
 
 
 <tr><td colspan="<?php echo (6 + $batch['max_nsplits'] * $batch['max_nruns'] * 3); ?>"><hr><hr></td></tr>
