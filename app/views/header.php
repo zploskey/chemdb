@@ -5,7 +5,7 @@
             <img src="img/logo.jpeg">
         </span>
         <span style="position: relative; top: 30%;">
-            <i><h1><?=$title?></h1></i>
+            <i><h1><?php echo $title; ?></h1></i>
         </span>
     </div>
     <hr>
