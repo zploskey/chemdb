@@ -96,4 +96,4 @@ if ($errors) {
     <?php echo form_close(); ?>
 </table>
 
-<?php echo $this->load->view('quartz_chem/bottom_links'); ?>
+<?php $this->load->view('quartz_chem/bottom_links'); ?>

@@ -25,7 +25,7 @@
 
     <body>
         <div id="main">
-            <?php echo $this->load->view($main); ?>
+            <?php $this->load->view($main); ?>
         </div>
     </body>
 

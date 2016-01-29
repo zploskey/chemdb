@@ -1,4 +1,4 @@
-<?php echo $this->load->view('projects/nav'); ?>
+<?php $this->load->view('projects/nav'); ?>
 <div class="pagination">
     <?
     if ($paginate) {
