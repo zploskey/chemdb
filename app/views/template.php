@@ -29,16 +29,16 @@
     <body>
         <div id="wrapper">
             <div id="header">
-                <?php echo $this->load->view('header'); ?>
+                <?php $this->load->view('header'); ?>
             </div>
             <div id="nav">
-                <?php echo $this->load->view('navigation'); ?>
+                <?php $this->load->view('navigation'); ?>
             </div>
             <div id="main">
-                <?php echo $this->load->view($main); ?>
+                <?php $this->load->view($main); ?>
             </div>
             <div id="footer">
-                <?php echo $this->load->view('footer'); ?>
+                <?php $this->load->view('footer'); ?>
             </div>
         </div>
     </body>
