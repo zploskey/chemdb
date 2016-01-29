@@ -8,9 +8,10 @@ class MY_Form_validation extends CI_Form_validation
      *
      * @param string $value value to check for uniqueness in DB
      * @param string $field the database field to check
+     * @param int 
      * @return bool $id true if the value is unique
      */
-    function is_unique($value, $field, $id)
+    function is_unique_or_existing($value, $field, $id)
     {
         if (isset($id) AND ($id <= 0)) {
             return false;
@@ -90,7 +91,7 @@ class MY_Form_validation extends CI_Form_validation
     {
         $id = $this->uri->segment(3, null);
 
-        if ($this->is_unique($val, $field, $id)) {
+        if ($this->is_unique_or_existing($val, $field, $id)) {
             return true;
         }
         $this->set_message(__FUNCTION__,

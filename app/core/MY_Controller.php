@@ -35,7 +35,7 @@ class MY_Controller extends CI_Controller
     {
         $id = $this->uri->segment(3, null);
 
-        if ($this->form_validation->is_unique($val, $field, $id)) {
+        if ($this->form_validation->is_unique_or_existing($val, $field, $id)) {
             return true;
         }
         $this->form_validation->set_message('_is_unique',
