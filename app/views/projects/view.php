@@ -37,7 +37,7 @@
                             </span>
                         </td>
                     </tr>
-                <?php endforeach;; ?>
+                <?php endforeach; ?>
             <?php else: ?>
                 <tr><td>None</td><td></td></tr>
             <?php endif; ?>
