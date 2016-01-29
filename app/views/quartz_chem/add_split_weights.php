@@ -1,22 +1,22 @@
-<?=form_open(site_url('quartz_chem/add_split_weights'))?>
+<?php echo form_open(site_url('quartz_chem/add_split_weights')); ?>
 
-<input type=hidden name="batch_id" value="<?=$batch->id?>">
+<input type=hidden name="batch_id" value="<?php echo $batch->id; ?>">
 <input type=hidden name="is_refresh" value="true">
 
 <table width="800" class="arial10">
     <tr>
         <td>
             <h3>Batch information:</h3><p/>
-            Batch ID: <?=$batch->id?><br>
-            Batch start date: <?=$batch->start_date?><br>
-            Batch owner: <?=$batch->owner?><br>
-            Batch description: <?=$batch->description?><p/>
+            Batch ID: <?php echo $batch->id; ?><br>
+            Batch start date: <?php echo $batch->start_date; ?><br>
+            Batch owner: <?php echo $batch->owner; ?><br>
+            Batch description: <?php echo $batch->description; ?><p/>
         </td>
     </tr>
     <tr>
         <td colspan="4">
             Batch notes:<br>
-            <textarea align="center" name="notes" rows="5" cols="100"><?=$batch->notes?></textarea>
+            <textarea align="center" name="notes" rows="5" cols="100"><?php echo $batch->notes; ?></textarea>
         </td>
     </tr>
     <tr>
@@ -28,7 +28,7 @@
 </table>
 
 <?php if ($errors): ?>
-    <?=validation_errors()?>
+    <?php echo validation_errors(); ?>
 <?php endif; ?>
 
 <table width="800" class="arial8">
@@ -58,7 +58,7 @@
 
             <?php if ($s == 0): ?>
 
-                <td><?=$batch->Analysis[$i]->id?></td>
+                <td><?php echo $batch->Analysis[$i]->id; ?></td>
                 <td>
                     <?php
                     if ($batch->Analysis[$i]->Sample->name != NULL) {
@@ -69,14 +69,14 @@
                     ?>
                 </td>
                 <td align="center">
-                    <?=$batch->Analysis[$i]->DissBottle->bottle_number?>
+                    <?php echo $batch->Analysis[$i]->DissBottle->bottle_number; ?>
                 </td>
 
             <?php elseif ($s == $batch->Analysis[$i]->Split->count() - 1): ?>
 
                 <td colspan="2"></td>
                 <td align="center">
-                    <input type="submit" value="Add a split" name="<?='a'.$i?>">
+                    <input type="submit" value="Add a split" name="<?php echo 'a'.$i; ?>">
                 </td>
 
             <?php else: ?>
@@ -85,7 +85,7 @@
 
             <?php endif; ?>
 
-            <td>Split <?=$s+1?>:</td>
+            <td>Split <?php echo $s+1; ?>:</td>
             <td>
                 <select name="split_bkr[]" class="bkr_select"
                  onClick="javascript:setBeakerSequence();">
@@ -102,10 +102,10 @@
             </td>
 
             <td>
-                <?=form_input('bkr_tare[]', $batch->Analysis[$i]->Split[$s]->wt_split_bkr_tare)?>
+                <?php echo form_input('bkr_tare[]', $batch->Analysis[$i]->Split[$s]->wt_split_bkr_tare); ?>
             </td>
             <td>
-                <?=form_input('bkr_split[]', $batch->Analysis[$i]->Split[$s]->wt_split_bkr_split)?>
+                <?php echo form_input('bkr_split[]', $batch->Analysis[$i]->Split[$s]->wt_split_bkr_split); ?>
             </td>
             <td>
                 <?php
@@ -133,6 +133,6 @@
     <tr><td><hr></td></tr>
 </table>
 
-<?=form_close()?>
+<?php echo form_close(); ?>
 
-<?=$this->load->view('quartz_chem/bottom_links')?>
+<?php echo $this->load->view('quartz_chem/bottom_links'); ?>

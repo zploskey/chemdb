@@ -1,19 +1,19 @@
-<?=form_open('quartz_chem/icp_quality_control', '',
+<?php echo form_open('quartz_chem/icp_quality_control', '',
     array('batch_id' => $batch['id'], 'refresh' => true)) // hidden vars ?>
 
 <table width="800" class="arial10">
     <tr>
         <td>
         <h3>Batch information:</p></h3>
-        Batch ID: <?=$batch['id']?> <br>
-        Batch start date: <?=$batch['start_date']?> <br>
-        Batch owner: <?=$batch['owner']?> <br>
-        Batch description: <?=$batch['description']?> <br>
+        Batch ID: <?php echo $batch['id']; ?> <br>
+        Batch start date: <?php echo $batch['start_date']; ?> <br>
+        Batch owner: <?php echo $batch['owner']; ?> <br>
+        Batch description: <?php echo $batch['description']; ?> <br>
         </td>
     </tr>
     <tr>
         <td colspan="4">Batch notes:<br>
-            <textarea align="center" name="notes" rows="5" cols="100"><?=$batch['notes']?></textarea>
+            <textarea align="center" name="notes" rows="5" cols="100"><?php echo $batch['notes']; ?></textarea>
         </td>
     </tr>
     <tr><td><hr></td></tr>
@@ -48,8 +48,8 @@ for ($a = 0; $a < $batch['nsamples']; $a++):
     <? for ($s = 0; $s < $an['nsplits']; $s++): ?>
 
         <? if ($s == 0): ?>
-            <td><?=$an['id']?></td>
-            <td><?=$an['sample_name']?></td>
+            <td><?php echo $an['id']; ?></td>
+            <td><?php echo $an['sample_name']; ?></td>
         <? else: ?>
             <td colspan="2"></td>
         <? endif; ?>
@@ -57,26 +57,26 @@ for ($a = 0; $a < $batch['nsamples']; $a++):
         <? for ($r = 0; $r < $an['Split'][$s]['nruns']; $r++): // ICP run loop
             $run = &$an['Split'][$s]['IcpRun'][$r];  ?>
 
-            <? if ($r == 0):?>
-                <td>Split <?=$an['Split'][$s]['split_num']?></td>
-                <td><?=$an['Split'][$s]['SplitBkr']['bkr_number']?></td>
+            <? if ($r == 0):; ?>
+                <td>Split <?php echo $an['Split'][$s]['split_num']; ?></td>
+                <td><?php echo $an['Split'][$s]['SplitBkr']['bkr_number']; ?></td>
             <? else: ?>
                 <td colspan="4"></td>
             <? endif; ?>
 
-            <td>Run <?=$run['run_num']?></td>
+            <td>Run <?php echo $run['run_num']; ?></td>
             <td><? printf('%.4f', $run['be_result']); ?></td>
             <td><? printf('%.1f', $run['be_tot']); ?></td>
             <td>
-                <input type="checkbox" value="<?=$run['id']?>" name="use_be[]" <?=($run['use_be']=="y")?'checked':''?>>
+                <input type="checkbox" value="<?php echo $run['id']; ?>" name="use_be[]" <?php echo ($run['use_be']=="y")?'checked':''; ?>>
             </td>
             <td><? printf('%.4f', $run['al_result']); ?></td>
             <td><? printf('%.1f', $run['al_tot']); ?></td>
             <td>
-                <input type="checkbox" value="<?=$run['id']?>" name="use_al[]" <?=($run['use_al']=="y")?'checked':''?>>
+                <input type="checkbox" value="<?php echo $run['id']; ?>" name="use_al[]" <?php echo ($run['use_al']=="y")?'checked':''; ?>>
             </td>
         </tr>
-        <? endfor; // runs?>
+        <? endfor; // runs; ?>
 
     <? endfor; // splits ?>
 
@@ -132,10 +132,10 @@ for ($a = 0; $a < $batch['nsamples']; $a++):
 
 </table>
 
-<?=form_close()?>
+<?php echo form_close(); ?>
 
-<?=form_open('quartz_chem/index')?>
+<?php echo form_open('quartz_chem/index'); ?>
     <div align="center">
         <input type="submit" value="I'm done -- back to main menu">
     </div>
-<?=form_close()?>
+<?php echo form_close(); ?>

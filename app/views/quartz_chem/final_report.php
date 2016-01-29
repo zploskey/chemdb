@@ -1,4 +1,4 @@
-<?=$this->load->view('quartz_chem/intermediate_report')?>
+<?php echo $this->load->view('quartz_chem/intermediate_report'); ?>
 
 <table width="800" class="arial8">
     <tr>
@@ -8,10 +8,10 @@
     <tr>
     <tr>
         <td></td>
-        <td colspan=<?=$batch['max_nsplits'] * $batch['max_nruns']?> align="center">
+        <td colspan=<?php echo $batch['max_nsplits'] * $batch['max_nruns']; ?> align="center">
             Corrected ICP [Al]<br><hr>
         </td>
-        <td colspan=<?=$batch['max_nsplits'] * $batch['max_nruns'] * 2?> align="center">
+        <td colspan=<?php echo $batch['max_nsplits'] * $batch['max_nruns'] * 2; ?> align="center">
             Total Al resulting (ug)<br><hr>
         <td>
         <td colspan="3"></td>
@@ -44,14 +44,14 @@
         </td>
     </tr>
     <tr>
-        <td colspan="<?=(6 + $batch['max_nsplits'] * $batch['max_nruns'] * 3)?>"><hr></td>
+        <td colspan="<?php echo (6 + $batch['max_nsplits'] * $batch['max_nruns'] * 3); ?>"><hr></td>
     </td>
 
 <? foreach ($batch['Analysis'] as $a): ?>
 
     <tr align="center">
 
-        <td align="left"><?=$a['sample_name']?></td>
+        <td align="left"><?php echo $a['sample_name']; ?></td>
 
         <?php
         for ($s = 0; $s < $batch['max_nsplits']; $s++) {
@@ -98,18 +98,18 @@
         }
         ?>
 
-        <td><?=sprintf('%.1f', $a['al_avg'])?></td>
+        <td><?php echo sprintf('%.1f', $a['al_avg']); ?></td>
         <td>&plusmn;</td>
-        <td><?=sprintf('%.1f', $a['al_sd'])?></td>
+        <td><?php echo sprintf('%.1f', $a['al_sd']); ?></td>
 
-        <td><?=sprintf('%.1f',$a['al_pct_err'])?></td>
+        <td><?php echo sprintf('%.1f',$a['al_pct_err']); ?></td>
 
-        <td><?=sprintf('%.1f', $a['al_recovery'])?></td>
+        <td><?php echo sprintf('%.1f', $a['al_recovery']); ?></td>
     </tr>
 
 <? endforeach; ?>
 
-    <tr><td colspan="<?=(6 + $batch['max_nsplits'] * $batch['max_nruns'] * 3)?>">
+    <tr><td colspan="<?php echo (6 + $batch['max_nsplits'] * $batch['max_nruns'] * 3); ?>">
     <hr><hr></td>
     </tr>
 </table>
@@ -122,10 +122,10 @@
     <tr>
     <tr>
         <td></td>
-        <td colspan=<?=$batch['max_nsplits'] * $batch['max_nruns']?> align="center">
+        <td colspan=<?php echo $batch['max_nsplits'] * $batch['max_nruns']; ?> align="center">
             Corrected ICP [Be]<br><hr>
         </td>
-        <td colspan=<?=$batch['max_nsplits'] * $batch['max_nruns'] * 2?> align="center">
+        <td colspan=<?php echo $batch['max_nsplits'] * $batch['max_nruns'] * 2; ?> align="center">
             Total Be resulting (ug)<br><hr>
         <td>
         <td colspan="3"></td>
@@ -158,13 +158,13 @@
         </td>
     </tr>
     <tr>
-        <td colspan="<?=(6 + $batch['max_nsplits'] * $batch['max_nruns'] * 3)?>"><hr></td>
+        <td colspan="<?php echo (6 + $batch['max_nsplits'] * $batch['max_nruns'] * 3); ?>"><hr></td>
     </td>
 
 <? foreach ($batch['Analysis'] as $a): ?>
 
     <tr align="center">
-    <td align="left"><?=$a['sample_name']?></td>
+    <td align="left"><?php echo $a['sample_name']; ?></td>
 
     <?php
     for ($s = 0; $s < $batch['max_nsplits']; $s++) {
@@ -211,17 +211,17 @@
     }
     ?>
 
-    <td><?=sprintf('%.1f', $a['be_avg'])?></td>
+    <td><?php echo sprintf('%.1f', $a['be_avg']); ?></td>
     <td>&plusmn;</td>
-    <td><?=sprintf('%.1f', $a['be_sd'])?></td>
+    <td><?php echo sprintf('%.1f', $a['be_sd']); ?></td>
 
-    <td><?=sprintf('%.1f', $a['be_pct_err'])?></td>
+    <td><?php echo sprintf('%.1f', $a['be_pct_err']); ?></td>
 
-    <td><?=sprintf('%.1f', $a['be_recovery'])?></td>
+    <td><?php echo sprintf('%.1f', $a['be_recovery']); ?></td>
 
 <? endforeach; ?>
 
 
-<tr><td colspan="<?=(6 + $batch['max_nsplits'] * $batch['max_nruns'] * 3)?>"><hr><hr></td></tr>
+<tr><td colspan="<?php echo (6 + $batch['max_nsplits'] * $batch['max_nruns'] * 3); ?>"><hr><hr></td></tr>
 
 </table>

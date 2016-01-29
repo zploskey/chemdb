@@ -3,9 +3,9 @@
 
 <html>
     <head>
-        <title>UW-CNL-DB -- <?=$title?></title>
+        <title>UW-CNL-DB -- <?php echo $title; ?></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <base href="<?=base_url()?>" />
+        <base href="<?php echo base_url(); ?>" />
         <style>
         table {}
         .arial10
@@ -25,7 +25,7 @@
 
     <body>
         <div id="main">
-            <?=$this->load->view($main)?>
+            <?php echo $this->load->view($main); ?>
         </div>
     </body>
 

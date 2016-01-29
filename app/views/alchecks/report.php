@@ -53,14 +53,14 @@
         <td class="xl24" valign=middle>
             <h2>Al check report</h2></p>
 
-            Batch ID: <?=$batch->id?><br/>
-            Batch date: <?=$batch->prep_date?><br/>
-            ICP date: <?=$batch->icp_date?><br>
-            Batch owner: <?=$batch->owner?><br/>
-            Batch description: <?=$batch->description?><br/>
-            Number of samples: <?=$nsamples?><br/>
-            Today's date: <?=date('Y-m-d')?><br/>
-            Logged in as: <?=$user?>
+            Batch ID: <?php echo $batch->id; ?><br/>
+            Batch date: <?php echo $batch->prep_date; ?><br/>
+            ICP date: <?php echo $batch->icp_date; ?><br>
+            Batch owner: <?php echo $batch->owner; ?><br/>
+            Batch description: <?php echo $batch->description; ?><br/>
+            Number of samples: <?php echo $nsamples; ?><br/>
+            Today's date: <?php echo date('Y-m-d'); ?><br/>
+            Logged in as: <?php echo $user; ?>
 
         </td>
         <td align="right"><img src="img/logo.jpeg"></p></td>
@@ -108,26 +108,26 @@ for ($a = 0; $a < $nsamples; $a++):
 ?>
 
     <tr>
-        <td><?=$an['id']?></td>
-        <td class=<?=$color[$a]?>><?=$sample_name[$a]?></td>
-        <td align="center"><?=$an['bkr_number']?></td>
-        <td align="center" class="xl29"><?=sprintf('%.4f', $sample_wt[$a])?></td>
+        <td><?php echo $an['id']; ?></td>
+        <td class=<?php echo $color[$a]; ?>><?php echo $sample_name[$a]; ?></td>
+        <td align="center"><?php echo $an['bkr_number']; ?></td>
+        <td align="center" class="xl29"><?php echo sprintf('%.4f', $sample_wt[$a]); ?></td>
         <td></td>
-        <td align="center" class="xl29"><?=sprintf('%.3f', $an['icp_be'])?></td>
-        <td align="center" class="xl29"><?=sprintf('%.3f', $an['icp_mg'])?></td>
-        <td align="center" class="xl29"><?=sprintf('%.3f', $an['icp_al'])?></td>
-        <td align="center" class="xl29"><?=sprintf('%.3f', $an['icp_ca'])?></td>
-        <td align="center" class="xl29"><?=sprintf('%.3f', $an['icp_ti'])?></td>
-        <td align="center" class="xl29"><?=sprintf('%.3f', $an['icp_fe'])?></td>
+        <td align="center" class="xl29"><?php echo sprintf('%.3f', $an['icp_be']); ?></td>
+        <td align="center" class="xl29"><?php echo sprintf('%.3f', $an['icp_mg']); ?></td>
+        <td align="center" class="xl29"><?php echo sprintf('%.3f', $an['icp_al']); ?></td>
+        <td align="center" class="xl29"><?php echo sprintf('%.3f', $an['icp_ca']); ?></td>
+        <td align="center" class="xl29"><?php echo sprintf('%.3f', $an['icp_ti']); ?></td>
+        <td align="center" class="xl29"><?php echo sprintf('%.3f', $an['icp_fe']); ?></td>
         <td></td>
-        <td align="right" class=<?=$color[$a]?>><?=sprintf('%.1f', $qtz_be[$a])?></td>
-        <td align="right" class=<?=$color[$a]?>><?=sprintf('%.1f', $qtz_mg[$a])?></td>
-        <td align="right" class=<?=$color[$a]?>><?=sprintf('%.1f', $qtz_al[$a])?></td>
-        <td align="right" class=<?=$color[$a]?>><?=sprintf('%.1f', $qtz_ca[$a])?></td>
-        <td align="right" class=<?=$color[$a]?>><?=sprintf('%.1f', $qtz_ti[$a])?></td>
-        <td align="right" class=<?=$color[$a]?>><?=sprintf('%.1f', $qtz_fe[$a])?></td>
+        <td align="right" class=<?php echo $color[$a]; ?>><?php echo sprintf('%.1f', $qtz_be[$a]); ?></td>
+        <td align="right" class=<?php echo $color[$a]; ?>><?php echo sprintf('%.1f', $qtz_mg[$a]); ?></td>
+        <td align="right" class=<?php echo $color[$a]; ?>><?php echo sprintf('%.1f', $qtz_al[$a]); ?></td>
+        <td align="right" class=<?php echo $color[$a]; ?>><?php echo sprintf('%.1f', $qtz_ca[$a]); ?></td>
+        <td align="right" class=<?php echo $color[$a]; ?>><?php echo sprintf('%.1f', $qtz_ti[$a]); ?></td>
+        <td align="right" class=<?php echo $color[$a]; ?>><?php echo sprintf('%.1f', $qtz_fe[$a]); ?></td>
         <td></td>
-        <td align="left"><?=$an['notes']?></td>
+        <td align="left"><?php echo $an['notes']; ?></td>
     </tr>
 
 <?php endfor; ?>

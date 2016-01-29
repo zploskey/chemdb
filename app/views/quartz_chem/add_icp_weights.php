@@ -1,24 +1,24 @@
-<?=form_open(site_url('quartz_chem/add_icp_weights'), '',
+<?php echo form_open(site_url('quartz_chem/add_icp_weights'), '',
     array( // hidden POST variables
         'batch_id' => $batch->id,
         'is_refresh' => 'true'
-    ))?>
+    )); ?>
 
 <table width="800" class="arial10">
     <tr>
         <td>
         <h3>Batch information:</p></h3>
-        Batch ID: <?=$batch->id?><br>
-        Batch start date: <?=$batch->start_date?><br>
-        Batch owner: <?=$batch->owner?><br>
-        Batch description: <?=$batch->description?><p/>
-        ICP date: <?=form_input('batch[icp_date]', $batch->icp_date)?> (Format = YYYY-MM-DD)
+        Batch ID: <?php echo $batch->id; ?><br>
+        Batch start date: <?php echo $batch->start_date; ?><br>
+        Batch owner: <?php echo $batch->owner; ?><br>
+        Batch description: <?php echo $batch->description; ?><p/>
+        ICP date: <?php echo form_input('batch[icp_date]', $batch->icp_date); ?> (Format = YYYY-MM-DD)
         </td>
     </tr>
     <tr><td colspan="4">
         Batch notes:<br>
         <center>
-        <textarea name="batch[notes]" rows=5 cols=100><?=$batch->notes?></textarea>
+        <textarea name="batch[notes]" rows=5 cols=100><?php echo $batch->notes; ?></textarea>
         </center>
     </td></tr>
     <tr><td><hr></td></tr>
@@ -52,7 +52,7 @@ if ($errors) {
     <?php for ($s = 0, $nsplits = $batch->Analysis[$i]->Split->count(); $s < $nsplits; $s++): ?>
         <tr>
             <?php if ($s == 0): ?>
-                <td><?=$batch->Analysis[$i]->id?></td>
+                <td><?php echo $batch->Analysis[$i]->id; ?></td>
                 <td>
                 <?php
                 if (isset($batch->Analysis[$i]->Sample->name)) {
@@ -62,15 +62,15 @@ if ($errors) {
                 }
                 ?>
                 </td>
-                <td><?=$batch->Analysis[$i]->DissBottle->bottle_number?></td>
+                <td><?php echo $batch->Analysis[$i]->DissBottle->bottle_number; ?></td>
             <?php else: ?>
                 <td colspan="3"></td>
             <?php endif; ?>
 
-            <td>Split <?=$s+1?>:</td>
-            <td><?=$batch->Analysis[$i]->Split[$s]->SplitBkr->bkr_number?></td>
-            <td><?=$batch->Analysis[$i]->Split[$s]->wt_split_bkr_tare?></td>
-            <td><?=form_input('tot_wts[]', $batch->Analysis[$i]->Split[$s]->wt_split_bkr_icp)?></td>
+            <td>Split <?php echo $s+1; ?>:</td>
+            <td><?php echo $batch->Analysis[$i]->Split[$s]->SplitBkr->bkr_number; ?></td>
+            <td><?php echo $batch->Analysis[$i]->Split[$s]->wt_split_bkr_tare; ?></td>
+            <td><?php echo form_input('tot_wts[]', $batch->Analysis[$i]->Split[$s]->wt_split_bkr_icp); ?></td>
             <td>
                 <?php
                 $icp_wt = $batch->Analysis[$i]->Split[$s]->wt_split_bkr_icp
@@ -93,7 +93,7 @@ if ($errors) {
     </td>
     </tr>
     <tr><td><hr></td></tr>
-    <?=form_close()?>
+    <?php echo form_close(); ?>
 </table>
 
-<?=$this->load->view('quartz_chem/bottom_links')?>
+<?php echo $this->load->view('quartz_chem/bottom_links'); ?>

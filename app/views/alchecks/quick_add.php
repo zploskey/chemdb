@@ -1,9 +1,9 @@
-<?=form_open('alchecks/quick_add')?>
+<?php echo form_open('alchecks/quick_add'); ?>
 
 <? if ($batch_id): // a batch has already been created, keep track of its id ?>
-    <input type="hidden" name="batch_id" value="<?=$batch_id?>">
+    <input type="hidden" name="batch_id" value="<?php echo $batch_id; ?>">
     <? if ($analysis): ?>
-        <input type="hidden" name="analysis_id" value="<?=$analysis->id?>">
+        <input type="hidden" name="analysis_id" value="<?php echo $analysis->id; ?>">
     <? endif; ?>
 <? endif; ?>
 
@@ -12,19 +12,19 @@
 <tr>
     <td>Sample name:
         <input type="text" size="20" name="sample_name"
-         value="<?=$analysis->sample_name?>">
+         value="<?php echo $analysis->sample_name; ?>">
     </td>
 
     <td>[Al] (ppm in qtz):
-        <input type="text" size="7" name="icp_al" value="<?=$analysis->icp_al?>">
+        <input type="text" size="7" name="icp_al" value="<?php echo $analysis->icp_al; ?>">
     </td>
 
     <td>[Fe] (ppm in qtz):
-        <input type=text size="7" name="icp_fe" value="<?=$analysis->icp_fe?>">
+        <input type=text size="7" name="icp_fe" value="<?php echo $analysis->icp_fe; ?>">
     </td>
 
     <td>[Ti] (ppm in qtz):
-        <input type="text" size="7" name="icp_ti" value="<?=$analysis->icp_ti?>">
+        <input type="text" size="7" name="icp_ti" value="<?php echo $analysis->icp_ti; ?>">
     </td>
 </tr>
 
@@ -57,4 +57,4 @@
     <tr><td><hr></td></tr>
 </table>
 
-<?=form_close()?>
+<?php echo form_close(); ?>

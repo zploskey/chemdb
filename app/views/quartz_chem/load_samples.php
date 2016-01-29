@@ -1,22 +1,22 @@
-<?=form_open('quartz_chem/load_samples')?>
-<input type="hidden" name="batch_id" value="<?=$batch->id?>">
+<?php echo form_open('quartz_chem/load_samples'); ?>
+<input type="hidden" name="batch_id" value="<?php echo $batch->id; ?>">
 <input type="hidden" name="is_refresh" value="TRUE">
 
 <table width="800" class="arial10">
     <tr>
         <td colspan="4" width="400">
         <h3>Batch information:</h3><p/>
-        Batch ID: <?=$batch->id?><br>
-        Batch start date: <?=$batch->start_date?> <br>
-        Batch owner: <?=$batch->owner?> <br>
-        Batch description: <?=$batch->description?> <p/>
+        Batch ID: <?php echo $batch->id; ?><br>
+        Batch start date: <?php echo $batch->start_date; ?> <br>
+        Batch owner: <?php echo $batch->owner; ?> <br>
+        Batch description: <?php echo $batch->description; ?> <p/>
         </td>
     </tr>
     <tr>
         <td colspan="4">
             Batch notes:<br>
             <center>
-                <textarea name="notes" rows=5 cols=100><?=$batch->notes?></textarea>
+                <textarea name="notes" rows=5 cols=100><?php echo $batch->notes; ?></textarea>
             </center>
         </td>
     </tr>
@@ -26,13 +26,13 @@
         </td>
         <td>
             <select name="be_carrier_id">
-                <?=$be_carrier_options?>
+                <?php echo $be_carrier_options; ?>
             </select>
         </td>
         <td> Al carrier:</td>
         <td>
             <select name="al_carrier_id">
-                <?=$al_carrier_options?>
+                <?php echo $al_carrier_options; ?>
             </select>
         </td>
     </tr>
@@ -65,14 +65,14 @@
         <td>Be carrier previous wt:</td>
         <td>
             <? if ($be_prev): ?>
-                <?=$be_prev->wt_be_carrier_final?> (<?=$be_prev->start_date?>)
+                <?php echo $be_prev->wt_be_carrier_final; ?> (<?php echo $be_prev->start_date; ?>)
             <? endif; ?>
         </td>
 
         <td>Al carrier previous wt:</td>
         <td>
             <? if ($al_prev): ?>
-                <?=$al_prev->wt_al_carrier_final?> (<?=$al_prev->start_date?>)
+                <?php echo $al_prev->wt_al_carrier_final; ?> (<?php echo $al_prev->start_date; ?>)
             <? endif; ?>
         </td>
     </tr>
@@ -81,13 +81,13 @@
             Be carrier initial wt:
         </td>
         <td>
-            <input type=text name="wt_be_carrier_init" width="10" value="<?=$batch->wt_be_carrier_init?>">
+            <input type=text name="wt_be_carrier_init" width="10" value="<?php echo $batch->wt_be_carrier_init; ?>">
         </td>
         <td>
             Al carrier initial wt:
         </td>
         <td>
-            <input type=text name="wt_al_carrier_init" width="10" value="<?=$batch->wt_al_carrier_init?>">
+            <input type=text name="wt_al_carrier_init" width="10" value="<?php echo $batch->wt_al_carrier_init; ?>">
         </td>
     </tr>
     <tr>
@@ -95,13 +95,13 @@
             Be carrier final wt:
         </td>
         <td>
-            <input type=text name="wt_be_carrier_final" width="10" value="<?=$batch->wt_be_carrier_final?>">
+            <input type=text name="wt_be_carrier_final" width="10" value="<?php echo $batch->wt_be_carrier_final; ?>">
         </td>
         <td>
             Al carrier final wt:
         </td>
         <td>
-            <input type=text name="wt_al_carrier_final" width="10" value="<?=$batch->wt_al_carrier_final?>">
+            <input type=text name="wt_al_carrier_final" width="10" value="<?php echo $batch->wt_al_carrier_final; ?>">
         </td>
     </tr>
     <tr><td colspan="4"><hr></td></tr>
@@ -116,10 +116,10 @@
         <td colspan="3" class="arial12">Sample information:</td>
         <td colspan="7" class="arial10">
             <i>Open new window to create Al/Fe/Ti concentrations for samples not in database:
-                <?=anchor('alchecks/quick_add',
+                <?php echo anchor('alchecks/quick_add',
                     'click here',
                     array('target' => 'dummy_alcheck_window')
-                )?>
+                ); ?>
             </i>
         </td>
     </tr>
@@ -140,10 +140,10 @@
     <?php for ($i = 0; $i < $num_analyses; $i++): // main display loop ?>
         <tr><td colspan="10"><hr></td></tr>
         <tr>
-            <td> <?=$batch->Analysis[$i]->id?> </td>
+            <td> <?php echo $batch->Analysis[$i]->id; ?> </td>
             <td>
                 <input type="text" class="sample_name" size=16 name="sample_name[]"
-                    value="<?=$batch->Analysis[$i]->sample_name?>">
+                    value="<?php echo $batch->Analysis[$i]->sample_name; ?>">
             </td>
             <!-- Sample type dropdown -->
             <td>
@@ -163,28 +163,28 @@
             <!-- Bottle id dropdown -->
             <td>
                 <select name="diss_bottle_id[]">
-                    <?=$diss_bottle_options[$i]?>
+                    <?php echo $diss_bottle_options[$i]; ?>
                 </select>
             </td>
 
             <!-- bottle tare wt -->
             <td>
-                <input type=text size=8 name="wt_diss_bottle_tare[]" class="tareWt" value="<?=$batch->Analysis[$i]->wt_diss_bottle_tare?>">
+                <input type=text size=8 name="wt_diss_bottle_tare[]" class="tareWt" value="<?php echo $batch->Analysis[$i]->wt_diss_bottle_tare; ?>">
             </td>
 
             <!-- bottle + sample weight -->
             <td>
-                <input type=text size=8 name="wt_diss_bottle_sample[]" class="sampleWt" value="<?=$batch->Analysis[$i]->wt_diss_bottle_sample?>">
+                <input type=text size=8 name="wt_diss_bottle_sample[]" class="sampleWt" value="<?php echo $batch->Analysis[$i]->wt_diss_bottle_sample; ?>">
             </td>
 
             <!-- Column 7. Sample weight -->
             <td>
-                <?=sprintf('%.4f', ($batch->Analysis[$i]->wt_diss_bottle_sample - $batch->Analysis[$i]->wt_diss_bottle_tare))?>
+                <?php echo sprintf('%.4f', ($batch->Analysis[$i]->wt_diss_bottle_sample - $batch->Analysis[$i]->wt_diss_bottle_tare)); ?>
             </td>
 
             <!-- Column 8. Be carrier wt -->
             <td>
-                <input type=text size=8 name="wt_be_carrier[]" value="<?=$batch->Analysis[$i]->wt_be_carrier?>">
+                <input type=text size=8 name="wt_be_carrier[]" value="<?php echo $batch->Analysis[$i]->wt_be_carrier; ?>">
             </td>
 
             <!-- Column 9. Be mass -->
@@ -201,7 +201,7 @@
 
             <!-- Column 10. Al carrier wt -->
             <td>
-                <input type=text size=8 name="wt_al_carrier[]" value="<?=$batch->Analysis[$i]->wt_al_carrier?>">
+                <input type=text size=8 name="wt_al_carrier[]" value="<?php echo $batch->Analysis[$i]->wt_al_carrier; ?>">
             </td>
 
         </tr><tr><td colspan="10"></td></tr>
@@ -232,7 +232,7 @@
             </tr>
             <tr>
                 <td colspan="11" align="center">
-                    <input type="submit" value="Save and refresh" class="ancBtn" id="ln<?=$i?>">
+                    <input type="submit" value="Save and refresh" class="ancBtn" id="ln<?php echo $i; ?>">
                 </td>
             </tr>
         <? endif; ?>
@@ -276,6 +276,6 @@
     </tr>
     <tr><td><hr></td></tr>
 </table>
-<?=form_close()?>
+<?php echo form_close(); ?>
 
-<?=$this->load->view('quartz_chem/bottom_links')?>
+<?php echo $this->load->view('quartz_chem/bottom_links'); ?>

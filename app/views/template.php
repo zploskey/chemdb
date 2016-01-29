@@ -3,15 +3,15 @@
 
 <html>
     <head>
-        <title>UW-CNL-DB -- <?=$title?></title>
+        <title>UW-CNL-DB -- <?php echo $title; ?></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <base href="<?=base_url()?>" />
-        <?=link_tag('css/style.css')?>
-        <?=link_tag('js/autocomplete/jquery.autocomplete.css')?>
-        <?=link_tag('js/autocomplete/lib/thickbox.css')?>
+        <base href="<?php echo base_url(); ?>" />
+        <?php echo link_tag('css/style.css'); ?>
+        <?php echo link_tag('js/autocomplete/jquery.autocomplete.css'); ?>
+        <?php echo link_tag('js/autocomplete/lib/thickbox.css'); ?>
         <script type="text/javascript">
         //<![CDATA[
-        base_url = '<?=base_url();?>';
+        base_url = '<?php echo base_url(); ?>';
         //]]>
         </script>
         <script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
@@ -29,16 +29,16 @@
     <body>
         <div id="wrapper">
             <div id="header">
-                <?=$this->load->view('header')?>
+                <?php echo $this->load->view('header'); ?>
             </div>
             <div id="nav">
-                <?=$this->load->view('navigation')?>
+                <?php echo $this->load->view('navigation'); ?>
             </div>
             <div id="main">
-                <?=$this->load->view($main)?>
+                <?php echo $this->load->view($main); ?>
             </div>
             <div id="footer">
-                <?=$this->load->view('footer')?>
+                <?php echo $this->load->view('footer'); ?>
             </div>
         </div>
     </body>

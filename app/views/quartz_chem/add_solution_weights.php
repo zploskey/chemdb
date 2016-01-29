@@ -1,4 +1,4 @@
-<?=form_open(site_url('quartz_chem/add_solution_weights'), '',
+<?php echo form_open(site_url('quartz_chem/add_solution_weights'), '',
     array('batch_id' => $batch->id, 'is_refresh' => 'TRUE')); ?>
 
 <table width="800" class="arial10">
@@ -23,7 +23,7 @@
 </table>
 
 <?php if ($errors): ?>
-    <?=validation_errors(),'<hr>'?>
+    <?php echo validation_errors(),'<hr>'; ?>
 <?php endif; ?>
 
 <table width="800" class="arial8">
@@ -74,6 +74,6 @@
         </tr>
         <tr><td><hr></td></tr>
     </table>
-<?=form_close()?>
+<?php echo form_close(); ?>
 
-<?=$this->load->view('quartz_chem/bottom_links')?>
+<?php echo $this->load->view('quartz_chem/bottom_links'); ?>

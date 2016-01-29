@@ -1,20 +1,20 @@
-<?=$this->load->view('samples/nav')?>
+<?php echo $this->load->view('samples/nav'); ?>
 <p><h2>
-    <?=$subtitle?>
+    <?php echo $subtitle; ?>
     <? if (!is_null($sample->id)): ?>
-        (<?=anchor('samples/view/'.$sample->id, 'View')?>)
+        (<?php echo anchor('samples/view/'.$sample->id, 'View'); ?>)
     <? endif; ?>
 </h2></p>
 <br>
 
-<?=form_open(site_url("samples/edit/$arg"))?>
+<?php echo form_open(site_url("samples/edit/$arg")); ?>
     <input type="hidden" name="is_refresh" value="TRUE">
-    <p><?=validation_errors()?></p><p/>
+    <p><?php echo validation_errors(); ?></p><p/>
     <div class="vEntry">
         <table>
             <tr>
                 <th>Name:</th>
-                <td><?=form_input('sample[name]', $sample->name)?></td>
+                <td><?php echo form_input('sample[name]', $sample->name); ?></td>
             </tr>
 
             <tr>
@@ -33,7 +33,7 @@
             <tr>
                 <th>Latitude:</th>
                 <td>
-                    <input type="text" name="sample[latitude]" value="<?=$sample->latitude?>" size="10" /> &nbsp;
+                    <input type="text" name="sample[latitude]" value="<?php echo $sample->latitude; ?>" size="10" /> &nbsp;
                     North latitudes are positive. South latitudes are negative.
                 </td>
             </tr>
@@ -41,14 +41,14 @@
             <tr>
                 <th>Longitude:</th>
                 <td>
-                    <input type="text" name="sample[longitude]" value="<?=$sample->longitude?>" size="10" /> &nbsp;
+                    <input type="text" name="sample[longitude]" value="<?php echo $sample->longitude; ?>" size="10" /> &nbsp;
                     East longitudes are positive. West longitudes are negative.
                 </td>
             </tr>
 
             <tr>
                 <th>Altitude:</th>
-                <td><input type="text" name="sample[altitude]" value="<?=$sample->altitude?>" size="10" /> &nbsp;m</td>
+                <td><input type="text" name="sample[altitude]" value="<?php echo $sample->altitude; ?>" size="10" /> &nbsp;m</td>
             </tr>
 
             <tr>
@@ -56,7 +56,7 @@
                 <td>
                     &nbsp;
                     <input type="checkbox" name="sample[antarctic]" value="1"
-                        <?=($sample->antarctic) ? 'checked' : ''?>
+                        <?php echo ($sample->antarctic) ? 'checked' : ''; ?>
                     > &nbsp;
                     Is this an Antarctic sample?
                 </td>
@@ -64,34 +64,34 @@
 
             <tr>
                 <th>Shield factor:</th>
-                <td><input type="text" name="sample[shield_factor]" value="<?=$sample->shield_factor?>" size="10" /></td>
+                <td><input type="text" name="sample[shield_factor]" value="<?php echo $sample->shield_factor; ?>" size="10" /></td>
             </tr>
 
             <tr>
                 <th>Depth (top):</th>
-                <td><input type="text" name="sample[depth_top]" value="<?=$sample->depth_top?>" size="10" /> &nbsp;cm</td>
+                <td><input type="text" name="sample[depth_top]" value="<?php echo $sample->depth_top; ?>" size="10" /> &nbsp;cm</td>
             </tr>
 
             <tr>
                 <th>Depth (bottom):</th>
-                <td><input type="text" name="sample[depth_bottom]" value="<?=$sample->depth_bottom?>" size="10" /> &nbsp;cm</td>
+                <td><input type="text" name="sample[depth_bottom]" value="<?php echo $sample->depth_bottom; ?>" size="10" /> &nbsp;cm</td>
             </tr>
 
             <tr>
                 <th>Density:</th>
-                <td><input type="text" name="sample[density]" value="<?=$sample->density?>" size="10" /> &nbsp;g/cm^3</td>
+                <td><input type="text" name="sample[density]" value="<?php echo $sample->density; ?>" size="10" /> &nbsp;g/cm^3</td>
             </tr>
 
             <tr>
                 <th>Erosion Rate:</th>
-                <td><input type="text" name="sample[erosion_rate]" value="<?=$sample->erosion_rate?>" size="10" /> &nbsp;cm/y</td>
+                <td><input type="text" name="sample[erosion_rate]" value="<?php echo $sample->erosion_rate; ?>" size="10" /> &nbsp;cm/y</td>
             </tr>
 
             <tr>
                 <th>Notes:</th>
-                <td><textarea name="sample[notes]" rows="5" cols="50" wrap="soft"><?=$sample->notes?></textarea></td>
+                <td><textarea name="sample[notes]" rows="5" cols="50" wrap="soft"><?php echo $sample->notes; ?></textarea></td>
             </tr>
         </table>
     <p><input type="submit" value="Submit" /></p>
     </div>
-<?=form_close()?>
+<?php echo form_close(); ?>

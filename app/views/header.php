@@ -10,7 +10,7 @@
     </div>
     <hr>
     <b><em>You are logged in as:
-        <?=htmlentities($this->input->server('REMOTE_USER'))?>
+        <?php echo htmlentities($this->input->server('REMOTE_USER')); ?>
     </em></b>
     <hr>
 </div>

@@ -1,14 +1,14 @@
-<?=form_open('alchecks/add_solution_weights', '',
+<?php echo form_open('alchecks/add_solution_weights', '',
     array( // hidden variables
         'refresh' => 'true',
         'batch_id' => $batch->id)
-)?>
+); ?>
 
-Batch ID: <?=$batch->id?><br/>
-Batch date: <?=$batch->prep_date?><br/>
-Batch owner: <?=$batch->owner?><br/>
-Number of samples: <?=$nsamples?><br/>
-Batch description: <?=$batch->description?><br/>
+Batch ID: <?php echo $batch->id; ?><br/>
+Batch date: <?php echo $batch->prep_date; ?><br/>
+Batch owner: <?php echo $batch->owner; ?><br/>
+Number of samples: <?php echo $nsamples; ?><br/>
+Batch description: <?php echo $batch->description; ?><br/>
 
 <?
 if ($errors) {
@@ -45,19 +45,19 @@ if ($errors) {
 ?>
 
     <tr>
-        <td align="center"><?=$an['number_within_batch']?></td>
-        <td><?=$sample_name[$a]?></td>
-        <td align="center"><?=$an['bkr_number']?></td>
-        <td align="center"><?=sprintf('%.4f', $sample_wt[$a])?></td>
+        <td align="center"><?php echo $an['number_within_batch']; ?></td>
+        <td><?php echo $sample_name[$a]; ?></td>
+        <td align="center"><?php echo $an['bkr_number']; ?></td>
+        <td align="center"><?php echo sprintf('%.4f', $sample_wt[$a]); ?></td>
          <td align="center">
-            <input type="text" name="wt_bkr_soln[]" value="<?=$an->wt_bkr_soln?>" size="8">
+            <input type="text" name="wt_bkr_soln[]" value="<?php echo $an->wt_bkr_soln; ?>" size="8">
         </td>
-        <td><?=sprintf('%.4f', $soln_wt[$a])?></td>
+        <td><?php echo sprintf('%.4f', $soln_wt[$a]); ?></td>
         <td align="center">
-            <input type="text" size="2" name='addl_dil_factor[]' value="<?=$an->addl_dil_factor?>" size="5">
+            <input type="text" size="2" name='addl_dil_factor[]' value="<?php echo $an->addl_dil_factor; ?>" size="5">
         </td>
-        <td align="center"><?=sprintf('%.2f', $tot_df[$a])?></td>
-        <td><input type="text" name="notes[]" value="<?=$an->notes?>" size="36"></td>
+        <td align="center"><?php echo sprintf('%.2f', $tot_df[$a]); ?></td>
+        <td><input type="text" name="notes[]" value="<?php echo $an->notes; ?>" size="36"></td>
     </tr>
 
 <? endfor; ?>
@@ -69,10 +69,10 @@ if ($errors) {
     <tr>
         <td align="center"><hr>
             <p><input type="submit" value="Save and refresh"></p>
-            <p><?=anchor('alchecks', "Looks good -- I'm done")?></p>
+            <p><?php echo anchor('alchecks', "Looks good -- I'm done"); ?></p>
             <p><hr></p>
         </td>
     </tr>
 </table>
 
-<?=form_close()?>
+<?php echo form_close(); ?>
