@@ -1,11 +1,11 @@
-<?=$this->load->view('samples/nav')?>
-<p><h2><?=$subtitle?> (<?=anchor('samples/edit/'.$sample->id,'Edit')?>)</h2></p>
+<?php echo $this->load->view('samples/nav'); ?>
+<p><h2><?php echo $subtitle; ?> (<?php echo anchor('samples/edit/'.$sample->id,'Edit'); ?>)</h2></p>
 <br>
 <div id="data">
     <table>
         <tr>
             <td align="right">Name: &nbsp;</td>
-            <td><?=$sample->name?></td>
+            <td><?php echo $sample->name; ?></td>
         </tr>
         <tr>
             <td align="right">Associated Projects: &nbsp;</td>
@@ -21,39 +21,39 @@
         </tr>
         <tr>
             <td align="right">Latitude: &nbsp;</td>
-            <td><?=$sample->latitude?></td>
+            <td><?php echo $sample->latitude; ?></td>
         </tr>
         <tr>
             <td align="right">Longitude: &nbsp;</td>
-            <td><?=$sample->longitude?></td>
+            <td><?php echo $sample->longitude; ?></td>
         </tr>
         <tr>
             <td align="right">Altitude (m): &nbsp;</td>
-            <td><?=$sample->altitude?></td>
+            <td><?php echo $sample->altitude; ?></td>
         </tr>
         <tr>
             <td align="right">Shield factor: &nbsp;</td>
-            <td><?=$sample->shield_factor?></td>
+            <td><?php echo $sample->shield_factor; ?></td>
         </tr>
         <tr>
             <td align="right">Depth Top (cm): &nbsp;</td>
-            <td><?=$sample->depth_top?></td>
+            <td><?php echo $sample->depth_top; ?></td>
         </tr>
         <tr>
             <td align="right">Depth Bottom (cm): &nbsp;</td>
-            <td><?=$sample->depth_bottom?></td>
+            <td><?php echo $sample->depth_bottom; ?></td>
         </tr>
         <tr>
             <td align="right">Density (g/cm^3): &nbsp;</td>
-            <td><?=$sample->density?></td>
+            <td><?php echo $sample->density; ?></td>
         </tr>
         <tr>
             <td align="right">Erosion Rate (cm/y): &nbsp;</td>
-            <td><?=$sample->erosion_rate?></td>
+            <td><?php echo $sample->erosion_rate; ?></td>
         </tr>
         <tr>
             <td align="right">Notes: &nbsp;</td>
-            <td><?=$sample->notes?></td>
+            <td><?php echo $sample->notes; ?></td>
         </tr>
     </table>
 </div>
@@ -61,7 +61,7 @@
 
 <? if ($nAnalyses > 0): ?>
 
-    <?=form_open('samples/submit_to_calc/'.$sample->id, array('target'=>'outputwindow'))?>
+    <?php echo form_open('samples/submit_to_calc/'.$sample->id, array('target'=>'outputwindow')); ?>
 
     <h3>Analyses of this sample:</h3>
     <br>
@@ -71,7 +71,7 @@
             <th width="200">Analysis ID</th>
             <? foreach ($sample['Analysis'] as $an): ?>
                 <td>
-                    <?=$an['id']?>
+                    <?php echo $an['id']; ?>
                 </td>
             <? endforeach; ?>
         </tr>
@@ -80,7 +80,7 @@
             <th>Batch ID</th>
             <? foreach ($sample['Analysis'] as $an): ?>
                 <td>
-                    <?=anchor('quartz_chem/final_report/'.$an['batch_id'], $an['batch_id'])?>
+                    <?php echo anchor('quartz_chem/final_report/'.$an['batch_id'], $an['batch_id']); ?>
                 </td>
             <? endforeach; ?>
         </tr>
@@ -89,7 +89,7 @@
             <th>Sample Wt (g)</th>
             <? foreach ($sample['Analysis'] as $an): ?>
                 <td>
-                    <?=$an->getSampleWt()?>
+                    <?php echo $an->getSampleWt(); ?>
                 </td>
             <? endforeach; ?>
         </tr>
@@ -98,7 +98,7 @@
             <th>Carrier ID</th>
             <? foreach ($sample['Analysis'] as $an): ?>
                 <td>
-                    <?=$an['Batch']['BeCarrier']['name']?>
+                    <?php echo $an['Batch']['BeCarrier']['name']; ?>
                 </td>
             <? endforeach; ?>
         </tr>
@@ -107,7 +107,7 @@
             <th>Mass Be Carrier (ug)</th>
             <? foreach ($sample['Analysis'] as $an): ?>
                 <td>
-                    <?=sprintf('%.1f',$an['wt_be_carrier'] * $an['Batch']['BeCarrier']['be_conc'])?>
+                    <?php echo sprintf('%.1f',$an['wt_be_carrier'] * $an['Batch']['BeCarrier']['be_conc']); ?>
                 </td>
             <? endforeach; ?>
         </tr>
@@ -116,7 +116,7 @@
             <th>ICP Mass Be (ug)</th>
             <? for ($i = 0; $i < $nAnalyses; $i++): ?>
                 <td>
-                    <?=$ugBe[$i]?>
+                    <?php echo $ugBe[$i]; ?>
                 </td>
             <? endfor; ?>
         </tr>
@@ -125,7 +125,7 @@
             <th>ICP Mass Al (ug)</th>
             <? for ($i = 0; $i < $nAnalyses; $i++): ?>
                 <td>
-                    <?=$ugAl[$i]?>
+                    <?php echo $ugAl[$i]; ?>
                 </td>
             <? endfor; ?>
         </tr>
@@ -133,7 +133,7 @@
         <tr>
             <th>Be Yield (%)</th>
             <? for ($i = 0; $i < $nAnalyses; $i++): ?>
-                <td><?=$yieldBe[$i]?></td>
+                <td><?php echo $yieldBe[$i]; ?></td>
             <? endfor; ?>
         </tr>
 
@@ -143,8 +143,8 @@
                 <th>Use which Be measure?</th>
                 <? for ($i = 0; $i < $nAnalyses; $i++): ?>
                     <td>
-                        <input type="radio" name="analysis<?=$i?>" value="icp"> ICP<br/>
-                        <input type="radio" name="analysis<?=$i?>" value="carrier" checked> Carrier
+                        <input type="radio" name="analysis<?php echo $i; ?>" value="icp"> ICP<br/>
+                        <input type="radio" name="analysis<?php echo $i; ?>" value="carrier" checked> Carrier
                     </td>
                 <? endfor; ?>
             </tr>
@@ -165,8 +165,8 @@
             <tr>
                 <!-- Perform calculations for all analyses -->
                 <td align="center">
-                    <?=form_submit('calcSelAge', 'Get Selected Exposure Ages')?><br/>
-                    <?=form_submit('calcSelEro', 'Get Selected Erosion Rates')?>
+                    <?php echo form_submit('calcSelAge', 'Get Selected Exposure Ages'); ?><br/>
+                    <?php echo form_submit('calcSelEro', 'Get Selected Erosion Rates'); ?>
                 </td>
 
                 <!-- Calculations for individual analyses -->
@@ -190,6 +190,6 @@
 
     </table>
 
-    <?=form_close()?>
+    <?php echo form_close(); ?>
 
 <? endif; ?>

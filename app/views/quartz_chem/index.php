@@ -1,13 +1,13 @@
 <table width="800">
     <!--- CREATE A NEW BATCH -->
-    <?=form_open('quartz_chem/new_batch')?>
+    <?php echo form_open('quartz_chem/new_batch'); ?>
         <tr>
             <td><b><i>Create a new batch</i></b></td>
             <td align="center">
                 <input type=submit width="40" value="Create a new batch">
             </td>
         </tr>
-    <?=form_close()?>
+    <?php echo form_close(); ?>
 
     <tr><td colspan="2"><hr></td></tr>
     <p/>
@@ -17,19 +17,19 @@
         <td colspan="2"><i><b>Sample loading and carrier addition</b></i></td>
     </tr>
 
-    <?=form_open(site_url('quartz_chem/load_samples'))?>
+    <?php echo form_open(site_url('quartz_chem/load_samples')); ?>
         <tr>
             <td align="center">
                 <i>Batch:</i>
                 <select name="batch_id">
-                    <?=$open_batches?>
+                    <?php echo $open_batches; ?>
                 </select>
             </td>
             <td align="center">
                 <input type="submit" value="Sample loading and carrier addition">
             </td>
         </tr>
-    <?=form_close()?>
+    <?php echo form_close(); ?>
 
     <tr><td colspan="2"><hr/></td></tr>
     <p/>
@@ -39,19 +39,19 @@
     <tr>
         <td colspan="2"><i><b>Print lab tracking sheet</b></i></td>
     </tr>
-    <?=form_open('quartz_chem/print_tracking_sheet')?>
+    <?php echo form_open('quartz_chem/print_tracking_sheet'); ?>
         <tr>
             <td align="center">
                 <i>Batch:</i>
                 <select name="batch_id">
-                    <?=$open_batches?>
+                    <?php echo $open_batches; ?>
                 </select>
             </td>
             <td align="center">
                 <input type=submit value="Print tracking sheet for this batch">
             </td>
         </tr>
-    <?=form_close()?>
+    <?php echo form_close(); ?>
     <tr><td colspan="2"><hr></td></tr>
     <p/>
 
@@ -60,19 +60,19 @@
     <tr>
         <td colspan="2"><i><b>Add total solution weights</b></i></td>
     </tr>
-    <?=form_open('quartz_chem/add_solution_weights')?>
+    <?php echo form_open('quartz_chem/add_solution_weights'); ?>
         <tr>
             <td align="center">
                 <i>Batch:</i>
                 <select name="batch_id">
-                    <?=$open_batches?>
+                    <?php echo $open_batches; ?>
                 </select>
             </td>
             <td align="center">
                 <input type=submit value="Add total solution weights">
             </td>
         </tr>
-    <?=form_close()?>
+    <?php echo form_close(); ?>
     <tr><td colspan="2"><hr></td></tr>
     <p/>
 
@@ -83,19 +83,19 @@
             <b><i>Add split weights</i></b>
         </td>
     </tr>
-    <?=form_open('quartz_chem/add_split_weights')?>
+    <?php echo form_open('quartz_chem/add_split_weights'); ?>
         <tr>
             <td align="center">
                 <i>Batch:</i>
                 <select name="batch_id">
-                    <?=$open_batches?>
+                    <?php echo $open_batches; ?>
                 </select>
             </td>
             <td align="center">
                 <input type=submit value="Add split weights">
             </td>
         </tr>
-    <?=form_close()?>
+    <?php echo form_close(); ?>
     <tr><td colspan="2"><hr></td></tr><p/>
 
     <!--- ADD ICP WEIGHTS -->
@@ -106,19 +106,19 @@
         </td>
     </tr>
 
-    <?=form_open('quartz_chem/add_icp_weights')?>
+    <?php echo form_open('quartz_chem/add_icp_weights'); ?>
         <tr>
             <td align="center">
                 <i>Batch:</i>
                 <select name="batch_id">
-                    <?=$open_batches?>
+                    <?php echo $open_batches; ?>
                 </select>
             </td>
             <td align="center">
                 <input type=submit value="Add ICP solution weights">
             </td>
         </tr>
-    <?=form_close()?>
+    <?php echo form_close(); ?>
 
     <tr><td colspan="2"><hr></td></tr><p/>
 
@@ -130,19 +130,19 @@
         </td>
     </tr>
 
-    <?=form_open('quartz_chem/add_icp_results')?>
+    <?php echo form_open('quartz_chem/add_icp_results'); ?>
         <tr>
             <td align="center">
                 <i>Batch:</i>
                 <select name="batch_id">
-                    <?=$open_batches?>
+                    <?php echo $open_batches; ?>
                 </select>
             </td>
             <td align="center">
                 <input type=submit value="Add ICP results">
             </td>
         </tr>
-    <?=form_close()?>
+    <?php echo form_close(); ?>
     <tr><td colspan="2"><hr></p></td></tr>
 
     <!-- ICQ QUALITY CONTROL -->
@@ -152,19 +152,19 @@
         </td>
     </tr>
 
-    <?=form_open('quartz_chem/icp_quality_control')?>
+    <?php echo form_open('quartz_chem/icp_quality_control'); ?>
         <tr>
             <td align="center">
                 <i>Batch:</i>
                 <select name="batch_id">
-                    <?=$open_batches?>
+                    <?php echo $open_batches; ?>
                 </select>
             </td>
             <td align="center">
                 <input type="submit" value="Check ICP results">
             </td>
         </tr>
-    <?=form_close()?>
+    <?php echo form_close(); ?>
     <tr><td colspan="2"><hr></p></td></tr>
 
     <!--- FINAL REPORT -->
@@ -175,19 +175,19 @@
         </td>
     </tr>
 
-    <?=form_open('quartz_chem/final_report')?>
+    <?php echo form_open('quartz_chem/final_report'); ?>
         <tr>
             <td align="center">
                 <i>Batch:</i>
                 <select name="batch_id">
-                    <?=$all_batches?>
+                    <?php echo $all_batches; ?>
                 </select>
             </td>
             <td align="center">
                 <input type=submit value="Get final report for this batch">
             </td>
         </tr>
-    <?=form_close()?>
+    <?php echo form_close(); ?>
     <tr><td colspan="2"><hr></td></tr>
 
     <tr>
@@ -196,20 +196,20 @@
         </td>
     </tr>
 
-    <?=form_open('quartz_chem/index')?>
+    <?php echo form_open('quartz_chem/index'); ?>
         <input type="hidden" name="is_lock" value="true">
         <tr>
             <td align="center">
                 <i>Batch:</i>
                 <select name="batch_id">
-                    <?=$open_batches?>
+                    <?php echo $open_batches; ?>
                 </select>
             </td>
             <td align="center">
                 <input type=submit value="This batch is done!">
             </td>
         </tr>
-    <?=form_close()?>
+    <?php echo form_close(); ?>
 
     <tr><td colspan="2" ><hr></td></tr>
 </table>

@@ -1,4 +1,4 @@
-<?=$this->load->view('projects/nav')?>
+<?php echo $this->load->view('projects/nav'); ?>
 <div class="pagination">
     <?
     if ($paginate) {
@@ -11,7 +11,7 @@
         <table class="itemlist">
             <tr>
                 <th>
-                    <?=anchor("projects/index/$sort_by/$alt_sort_dir/$alt_sort_page", 'Name')?>
+                    <?php echo anchor("projects/index/$sort_by/$alt_sort_dir/$alt_sort_page", 'Name'); ?>
                 </th>
                 <th>Actions</th>
             </tr>
@@ -19,12 +19,12 @@
             <?php foreach($projects as $p): ?>
 
                 <tr>
-                    <td id="name"><?=$p->name?></td>
+                    <td id="name"><?php echo $p->name; ?></td>
                     <td>
                         <span id="actionbar">
                             <ul>
-                                <li><?=anchor('projects/view/'.$p->id, 'View')?></li>
-                                <li><?=anchor('projects/edit/'.$p->id, 'Edit')?></li>
+                                <li><?php echo anchor('projects/view/'.$p->id, 'View'); ?></li>
+                                <li><?php echo anchor('projects/edit/'.$p->id, 'Edit'); ?></li>
                             </ul>
                         </span>
                     </td>

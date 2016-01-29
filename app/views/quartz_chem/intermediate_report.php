@@ -1,7 +1,7 @@
 <table width="800" class="arial10">
     <tr>
         <td colspan="3">
-            <h3><?=$title?></h3>
+            <h3><?php echo $title; ?></h3>
         </td>
     </tr>
     <tr>
@@ -11,34 +11,34 @@
     </tr>
     <tr>
         <td>
-            Batch ID: <?=$batch['id']?>
+            Batch ID: <?php echo $batch['id']; ?>
         </td>
         <td>
-            Batch owner: <?=$batch['owner']?>
+            Batch owner: <?php echo $batch['owner']; ?>
         </td>
         <td>
-            Logged in as: <?=htmlentities($_SERVER['REMOTE_USER'])?>
+            Logged in as: <?php echo htmlentities($_SERVER['REMOTE_USER']); ?>
         </td>
     </tr>
     <tr>
         <td>
-            Batch start date: <?=$batch['start_date']?>
+            Batch start date: <?php echo $batch['start_date']; ?>
         </td>
         <td>
-            ICP date:  <?=$batch['icp_date']?>
+            ICP date:  <?php echo $batch['icp_date']; ?>
         </td>
         <td>
-            Today's date: <?=$todays_date?>
+            Today's date: <?php echo $todays_date; ?>
         </td>
     </tr>
     <tr>
         <td colspan="3">
-            <p>Batch description: <?=$batch['description']?></p>
-            <p>Batch notes: <?=$batch['notes']?></p>
+            <p>Batch description: <?php echo $batch['description']; ?></p>
+            <p>Batch notes: <?php echo $batch['notes']; ?></p>
 
             <?php if (isset($final) && $final): ?>
-                <p>Spreadsheet: <?=$batch['spreadsheet_name']?></p>
-                <p>CSV file: <?=$batch['csv_name']?></p>
+                <p>Spreadsheet: <?php echo $batch['spreadsheet_name']; ?></p>
+                <p>CSV file: <?php echo $batch['csv_name']; ?></p>
             <?php endif; ?>
 
         </td>
@@ -71,40 +71,40 @@
     </tr>
     <tr align="center">
         <td align="left">
-            <?=$batch['BeCarrier']['name']?>
+            <?php echo $batch['BeCarrier']['name']; ?>
         </td>
         <td>
-            <?php echo $batch['BeCarrier']['be_conc'], ' &plusmn; ', $batch['BeCarrier']['del_be_conc'];?>
+            <?php echo $batch['BeCarrier']['be_conc'], ' &plusmn; ', $batch['BeCarrier']['del_be_conc'];; ?>
         </td>
         <td>
-            <?=$batch['wt_be_carrier_init']?>
+            <?php echo $batch['wt_be_carrier_init']; ?>
         </td>
         <td>
-            <?=$batch['wt_be_carrier_final']?>
+            <?php echo $batch['wt_be_carrier_final']; ?>
         </td>
         <td>
-            <?=$batch['wt_be_carrier_diff']?>
+            <?php echo $batch['wt_be_carrier_diff']; ?>
         </td>
         <td>
-            <?=$batch['wt_be_carrier_disp']?>
+            <?php echo $batch['wt_be_carrier_disp']; ?>
         </td>
         <td align="left">
-            <?=$batch['AlCarrier']['name']?>
+            <?php echo $batch['AlCarrier']['name']; ?>
         </td>
         <td>
-            <?php echo $batch['AlCarrier']['al_conc'], ' &plusmn; ', $batch['AlCarrier']['del_al_conc'];?>
+            <?php echo $batch['AlCarrier']['al_conc'], ' &plusmn; ', $batch['AlCarrier']['del_al_conc'];; ?>
         </td>
         <td>
-            <?=$batch['wt_al_carrier_init']?>
+            <?php echo $batch['wt_al_carrier_init']; ?>
         </td>
         <td>
-            <?=$batch['wt_al_carrier_final']?>
+            <?php echo $batch['wt_al_carrier_final']; ?>
         </td>
         <td>
-            <?=$batch['wt_al_carrier_diff']?>
+            <?php echo $batch['wt_al_carrier_diff']; ?>
         </td>
         <td>
-            <?=$batch['wt_al_carrier_disp']?>
+            <?php echo $batch['wt_al_carrier_disp']; ?>
         </td>
     </tr>
     <tr>
@@ -163,14 +163,14 @@
 <?php foreach ($batch['Analysis'] as $a): ?>
 
     <tr align="center">
-        <td align="left"><?=$a['id']?></td>
-        <td align="left"><?=$a['sample_name']?></td>
-        <td><?=$a['DissBottle']['bottle_number']?></td>
-        <td><?=$a['wt_diss_bottle_tare']?></td>
-        <td><?=$a['wt_diss_bottle_sample']?></td>
-        <td><?=$a['wt_diss_bottle_total']?></td>
-        <td><?=$a['wt_be_carrier']?></td>
-        <td><?=$a['wt_al_carrier']?></td>
+        <td align="left"><?php echo $a['id']; ?></td>
+        <td align="left"><?php echo $a['sample_name']; ?></td>
+        <td><?php echo $a['DissBottle']['bottle_number']; ?></td>
+        <td><?php echo $a['wt_diss_bottle_tare']; ?></td>
+        <td><?php echo $a['wt_diss_bottle_sample']; ?></td>
+        <td><?php echo $a['wt_diss_bottle_total']; ?></td>
+        <td><?php echo $a['wt_be_carrier']; ?></td>
+        <td><?php echo $a['wt_al_carrier']; ?></td>
     <?
     $first = true;
     foreach ($a['Split'] as $s) {
@@ -222,24 +222,24 @@
         </td>
         <? for ($s = 1; $s <= $batch['max_nsplits']; $s++): ?>
             <td align="center">
-                Split <?=$s?><br>split wt.
+                Split <?php echo $s; ?><br>split wt.
             </td>
         <? endfor; ?>
 
         <? for ($s = 1; $s <= $batch['max_nsplits']; $s++): ?>
             <td align="center">
-                Split <?=$s?><br>ICP wt.
+                Split <?php echo $s; ?><br>ICP wt.
             </td>
         <? endfor; ?>
 
         <? for ($s = 1; $s <= $batch['max_nsplits']; $s++): ?>
             <td>
-                Split <?=$s?><br>multiplier
+                Split <?php echo $s; ?><br>multiplier
             </td>
         <? endfor; ?>
     </tr>
     <tr>
-        <td colspan="<?php echo 6 + 3 * $batch['max_nsplits']?>"><hr></td>
+        <td colspan="<?php echo 6 + 3 * $batch['max_nsplits']; ?>"><hr></td>
     </tr>
 
 <?
@@ -248,7 +248,7 @@ for ($i = 0; $i < $batch['nsamples']; $i++):
 ?>
 
     <tr align="center">
-        <td align="left"><?=$a['sample_name']?></td>
+        <td align="left"><?php echo $a['sample_name']; ?></td>
         <td><? printf('%.4f', $a['wt_sample']); ?></td>
         <td><? printf('%.4f', $a['wt_HF_soln']); ?></td>
         <td><? printf('%.1f', $a['wt_be']); ?></td>
@@ -288,5 +288,5 @@ for ($i = 0; $i < $batch['nsamples']; $i++):
 
 <? endfor; ?>
 
-    <tr><td colspan="<?php echo 6 + 3 * $batch['max_nsplits']?>"><hr><hr></td></tr>
+    <tr><td colspan="<?php echo 6 + 3 * $batch['max_nsplits']; ?>"><hr><hr></td></tr>
 </table>

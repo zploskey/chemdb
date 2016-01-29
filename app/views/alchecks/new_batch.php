@@ -9,8 +9,8 @@ echo validation_errors();
     <tr>
         <td>Today's date:</td>
         <td align="left">
-            <input type="hidden" name="prep_date" value="<?=date('Y-m-d')?>" size="50">
-            <?=date('r')?>
+            <input type="hidden" name="prep_date" value="<?php echo date('Y-m-d'); ?>" size="50">
+            <?php echo date('r'); ?>
         </td>
     </tr>
     <tr>
@@ -19,18 +19,18 @@ echo validation_errors();
             <? if ($allow_num_edit): ?>
                 <input type="text" name="numsamples" size="50">
             <? else: ?>
-                <?=$nsamples?>
+                <?php echo $nsamples; ?>
             <? endif; ?>
         </td>
     </tr>
     <tr>
         <td>Your initials:</td>
-        <td><?=form_input('owner', $batch->owner)?></td>
+        <td><?php echo form_input('owner', $batch->owner); ?></td>
     </tr>
     <tr>
         <td>Batch description:</td>
         <td>
-        <textarea name="description" rows="5" cols="50"><?=$batch->description?></textarea>
+        <textarea name="description" rows="5" cols="50"><?php echo $batch->description; ?></textarea>
         </td>
     </tr>
     <tr>
@@ -40,14 +40,14 @@ echo validation_errors();
         </td>
     </tr>
 </table>
-<?=form_close()?>
+<?php echo form_close(); ?>
 
 <? if (!is_null($batch->id)): ?>
 
-<?=form_open('alchecks/sample_loading', '', array('batch_id'=>$batch->id))?>
+<?php echo form_open('alchecks/sample_loading', '', array('batch_id'=>$batch->id)); ?>
 <input type="submit" value="Begin loading samples">
-<?=form_close()?>
+<?php echo form_close(); ?>
 
 <? endif; ?>
 
-<p align="center"><?=anchor('alchecks', "Back to options")?></p>
+<p align="center"><?php echo anchor('alchecks', "Back to options"); ?></p>

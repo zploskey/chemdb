@@ -1,21 +1,21 @@
-<?=form_open('quartz_chem/add_icp_results')?>
-<input type="hidden" name="batch_id" value="<?=$batch->id?>">
+<?php echo form_open('quartz_chem/add_icp_results'); ?>
+<input type="hidden" name="batch_id" value="<?php echo $batch->id; ?>">
 <table width="800" class="arial10">
-    <?=$this->load->view('tr_main_link_hr')?>
+    <?php echo $this->load->view('tr_main_link_hr'); ?>
     <tr>
         <td>
         <h3>Batch information:</p></h3>
-        Batch ID: <?=$batch->id?> <br>
-        Batch start date: <?=$batch->start_date?> <br>
-        Batch owner: <?=$batch->owner?> <br>
-        Batch description: <?=$batch->description?> <br>
+        Batch ID: <?php echo $batch->id; ?> <br>
+        Batch start date: <?php echo $batch->start_date; ?> <br>
+        Batch owner: <?php echo $batch->owner; ?> <br>
+        Batch description: <?php echo $batch->description; ?> <br>
         </td>
     </tr>
     <tr>
         <td colspan="4">
             Batch notes:<br>
             <center>
-            <textarea name="notes" rows="5" cols="100"><?=$batch->notes?></textarea>
+            <textarea name="notes" rows="5" cols="100"><?php echo $batch->notes; ?></textarea>
             </center>
         </td>
     </tr>
@@ -37,13 +37,13 @@
         <td><b>Beryllium:</b></td>
     </tr>
     <tr>
-        <td><textarea name="al_text" rows="<?=$nrows?>" cols="48"><?=$al_text?></textarea></td>
-        <td><textarea name="be_text" rows="<?=$nrows?>" cols="48"><?=$be_text?></textarea></td>
+        <td><textarea name="al_text" rows="<?php echo $nrows; ?>" cols="48"><?php echo $al_text; ?></textarea></td>
+        <td><textarea name="be_text" rows="<?php echo $nrows; ?>" cols="48"><?php echo $be_text; ?></textarea></td>
     </tr>
 </table>
 <hr>
-<p align="center"><?=form_submit('submit','Save and refresh')?></p>
+<p align="center"><?php echo form_submit('submit','Save and refresh'); ?></p>
 <hr>
-<?=form_close()?>
+<?php echo form_close(); ?>
 
-<?=$this->load->view('quartz_chem/bottom_links')?>
+<?php echo $this->load->view('quartz_chem/bottom_links'); ?>

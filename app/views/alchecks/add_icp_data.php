@@ -4,12 +4,12 @@ echo form_open('alchecks/add_icp_data', '',
                      'refresh'  => true));
 ?>
 
-Batch ID: <?=$batch->id?><br/>
-Batch date: <?=$batch->prep_date?><br/>
-ICP date: <input type="text" name="icp_date" value="<?=$batch->icp_date?>"><br>
-Batch owner: <?=$batch->owner?><br/>
-Number of samples: <?=$nsamples?><br/>
-Batch description: <?=$batch->description?><br/>
+Batch ID: <?php echo $batch->id; ?><br/>
+Batch date: <?php echo $batch->prep_date; ?><br/>
+ICP date: <input type="text" name="icp_date" value="<?php echo $batch->icp_date; ?>"><br>
+Batch owner: <?php echo $batch->owner; ?><br/>
+Number of samples: <?php echo $nsamples; ?><br/>
+Batch description: <?php echo $batch->description; ?><br/>
 
 <?php if ($errors) echo '<hr>' . validation_errors(); ?>
 
@@ -53,24 +53,24 @@ for ($a = 0; $a < $nsamples; $a++):
 ?>
 
     <tr>
-        <td align="center"><?=$an['number_within_batch']?></td>
-        <td><?=$sample_name[$a]?></td>
-        <td align="center"><?=$an['bkr_number']?></td>
-        <td align="center"><input type=text name=icp_be[] value=<?=$an['icp_be']?> size=4></td>
-        <td align="center"><input type=text name=icp_mg[] value=<?=$an['icp_mg']?> size=4></td>
-        <td align="center"><input type=text name=icp_al[] value=<?=$an['icp_al']?> size=4></td>
-        <td align="center"><input type=text name=icp_ca[] value=<?=$an['icp_ca']?> size=4></td>
-        <td align="center"><input type=text name=icp_ti[] value=<?=$an['icp_ti']?> size=4></td>
-        <td align="center"><input type=text name=icp_fe[] value=<?=$an['icp_fe']?> size=4></td>
-        <td align="center"><?=sprintf('%.2f', $qtz_be[$a])?></td>
-        <td align="center"><?=sprintf('%.2f', $qtz_mg[$a])?></td>
-        <td align="center"><?=sprintf('%.2f', $qtz_al[$a])?></td>
-        <td align="center"><?=sprintf('%.2f', $qtz_ca[$a])?></td>
-        <td align="center"><?=sprintf('%.2f', $qtz_ti[$a])?></td>
-        <td align="center"><?=sprintf('%.2f', $qtz_fe[$a])?></td>
+        <td align="center"><?php echo $an['number_within_batch']; ?></td>
+        <td><?php echo $sample_name[$a]; ?></td>
+        <td align="center"><?php echo $an['bkr_number']; ?></td>
+        <td align="center"><input type=text name=icp_be[] value=<?php echo $an['icp_be']; ?> size=4></td>
+        <td align="center"><input type=text name=icp_mg[] value=<?php echo $an['icp_mg']; ?> size=4></td>
+        <td align="center"><input type=text name=icp_al[] value=<?php echo $an['icp_al']; ?> size=4></td>
+        <td align="center"><input type=text name=icp_ca[] value=<?php echo $an['icp_ca']; ?> size=4></td>
+        <td align="center"><input type=text name=icp_ti[] value=<?php echo $an['icp_ti']; ?> size=4></td>
+        <td align="center"><input type=text name=icp_fe[] value=<?php echo $an['icp_fe']; ?> size=4></td>
+        <td align="center"><?php echo sprintf('%.2f', $qtz_be[$a]); ?></td>
+        <td align="center"><?php echo sprintf('%.2f', $qtz_mg[$a]); ?></td>
+        <td align="center"><?php echo sprintf('%.2f', $qtz_al[$a]); ?></td>
+        <td align="center"><?php echo sprintf('%.2f', $qtz_ca[$a]); ?></td>
+        <td align="center"><?php echo sprintf('%.2f', $qtz_ti[$a]); ?></td>
+        <td align="center"><?php echo sprintf('%.2f', $qtz_fe[$a]); ?></td>
 
 
-        <td align="left"><input type=text name=notes[] value="<?=$an['notes']?>"></td>
+        <td align="left"><input type=text name=notes[] value="<?php echo $an['notes']; ?>"></td>
     </tr>
 
 <?php endfor; ?>
@@ -82,7 +82,7 @@ for ($a = 0; $a < $nsamples; $a++):
     <tr>
         <td align="center"><hr>
             <p><input type="submit" value="Save and refresh"></p>
-            <p><?=anchor('alchecks', "Looks good -- I'm done")?></p>
+            <p><?php echo anchor('alchecks', "Looks good -- I'm done"); ?></p>
             <p><hr></p>
         </td>
     </tr>
