@@ -1,4 +1,4 @@
-<?php echo $this->load->view('samples/nav'); ?>
+<?php $this->load->view('samples/nav'); ?>
 <?php echo form_open('samples/index'); ?>
     Sample search:
     <input type="text" class="sample_name" value="<?php echo htmlentities($query); ?>" name="query">

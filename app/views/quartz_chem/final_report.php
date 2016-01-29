@@ -1,4 +1,4 @@
-<?php echo $this->load->view('quartz_chem/intermediate_report'); ?>
+<?php $this->load->view('quartz_chem/intermediate_report'); ?>
 
 <table width="800" class="arial8">
     <tr>

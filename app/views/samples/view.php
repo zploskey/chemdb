@@ -1,4 +1,4 @@
-<?php echo $this->load->view('samples/nav'); ?>
+<?php $this->load->view('samples/nav'); ?>
 <p><h2><?php echo $subtitle; ?> (<?php echo anchor('samples/edit/'.$sample->id,'Edit'); ?>)</h2></p>
 <br>
 <div id="data">

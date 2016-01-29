@@ -1,7 +1,7 @@
 <?php echo form_open('quartz_chem/add_icp_results'); ?>
 <input type="hidden" name="batch_id" value="<?php echo $batch->id; ?>">
 <table width="800" class="arial10">
-    <?php echo $this->load->view('tr_main_link_hr'); ?>
+    <?php $this->load->view('tr_main_link_hr'); ?>
     <tr>
         <td>
         <h3>Batch information:</p></h3>
@@ -46,4 +46,4 @@
 <hr>
 <?php echo form_close(); ?>
 
-<?php echo $this->load->view('quartz_chem/bottom_links'); ?>
+<?php $this->load->view('quartz_chem/bottom_links'); ?>

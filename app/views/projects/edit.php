@@ -1,4 +1,4 @@
-<?php echo $this->load->view('projects/nav'); ?>
+<?php $this->load->view('projects/nav'); ?>
 <p>
     <h2><?php echo $subtitle; ?> (<?php echo anchor("projects/view/$proj->id", 'View'); ?>)</h2>
 </p>
