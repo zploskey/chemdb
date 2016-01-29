@@ -59,7 +59,7 @@
 </div>
 <br/>
 
-<? if ($nAnalyses > 0): ?>
+<?php if ($nAnalyses > 0): ?>
 
     <?php echo form_open('samples/submit_to_calc/'.$sample->id, array('target'=>'outputwindow')); ?>
 
@@ -69,84 +69,84 @@
 
         <tr>
             <th width="200">Analysis ID</th>
-            <? foreach ($sample['Analysis'] as $an): ?>
+            <?php foreach ($sample['Analysis'] as $an): ?>
                 <td>
                     <?php echo $an['id']; ?>
                 </td>
-            <? endforeach; ?>
+            <?php endforeach; ?>
         </tr>
 
         <tr>
             <th>Batch ID</th>
-            <? foreach ($sample['Analysis'] as $an): ?>
+            <?php foreach ($sample['Analysis'] as $an): ?>
                 <td>
                     <?php echo anchor('quartz_chem/final_report/'.$an['batch_id'], $an['batch_id']); ?>
                 </td>
-            <? endforeach; ?>
+            <?php endforeach; ?>
         </tr>
 
         <tr>
             <th>Sample Wt (g)</th>
-            <? foreach ($sample['Analysis'] as $an): ?>
+            <?php foreach ($sample['Analysis'] as $an): ?>
                 <td>
                     <?php echo $an->getSampleWt(); ?>
                 </td>
-            <? endforeach; ?>
+            <?php endforeach; ?>
         </tr>
 
         <tr>
             <th>Carrier ID</th>
-            <? foreach ($sample['Analysis'] as $an): ?>
+            <?php foreach ($sample['Analysis'] as $an): ?>
                 <td>
                     <?php echo $an['Batch']['BeCarrier']['name']; ?>
                 </td>
-            <? endforeach; ?>
+            <?php endforeach; ?>
         </tr>
 
         <tr>
             <th>Mass Be Carrier (ug)</th>
-            <? foreach ($sample['Analysis'] as $an): ?>
+            <?php foreach ($sample['Analysis'] as $an): ?>
                 <td>
                     <?php echo sprintf('%.1f',$an['wt_be_carrier'] * $an['Batch']['BeCarrier']['be_conc']); ?>
                 </td>
-            <? endforeach; ?>
+            <?php endforeach; ?>
         </tr>
 
         <tr>
             <th>ICP Mass Be (ug)</th>
-            <? for ($i = 0; $i < $nAnalyses; $i++): ?>
+            <?php for ($i = 0; $i < $nAnalyses; $i++): ?>
                 <td>
                     <?php echo $ugBe[$i]; ?>
                 </td>
-            <? endfor; ?>
+            <?php endfor; ?>
         </tr>
 
         <tr>
             <th>ICP Mass Al (ug)</th>
-            <? for ($i = 0; $i < $nAnalyses; $i++): ?>
+            <?php for ($i = 0; $i < $nAnalyses; $i++): ?>
                 <td>
                     <?php echo $ugAl[$i]; ?>
                 </td>
-            <? endfor; ?>
+            <?php endfor; ?>
         </tr>
 
         <tr>
             <th>Be Yield (%)</th>
-            <? for ($i = 0; $i < $nAnalyses; $i++): ?>
+            <?php for ($i = 0; $i < $nAnalyses; $i++): ?>
                 <td><?php echo $yieldBe[$i]; ?></td>
-            <? endfor; ?>
+            <?php endfor; ?>
         </tr>
 
-        <? if ($calcsExist): ?>
+        <?php if ($calcsExist): ?>
 
             <tr>
                 <th>Use which Be measure?</th>
-                <? for ($i = 0; $i < $nAnalyses; $i++): ?>
+                <?php for ($i = 0; $i < $nAnalyses; $i++): ?>
                     <td>
                         <input type="radio" name="analysis<?php echo $i; ?>" value="icp"> ICP<br/>
                         <input type="radio" name="analysis<?php echo $i; ?>" value="carrier" checked> Carrier
                     </td>
-                <? endfor; ?>
+                <?php endfor; ?>
             </tr>
 
             <tr>
@@ -186,10 +186,10 @@
 
             </tr>
 
-        <? endif; ?>
+        <?php endif; ?>
 
     </table>
 
     <?php echo form_close(); ?>
 
-<? endif; ?>
+<?php endif; ?>

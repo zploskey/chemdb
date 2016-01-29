@@ -40,7 +40,7 @@ if ($errors) {
     </tr>
     <tr><td colspan="8"><p><hr></p></td></tr>
 
-<? for ($a = 0; $a < $nsamples; $a++):
+<?php for ($a = 0; $a < $nsamples; $a++):
     $an = $batch->AlcheckAnalysis[$a];
 ?>
 
@@ -68,7 +68,7 @@ if ($errors) {
                 'value' => $an->wt_bkr_sample)); ?>
         </td>
 
-        <td align="center"><? printf('%.4f', $wt_sample[$a]); ?></td>
+        <td align="center"><?php printf('%.4f', $wt_sample[$a]); ?></td>
 
         <td align="left">
             <?php echo form_input(array(
@@ -78,7 +78,7 @@ if ($errors) {
         </td>
     </tr>
 
-<? endfor; ?>
+<?php endfor; ?>
 
 </table>
 

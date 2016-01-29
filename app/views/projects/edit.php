@@ -22,7 +22,7 @@
                 <th>Associated Samples</th>
                 <th>Actions</th>
             </tr>
-            <? foreach ($proj->Sample as $s): ?>
+            <?php foreach ($proj->Sample as $s): ?>
                 <tr>
                     <td><?php echo $s->name; ?></td>
                     <td>
@@ -34,7 +34,7 @@
                         </span>
                     </td>
                 </tr>
-            <? endforeach;; ?>
+            <?php endforeach; ?>
             <tr>
                 <td>Add a sample:</td>
                 <td><input type="text" class="sample_name" name="samp"></td>

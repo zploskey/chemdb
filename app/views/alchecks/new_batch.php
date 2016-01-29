@@ -16,11 +16,11 @@ echo validation_errors();
     <tr>
         <td>Number of samples in batch:</td>
         <td>
-            <? if ($allow_num_edit): ?>
+            <?php if ($allow_num_edit): ?>
                 <input type="text" name="numsamples" size="50">
-            <? else: ?>
+            <?php else: ?>
                 <?php echo $nsamples; ?>
-            <? endif; ?>
+            <?php endif; ?>
         </td>
     </tr>
     <tr>
@@ -42,12 +42,12 @@ echo validation_errors();
 </table>
 <?php echo form_close(); ?>
 
-<? if (!is_null($batch->id)): ?>
+<?php if (!is_null($batch->id)): ?>
 
 <?php echo form_open('alchecks/sample_loading', '', array('batch_id'=>$batch->id)); ?>
 <input type="submit" value="Begin loading samples">
 <?php echo form_close(); ?>
 
-<? endif; ?>
+<?php endif; ?>
 
 <p align="center"><?php echo anchor('alchecks', "Back to options"); ?></p>

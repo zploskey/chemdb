@@ -45,56 +45,56 @@ for ($a = 0; $a < $batch['nsamples']; $a++):
     $an = &$batch['Analysis'][$a]; ?>
     <tr><td colspan="11"><hr></td></tr>
     <tr>
-    <? for ($s = 0; $s < $an['nsplits']; $s++): ?>
+    <?php for ($s = 0; $s < $an['nsplits']; $s++): ?>
 
-        <? if ($s == 0): ?>
+        <?php if ($s == 0): ?>
             <td><?php echo $an['id']; ?></td>
             <td><?php echo $an['sample_name']; ?></td>
-        <? else: ?>
+        <?php else: ?>
             <td colspan="2"></td>
-        <? endif; ?>
+        <?php endif; ?>
 
-        <? for ($r = 0; $r < $an['Split'][$s]['nruns']; $r++): // ICP run loop
+        <?php for ($r = 0; $r < $an['Split'][$s]['nruns']; $r++): // ICP run loop
             $run = &$an['Split'][$s]['IcpRun'][$r];  ?>
 
-            <? if ($r == 0):; ?>
+            <?php if ($r == 0):; ?>
                 <td>Split <?php echo $an['Split'][$s]['split_num']; ?></td>
                 <td><?php echo $an['Split'][$s]['SplitBkr']['bkr_number']; ?></td>
-            <? else: ?>
+            <?php else: ?>
                 <td colspan="4"></td>
-            <? endif; ?>
+            <?php endif; ?>
 
             <td>Run <?php echo $run['run_num']; ?></td>
-            <td><? printf('%.4f', $run['be_result']); ?></td>
-            <td><? printf('%.1f', $run['be_tot']); ?></td>
+            <td><?php printf('%.4f', $run['be_result']); ?></td>
+            <td><?php printf('%.1f', $run['be_tot']); ?></td>
             <td>
                 <input type="checkbox" value="<?php echo $run['id']; ?>" name="use_be[]" <?php echo ($run['use_be']=="y")?'checked':''; ?>>
             </td>
-            <td><? printf('%.4f', $run['al_result']); ?></td>
-            <td><? printf('%.1f', $run['al_tot']); ?></td>
+            <td><?php printf('%.4f', $run['al_result']); ?></td>
+            <td><?php printf('%.1f', $run['al_tot']); ?></td>
             <td>
                 <input type="checkbox" value="<?php echo $run['id']; ?>" name="use_al[]" <?php echo ($run['use_al']=="y")?'checked':''; ?>>
             </td>
         </tr>
-        <? endfor; // runs; ?>
+        <?php endfor; // runs; ?>
 
-    <? endfor; // splits ?>
+    <?php endfor; // splits ?>
 
     <!-- Row 6: Averages -->
     <tr>
         <td colspan="5"></td>
         <td>Average ug:</td>
         <td colspan="2">
-            <? printf('%.1f', $an['be_avg']); ?>
+            <?php printf('%.1f', $an['be_avg']); ?>
             &plusmn;
             <?printf('%.1f', $an['be_sd']); ?>
         </td>
         <td></td>
 
         <td colspan="2">
-            <? printf('%.1f', $an['al_avg']); ?>
+            <?php printf('%.1f', $an['al_avg']); ?>
             &plusmn;
-            <? printf('%.1f', $an['al_sd']); ?>
+            <?php printf('%.1f', $an['al_sd']); ?>
         </td>
     </tr>
 
@@ -103,30 +103,30 @@ for ($a = 0; $a < $batch['nsamples']; $a++):
     <tr>
         <td colspan="5"></td>
         <td>Percent error:</td>
-        <td colspan="2"><? printf('%.1f', $an['be_pct_err']); ?></td>
+        <td colspan="2"><?php printf('%.1f', $an['be_pct_err']); ?></td>
         <td></td>
-        <td colspan="2"><? printf('%.1f', $an['al_pct_err']); ?></td>
+        <td colspan="2"><?php printf('%.1f', $an['al_pct_err']); ?></td>
     </tr>
 
     <tr>
         <td colspan="5"></td>
         <td>Pct. recovery:</td>
-        <td colspan="2"><? printf('%.1f', $an['be_recovery']); ?></td>
+        <td colspan="2"><?php printf('%.1f', $an['be_recovery']); ?></td>
         <td></td>
-        <td colspan="2"><? printf('%.1f', $an['al_recovery']); ?></td>
+        <td colspan="2"><?php printf('%.1f', $an['al_recovery']); ?></td>
     </tr>
 
-    <? if ( ($a % 2) != 0): ?>
+    <?php if ( ($a % 2) != 0): ?>
         <tr><td colspan="11"><hr></td></tr>
         <tr>
             <td colspan="11" align="center">
                 <input type="submit" value="Save and refresh">
             </td>
         </tr>
-        <? if ($a != $batch['nsamples'] - 1) echo $cols; ?>
-    <? endif; ?>
+        <?php if ($a != $batch['nsamples'] - 1) echo $cols; ?>
+    <?php endif; ?>
 
-<? endfor; // analyses ?>
+<?php endfor; // analyses ?>
 
 <tr><td colspan="11"><hr></td></tr>
 

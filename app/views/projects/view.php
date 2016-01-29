@@ -24,8 +24,8 @@
                 <th>Associated Samples &nbsp;&nbsp;&nbsp;</th>
                 <th>Actions</th>
             </tr>
-            <? if ($proj->Sample->count()): ?>
-                <? foreach ($proj->Sample as $s): ?>
+            <?php if ($proj->Sample->count()): ?>
+                <?php foreach ($proj->Sample as $s): ?>
                     <tr>
                         <td><?php echo $s->name; ?></td>
                         <td>
@@ -37,10 +37,10 @@
                             </span>
                         </td>
                     </tr>
-                <? endforeach;; ?>
-            <? else: ?>
+                <?php endforeach;; ?>
+            <?php else: ?>
                 <tr><td>None</td><td></td></tr>
-            <? endif; ?>
+            <?php endif; ?>
         </table>
     </p>
 </div>

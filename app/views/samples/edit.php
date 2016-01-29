@@ -1,9 +1,9 @@
 <?php $this->load->view('samples/nav'); ?>
 <p><h2>
     <?php echo $subtitle; ?>
-    <? if (!is_null($sample->id)): ?>
+    <?php if (!is_null($sample->id)): ?>
         (<?php echo anchor('samples/view/'.$sample->id, 'View'); ?>)
-    <? endif; ?>
+    <?php endif; ?>
 </h2></p>
 <br>
 

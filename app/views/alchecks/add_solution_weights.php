@@ -40,7 +40,7 @@ if ($errors) {
     </tr>
     <tr><td colspan="9"><p><hr></p></td></tr>
 
-<? for ($a = 0; $a < $nsamples; $a++):
+<?php for ($a = 0; $a < $nsamples; $a++):
     $an = $batch['AlcheckAnalysis'][$a];
 ?>
 
@@ -60,7 +60,7 @@ if ($errors) {
         <td><input type="text" name="notes[]" value="<?php echo $an->notes; ?>" size="36"></td>
     </tr>
 
-<? endfor; ?>
+<?php endfor; ?>
 
 </table>
 
