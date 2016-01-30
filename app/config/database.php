@@ -63,20 +63,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = FALSE;
 
-// Set active_group to 'default' for production
-// or 'dev' for the development database (see below)
-if (ENVIRONMENT == 'development') {
-    $active_group = 'dev';
-} else {
-    $active_group = 'default';
-}
-
 // quartz_chem
-$db['default']['hostname'] = 'ovid01.u.washington.edu:23457';
+$db['default']['hostname'] = 'example.com:1234';
 $db['default']['username'] = 'username';
 $db['default']['password'] = 'password';
-$db['default']['database'] = 'al_be_quartz_chem';
-$db['default']['dbdriver'] = 'mysql';
+$db['default']['database'] = 'chemdb';
+$db['default']['dbdriver'] = 'mysqli';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
 $db['default']['db_debug'] = TRUE;
@@ -84,10 +76,6 @@ $db['default']['cache_on'] = FALSE;
 $db['default']['cachedir'] = '';
 $db['default']['char_set'] = 'latin1';
 $db['default']['dbcollat'] = 'latin1_general_ci';
-
-// development db
-$db['dev'] = $db['default'];
-$db['dev']['database'] = 'dev_al_be';
 
 // Doctrine configuration
 
