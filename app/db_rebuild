@@ -1,9 +1,0 @@
-#!/bin/bash
-
-dir=`dirname $0`
-$dir/doctrine generate-yaml-db
-/bin/echo "detect_relations: true" > temp_file
-/bin/cat $dir/schema/schema.yml >> temp_file
-/bin/cat temp_file > $dir/schema/schema.yml
-/bin/rm temp_file
-$dir/doctrine generate-models-yaml
