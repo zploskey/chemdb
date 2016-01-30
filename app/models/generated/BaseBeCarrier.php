@@ -11,6 +11,8 @@
  * @property float $del_be_conc
  * @property float $al_conc
  * @property float $del_al_conc
+ * @property float $r10to9
+ * @property float $r10to9_error
  * @property date $in_service_date
  * @property string $mfg_lot_no
  * @property string $owner
@@ -73,6 +75,24 @@ abstract class BaseBeCarrier extends Doctrine_Record
              'length' => '',
              ));
         $this->hasColumn('del_al_conc', 'float', null, array(
+             'type' => 'float',
+             'fixed' => 0,
+             'unsigned' => false,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '',
+             ));
+        $this->hasColumn('r10to9', 'float', null, array(
+             'type' => 'float',
+             'fixed' => 0,
+             'unsigned' => false,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '',
+             ));
+        $this->hasColumn('r10to9_error', 'float', null, array(
              'type' => 'float',
              'fixed' => 0,
              'unsigned' => false,

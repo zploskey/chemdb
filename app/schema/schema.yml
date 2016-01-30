@@ -177,6 +177,20 @@ AlCarrier:
       primary: false
       notnull: false
       autoincrement: false
+    r26to27:
+      type: float()
+      fixed: 0
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    r26to27_error:
+      type: float()
+      fixed: 0
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
     in_service_date:
       type: date(25)
       fixed: 0
@@ -1012,6 +1026,20 @@ BeCarrier:
       notnull: false
       autoincrement: false
     del_al_conc:
+      type: float()
+      fixed: 0
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    r10to9:
+      type: float()
+      fixed: 0
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    r10to9_error:
       type: float()
       fixed: 0
       unsigned: false
