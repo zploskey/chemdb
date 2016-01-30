@@ -9,6 +9,8 @@
  * @property string $name
  * @property float $al_conc
  * @property float $del_al_conc
+ * @property float $r26to27
+ * @property float $r26to27_error
  * @property date $in_service_date
  * @property string $mfg_lot_no
  * @property string $notes
@@ -52,6 +54,24 @@ abstract class BaseAlCarrier extends Doctrine_Record
              'length' => '',
              ));
         $this->hasColumn('del_al_conc', 'float', null, array(
+             'type' => 'float',
+             'fixed' => 0,
+             'unsigned' => false,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '',
+             ));
+        $this->hasColumn('r26to27', 'float', null, array(
+             'type' => 'float',
+             'fixed' => 0,
+             'unsigned' => false,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '',
+             ));
+        $this->hasColumn('r26to27_error', 'float', null, array(
              'type' => 'float',
              'fixed' => 0,
              'unsigned' => false,
