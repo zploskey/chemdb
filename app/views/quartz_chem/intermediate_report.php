@@ -76,10 +76,19 @@
     </tr>
     <tr align="center">
         <td align="left">
-            <?php echo $batch['BeCarrier']['name']; ?>
+<?php
+            if (isset($batch['BeCarrier'])) {
+                echo $batch['BeCarrier']['name'];
+            }
+?>
         </td>
         <td>
-            <?php echo $batch['BeCarrier']['be_conc'], ' &plusmn; ', $batch['BeCarrier']['del_be_conc']; ?>
+<?php
+            if (isset($batch['BeCarrier'])) {
+                echo $batch['BeCarrier']['be_conc'],
+                    ' &plusmn; ', $batch['BeCarrier']['del_be_conc'];
+            }
+?>
         </td>
         <td>
             <?php echo $batch['wt_be_carrier_init']; ?>
@@ -94,10 +103,19 @@
             <?php echo $batch['wt_be_carrier_disp']; ?>
         </td>
         <td align="left">
-            <?php echo $batch['AlCarrier']['name']; ?>
+<?php
+            if (isset($batch['AlCarrier'])) {
+                echo $batch['AlCarrier']['name'];
+            }
+?>
         </td>
         <td>
-            <?php echo $batch['AlCarrier']['al_conc'], ' &plusmn; ', $batch['AlCarrier']['del_al_conc']; ?>
+<?php
+            if (isset($batch['AlCarrier'])) {
+                echo $batch['AlCarrier']['al_conc'],
+                    ' &plusmn; ', $batch['AlCarrier']['del_al_conc'];
+            }
+?>
         </td>
         <td>
             <?php echo $batch['wt_al_carrier_init']; ?>
@@ -170,7 +188,13 @@
     <tr align="center">
         <td align="left"><?php echo $a['id']; ?></td>
         <td align="left"><?php echo $a['sample_name']; ?></td>
-        <td><?php echo $a['DissBottle']['bottle_number']; ?></td>
+        <td>
+<?php
+            if (isset($a['DissBottle'])) {
+                echo $a['DissBottle']['bottle_number'];
+            }
+?>
+        </td>
         <td><?php echo $a['wt_diss_bottle_tare']; ?></td>
         <td><?php echo $a['wt_diss_bottle_sample']; ?></td>
         <td><?php echo $a['wt_diss_bottle_total']; ?></td>
@@ -257,7 +281,15 @@ for ($i = 0; $i < $batch['nsamples']; $i++):
         <td><?php printf('%.4f', $a['wt_sample']); ?></td>
         <td><?php printf('%.4f', $a['wt_HF_soln']); ?></td>
         <td><?php printf('%.1f', $a['wt_be']); ?></td>
-        <td><?php printf('%.1f', $a['wt_al_fromc']); ?></td>
+        <td>
+<?php
+            if (isset($a['wt_al_fromc'])) {
+                printf('%.1f', $a['wt_al_fromc']);
+            } else {
+                printf('%.1f', 0.0);
+            }
+?>
+        </td>
         <td><?php printf('%.1f', $a['check_tot_al']); ?></td>
     <?php
     for ($s = 0; $s < $batch['max_nsplits']; $s++) {
