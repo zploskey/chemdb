@@ -812,6 +812,7 @@ EOH;
             }
         }
 
+        $data = new stdClass();
         $data->batch = $batch->getReportArray(true);
         $data->errors = $errors;
         $data->title = 'ICP Quality Control';
@@ -851,6 +852,7 @@ EOH;
         $batch_id = (int)$this->uri->segment(3, $this->input->post('batch_id'));
 
         // do all our calculations, pass true to do a complete report
+        $data = new stdClass();
         try {
             $data->batch = Doctrine::getTable('Batch')->getReportArray($batch_id, true);
         } catch (Exception $e) {
