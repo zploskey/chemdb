@@ -17,7 +17,12 @@
             Batch owner: <?php echo $batch['owner']; ?>
         </td>
         <td>
-            Logged in as: <?php echo htmlentities($_SERVER['REMOTE_USER']); ?>
+            Logged in as:
+<?php
+            if (isset($_SERVER['REMOTE_USER'])) {
+                echo htmlentities($this->input->server('REMOTE_USER'));
+            }
+?>
         </td>
     </tr>
     <tr>
