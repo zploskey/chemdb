@@ -1,6 +1,6 @@
 <?php $this->load->view('projects/nav'); ?>
 <div class="pagination">
-    <?
+    <?php
     if ($paginate) {
         $pagstring = "Go to page: $pagination";
         echo $pagstring;

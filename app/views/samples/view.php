@@ -10,7 +10,7 @@
         <tr>
             <td align="right">Associated Projects: &nbsp;</td>
             <td>
-            <?
+            <?php
             if (isset($projects)) {
                 foreach ($projects as $p) {
                     echo anchor('projects/view/'.$p['id'], $p['name']) . '<br/>';
@@ -151,7 +151,7 @@
 
             <tr>
                 <th>Include in report?</th>
-                <?
+                <?php
                 for ($i = 0; $i < $nAnalyses; $i++) {
                     $ai = $sample->Analysis[$i];
                     if (isset($ai->BeAms[0]->BeAmsStd) || isset($ai->AlAms[0]->AlAmsStd)) {
@@ -170,7 +170,7 @@
                 </td>
 
                 <!-- Calculations for individual analyses -->
-<?
+<?php
                 for ($i = 0; $i < $nAnalyses; $i++) {
                     $ai = $sample->Analysis[$i];
                     if (isset($ai->BeAms[0]->BeAmsStd) || isset($ai->AlAms[0]->AlAmsStd)) {

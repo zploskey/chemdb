@@ -39,7 +39,7 @@
     <tr><td></td>
         <td>
             [Be]:
-            <?
+            <?php
             if ($batch->BeCarrier) {
                 echo $batch->BeCarrier->be_conc;
                 if (!is_null($batch->BeCarrier->del_be_conc)) {
@@ -51,7 +51,7 @@
         <td></td>
         <td>
             [Al]:
-            <?
+            <?php
             if($batch->AlCarrier) {
                 echo $batch->AlCarrier->al_conc;
                 if (!is_null($batch->AlCarrier->del_al_conc)) {

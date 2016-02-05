@@ -171,7 +171,7 @@
         <td><?php echo $a['wt_diss_bottle_total']; ?></td>
         <td><?php echo $a['wt_be_carrier']; ?></td>
         <td><?php echo $a['wt_al_carrier']; ?></td>
-    <?
+    <?php
     $first = true;
     foreach ($a['Split'] as $s) {
         if (!$first) {
@@ -242,7 +242,7 @@
         <td colspan="<?php echo 6 + 3 * $batch['max_nsplits']; ?>"><hr></td>
     </tr>
 
-<?
+<?php
 for ($i = 0; $i < $batch['nsamples']; $i++):
     $a = $batch['Analysis'][$i];
 ?>

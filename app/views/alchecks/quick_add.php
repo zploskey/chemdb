@@ -30,7 +30,7 @@
 
 <tr>
     <td colspan="4"><hr>
-    <?
+    <?php
     if ($errors) {
         echo validation_errors() . '<hr>';
     }

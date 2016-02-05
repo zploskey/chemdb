@@ -19,7 +19,7 @@
         <td align="left">
             Sample name
         </td>
-        <?
+        <?php
         for ($s = 1; $s <= $batch['max_nsplits']; $s++) {
             for ($r = 1; $r <= $batch['max_nruns']; $r++) {
                 echo '<td align="center">Split ' . $s . '<br>Run ' . $r;
@@ -133,7 +133,7 @@
         <td align="left">
             Sample name
         </td>
-        <?
+        <?php
         for ($s = 1; $s <= $batch['max_nsplits']; $s++) {
             for ($r = 1; $r <= $batch['max_nruns']; $r++) {
                 echo '<td align="center">Split ' . "$s<br>Run$r";
