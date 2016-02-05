@@ -47,7 +47,7 @@
             <td><?php echo $batch->Analysis[$i]->id; ?></td>
             <td><?php echo $batch->Analysis[$i]->sample_name; ?></td>
             <td>
-                <?php echo $batch->Analysis[$i]->DissBottle->bottle_number; ?>
+                <?php echo @$batch->Analysis[$i]->DissBottle->bottle_number; ?>
             </td>
             <td><?php echo $batch->Analysis[$i]->wt_diss_bottle_tare; ?></td>
             <td>
