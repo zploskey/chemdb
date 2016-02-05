@@ -87,8 +87,18 @@ class Batch extends BaseBatch
                 $s['wt_icp'] = $s['wt_split_bkr_icp'] - $s['wt_split_bkr_tare'];
                 $s['tot_df'] = safe_divide($s['wt_icp'], $s['wt_split']) * $a['wt_HF_soln'];
             }
-            $a['wt_be'] = $a['wt_be_carrier'] * $batch['BeCarrier']['be_conc'];
-            $a['wt_al_fromc'] = $a['wt_al_carrier'] * $batch['AlCarrier']['al_conc'];
+            
+            if (isset($batch['BeCarrier'])) {
+                $a['wt_be'] = $a['wt_be_carrier'] * $batch['BeCarrier']['be_conc'];
+            } else {
+                $a['wt_be'] = 0.0;
+            }
+
+            if (isset($batch['BeCarrier'])) {
+                $a['wt_al_fromc'] = $a['wt_al_carrier'] * $batch['AlCarrier']['al_conc'];
+            } else {
+                $a['wt_al'] = 0.0;
+            }
 
             // Do the usual thing with the Al checks database --
             // Attempt to obtain Al/Fe/Ti concentrations
