@@ -620,7 +620,11 @@ EOH;
             ->limit(1)
             ->fetchOne();
 
-        $numsamples = $batch->Analysis->count();
+        if (isset($batch->Analysis)) {
+            $numsamples = $batch->Analysis->count();
+        } else {
+            $numsamples = 0;
+        }
 
         // For the case when it's a new icp run, change from the default to today's date.
         // It will be saved when valid data is submitted on the form.
@@ -646,11 +650,13 @@ EOH;
             // validate the form
             if ($is_valid) {
                 $batch->save();
+                $errors = false;
             } else {
                 $errors = true;
             }
         }
 
+        $data = new stdClass();
         $data->errors = $errors;
         $data->numsamples = $numsamples;
         $data->batch = $batch;
