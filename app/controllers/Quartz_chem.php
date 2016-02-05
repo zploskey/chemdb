@@ -771,6 +771,7 @@ EOH;
         }
 
         // recreate input boxes from database
+        $data = new stdClass();
         list($data->al_text, $data->be_text, $data->nrows) = $batch->generateIcpResultsText();
 
         // in case there were no splits or runs, give it a default number of rows
