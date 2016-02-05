@@ -75,7 +75,7 @@
                     <td colspan="3" align="center">Not in Al-check db</td>
                 <?php endif; ?>
                 <td align="center">
-                    <?php echo $batch->Analysis[$i]->DissBottle->bottle_number; ?>
+                    <?php echo @$batch->Analysis[$i]->DissBottle->bottle_number; ?>
                 </td>
                 <td align="center">
                     <?php echo $tmpa[$i]['mlHf']; ?>
