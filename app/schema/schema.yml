@@ -43,28 +43,28 @@ AlAms:
       notnull: false
       autoincrement: false
     r_to_rstd:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     interror:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     exterror:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     truefrac:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -118,14 +118,14 @@ AlAmsStd:
       notnull: false
       autoincrement: false
     r26to27:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     error:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -164,28 +164,28 @@ AlCarrier:
       notnull: false
       autoincrement: false
     al_conc:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     del_al_conc:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     r26to27:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     r26to27_error:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -299,7 +299,7 @@ AlcheckAnalysis:
       notnull: true
       autoincrement: false
     wt_bkr_tare:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -315,7 +315,7 @@ AlcheckAnalysis:
       notnull: true
       autoincrement: false
     wt_bkr_sample:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -323,7 +323,7 @@ AlcheckAnalysis:
       notnull: true
       autoincrement: false
     wt_bkr_soln:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -331,7 +331,7 @@ AlcheckAnalysis:
       notnull: false
       autoincrement: false
     icp_al:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -339,7 +339,7 @@ AlcheckAnalysis:
       notnull: false
       autoincrement: false
     icp_ba:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -347,7 +347,7 @@ AlcheckAnalysis:
       notnull: false
       autoincrement: false
     icp_be:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -355,7 +355,7 @@ AlcheckAnalysis:
       notnull: false
       autoincrement: false
     icp_ca:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -363,7 +363,7 @@ AlcheckAnalysis:
       notnull: false
       autoincrement: false
     icp_fe:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -371,7 +371,7 @@ AlcheckAnalysis:
       notnull: false
       autoincrement: false
     icp_k:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -379,7 +379,7 @@ AlcheckAnalysis:
       notnull: false
       autoincrement: false
     icp_mg:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -387,7 +387,7 @@ AlcheckAnalysis:
       notnull: false
       autoincrement: false
     icp_mn:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -395,7 +395,7 @@ AlcheckAnalysis:
       notnull: false
       autoincrement: false
     icp_na:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -403,7 +403,7 @@ AlcheckAnalysis:
       notnull: false
       autoincrement: false
     icp_ti:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -411,7 +411,7 @@ AlcheckAnalysis:
       notnull: false
       autoincrement: false
     addl_dil_factor:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -493,7 +493,7 @@ AmsCurrent:
       primary: true
       autoincrement: true
     current:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -616,7 +616,7 @@ Analysis:
       notnull: true
       autoincrement: false
     wt_diss_bottle_tare:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -624,7 +624,7 @@ Analysis:
       notnull: true
       autoincrement: false
     wt_diss_bottle_sample:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -632,7 +632,7 @@ Analysis:
       notnull: true
       autoincrement: false
     wt_be_carrier:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -640,7 +640,7 @@ Analysis:
       notnull: true
       autoincrement: false
     wt_al_carrier:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -648,7 +648,7 @@ Analysis:
       notnull: true
       autoincrement: false
     wt_diss_bottle_total:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -756,7 +756,7 @@ Batch:
       notnull: true
       autoincrement: false
     wt_be_carrier_init:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -764,7 +764,7 @@ Batch:
       notnull: true
       autoincrement: false
     wt_be_carrier_final:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -779,7 +779,7 @@ Batch:
       notnull: true
       autoincrement: false
     wt_al_carrier_init:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -787,7 +787,7 @@ Batch:
       notnull: true
       autoincrement: false
     wt_al_carrier_final:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -884,28 +884,28 @@ BeAms:
       notnull: false
       autoincrement: false
     r_to_rstd:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     interror:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     exterror:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     truefrac:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -959,14 +959,14 @@ BeAmsStd:
       notnull: false
       autoincrement: false
     r10to9:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     error:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -1005,42 +1005,42 @@ BeCarrier:
       notnull: true
       autoincrement: false
     be_conc:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     del_be_conc:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     al_conc:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     del_al_conc:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     r10to9:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     r10to9_error:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -1160,7 +1160,7 @@ IcpRun:
       notnull: true
       autoincrement: false
     al_result:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -1168,7 +1168,7 @@ IcpRun:
       notnull: true
       autoincrement: false
     be_result:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -1284,21 +1284,21 @@ Sample:
       notnull: true
       autoincrement: false
     latitude:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     longitude:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     altitude:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -1313,35 +1313,35 @@ Sample:
       notnull: true
       autoincrement: false
     shield_factor:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     depth_top:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     depth_bottom:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     density:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     erosion_rate:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -1434,21 +1434,21 @@ SilCl36Analysis:
       notnull: true
       autoincrement: false
     wt_spike:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     wt_bkr_tare:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
       notnull: false
       autoincrement: false
     wt_bkr_sample:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -1521,7 +1521,7 @@ Split:
       notnull: false
       autoincrement: false
     wt_split_bkr_tare:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -1529,7 +1529,7 @@ Split:
       notnull: true
       autoincrement: false
     wt_split_bkr_split:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
@@ -1537,7 +1537,7 @@ Split:
       notnull: true
       autoincrement: false
     wt_split_bkr_icp:
-      type: float()
+      type: double(53,30)
       fixed: 0
       unsigned: false
       primary: false
