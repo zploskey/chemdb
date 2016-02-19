@@ -44,7 +44,7 @@
             <td><?php echo $sample->depth_bottom; ?></td>
         </tr>
         <tr>
-            <td align="right">Density (g/cm^3): &nbsp;</td>
+            <td align="right">Density (g/cm<sup>3</sup>): &nbsp;</td>
             <td><?php echo $sample->density; ?></td>
         </tr>
         <tr>

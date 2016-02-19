@@ -79,7 +79,7 @@
 
             <tr>
                 <th>Density:</th>
-                <td><input type="text" name="sample[density]" value="<?php echo $sample->density; ?>" size="10" /> &nbsp;g/cm^3</td>
+                <td><input type="text" name="sample[density]" value="<?php echo $sample->density; ?>" size="10" /> &nbsp;g/cm<sup>3</sup></td>
             </tr>
 
             <tr>
