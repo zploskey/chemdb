@@ -1,7 +1,6 @@
 [submodule "ci"]
 	path = ci
 	url = git://github.com/bcit-ci/CodeIgniter.git
-	branch = stable-3.0
 [submodule "doctrine1"]
 	path = doctrine1
 	url = https://github.com/diablomedia/doctrine1.git
