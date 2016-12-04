@@ -1,6 +1,6 @@
 <tr>
     <td align="center" colspan="100%">
-        <div id="navbar">
+        <div class="navbar">
             <?php echo anchor('welcome','Return to Main Menu'); ?>
         </div>
     </td>
