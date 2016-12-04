@@ -114,7 +114,7 @@ code {
     text-align: center;
 }
 
-.itemlist td#name {
+.itemlist td.name {
     width: 400px;
 }
 
@@ -149,7 +149,7 @@ ul {
     color: red;
 }
 
-span#actionbar li {
+span.actionbar li {
     list-style-type: none;
     display: inline;
 }

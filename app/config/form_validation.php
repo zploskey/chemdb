@@ -16,7 +16,7 @@ $config['projects'] = array(
     array(
         'field' => 'name',
         'label' => 'name',
-        'rules' => 'trim|required|alpha_dot_dash|callback__is_unique[project.name]'),
+        'rules' => 'trim|required|alpha_dot_dash|callback__is_unique[project.name.3]'),
     array(
         'field' => 'description',
         'label' => 'description',
@@ -27,11 +27,25 @@ $config['projects'] = array(
         'rules' => 'trim|callback__sample_exists'),
 );
 
+$config['SplitBkr'] = array(
+    array(
+        'field' => 'bkr_number',
+        'label' => 'beaker number',
+        'rules' => 'trim|required|alpha_dot_dash|callback__is_unique[SplitBkr.bkr_number.4]'),
+);
+
+$config['DissBottle'] = array(
+    array(
+        'field' => 'bottle_number',
+        'label' => 'bottle number',
+        'rules' => 'trim|required|alpha_dot_dash|callback__is_unique[DissBottle.bottle_number.4]'),
+);
+
 $config['samples'] = array(
     array(
         'field' => 'sample[name]',
         'label' => 'name',
-        'rules' => 'trim|required|alpha_dot_dash|callback__is_unique[sample.name]'),
+        'rules' => 'trim|required|alpha_dot_dash|callback__is_unique[sample.name.3]'),
     array(
         'field' => 'proj[]',
         'label' => 'project',

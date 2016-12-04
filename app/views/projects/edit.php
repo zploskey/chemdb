@@ -26,7 +26,7 @@
                 <tr>
                     <td><?php echo $s->name; ?></td>
                     <td>
-                        <span id="actionbar">
+                        <span class="actionbar">
                             <ul>
                                 <li><?php echo anchor('samples/view/'.$s->id, 'View'); ?></li>
                                 <li><?php echo anchor('samples/edit/'.$s->id, 'Edit'); ?></li>

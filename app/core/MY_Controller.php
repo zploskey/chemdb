@@ -31,11 +31,13 @@ class MY_Controller extends CI_Controller
         return false;
     }
 
-    function _is_unique($val, $field)
+    function _is_unique($val, $field_and_id_uriseg)
     {
-        $id = $this->uri->segment(3, null);
+        list($table, $column, $id_uriseg) = explode('.', $field_and_id_uriseg);
+        $id = $this->uri->segment($id_uriseg, null);
 
-        if ($this->form_validation->is_unique_or_existing($val, $field, $id)) {
+        if ($this->form_validation->is_unique_or_existing(
+                                        $val, $table, $column, $id)) {
             return true;
         }
         $this->form_validation->set_message('_is_unique',
