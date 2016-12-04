@@ -163,7 +163,6 @@ class Projects extends MY_Controller
         $data = new stdClass();
         $data->title = 'View Project';
         $data->subtitle = 'Viewing '.$proj->name;
-        $data->arg = '/'.$id;
         $data->proj = $proj;
         $data->main  = 'projects/view';
         $this->load->view('template', $data);
