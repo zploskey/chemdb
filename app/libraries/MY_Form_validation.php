@@ -3,25 +3,22 @@
 class MY_Form_validation extends CI_Form_validation
 {
     /**
-     * Determines if $value already exists in the table specified in $field.
-     * $field is formatted as 'table_name.field_name'
+     * Determines if $value already exists in the $column of $table.
      *
      * @param string $value value to check for uniqueness in DB
-     * @param string $field the database field to check
-     * @param int 
+     * @param string $table the Doctrine table containing $column
+     * @param string $column the column to check
+     * @param int $id the
      * @return bool $id true if the value is unique
      */
-    function is_unique_or_existing($value, $field, $id)
+    function is_unique_or_existing($value, $table, $column, $id)
     {
         if (isset($id) AND ($id <= 0)) {
             return false;
         }
-
-        list($table, $column) = explode('.', $field);
-
         $result = Doctrine_Query::create()
-            ->select('id')
             ->from($table)
+            ->select('id')
             ->where("$column = ?", $value)
             ->execute();
 
@@ -85,18 +82,6 @@ class MY_Form_validation extends CI_Form_validation
     function noreq_natural_no_zero($val)
     {
         return ($val == '' || $this->is_natural_no_zero($val));
-    }
-
-    function _is_unique($val, $field)
-    {
-        $id = $this->uri->segment(3, null);
-
-        if ($this->is_unique_or_existing($val, $field, $id)) {
-            return true;
-        }
-        $this->set_message(__FUNCTION__,
-            'The %s field already exists in the database, please choose a different one.');
-        return false;
     }
 
     function noreq_alpha_dot_dash($val)
