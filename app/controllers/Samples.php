@@ -266,7 +266,6 @@ EHC;
         $data->calcsExist = $calcsExist;
         $data->title      = 'View Sample';
         $data->subtitle   = 'Viewing ' . $sample->name;
-        $data->arg        = $id;
         $data->sample     = $sample;
         $data->main       = 'samples/view';
         $this->load->view('template', $data);
@@ -374,4 +373,3 @@ EHC;
     }
 
 }
-
