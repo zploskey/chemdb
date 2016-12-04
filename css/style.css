@@ -42,7 +42,7 @@ table {
 
 .option_button {
  font-family:Arial;
- text-align:center;   
+ text-align:center;
 }
 
 div#wrapper {
@@ -125,7 +125,7 @@ th {
 }
 
 .itemlist table {
-    width: 100%; 
+    width: 100%;
     border-width: inherit;
     border-spacing: inherit;
     border-collapse: collapse;
@@ -139,7 +139,7 @@ th {
 .arial14
     {font-size:14.0pt;}
 .arial12
-    {font-size:12.0pt;} 
+    {font-size:12.0pt;}
 
 ul {
     padding-left: 0px;
@@ -154,11 +154,11 @@ span#actionbar li {
     display: inline;
 }
 
-div#navbar li {
+.navbar li {
     list-style-type: none;
     display: inline;
 }
 
-div#navbar {
+.navbar {
     text-align: center;
 }

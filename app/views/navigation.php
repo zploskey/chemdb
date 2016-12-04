@@ -1,4 +1,4 @@
-<div id="navbar">
+<div class="navbar">
     <ul>
         <li><?php echo anchor('', 'Start Page'); ?></li> |
         <li><?php echo anchor('projects', 'Projects'); ?></li> |
