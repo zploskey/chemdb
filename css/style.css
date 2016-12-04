@@ -52,16 +52,16 @@ div#wrapper {
  width: 800px;
 }
 
-div#data {
+div .data {
     font-family: Arial;
     font-size: 12pt;
 }
 
-div#data td  {
+div .data td  {
     border-right: 6px;
 }
 
-div#data table {
+div .data table {
     border-width: 0px 0px 0px 0px;
     border-spacing: 0px;
     font-family: Arial;
