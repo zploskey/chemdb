@@ -3,12 +3,12 @@
 class Containers extends MY_Controller
 {
 
-    const LONGNAME_MAP = array(
+    protected $LONGNAME_MAP = array(
         'SplitBkr'   => 'Split Beaker',
         'DissBottle' => 'Dissolution Bottle',
     );
 
-    const NAMEFIELD_MAP = array(
+    protected $NAMEFIELD_MAP = array(
         'SplitBkr' => 'bkr_number',
         'DissBottle' => 'bottle_number',
     );
@@ -21,11 +21,11 @@ class Containers extends MY_Controller
     function index($type = '', $sort_by = 'id', $sort_dir = 'asc')
     {
         if ($type) {
-            if (! in_array($type, array_keys(self::LONGNAME_MAP))) {
+            if (! in_array($type, array_keys($this->LONGNAME_MAP))) {
                 show_404('page');
             }
 
-            $namefield = self::NAMEFIELD_MAP[$type];
+            $namefield = $this->NAMEFIELD_MAP[$type];
 
             if ($sort_by === 'number') {
                 $sort_by = $namefield;
@@ -37,12 +37,12 @@ class Containers extends MY_Controller
                 ->execute();
 
             $data = array(
-                'title' => 'Manage ' . self::LONGNAME_MAP[$type] . 's',
+                'title' => 'Manage ' . $this->LONGNAME_MAP[$type] . 's',
                 'containers' => $containers,
                 'sort_by' => $sort_by,
                 'sort_dir' => $sort_dir,
                 'alt_sort_dir' => switch_sort($sort_dir),
-                'longname' => self::LONGNAME_MAP[$type],
+                'longname' => $this->LONGNAME_MAP[$type],
                 'number' => $namefield,
             );
         } else {
@@ -64,7 +64,7 @@ class Containers extends MY_Controller
     {
         $is_refresh = $this->input->post('is_refresh');
 
-        if (! in_array($type, array_keys(self::LONGNAME_MAP))) {
+        if (! in_array($type, array_keys($this->LONGNAME_MAP))) {
             show_404('page');
         }
 
@@ -73,8 +73,8 @@ class Containers extends MY_Controller
             ->where('id = ?', $id);
 
         $data = new stdClass();
-        $namefield = self::NAMEFIELD_MAP[$type];
-        $longname = self::LONGNAME_MAP[$type];
+        $namefield = $this->NAMEFIELD_MAP[$type];
+        $longname = $this->LONGNAME_MAP[$type];
 
         if ($id) {
             // edit an existing container
@@ -120,17 +120,17 @@ class Containers extends MY_Controller
      */
     function view($type, $id)
     {
-        if (! in_array($type, array_keys(self::LONGNAME_MAP))) {
+        if (! in_array($type, array_keys($this->LONGNAME_MAP))) {
             show_404('page');
         }
 
-        $longname = self::LONGNAME_MAP[$type];
+        $longname = $this->LONGNAME_MAP[$type];
         $container = Doctrine::getTable($type)->find($id);
 
         if ( ! $container) {
             show_404('page');
         }
-        $namefield = self::NAMEFIELD_MAP[$type];
+        $namefield = $this->NAMEFIELD_MAP[$type];
         $data = new stdClass();
         $data->title      = 'View Container';
         $data->type       = $type;
