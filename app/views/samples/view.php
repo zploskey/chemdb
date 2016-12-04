@@ -1,7 +1,7 @@
 <?php $this->load->view('samples/nav'); ?>
 <p><h2><?php echo $subtitle; ?> (<?php echo anchor('samples/edit/'.$sample->id,'Edit'); ?>)</h2></p>
 <br>
-<div id="data">
+<div class="data">
     <table>
         <tr>
             <td align="right">Name: &nbsp;</td>
