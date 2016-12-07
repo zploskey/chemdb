@@ -566,6 +566,7 @@ class Quartz_chem extends MY_Controller
             $batch = $query->fetchOne();
         }
 
+        $data = new stdClass;
         $data->errors = $errors;
         $data->numsamples = $numsamples;
         $data->batch = $batch;
@@ -887,4 +888,3 @@ EOH;
     }
 
 }
-
