@@ -29,7 +29,7 @@ class Alchecks extends MY_Controller
 
         if ($is_edit) {
             // batch exists, find it
-            $batch = Doctrine::GetTable('AlcheckBatch')->find($batch_id);
+            $batch = Doctrine::getTable('AlcheckBatch')->find($batch_id);
             if (!$batch) {
                 show_404('page');
             }
