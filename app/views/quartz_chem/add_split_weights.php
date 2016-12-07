@@ -35,7 +35,7 @@
     <tr>
         <td colspan="3" class="arial12">Sample information:</td>
         <td colspan="5" class="arial8">
-            <input type="button" id="setBkrSeq" value="Set Beaker Sequence"></p>
+            <input type="button" id="setBkrSeq" value="Set Beaker Sequence">
         </td>
     </tr>
     <tr>
@@ -49,30 +49,33 @@
         <td>Split wt.</td>
     </tr>
 
-<?php for ($i = 0; $i < $numsamples; $i++): // main sample loop ?>
+<?php
+for ($i = 0; $i < $numsamples; $i++): // main sample loop
+    $an = $batch->Analysis[$i];
+?>
 
     <tr><td colspan="8"><hr></td></tr>
 
-        <?php for ($s = 0; $s < $batch->Analysis[$i]->Split->count(); $s++): ?>
+        <?php for ($s = 0; $s < $an->Split->count(); $s++): ?>
             <tr>
 
             <?php if ($s == 0): ?>
 
-                <td><?php echo $batch->Analysis[$i]->id; ?></td>
+                <td><?php echo $an->id; ?></td>
                 <td>
                     <?php
-                    if ($batch->Analysis[$i]->Sample->name != NULL) {
-                        echo $batch->Analysis[$i]->Sample->name;
+                    if ($an->Sample->name != NULL) {
+                        echo $an->Sample->name;
                     } else {
-                        echo $batch->Analysis[$i]->sample_name;
+                        echo $an->sample_name;
                     }
                     ?>
                 </td>
                 <td align="center">
-                    <?php echo $batch->Analysis[$i]->DissBottle->bottle_number; ?>
+                    <?php $an->DissBottle ? echo $an->DissBottle->bottle_number : ''; ?>
                 </td>
 
-            <?php elseif ($s == $batch->Analysis[$i]->Split->count() - 1): ?>
+            <?php elseif ($s == $an->Split->count() - 1): ?>
 
                 <td colspan="2"></td>
                 <td align="center">
@@ -92,7 +95,7 @@
                     <?php
                     foreach ($bkr_list as $b) {
                         echo "<option value=$b->id ";
-                        if ($b->id == $batch->Analysis[$i]->Split[$s]->split_bkr_id) {
+                        if ($b->id == $an->Split[$s]->split_bkr_id) {
                             echo 'selected';
                         }
                         echo "> $b->bkr_number </option>\n";
@@ -102,16 +105,16 @@
             </td>
 
             <td>
-                <?php echo form_input('bkr_tare[]', $batch->Analysis[$i]->Split[$s]->wt_split_bkr_tare); ?>
+                <?php echo form_input('bkr_tare[]', $an->Split[$s]->wt_split_bkr_tare); ?>
             </td>
             <td>
-                <?php echo form_input('bkr_split[]', $batch->Analysis[$i]->Split[$s]->wt_split_bkr_split); ?>
+                <?php echo form_input('bkr_split[]', $an->Split[$s]->wt_split_bkr_split); ?>
             </td>
             <td>
                 <?php
                 // calculate and print split weight
-                $split_wt = $batch->Analysis[$i]->Split[$s]->wt_split_bkr_split
-                          - $batch->Analysis[$i]->Split[$s]->wt_split_bkr_tare;
+                $split_wt = $an->Split[$s]->wt_split_bkr_split
+                          - $an->Split[$s]->wt_split_bkr_tare;
                 printf('%.4f', $split_wt);
                 ?>
             </td>
