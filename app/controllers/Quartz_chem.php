@@ -19,10 +19,10 @@ class Quartz_chem extends MY_Controller
     {
         $batch_id = $this->input->post('batch_id');
         if ($this->input->post('is_lock') === "true") {
-            Doctrine::getTable('Batch')->lock($batch_id);
+            Doctrine_Core::getTable('Batch')->lock($batch_id);
         }
 
-        $batches = Doctrine::getTable('Batch')->findAllBatches();
+        $batches = Doctrine_Core::getTable('Batch')->findAllBatches();
         $data  = new stdClass();
         $data->open_batches = '';
         $data->all_batches = '';
@@ -58,7 +58,7 @@ class Quartz_chem extends MY_Controller
 
         if ($is_edit) {
             // it's an existing batch, get it
-            $batch = Doctrine::getTable('Batch')->find($id);
+            $batch = Doctrine_Core::getTable('Batch')->find($id);
             if (!$batch) {
                 show_404('page');
             }
@@ -112,7 +112,7 @@ class Quartz_chem extends MY_Controller
         $batch_id = (int)$this->input->post('batch_id');
 
         // grab the batch with carrier data
-        $batch = Doctrine::getTable('Batch')->findWithCarriers($batch_id);
+        $batch = Doctrine_Core::getTable('Batch')->findWithCarriers($batch_id);
 
         if ( ! $batch) {
             die('Batch query failed.');
@@ -172,7 +172,7 @@ class Quartz_chem extends MY_Controller
                 } unset($a);
 
                 $batch->save();
-                $batch = Doctrine::getTable('Batch')->findWithCarriers($batch_id);
+                $batch = Doctrine_Core::getTable('Batch')->findWithCarriers($batch_id);
             } else {
                 // validation failed
                 $errors = true;
@@ -185,7 +185,7 @@ class Quartz_chem extends MY_Controller
         $diss_bottle_options = array();
         $prechecks = array();
         // get all the dissolution bottle numbers
-        $diss_bottles = Doctrine::getTable('DissBottle')->findAll();
+        $diss_bottles = Doctrine_Core::getTable('DissBottle')->findAll();
 
         for ($a = 0; $a < $num_analyses; $a++) {
             $an = $batch->Analysis[$a];
@@ -256,15 +256,15 @@ class Quartz_chem extends MY_Controller
 
         $data = new stdClass();
         // get previous carrier weights
-        $data->be_prev = Doctrine::getTable('Batch')->findPrevBeCarrierWt(
+        $data->be_prev = Doctrine_Core::getTable('Batch')->findPrevBeCarrierWt(
                                     $batch->be_carrier_id, $batch->start_date);
-        $data->al_prev = Doctrine::getTable('Batch')->findPrevAlCarrierWt(
+        $data->al_prev = Doctrine_Core::getTable('Batch')->findPrevAlCarrierWt(
                                     $batch->al_carrier_id, $batch->start_date);
 
         // create the lists of carrier options
-        $data->be_carrier_options = Doctrine::getTable('BeCarrier')
+        $data->be_carrier_options = Doctrine_Core::getTable('BeCarrier')
                                     ->getSelectOptions($batch->be_carrier_id);
-        $data->al_carrier_options = Doctrine::getTable('AlCarrier')
+        $data->al_carrier_options = Doctrine_Core::getTable('AlCarrier')
                                     ->getSelectOptions($batch->al_carrier_id);
 
         // set display variables
@@ -570,7 +570,7 @@ class Quartz_chem extends MY_Controller
         $data->errors = $errors;
         $data->numsamples = $numsamples;
         $data->batch = $batch;
-        $data->bkr_list = Doctrine::getTable('SplitBkr')->getList();
+        $data->bkr_list = Doctrine_Core::getTable('SplitBkr')->getList();
 
         $data->extraHeadContent =<<<EOH
             <script type="text/javascript">
@@ -756,7 +756,7 @@ EOH;
 
             // test that all submitted split beakers exist
             $bkrs = array_unique(array_keys(array_push($al_arr, $be_arr)));
-            $missing = Doctrine::getTable('SplitBkr')->findMissingBkrs($bkrs);
+            $missing = Doctrine_Core::getTable('SplitBkr')->findMissingBkrs($bkrs);
             if (count($missing) != 0) {
                 echo "The beakers ";
                 // comma separated list, true indicates we want an 'and' before last element
@@ -795,7 +795,7 @@ EOH;
         // Retrieve intial postdata
         $batch_id = (int)$this->input->post('batch_id');
         $refresh = (bool)$this->input->post('refresh');
-        $batch = Doctrine::getTable('Batch')->findCompleteById($batch_id);
+        $batch = Doctrine_Core::getTable('Batch')->findCompleteById($batch_id);
 
         // Do a database update if we validate properly
         $errors = false;
@@ -833,7 +833,7 @@ EOH;
     {
         $batch_id = (int)$this->uri->segment(3, $this->input->post('batch_id'));
         try {
-            $data->batch = Doctrine::getTable('Batch')->getReportArray($batch_id);
+            $data->batch = Doctrine_Core::getTable('Batch')->getReportArray($batch_id);
         } catch (Exception $e) {
             die('Error: ' . $e->getMessage());
         }
@@ -855,7 +855,7 @@ EOH;
         // do all our calculations, pass true to do a complete report
         $data = new stdClass();
         try {
-            $data->batch = Doctrine::getTable('Batch')->getReportArray($batch_id, true);
+            $data->batch = Doctrine_Core::getTable('Batch')->getReportArray($batch_id, true);
         } catch (Exception $e) {
             die('Error: ' . $e->getMessage());
         }

@@ -86,13 +86,8 @@ $db[$active_group]['dsn'] = $db[$active_group]['dbdriver'] .
                       '@' . $db[$active_group]['hostname'] .
                       '/' . $db[$active_group]['database'];
 
-// Require Doctrine.php
-$doctrine_dir = dirname(__FILE__).'/../../doctrine1/lib/Doctrine.php';
-require_once($doctrine_dir);
-
-// Set the autoloader
-spl_autoload_register(array('Doctrine', 'autoload'));
-spl_autoload_register(array('Doctrine', 'modelsAutoload'));
+// Set models to autoload
+spl_autoload_register(array('Doctrine_Core', 'modelsAutoload'));
 
 // Load the Doctrine connection
 Doctrine_Manager::connection($db[$active_group]['dsn'], $db[$active_group]['database']);
@@ -101,11 +96,11 @@ Doctrine_Manager::connection($db[$active_group]['dsn'], $db[$active_group]['data
 $manager = Doctrine_Manager::getInstance();
 $manager->setAttribute(Doctrine_Core::ATTR_MODEL_LOADING,
                        Doctrine_Core::MODEL_LOADING_CONSERVATIVE);
-$manager->setAttribute(Doctrine::ATTR_AUTOLOAD_TABLE_CLASSES, true);
+$manager->setAttribute(Doctrine_Core::ATTR_AUTOLOAD_TABLE_CLASSES, true);
 
 // Load the models for the autoloader
 $model_dir = realpath(dirname(__FILE__) . '/..').'/models';
-Doctrine::loadModels($model_dir);
+Doctrine_Core::loadModels($model_dir);
 
 
 /* End of file database.php */

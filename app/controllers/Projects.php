@@ -28,7 +28,7 @@ class Projects extends MY_Controller
             ->offset($page)
             ->execute();
 
-        $nrows = Doctrine::getTable('Project')->count();
+        $nrows = Doctrine_Core::getTable('Project')->count();
         $alt_sort_page = $nrows - $page - $num_per_page;
         if ($alt_sort_page < 0) {
             $alt_sort_page = 0;

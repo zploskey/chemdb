@@ -98,7 +98,7 @@ switch (ENVIRONMENT)
  * Include the path if the folder is not in the same directory
  * as this file.
  */
-	$system_path = 'ci/system';
+	$system_path = 'vendor/codeigniter/framework/system';
 
 /*
  *---------------------------------------------------------------
@@ -289,5 +289,6 @@ switch (ENVIRONMENT)
  *
  * And away we go...
  */
+require 'vendor/autoload.php';
 require_once APPPATH.'config/database.php';
 require_once BASEPATH.'core/CodeIgniter.php';

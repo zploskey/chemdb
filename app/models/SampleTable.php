@@ -8,7 +8,7 @@ class SampleTable extends Doctrine_Table
                ->from('Sample s')
                ->select('COUNT(s.id) num_samples')
                ->where('s.name LIKE ?', "%$name%")
-               ->execute(array(), Doctrine::HYDRATE_SINGLE_SCALAR);
+               ->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
     }
 
     public function fetchViewdataById($id)
