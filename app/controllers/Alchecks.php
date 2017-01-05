@@ -8,7 +8,7 @@ class Alchecks extends MY_Controller
         // generate html for the batch listboxes
         $data = new stdClass();
         $data->allBatchOptions = '';
-        foreach (Doctrine_Core::GetTable('AlcheckBatch')->findAllBatches() as $b) {
+        foreach (Doctrine_Core::getTable('AlcheckBatch')->findAllBatches() as $b) {
             $tmpOpt = "<option value=$b->id>$b->id $b->owner $b->prep_date " .  substr($b->description, 0, 80);
             $data->allBatchOptions .= $tmpOpt;
         }
