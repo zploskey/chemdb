@@ -2,6 +2,8 @@
 *.swp
 *~
 
+app/config/config.php
+app/config/database.php
 
 app/cache/*
 !app/cache/index.html
