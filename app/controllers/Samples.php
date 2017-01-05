@@ -77,9 +77,9 @@ class Samples extends MY_Controller
 
         if (isset($query)) {
             $q->where('s.name LIKE ?', "%$query%");
-            $nrows = Doctrine::getTable('Sample')->countLike($query);
+            $nrows = Doctrine_Core::getTable('Sample')->countLike($query);
         } else {
-            $nrows = Doctrine::getTable('Sample')->count();
+            $nrows = Doctrine_Core::getTable('Sample')->count();
         }
 
         $samples = $q->execute();
@@ -181,7 +181,7 @@ class Samples extends MY_Controller
                 $projOptions[] = '<option>';
             }
         }
-        $projects = Doctrine::getTable('Project')->getList();
+        $projects = Doctrine_Core::getTable('Project')->getList();
         $defaultSelect = '<option>';
         foreach ($projects as $p) {
             $defaultOption = "<option value=$p->id>$p->name";
@@ -226,7 +226,7 @@ EHC;
      */
     function view($id)
     {
-        $sample = Doctrine::getTable('Sample')->fetchViewdataById($id);
+        $sample = Doctrine_Core::getTable('Sample')->fetchViewdataById($id);
 
         if ( ! $sample) {
             show_404('page');
@@ -277,7 +277,7 @@ EHC;
      */
     function submit_to_calc($id)
     {
-        $sample = Doctrine::getTable('Sample')->fetchViewdataById($id);
+        $sample = Doctrine_Core::getTable('Sample')->fetchViewdataById($id);
         $nAnalyses = $sample->Analysis->count();
         $useIcpBe = array();
         for ($i = 0; $i < $nAnalyses; $i++) {

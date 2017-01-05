@@ -8,7 +8,7 @@ class Alchecks extends MY_Controller
         // generate html for the batch listboxes
         $data = new stdClass();
         $data->allBatchOptions = '';
-        foreach (Doctrine::GetTable('AlcheckBatch')->findAllBatches() as $b) {
+        foreach (Doctrine_Core::GetTable('AlcheckBatch')->findAllBatches() as $b) {
             $tmpOpt = "<option value=$b->id>$b->id $b->owner $b->prep_date " .  substr($b->description, 0, 80);
             $data->allBatchOptions .= $tmpOpt;
         }
@@ -29,7 +29,7 @@ class Alchecks extends MY_Controller
 
         if ($is_edit) {
             // batch exists, find it
-            $batch = Doctrine::getTable('AlcheckBatch')->find($batch_id);
+            $batch = Doctrine_Core::getTable('AlcheckBatch')->find($batch_id);
             if (!$batch) {
                 show_404('page');
             }
@@ -83,7 +83,7 @@ class Alchecks extends MY_Controller
         $refresh = (bool)$this->input->post('refresh');
         $add = isset($_POST['add']);
 
-        $batch = Doctrine::getTable('AlcheckBatch')
+        $batch = Doctrine_Core::getTable('AlcheckBatch')
                ->getJoinQuery($batch_id)->fetchOne();
 
         if (! $batch) {
@@ -134,7 +134,7 @@ class Alchecks extends MY_Controller
                 // find samples with same name then:
                 // set them as the sample for that analysis
                 foreach ($batch->AlcheckAnalysis as &$a) {
-                    $sample = Doctrine::getTable('Sample')
+                    $sample = Doctrine_Core::getTable('Sample')
                             ->createQuery('s')
                             ->select('s.id, s.name')
                             ->where('s.name = ?', $a['sample_name'])
@@ -185,7 +185,7 @@ class Alchecks extends MY_Controller
         $batch_id = (int)$this->input->post('batch_id');
         $refresh = (bool)$this->input->post('refresh');
 
-        $batch = Doctrine::getTable('AlcheckBatch')
+        $batch = Doctrine_Core::getTable('AlcheckBatch')
             ->getJoinQuery($batch_id)->fetchOne();
 
         if (! $batch) {
@@ -237,7 +237,7 @@ class Alchecks extends MY_Controller
         $batch_id = (int)$this->input->post('batch_id');
         $refresh = (bool)$this->input->post('refresh');
 
-        $batch = Doctrine::getTable('AlcheckBatch')
+        $batch = Doctrine_Core::getTable('AlcheckBatch')
             ->getJoinQuery($batch_id)->fetchOne();
 
         if (! $batch) {
@@ -305,7 +305,7 @@ class Alchecks extends MY_Controller
     {
         $batch_id = (int)$this->input->post('batch_id');
 
-        $batch = Doctrine::getTable('AlcheckBatch')
+        $batch = Doctrine_Core::getTable('AlcheckBatch')
             ->getJoinQuery($batch_id)->fetchOne();
 
         if (! $batch) {
@@ -382,7 +382,7 @@ class Alchecks extends MY_Controller
             $an->wt_bkr_sample = 100;
             $an->wt_bkr_soln = 100;
 
-            $samples = Doctrine::getTable('Sample')->findByName($an->sample_name);
+            $samples = Doctrine_Core::getTable('Sample')->findByName($an->sample_name);
             $num_named = 0;
             for ($i = 0; $i < $samples->count(); $i++) {
                 if ($samples[$i]->name != '') {
@@ -405,7 +405,7 @@ class Alchecks extends MY_Controller
                 $batch->description = 'Dummy batch';
                 $batch->prep_date = date('Y-m-d');
             } else {
-                $batch = Doctrine::getTable('AlcheckBatch')
+                $batch = Doctrine_Core::getTable('AlcheckBatch')
                     ->createQuery('b')
                     ->where('b.id = ?', $batch_id)
                     ->leftJoin('b.AlcheckAnalysis a')

@@ -125,7 +125,7 @@ class Containers extends MY_Controller
         }
 
         $longname = $this->LONGNAME_MAP[$type];
-        $container = Doctrine::getTable($type)->find($id);
+        $container = Doctrine_Core::getTable($type)->find($id);
 
         if ( ! $container) {
             show_404('page');

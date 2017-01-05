@@ -18,7 +18,7 @@ class Batch extends BaseBatch
 
         if (isset($blank) && $type=='Al' && $blank->wt_al_carrier == '0') {
             // try to find the most recent Aluminum blank with this carrier
-            $blank = Doctrine::getTable('Analysis')
+            $blank = Doctrine_Core::getTable('Analysis')
                 ->createQuery('a')
                 ->leftJoin('a.Batch b')
                 ->leftJoin('a.AlAms ams')
@@ -282,7 +282,7 @@ class Batch extends BaseBatch
 
                 // what if a run was removed by the user
                 if ($nRunsDb > $nRuns) {
-                    $nDeleted = Doctrine::getTable('IcpRun')->removeExcessRuns($s, $nRuns);
+                    $nDeleted = Doctrine_Core::getTable('IcpRun')->removeExcessRuns($s, $nRuns);
                     // update $nRunsDb to new value
                     $nRunsDb = $nRuns;
                     $this->refreshRelated();
