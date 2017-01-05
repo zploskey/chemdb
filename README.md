@@ -34,10 +34,10 @@ To install using git:
 Now we need to install our dependencies (Doctrine version 1 and CodeIgniter).
 CodeIgniter is the web framework on which ChemDB is built. Doctrine is a
 database abstraction layer and object-relational mapper used to interact
-with the internal database:
+with the internal database. First, install Composer (https://getcomposer.org/).
+Then run the following command from the project directory:
 
-    git submodule init
-    git submodule update
+    composer install
 
 Basic Configuration
 -------------------
