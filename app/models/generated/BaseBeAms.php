@@ -11,10 +11,10 @@
  * @property integer $ams_lab_id
  * @property date $date
  * @property string $lab_num
- * @property float $r_to_rstd
- * @property float $interror
- * @property float $exterror
- * @property float $truefrac
+ * @property double $r_to_rstd
+ * @property double $interror
+ * @property double $exterror
+ * @property double $truefrac
  * @property string $notes
  * @property Analysis $Analysis
  * @property BeAmsStd $BeAmsStd
@@ -84,41 +84,45 @@ abstract class BaseBeAms extends Doctrine_Record
              'autoincrement' => false,
              'length' => '255',
              ));
-        $this->hasColumn('r_to_rstd', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('r_to_rstd', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('interror', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('interror', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('exterror', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('exterror', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('truefrac', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('truefrac', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
         $this->hasColumn('notes', 'string', 700, array(
              'type' => 'string',

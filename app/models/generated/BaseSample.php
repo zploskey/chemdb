@@ -7,15 +7,15 @@
  * 
  * @property integer $id
  * @property string $name
- * @property float $latitude
- * @property float $longitude
- * @property float $altitude
+ * @property double $latitude
+ * @property double $longitude
+ * @property double $altitude
  * @property integer $antarctic
- * @property float $shield_factor
- * @property float $depth_top
- * @property float $depth_bottom
- * @property float $density
- * @property float $erosion_rate
+ * @property double $shield_factor
+ * @property double $depth_top
+ * @property double $depth_bottom
+ * @property double $density
+ * @property double $erosion_rate
  * @property string $notes
  * @property Doctrine_Collection $AlcheckAnalysis
  * @property Doctrine_Collection $Analysis
@@ -51,32 +51,35 @@ abstract class BaseSample extends Doctrine_Record
              'autoincrement' => false,
              'length' => '255',
              ));
-        $this->hasColumn('latitude', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('latitude', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('longitude', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('longitude', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('altitude', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('altitude', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
         $this->hasColumn('antarctic', 'integer', 1, array(
              'type' => 'integer',
@@ -88,50 +91,55 @@ abstract class BaseSample extends Doctrine_Record
              'autoincrement' => false,
              'length' => '1',
              ));
-        $this->hasColumn('shield_factor', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('shield_factor', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('depth_top', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('depth_top', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('depth_bottom', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('depth_bottom', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('density', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('density', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('erosion_rate', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('erosion_rate', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
         $this->hasColumn('notes', 'string', null, array(
              'type' => 'string',

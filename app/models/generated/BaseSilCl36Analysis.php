@@ -12,9 +12,9 @@
  * @property integer $calib_id
  * @property integer $cl37_spike_id
  * @property enum $sample_type
- * @property float $wt_spike
- * @property float $wt_bkr_tare
- * @property float $wt_bkr_sample
+ * @property double $wt_spike
+ * @property double $wt_bkr_tare
+ * @property double $wt_bkr_sample
  * @property Sample $Sample
  * 
  * @package    ##PACKAGE##
@@ -97,32 +97,35 @@ abstract class BaseSilCl36Analysis extends Doctrine_Record
              'autoincrement' => false,
              'length' => '6',
              ));
-        $this->hasColumn('wt_spike', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('wt_spike', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('wt_bkr_tare', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('wt_bkr_tare', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('wt_bkr_sample', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('wt_bkr_sample', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
     }
 

@@ -13,11 +13,11 @@
  * @property string $sample_type
  * @property integer $diss_bottle_id
  * @property string $diss_bottle_number
- * @property float $wt_diss_bottle_tare
- * @property float $wt_diss_bottle_sample
- * @property float $wt_be_carrier
- * @property float $wt_al_carrier
- * @property float $wt_diss_bottle_total
+ * @property double $wt_diss_bottle_tare
+ * @property double $wt_diss_bottle_sample
+ * @property double $wt_be_carrier
+ * @property double $wt_al_carrier
+ * @property double $wt_diss_bottle_total
  * @property string $notes
  * @property Batch $Batch
  * @property Sample $Sample
@@ -109,55 +109,60 @@ abstract class BaseAnalysis extends Doctrine_Record
              'autoincrement' => false,
              'length' => '',
              ));
-        $this->hasColumn('wt_diss_bottle_tare', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('wt_diss_bottle_tare', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('wt_diss_bottle_sample', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('wt_diss_bottle_sample', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('wt_be_carrier', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('wt_be_carrier', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('wt_al_carrier', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('wt_al_carrier', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('wt_diss_bottle_total', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('wt_diss_bottle_total', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
         $this->hasColumn('notes', 'string', null, array(
              'type' => 'string',

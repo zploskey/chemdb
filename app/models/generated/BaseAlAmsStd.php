@@ -8,8 +8,8 @@
  * @property integer $id
  * @property string $name
  * @property integer $al_std_series_id
- * @property float $r26to27
- * @property float $error
+ * @property double $r26to27
+ * @property double $error
  * @property string $notes
  * @property AlStdSeries $AlStdSeries
  * @property Doctrine_Collection $AlAms
@@ -50,23 +50,25 @@ abstract class BaseAlAmsStd extends Doctrine_Record
              'autoincrement' => false,
              'length' => '4',
              ));
-        $this->hasColumn('r26to27', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('r26to27', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('error', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('error', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
         $this->hasColumn('notes', 'string', null, array(
              'type' => 'string',

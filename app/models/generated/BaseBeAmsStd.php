@@ -8,8 +8,8 @@
  * @property integer $id
  * @property string $name
  * @property integer $be_std_series_id
- * @property float $r10to9
- * @property float $error
+ * @property double $r10to9
+ * @property double $error
  * @property string $notes
  * @property BeStdSeries $BeStdSeries
  * @property Doctrine_Collection $BeAms
@@ -50,23 +50,25 @@ abstract class BaseBeAmsStd extends Doctrine_Record
              'autoincrement' => false,
              'length' => '4',
              ));
-        $this->hasColumn('r10to9', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('r10to9', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('error', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('error', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
         $this->hasColumn('notes', 'string', null, array(
              'type' => 'string',

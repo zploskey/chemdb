@@ -7,10 +7,10 @@
  * 
  * @property integer $id
  * @property string $name
- * @property float $al_conc
- * @property float $del_al_conc
- * @property float $r26to27
- * @property float $r26to27_error
+ * @property double $al_conc
+ * @property double $del_al_conc
+ * @property double $r26to27
+ * @property double $r26to27_error
  * @property date $in_service_date
  * @property string $mfg_lot_no
  * @property string $notes
@@ -44,41 +44,45 @@ abstract class BaseAlCarrier extends Doctrine_Record
              'autoincrement' => false,
              'length' => '',
              ));
-        $this->hasColumn('al_conc', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('al_conc', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('del_al_conc', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('del_al_conc', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('r26to27', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('r26to27', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('r26to27_error', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('r26to27_error', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
         $this->hasColumn('in_service_date', 'date', 25, array(
              'type' => 'date',
