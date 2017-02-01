@@ -4,21 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6d4f87ee19920630ad308491fd1ba923",
     "content-hash": "b30ee4e9afa64e5d2b8742e23485b4d2",
     "packages": [
         {
             "name": "codeigniter/framework",
-            "version": "3.1.2",
+            "version": "3.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bcit-ci/CodeIgniter.git",
-                "reference": "2afa6b6b58a73fa26a7a93045ccb1fc8a087a141"
+                "reference": "5ea77465c445157fb1096c38f5c2d27384b780b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bcit-ci/CodeIgniter/zipball/2afa6b6b58a73fa26a7a93045ccb1fc8a087a141",
-                "reference": "2afa6b6b58a73fa26a7a93045ccb1fc8a087a141",
+                "url": "https://api.github.com/repos/bcit-ci/CodeIgniter/zipball/5ea77465c445157fb1096c38f5c2d27384b780b7",
+                "reference": "5ea77465c445157fb1096c38f5c2d27384b780b7",
                 "shasum": ""
             },
             "require": {
@@ -37,7 +36,7 @@
             ],
             "description": "The CodeIgniter framework",
             "homepage": "https://codeigniter.com",
-            "time": "2016-10-28 15:13:14"
+            "time": "2017-01-09T14:32:03+00:00"
         },
         {
             "name": "lexpress/doctrine1",
@@ -83,7 +82,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2016-06-17 09:49:47"
+            "time": "2016-06-17T09:49:47+00:00"
         }
     ],
     "packages-dev": [],
