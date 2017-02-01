@@ -11,21 +11,21 @@
  * @property integer $number_within_batch
  * @property string $sample_name
  * @property string $bkr_number
- * @property float $wt_bkr_tare
+ * @property double $wt_bkr_tare
  * @property integer $flag_bkr_tare_avg
- * @property float $wt_bkr_sample
- * @property float $wt_bkr_soln
- * @property float $icp_al
- * @property float $icp_ba
- * @property float $icp_be
- * @property float $icp_ca
- * @property float $icp_fe
- * @property float $icp_k
- * @property float $icp_mg
- * @property float $icp_mn
- * @property float $icp_na
- * @property float $icp_ti
- * @property float $addl_dil_factor
+ * @property double $wt_bkr_sample
+ * @property double $wt_bkr_soln
+ * @property double $icp_al
+ * @property double $icp_ba
+ * @property double $icp_be
+ * @property double $icp_ca
+ * @property double $icp_fe
+ * @property double $icp_k
+ * @property double $icp_mg
+ * @property double $icp_mn
+ * @property double $icp_na
+ * @property double $icp_ti
+ * @property double $addl_dil_factor
  * @property string $notes
  * @property Sample $Sample
  * @property AlcheckBatch $AlcheckBatch
@@ -95,15 +95,16 @@ abstract class BaseAlcheckAnalysis extends Doctrine_Record
              'autoincrement' => false,
              'length' => '',
              ));
-        $this->hasColumn('wt_bkr_tare', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('wt_bkr_tare', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
         $this->hasColumn('flag_bkr_tare_avg', 'integer', 1, array(
              'type' => 'integer',
@@ -115,135 +116,148 @@ abstract class BaseAlcheckAnalysis extends Doctrine_Record
              'autoincrement' => false,
              'length' => '1',
              ));
-        $this->hasColumn('wt_bkr_sample', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('wt_bkr_sample', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('wt_bkr_soln', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('wt_bkr_soln', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('icp_al', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('icp_al', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('icp_ba', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('icp_ba', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('icp_be', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('icp_be', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('icp_ca', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('icp_ca', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('icp_fe', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('icp_fe', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('icp_k', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('icp_k', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('icp_mg', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('icp_mg', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('icp_mn', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('icp_mn', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('icp_na', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('icp_na', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('icp_ti', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('icp_ti', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => false,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('addl_dil_factor', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('addl_dil_factor', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'default' => '1',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
         $this->hasColumn('notes', 'string', null, array(
              'type' => 'string',

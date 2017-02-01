@@ -8,8 +8,8 @@
  * @property integer $id
  * @property integer $split_id
  * @property integer $run_num
- * @property float $al_result
- * @property float $be_result
+ * @property double $al_result
+ * @property double $be_result
  * @property enum $use_al
  * @property enum $use_be
  * @property Split $Split
@@ -51,25 +51,27 @@ abstract class BaseIcpRun extends Doctrine_Record
              'autoincrement' => false,
              'length' => '1',
              ));
-        $this->hasColumn('al_result', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('al_result', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('be_result', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('be_result', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
         $this->hasColumn('use_al', 'enum', 1, array(
              'type' => 'enum',

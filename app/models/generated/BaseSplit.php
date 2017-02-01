@@ -10,9 +10,9 @@
  * @property integer $split_bkr_id
  * @property integer $split_num
  * @property string $split_bkr_name
- * @property float $wt_split_bkr_tare
- * @property float $wt_split_bkr_split
- * @property float $wt_split_bkr_icp
+ * @property double $wt_split_bkr_tare
+ * @property double $wt_split_bkr_split
+ * @property double $wt_split_bkr_icp
  * @property Analysis $Analysis
  * @property SplitBkr $SplitBkr
  * @property Doctrine_Collection $IcpRun
@@ -72,35 +72,38 @@ abstract class BaseSplit extends Doctrine_Record
              'autoincrement' => false,
              'length' => '',
              ));
-        $this->hasColumn('wt_split_bkr_tare', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('wt_split_bkr_tare', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('wt_split_bkr_split', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('wt_split_bkr_split', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
-        $this->hasColumn('wt_split_bkr_icp', 'float', null, array(
-             'type' => 'float',
+        $this->hasColumn('wt_split_bkr_icp', 'double', 53, array(
+             'type' => 'double',
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
              'default' => '0',
              'notnull' => true,
              'autoincrement' => false,
-             'length' => '',
+             'length' => '53',
+             'scale' => '30',
              ));
     }
 
