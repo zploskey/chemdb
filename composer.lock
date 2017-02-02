@@ -4,27 +4,28 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b30ee4e9afa64e5d2b8742e23485b4d2",
+    "content-hash": "08bba5a4bc76d5bdc4a6666f7b0e9b62",
     "packages": [
         {
             "name": "codeigniter/framework",
-            "version": "3.1.3",
+            "version": "dev-3.1-stable",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bcit-ci/CodeIgniter.git",
-                "reference": "5ea77465c445157fb1096c38f5c2d27384b780b7"
+                "reference": "422b8890e8b41a9ecf6644bff169c8c82fa2c82d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bcit-ci/CodeIgniter/zipball/5ea77465c445157fb1096c38f5c2d27384b780b7",
-                "reference": "5ea77465c445157fb1096c38f5c2d27384b780b7",
+                "url": "https://api.github.com/repos/bcit-ci/CodeIgniter/zipball/422b8890e8b41a9ecf6644bff169c8c82fa2c82d",
+                "reference": "422b8890e8b41a9ecf6644bff169c8c82fa2c82d",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
             "require-dev": {
-                "mikey179/vfsstream": "1.1.*"
+                "mikey179/vfsstream": "1.1.*",
+                "phpunit/phpunit": "4.* || 5.*"
             },
             "suggest": {
                 "paragonie/random_compat": "Provides better randomness in PHP 5.x"
@@ -36,7 +37,7 @@
             ],
             "description": "The CodeIgniter framework",
             "homepage": "https://codeigniter.com",
-            "time": "2017-01-09T14:32:03+00:00"
+            "time": "2017-02-01 12:36:49"
         },
         {
             "name": "lexpress/doctrine1",
@@ -88,7 +89,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "codeigniter/framework": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
