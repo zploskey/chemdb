@@ -94,7 +94,7 @@ abstract class BaseAnalysis extends Doctrine_Record
         $this->hasColumn('diss_bottle_id', 'integer', 4, array(
              'type' => 'integer',
              'fixed' => 0,
-             'unsigned' => false,
+             'unsigned' => true,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
