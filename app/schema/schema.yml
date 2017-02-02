@@ -604,7 +604,7 @@ Analysis:
     diss_bottle_id:
       type: integer(4)
       fixed: 0
-      unsigned: false
+      unsigned: true
       primary: false
       notnull: false
       autoincrement: false
@@ -706,7 +706,7 @@ Batch:
     be_carrier_id:
       type: integer(1)
       fixed: 0
-      unsigned: false
+      unsigned: true
       primary: false
       notnull: false
       autoincrement: false
