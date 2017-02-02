@@ -3,6 +3,7 @@
 *~
 
 vendor/
+app/sessions/*
 
 app/cache/*
 !app/cache/index.html
