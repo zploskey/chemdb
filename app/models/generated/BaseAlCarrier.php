@@ -13,6 +13,7 @@
  * @property double $r26to27_error
  * @property date $in_service_date
  * @property string $mfg_lot_no
+ * @property string $owner
  * @property string $notes
  * @property string $in_use
  * @property Doctrine_Collection $Batch
@@ -30,7 +31,7 @@ abstract class BaseAlCarrier extends Doctrine_Record
         $this->hasColumn('id', 'integer', 1, array(
              'type' => 'integer',
              'fixed' => 0,
-             'unsigned' => false,
+             'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
              'length' => '1',
@@ -40,7 +41,7 @@ abstract class BaseAlCarrier extends Doctrine_Record
              'fixed' => 0,
              'unsigned' => false,
              'primary' => false,
-             'notnull' => false,
+             'notnull' => true,
              'autoincrement' => false,
              'length' => '',
              ));
@@ -94,6 +95,15 @@ abstract class BaseAlCarrier extends Doctrine_Record
              'length' => '25',
              ));
         $this->hasColumn('mfg_lot_no', 'string', null, array(
+             'type' => 'string',
+             'fixed' => 0,
+             'unsigned' => false,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             'length' => '',
+             ));
+        $this->hasColumn('owner', 'string', null, array(
              'type' => 'string',
              'fixed' => 0,
              'unsigned' => false,
