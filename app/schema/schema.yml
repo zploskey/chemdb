@@ -153,7 +153,7 @@ AlCarrier:
     id:
       type: integer(1)
       fixed: 0
-      unsigned: false
+      unsigned: true
       primary: true
       autoincrement: true
     name:
@@ -161,7 +161,7 @@ AlCarrier:
       fixed: 0
       unsigned: false
       primary: false
-      notnull: false
+      notnull: true
       autoincrement: false
     al_conc:
       type: double(53,30)
@@ -199,6 +199,13 @@ AlCarrier:
       notnull: false
       autoincrement: false
     mfg_lot_no:
+      type: string()
+      fixed: 0
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    owner:
       type: string()
       fixed: 0
       unsigned: false
