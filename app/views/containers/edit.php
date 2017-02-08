@@ -19,7 +19,7 @@
     <input type="hidden" name="is_refresh" value="TRUE">
     <div class="formblock">
         <label>Number:</label>
-        <input type="text" name="<?php echo $number; ?>" value="<?php echo $container->$number; ?>"/><br>
+        <input type="text" name="<?php echo $number; ?>" value="<?php echo $container->$number; ?>"/>
     </div>
     <br>
     <input type="submit" value="Submit" />
