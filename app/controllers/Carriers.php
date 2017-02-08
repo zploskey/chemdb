@@ -67,6 +67,7 @@ class Carriers extends MY_Controller
 
         $data = new stdClass();
         $longname = $this->ELEMENT_NAME[$element] . ' Carrier';
+        $tableName = ucfirst($element) . 'Carrier';
 
         if ($id) {
             // edit an existing carrier
@@ -80,7 +81,6 @@ class Carriers extends MY_Controller
             $data->subtitle   = "Editing $longname: $carrier->name";
         } else {
             // create a new carrier object
-            $tableName = ucfirst($element) . 'Carrier';
             $carrier = new $tableName;
 
             $data->title = "Add $longname";
@@ -89,8 +89,12 @@ class Carriers extends MY_Controller
 
         if ($is_refresh) {
             // validate what was submitted
-            $valid = $this->form_validation->run($element);
-            $carrier->name = $this->input->post('name');
+            $carrier->merge($this->input->post('carrier'));
+            $valid = $this->form_validation->run($tableName);
+
+            if (!$this->input->post('in_use')) {
+                $carrier->in_use = 'y';
+            }
 
             if ($valid) {
                 $carrier->save();
