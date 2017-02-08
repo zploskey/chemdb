@@ -8,10 +8,11 @@
     <input type="hidden" name="is_refresh" value="TRUE">
     <div class="formblock">
         <label>Name:</label>
-        <input type="text" name="name" value="<?php echo $proj->name; ?>"/><br>
-
+        <input type="text" name="name" value="<?php echo $proj->name; ?>"/>
+    </div>
+    <div class="formblock">
         <label>Description:</label>
-        <textarea name="description" rows="5" cols="50" wrap="soft"><?php echo $proj->description; ?></textarea><br>
+        <textarea name="description" rows="5" cols="50" wrap="soft"><?php echo $proj->description; ?></textarea>
     </div>
     <br>
     <input type="submit" value="Submit" />

@@ -68,10 +68,20 @@ div .data table {
     border-collapse: collapse;
 }
 
+
+.formblock {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.formblock > * {
+    vertical-align: middle;
+}
+
 .formblock label {
-    text-align: right;
     vertical-align: middle;
     display: inline-block;
+    text-align: right;
     width: 200px;
     padding-right: 10px;
 }
