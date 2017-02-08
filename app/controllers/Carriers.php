@@ -116,23 +116,23 @@ class Carriers extends MY_Controller
      */
     function view($element, $id)
     {
-        if (! in_array($element, array_keys($this->ELEMENT_NAME))) {
+        if (!in_array($element, array_keys($this->ELEMENT_NAME))) {
             show_404('page');
         }
 
         $longname = $this->ELEMENT_NAME[$element];
         $carrier = Doctrine_Core::getTable($element)->find($id);
 
-        if ( ! $carrier) {
+        if (!$carrier) {
             show_404('page');
         }
-        $namefield = $this->NAMEFIELD_MAP[$element];
+
         $data = new stdClass();
         $data->title      = 'View Carrier';
         $data->type       = $element;
-        $data->subtitle   = "Viewing $longname: $data->number";
+        $data->subtitle   = "Viewing $longname: $carrier->name";
         $data->longname   = $longname;
-        $data->carrier  = $carrier;
+        $data->carrier    = $carrier;
         $data->main       = 'carriers/view';
         $this->load->view('template', $data);
     }
