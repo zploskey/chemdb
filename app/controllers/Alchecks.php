@@ -8,8 +8,7 @@ class Alchecks extends MY_Controller
         // generate html for the batch listboxes
         $data = new stdClass();
         $data->allBatchOptions = '';
-        $batches = Doctrine_Core::getTable('AlcheckBatch')->findAllBatches();
-        foreach ($batches as $b) {
+        foreach (Doctrine_Core::getTable('AlcheckBatch')->findAllBatches() as $b) {
             $tmpOpt = "<option value=$b->id>$b->id $b->owner $b->prep_date "
                     . substr($b->description, 0, 80);
             $data->allBatchOptions .= $tmpOpt;
@@ -77,16 +76,6 @@ class Alchecks extends MY_Controller
         $data->title = 'Start new Al check batch';
         $data->main = 'alchecks/new_batch';
         $this->load->view('template', $data);
-    }
-
-    private function _getSampleName($analysis)
-    {
-        if (isset($a->Sample)) {
-            $name = $analysis->Sample->name;
-        } else {
-            $name = $analysis->sample_name;
-        }
-        return $name;
     }
 
     public function sample_loading()
@@ -165,9 +154,13 @@ class Alchecks extends MY_Controller
 
         } else {
             // loading for the first view
-            $data->sample_name = array();
+            $sample_name = array();
             foreach ($batch['AlcheckAnalysis'] as $a) {
-                $data->sample_name[] = $this->_getSampleName($a);
+                if (isset($a->Sample)) {
+                    $sample_name[] = $a['Sample']['name'];
+                } else {
+                    $sample_name[] = $a->sample_name;
+                }
             }
         }
 
@@ -180,6 +173,7 @@ class Alchecks extends MY_Controller
         // for autocomplete to work we need to load the script
         $data->extraHeadContent =
             '<script type="text/javascript" src="js/sample_search.js"></script>';
+        $data->sample_name = $sample_name;
         $data->nsamples = $nsamples;
         $data->batch = $batch;
         $data->title = 'Stage 1 of new Al check batch';
@@ -193,8 +187,7 @@ class Alchecks extends MY_Controller
         $refresh = (bool)$this->input->post('refresh');
 
         $batch = Doctrine_Core::getTable('AlcheckBatch')
-            ->getJoinQuery($batch_id)
-            ->fetchOne();
+            ->getJoinQuery($batch_id)->fetchOne();
 
         if (! $batch) {
             show_404('page');
@@ -209,10 +202,9 @@ class Alchecks extends MY_Controller
             $addl_dil_factor = $this->input->post('addl_dil_factor');
             $notes = $this->input->post('notes');
             for ($a = 0; $a < $nsamples; $a++) {
-                $analysis = &$batch->AlcheckAnalysis[$a];
-                $analysis->wt_bkr_soln = $wt_bkr_soln[$a];
-                $analysis->addl_dil_factor = $addl_dil_factor[$a];
-                $analysis->notes = $notes[$a];
+                $batch['AlcheckAnalysis'][$a]['wt_bkr_soln'] = $wt_bkr_soln[$a];
+                $batch['AlcheckAnalysis'][$a]['addl_dil_factor'] = $addl_dil_factor[$a];
+                $batch['AlcheckAnalysis'][$a]['notes'] = $notes[$a];
             }
 
             if ($valid) {
@@ -222,15 +214,15 @@ class Alchecks extends MY_Controller
             }
         }
 
-        $sample_wt = $soln_wt = $tot_df = $data->sample_name = array();
+        $sample_wt = $soln_wt = $tot_df = $sample_name = array();
         for ($i = 0; $i < $nsamples; $i++) {
             $a = $batch['AlcheckAnalysis'][$i];
             $sample_wt[] = $a['wt_bkr_sample'] - $a['wt_bkr_tare'];
             $soln_wt[] = $a['wt_bkr_soln'] - $a['wt_bkr_tare'];
-            $tot_df[] = $a['addl_dil_factor']
-                      * safe_divide($soln_wt[$i], $sample_wt[$i]);
-            $data->sample_name[] = $this->_getSampleName($a);
+            $tot_df[] = $a['addl_dil_factor'] * safe_divide($soln_wt[$i], $sample_wt[$i]);
+            $sample_name[] = (isset($a['Sample'])) ? $a['Sample']['name'] : $a['sample_name'];
         }
+        $data->sample_name = $sample_name;
         $data->sample_wt = $sample_wt;
         $data->soln_wt = $soln_wt;
         $data->tot_df = $tot_df;
@@ -284,18 +276,19 @@ class Alchecks extends MY_Controller
             }
         }
 
-        // Calculate quartz weights and set sample names
-        $data->sample_name = array();
+        // calculate quartz weights and set sample names
+        $sample_name = array();
         for ($i = 0; $i < $nsamples; $i++) {
             $a = $batch['AlcheckAnalysis'][$i];
-            // Temporary variable calculations
+            // temporary variable calculations
             $sample_wt = $a['wt_bkr_sample'] - $a['wt_bkr_tare'];
             $soln_wt = $a['wt_bkr_soln'] - $a['wt_bkr_tare'];
             $df = $a['addl_dil_factor'] * safe_divide($soln_wt, $sample_wt);
+            // variables to pass
             foreach ($elements as $el) {
-                $data->{"qtz_$el"}[] = $df * $a["icp_$el"];
+                 $data->{"qtz_$el"}[] = $df * $a["icp_$el"];
             }
-            $data->sample_name[] = $this->_getSampleName($a);
+            $data->sample_name[] = (isset($a['Sample'])) ? $a['Sample']['name'] : $a['sample_name'];
         }
 
         if ($batch['icp_date'] === NULL) {
@@ -324,20 +317,19 @@ class Alchecks extends MY_Controller
         $nsamples = $batch->AlcheckAnalysis->count();
 
         // calculate quartz weights and set sample names
-        $data = new stdClass();
-        $data->sample_name = $sample_wt = array();
+        $sample_name = $sample_wt = array();
+
         for ($i = 0; $i < $nsamples; $i++) {
             $a = $batch['AlcheckAnalysis'][$i];
             // temporary variable calculations
             $sample_wt[] = $a['wt_bkr_sample'] - $a['wt_bkr_tare'];
             $soln_wt = $a['wt_bkr_soln'] - $a['wt_bkr_tare'];
-            $df = $a['addl_dil_factor']
-                * safe_divide($soln_wt, $sample_wt[$i]);
+            $df = $a['addl_dil_factor'] * safe_divide($soln_wt, $sample_wt[$i]);
             // variables to pass
             foreach ($elements as $el) {
                  $data->{"qtz_$el"}[] = $df * $a["icp_$el"];
             }
-            $data->sample_name[] = $this->_getSampleName($a);
+            $sample_name[] = (isset($a['Sample'])) ? $a['Sample']['name'] : $a['sample_name'];
         }
 
         for ($a = 0; $a < $nsamples; $a++) {
@@ -354,6 +346,7 @@ class Alchecks extends MY_Controller
         }
 
         $data->nsamples = $nsamples;
+        $data->sample_name = $sample_name;
         $data->sample_wt = $sample_wt;
         $data->batch = $batch;
         if (isset($_SERVER['REMOTE_USER'])) {
@@ -390,8 +383,7 @@ class Alchecks extends MY_Controller
             $an->wt_bkr_sample = 100;
             $an->wt_bkr_soln = 100;
 
-            $samples = Doctrine_Core::getTable('Sample')
-                ->findByName($an->sample_name);
+            $samples = Doctrine_Core::getTable('Sample')->findByName($an->sample_name);
             $num_named = 0;
             for ($i = 0; $i < $samples->count(); $i++) {
                 if ($samples[$i]->name != '') {
