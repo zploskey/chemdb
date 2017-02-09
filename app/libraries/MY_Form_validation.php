@@ -41,11 +41,22 @@ class MY_Form_validation extends CI_Form_validation
 
     function valid_date($date) {
         $tdate = trim($date);
+
         if (! preg_match('/^\d\d\d\d[-]\d\d[-]\d\d$/', $tdate) ) {
+            $this->set_message(__FUNCTION__,
+                'The %s field must be of the form YYYY-MM-DD.');
             return false;
         }
+
         list($year, $month, $day) = explode('-', $tdate);
-        return checkdate($month, $day, $year);
+        $validDate = checkdate($month, $day, $year);
+
+        if ($validDate) {
+            return true;
+        }
+
+        $this->set_message(__FUNCTION__, 'The %s field is not a valid date');
+        return false;
     }
 
     function alpha_dot_dash($val)
