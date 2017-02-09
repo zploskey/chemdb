@@ -120,7 +120,7 @@ class Carriers extends MY_Controller
             show_404('page');
         }
 
-        $longname = $this->ELEMENT_NAME[$element];
+        $longname = $this->ELEMENT_NAME[$element] . ' Carrier';
         $tableName = ucfirst($element) . 'Carrier';
         $carrier = Doctrine_Core::getTable($tableName)->find($id);
 
