@@ -61,13 +61,13 @@ class Carriers extends MY_Controller
             show_404('page');
         }
 
+        $tableName = ucfirst($element) . 'Carrier';
         $query = Doctrine_Query::create()
-            ->from($element)
+            ->from($tableName)
             ->where('id = ?', $id);
 
         $data = new stdClass();
         $longname = $this->ELEMENT_NAME[$element] . ' Carrier';
-        $tableName = ucfirst($element) . 'Carrier';
 
         if ($id) {
             // edit an existing carrier
@@ -121,7 +121,8 @@ class Carriers extends MY_Controller
         }
 
         $longname = $this->ELEMENT_NAME[$element];
-        $carrier = Doctrine_Core::getTable($element)->find($id);
+        $tableName = ucfirst($element) . 'Carrier';
+        $carrier = Doctrine_Core::getTable($tableName)->find($id);
 
         if (!$carrier) {
             show_404('page');
