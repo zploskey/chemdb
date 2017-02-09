@@ -44,7 +44,7 @@ echo validation_errors();
 
 <?php if (!is_null($batch->id)): ?>
 
-<?php echo form_open('alchecks/sample_loading', '', array('batch_id'=>$batch->id)); ?>
+<?php echo form_open('alchecks/sample_loading', '', array('batch_id' => $batch->id)); ?>
 <input type="submit" value="Begin loading samples">
 <?php echo form_close(); ?>
 
