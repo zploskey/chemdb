@@ -48,7 +48,7 @@ abstract class BaseBatch extends Doctrine_Record
         $this->hasColumn('al_carrier_id', 'integer', 1, array(
              'type' => 'integer',
              'fixed' => 0,
-             'unsigned' => false,
+             'unsigned' => true,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,

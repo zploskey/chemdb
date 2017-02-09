@@ -706,7 +706,7 @@ Batch:
     al_carrier_id:
       type: integer(1)
       fixed: 0
-      unsigned: false
+      unsigned: true
       primary: false
       notnull: false
       autoincrement: false
