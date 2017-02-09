@@ -49,7 +49,7 @@
     </div>
 <?php endif ?>
     <div class="formblock">
-        <label>In-service Date</label>
+        <label>In-service Date (YYYY&#8209;MM&#8209;DD)</label>
         <input type="text" name="carrier[in_service_date]" value="<?php echo $carrier->in_service_date; ?>"/>
     </div>
     <div class="formblock">
