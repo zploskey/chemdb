@@ -41,6 +41,75 @@ $config['DissBottle'] = array(
         'rules' => 'trim|required|alpha_dot_dash|callback__is_unique[DissBottle.bottle_number.4]'),
 );
 
+$config['BaseCarrier'] = array(
+    array(
+        'field' => 'carrier[id]',
+        'label' => 'ID',
+        'rules' => 'is_natural_no_zero'),
+    array(
+        'field' => 'carrier[name]',
+        'label' => 'name',
+        'rules' => 'trim|required|alpha_dot_dash'),
+    array(
+        'field' => 'carrier[al_conc]',
+        'label' => 'Al concentration',
+        'rules' => 'trim|noreq_numeric'),
+    array(
+        'field' => 'carrier[del_al_conc]',
+        'label' => 'Al concentration uncertainty',
+        'rules' => 'trim|noreq_numeric'),
+    array(
+        'field' => 'carrier[in_service_date]',
+        'label' => 'in-service date',
+        'rules' => 'trim|valid_date'),
+    array(
+        'field' => 'carrier[mfg_lot_no]',
+        'label' => 'manufacturer lot no.',
+        'rules' => 'trim|htmlentities'),
+    array(
+        'field' => 'carrier[notes]',
+        'label' => 'notes',
+        'rules' => 'trim|htmlentities'),
+    array(
+        'field' => 'carrier[in_use]',
+        'label' => 'In use?',
+        'rules' => 'trim|htmlentities'),
+);
+
+$config['AlCarrier'] = array(
+    array(
+        'field' => 'carrier[r26to27]',
+        'label' => 'Al-26 / Al-27 ratio',
+        'rules' => 'noreq_numeric'),
+    array(
+        'field' => 'carrier[r26to27_error]',
+        'label' => 'Al-26 / Al-27 ratio uncertainty',
+        'rules' => 'noreq_numeric'),
+);
+$config['AlCarrier'] =
+    array_merge($config['AlCarrier'], $config['BaseCarrier']);
+
+$config['BeCarrier'] = array(
+    array(
+        'field' => 'carrier[r10to9]',
+        'label' => 'Be-10 / Be-9 ratio',
+        'rules' => 'noreq_numeric'),
+    array(
+        'field' => 'carrier[r10to9_error]',
+        'label' => 'Be-10 / Be-9 ratio uncertainty',
+        'rules' => 'noreq_numeric'),
+    array(
+        'field' => 'carrier[be_conc]',
+        'label' => 'Be concentration',
+        'rules' => 'trim|noreq_numeric'),
+    array(
+        'field' => 'carrier[del_be_conc]',
+        'label' => 'Be concentration uncertainty',
+        'rules' => 'trim|noreq_numeric'),
+);
+$config['BeCarrier'] =
+    array_merge($config['BeCarrier'], $config['BaseCarrier']);
+
 $config['samples'] = array(
     array(
         'field' => 'sample[name]',
