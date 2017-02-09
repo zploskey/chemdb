@@ -85,22 +85,22 @@
         <td>
 <?php
             if (isset($batch['BeCarrier'])) {
-                echo $batch['BeCarrier']['be_conc'],
-                    ' &plusmn; ', $batch['BeCarrier']['del_be_conc'];
+                echo (float)$batch['BeCarrier']['be_conc'],
+                    ' &plusmn; ', (float)$batch['BeCarrier']['del_be_conc'];
             }
 ?>
         </td>
         <td>
-            <?php echo $batch['wt_be_carrier_init']; ?>
+            <?php echo (float)$batch['wt_be_carrier_init']; ?>
         </td>
         <td>
-            <?php echo $batch['wt_be_carrier_final']; ?>
+            <?php echo (float)$batch['wt_be_carrier_final']; ?>
         </td>
         <td>
-            <?php echo $batch['wt_be_carrier_diff']; ?>
+            <?php echo (float)$batch['wt_be_carrier_diff']; ?>
         </td>
         <td>
-            <?php echo $batch['wt_be_carrier_disp']; ?>
+            <?php echo (float)$batch['wt_be_carrier_disp']; ?>
         </td>
         <td align="left">
 <?php
@@ -112,22 +112,22 @@
         <td>
 <?php
             if (isset($batch['AlCarrier'])) {
-                echo $batch['AlCarrier']['al_conc'],
-                    ' &plusmn; ', $batch['AlCarrier']['del_al_conc'];
+                echo (float)$batch['AlCarrier']['al_conc'],
+                    ' &plusmn; ', (float)$batch['AlCarrier']['del_al_conc'];
             }
 ?>
         </td>
         <td>
-            <?php echo $batch['wt_al_carrier_init']; ?>
+            <?php echo (float)$batch['wt_al_carrier_init']; ?>
         </td>
         <td>
-            <?php echo $batch['wt_al_carrier_final']; ?>
+            <?php echo (float)$batch['wt_al_carrier_final']; ?>
         </td>
         <td>
-            <?php echo $batch['wt_al_carrier_diff']; ?>
+            <?php echo (float)$batch['wt_al_carrier_diff']; ?>
         </td>
         <td>
-            <?php echo $batch['wt_al_carrier_disp']; ?>
+            <?php echo (float)$batch['wt_al_carrier_disp']; ?>
         </td>
     </tr>
     <tr>
@@ -195,11 +195,11 @@
             }
 ?>
         </td>
-        <td><?php echo $a['wt_diss_bottle_tare']; ?></td>
-        <td><?php echo $a['wt_diss_bottle_sample']; ?></td>
-        <td><?php echo $a['wt_diss_bottle_total']; ?></td>
-        <td><?php echo $a['wt_be_carrier']; ?></td>
-        <td><?php echo $a['wt_al_carrier']; ?></td>
+        <td><?php echo (float)$a['wt_diss_bottle_tare']; ?></td>
+        <td><?php echo (float)$a['wt_diss_bottle_sample']; ?></td>
+        <td><?php echo (float)$a['wt_diss_bottle_total']; ?></td>
+        <td><?php echo (float)$a['wt_be_carrier']; ?></td>
+        <td><?php echo (float)$a['wt_al_carrier']; ?></td>
     <?php
     $first = true;
     foreach ($a['Split'] as $s) {
@@ -211,9 +211,9 @@
         echo '<td>',
                 (isset($s['SplitBkr'])) ? $s['SplitBkr']['bkr_number'] : '',
             '</td>',
-            '<td>', $s['wt_split_bkr_tare'], '</td>',
-            '<td>', $s['wt_split_bkr_split'], '</td>',
-            '<td>', $s['wt_split_bkr_icp'], '</td></tr>';
+            '<td>', (float)$s['wt_split_bkr_tare'], '</td>',
+            '<td>', (float)$s['wt_split_bkr_split'], '</td>',
+            '<td>', (float)$s['wt_split_bkr_icp'], '</td></tr>';
     }
 
     if ($first) echo '</tr>';

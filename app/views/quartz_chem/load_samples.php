@@ -41,9 +41,9 @@
             [Be]:
             <?php
             if ($batch->BeCarrier) {
-                echo $batch->BeCarrier->be_conc;
+                echo (float)$batch->BeCarrier->be_conc;
                 if (!is_null($batch->BeCarrier->del_be_conc)) {
-                    echo ' &plusmn; ', $batch->BeCarrier->del_be_conc;
+                    echo ' &plusmn; ', (float)$batch->BeCarrier->del_be_conc;
                 }
                 echo ' ug/g';
             } ?>
@@ -53,9 +53,9 @@
             [Al]:
             <?php
             if($batch->AlCarrier) {
-                echo $batch->AlCarrier->al_conc;
+                echo (float)$batch->AlCarrier->al_conc;
                 if (!is_null($batch->AlCarrier->del_al_conc)) {
-                    echo ' &plusmn; ', $batch->AlCarrier->del_al_conc;
+                    echo ' &plusmn; ', (float)$batch->AlCarrier->del_al_conc;
                 }
                 echo ' ug/g';
             } ?>
@@ -65,14 +65,14 @@
         <td>Be carrier previous wt:</td>
         <td>
             <?php if ($be_prev): ?>
-                <?php echo $be_prev->wt_be_carrier_final; ?> (<?php echo $be_prev->start_date; ?>)
+                <?php echo (float)$be_prev->wt_be_carrier_final; ?> (<?php echo $be_prev->start_date; ?>)
             <?php endif; ?>
         </td>
 
         <td>Al carrier previous wt:</td>
         <td>
             <?php if ($al_prev): ?>
-                <?php echo $al_prev->wt_al_carrier_final; ?> (<?php echo $al_prev->start_date; ?>)
+                <?php echo (float)$al_prev->wt_al_carrier_final; ?> (<?php echo $al_prev->start_date; ?>)
             <?php endif; ?>
         </td>
     </tr>
@@ -81,13 +81,13 @@
             Be carrier initial wt:
         </td>
         <td>
-            <input type=text name="wt_be_carrier_init" width="10" value="<?php echo $batch->wt_be_carrier_init; ?>">
+            <input type=text name="wt_be_carrier_init" width="10" value="<?php echo (float)$batch->wt_be_carrier_init; ?>">
         </td>
         <td>
             Al carrier initial wt:
         </td>
         <td>
-            <input type=text name="wt_al_carrier_init" width="10" value="<?php echo $batch->wt_al_carrier_init; ?>">
+            <input type=text name="wt_al_carrier_init" width="10" value="<?php echo (float)$batch->wt_al_carrier_init; ?>">
         </td>
     </tr>
     <tr>
@@ -95,13 +95,13 @@
             Be carrier final wt:
         </td>
         <td>
-            <input type=text name="wt_be_carrier_final" width="10" value="<?php echo $batch->wt_be_carrier_final; ?>">
+            <input type=text name="wt_be_carrier_final" width="10" value="<?php echo (float)$batch->wt_be_carrier_final; ?>">
         </td>
         <td>
             Al carrier final wt:
         </td>
         <td>
-            <input type=text name="wt_al_carrier_final" width="10" value="<?php echo $batch->wt_al_carrier_final; ?>">
+            <input type=text name="wt_al_carrier_final" width="10" value="<?php echo (float)$batch->wt_al_carrier_final; ?>">
         </td>
     </tr>
     <tr><td colspan="4"><hr></td></tr>
@@ -169,12 +169,12 @@
 
             <!-- bottle tare wt -->
             <td>
-                <input type=text size=8 name="wt_diss_bottle_tare[]" class="tareWt" value="<?php echo $batch->Analysis[$i]->wt_diss_bottle_tare; ?>">
+                <input type=text size=8 name="wt_diss_bottle_tare[]" class="tareWt" value="<?php echo (float)$batch->Analysis[$i]->wt_diss_bottle_tare; ?>">
             </td>
 
             <!-- bottle + sample weight -->
             <td>
-                <input type=text size=8 name="wt_diss_bottle_sample[]" class="sampleWt" value="<?php echo $batch->Analysis[$i]->wt_diss_bottle_sample; ?>">
+                <input type=text size=8 name="wt_diss_bottle_sample[]" class="sampleWt" value="<?php echo (float)$batch->Analysis[$i]->wt_diss_bottle_sample; ?>">
             </td>
 
             <!-- Column 7. Sample weight -->
@@ -184,7 +184,7 @@
 
             <!-- Column 8. Be carrier wt -->
             <td>
-                <input type=text size=8 name="wt_be_carrier[]" value="<?php echo $batch->Analysis[$i]->wt_be_carrier; ?>">
+                <input type=text size=8 name="wt_be_carrier[]" value="<?php echo (float)$batch->Analysis[$i]->wt_be_carrier; ?>">
             </td>
 
             <!-- Column 9. Be mass -->
@@ -201,7 +201,7 @@
 
             <!-- Column 10. Al carrier wt -->
             <td>
-                <input type=text size=8 name="wt_al_carrier[]" value="<?php echo $batch->Analysis[$i]->wt_al_carrier; ?>">
+                <input type=text size=8 name="wt_al_carrier[]" value="<?php echo (float)$batch->Analysis[$i]->wt_al_carrier; ?>">
             </td>
 
         </tr><tr><td colspan="10"></td></tr>

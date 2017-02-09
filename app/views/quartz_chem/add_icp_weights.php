@@ -69,8 +69,8 @@ if ($errors) {
 
             <td>Split <?php echo $s+1; ?>:</td>
             <td><?php echo $batch->Analysis[$i]->Split[$s]->SplitBkr->bkr_number; ?></td>
-            <td><?php echo $batch->Analysis[$i]->Split[$s]->wt_split_bkr_tare; ?></td>
-            <td><?php echo form_input('tot_wts[]', $batch->Analysis[$i]->Split[$s]->wt_split_bkr_icp); ?></td>
+            <td><?php echo (float)$batch->Analysis[$i]->Split[$s]->wt_split_bkr_tare; ?></td>
+            <td><?php echo form_input('tot_wts[]', (float)$batch->Analysis[$i]->Split[$s]->wt_split_bkr_icp); ?></td>
             <td>
                 <?php
                 $icp_wt = $batch->Analysis[$i]->Split[$s]->wt_split_bkr_icp
