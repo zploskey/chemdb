@@ -130,7 +130,7 @@ class Carriers extends MY_Controller
 
         $data = new stdClass();
         $data->title      = 'View Carrier';
-        $data->type       = $element;
+        $data->element    = $element;
         $data->subtitle   = "Viewing $longname: $carrier->name";
         $data->longname   = $longname;
         $data->carrier    = $carrier;
