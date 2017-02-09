@@ -9,6 +9,8 @@
 class Quartz_chem extends MY_Controller
 {
 
+    const MSG_QUERY_FAILED = 'Batch query failed.';
+
     /**
      * Supplies data for the Al/Be Chemistry index page. Populates select boxes
      * with batches that the user can select to modify on the other pages.
@@ -17,7 +19,7 @@ class Quartz_chem extends MY_Controller
      */
     public function index()
     {
-        $batch_id = $this->input->post('batch_id');
+        $batch_id = (int)$this->input->post('batch_id');
         if ($this->input->post('is_lock') === "true") {
             Doctrine_Core::getTable('Batch')->lock($batch_id);
         }
@@ -59,9 +61,8 @@ class Quartz_chem extends MY_Controller
         if ($is_edit) {
             // it's an existing batch, get it
             $batch = Doctrine_Core::getTable('Batch')->find($id);
-            if (!$batch) {
-                show_404('page');
-            }
+            $this->_dieIfQueryFailed($batch);
+
             $data->numsamples = $batch->Analysis->count();
         } else {
             $batch = new Batch();
@@ -113,10 +114,7 @@ class Quartz_chem extends MY_Controller
 
         // grab the batch with carrier data
         $batch = Doctrine_Core::getTable('Batch')->findWithCarriers($batch_id);
-
-        if ( ! $batch) {
-            die('Batch query failed.');
-        }
+        $this->_dieIfQueryFailed($batch);
 
         $num_analyses = $batch->Analysis->count();
         $errors = false;
@@ -365,6 +363,7 @@ class Quartz_chem extends MY_Controller
             ->orderBy('a.id ASC')
             ->limit(1)
             ->fetchOne();
+        $this->_dieIfQueryFailed($batch);
 
         $numsamples = $batch->Analysis->count();
         $HF_additions = array();
@@ -470,6 +469,7 @@ class Quartz_chem extends MY_Controller
             ->orderBy('a.id ASC')
             ->limit(1)
             ->fetchOne();
+        $this->_dieIfQueryFailed($batch);
 
         $errors = false;
         if ($refresh) {
@@ -513,12 +513,8 @@ class Quartz_chem extends MY_Controller
             ->orderBy('a.id ASC')
             ->addOrderBy('s.split_num ASC')
             ->limit(1);
-
         $batch = $query->fetchOne();
-
-        if (! $batch) {
-            die('Batch query failed.');
-        }
+        $this->_dieIfQueryFailed($batch);
 
         // insert splits and runs if they don't yet exist in the database
         if ($batch->initializeSplitsRuns()) {
@@ -620,6 +616,7 @@ EOH;
             ->addOrderBy('sp.split_num')
             ->limit(1)
             ->fetchOne();
+        $this->_dieIfQueryFailed($batch);
 
         if (isset($batch->Analysis)) {
             $numsamples = $batch->Analysis->count();
@@ -688,6 +685,7 @@ EOH;
             ->addOrderBy('r.run_num');
 
         $batch = $query->fetchOne();
+        $this->_dieIfQueryFailed($batch);
 
         if ($submit == true) {
             $valid = $this->form_validation->run('add_icp_results');
@@ -796,6 +794,7 @@ EOH;
         $batch_id = (int)$this->input->post('batch_id');
         $refresh = (bool)$this->input->post('refresh');
         $batch = Doctrine_Core::getTable('Batch')->findCompleteById($batch_id);
+        $this->_dieIfQueryFailed($batch);
 
         // Do a database update if we validate properly
         $errors = false;
@@ -832,11 +831,9 @@ EOH;
     public function intermediate_report()
     {
         $batch_id = (int)$this->uri->segment(3, $this->input->post('batch_id'));
-        try {
-            $data->batch = Doctrine_Core::getTable('Batch')->getReportArray($batch_id);
-        } catch (Exception $e) {
-            die('Error: ' . $e->getMessage());
-        }
+        $data->batch = Doctrine_Core::getTable('Batch')
+            ->getReportArray($batch_id);
+        $this->_dieIfQueryFailed($data->batch);
         $data->title = 'Intermediate hard copy of weighings -- '
                      . 'Al - Be extraction from quartz';
         $data->todays_date = date('Y-m-d');
@@ -854,16 +851,22 @@ EOH;
 
         // do all our calculations, pass true to do a complete report
         $data = new stdClass();
-        try {
-            $data->batch = Doctrine_Core::getTable('Batch')->getReportArray($batch_id, true);
-        } catch (Exception $e) {
-            die('Error: ' . $e->getMessage());
-        }
+        $data->batch = Doctrine_Core::getTable('Batch')
+            ->getReportArray($batch_id, true);
+        $this->_dieIfQueryFailed($data->batch);
 
         $data->title = 'Final report -- Al - Be extraction from quartz';
         $data->todays_date = date('Y-m-d');
         $data->main = 'quartz_chem/final_report';
         $this->load->view('quartz_chem/report_template', $data);
+    }
+
+    private function _dieIfQueryFailed($obj, $msg=self::MSG_QUERY_FAILED)
+    {
+        if (!$obj) {
+            die($msg);
+        }
+        return;
     }
 
     // ----------
