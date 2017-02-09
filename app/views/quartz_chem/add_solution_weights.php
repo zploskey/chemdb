@@ -49,9 +49,9 @@
             <td>
                 <?php echo @$batch->Analysis[$i]->DissBottle->bottle_number; ?>
             </td>
-            <td><?php echo $batch->Analysis[$i]->wt_diss_bottle_tare; ?></td>
+            <td><?php echo (float)$batch->Analysis[$i]->wt_diss_bottle_tare; ?></td>
             <td>
-                <input type=text size=16 name="wt_diss_bottle_total[]" value="<?php echo $batch->Analysis[$i]->wt_diss_bottle_total; ?>">
+                <input type=text size=16 name="wt_diss_bottle_total[]" value="<?php echo (float)$batch->Analysis[$i]->wt_diss_bottle_total; ?>">
             </td>
             <td>
                 <?php

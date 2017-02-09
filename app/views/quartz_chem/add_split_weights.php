@@ -105,10 +105,10 @@ for ($i = 0; $i < $numsamples; $i++): // main sample loop
             </td>
 
             <td>
-                <?php echo form_input('bkr_tare[]', $an->Split[$s]->wt_split_bkr_tare); ?>
+                <?php echo form_input('bkr_tare[]', (float)$an->Split[$s]->wt_split_bkr_tare); ?>
             </td>
             <td>
-                <?php echo form_input('bkr_split[]', $an->Split[$s]->wt_split_bkr_split); ?>
+                <?php echo form_input('bkr_split[]', (float)$an->Split[$s]->wt_split_bkr_split); ?>
             </td>
             <td>
                 <?php

@@ -58,14 +58,14 @@ if ($errors) {
             <input type="text" size="3" name='bkr_number[]' value="<?php echo $an->bkr_number; ?>">
         </td>
         <td>
-            <input type="text" size="8" name="wt_bkr_tare[]" value="<?php echo $an->wt_bkr_tare; ?>">
+            <input type="text" size="8" name="wt_bkr_tare[]" value="<?php echo (float)$an->wt_bkr_tare; ?>">
         </td>
 
         <td>
             <?php echo form_input(array(
                 'size' => '8',
                 'name' => 'wt_bkr_sample[]',
-                'value' => $an->wt_bkr_sample)); ?>
+                'value' => (float)$an->wt_bkr_sample)); ?>
         </td>
 
         <td align="center"><?php printf('%.4f', $wt_sample[$a]); ?></td>

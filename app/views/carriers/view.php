@@ -12,29 +12,29 @@
     </div>
     <div class="formblock">
         <label>Al Concentration (ppm)</label>
-        <?php echo $carrier->al_conc; ?>
+        <?php echo (float)$carrier->al_conc; ?>
         &plusmn;
-        <?php echo $carrier->del_al_conc; ?>
+        <?php echo (float)$carrier->del_al_conc; ?>
     </div>
 <?php if ($element === 'be'): ?>
     <div class="formblock">
         <label>Be Concentration (ppm)</label>
-        <?php echo $carrier->be_conc; ?>
+        <?php echo (float)$carrier->be_conc; ?>
         &plusmn;
-        <?php echo $carrier->del_be_conc; ?>
+        <?php echo (float)$carrier->del_be_conc; ?>
     </div>
     <div class="formblock">
         <label>Be-10/Be-9 Ratio</label>
-        <?php echo $carrier->r10to9; ?>
+        <?php echo (float)$carrier->r10to9; ?>
         &plusmn;
-        <?php echo $carrier->r10to9_error; ?>
+        <?php echo (float)$carrier->r10to9_error; ?>
     </div>
 <?php elseif ($element === 'al'): ?>
     <div class="formblock">
         <label>Al-26/Al-27 Ratio</label>
-        <?php echo $carrier->r26to27; ?>
+        <?php echo (float)$carrier->r26to27; ?>
         &plusmn;
-        <?php echo $carrier->r26to27_error; ?>
+        <?php echo (float)$carrier->r26to27_error; ?>
     </div>
 <?php endif ?>
     <div class="formblock">

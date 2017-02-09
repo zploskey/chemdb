@@ -16,15 +16,15 @@
     </td>
 
     <td>[Al] (ppm in qtz):
-        <input type="text" size="7" name="icp_al" value="<?php echo $analysis->icp_al; ?>">
+        <input type="text" size="7" name="icp_al" value="<?php echo (float)$analysis->icp_al; ?>">
     </td>
 
     <td>[Fe] (ppm in qtz):
-        <input type=text size="7" name="icp_fe" value="<?php echo $analysis->icp_fe; ?>">
+        <input type=text size="7" name="icp_fe" value="<?php echo (float)$analysis->icp_fe; ?>">
     </td>
 
     <td>[Ti] (ppm in qtz):
-        <input type="text" size="7" name="icp_ti" value="<?php echo $analysis->icp_ti; ?>">
+        <input type="text" size="7" name="icp_ti" value="<?php echo (float)$analysis->icp_ti; ?>">
     </td>
 </tr>
 

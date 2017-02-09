@@ -21,35 +21,35 @@
         </tr>
         <tr>
             <td align="right">Latitude: &nbsp;</td>
-            <td><?php echo $sample->latitude; ?></td>
+            <td><?php echo (float)$sample->latitude; ?></td>
         </tr>
         <tr>
             <td align="right">Longitude: &nbsp;</td>
-            <td><?php echo $sample->longitude; ?></td>
+            <td><?php echo (float)$sample->longitude; ?></td>
         </tr>
         <tr>
             <td align="right">Altitude (m): &nbsp;</td>
-            <td><?php echo $sample->altitude; ?></td>
+            <td><?php echo (float)$sample->altitude; ?></td>
         </tr>
         <tr>
             <td align="right">Shield factor: &nbsp;</td>
-            <td><?php echo $sample->shield_factor; ?></td>
+            <td><?php echo (float)$sample->shield_factor; ?></td>
         </tr>
         <tr>
             <td align="right">Depth Top (cm): &nbsp;</td>
-            <td><?php echo $sample->depth_top; ?></td>
+            <td><?php echo (float)$sample->depth_top; ?></td>
         </tr>
         <tr>
             <td align="right">Depth Bottom (cm): &nbsp;</td>
-            <td><?php echo $sample->depth_bottom; ?></td>
+            <td><?php echo (float)$sample->depth_bottom; ?></td>
         </tr>
         <tr>
             <td align="right">Density (g/cm<sup>3</sup>): &nbsp;</td>
-            <td><?php echo $sample->density; ?></td>
+            <td><?php echo (float)$sample->density; ?></td>
         </tr>
         <tr>
             <td align="right">Erosion Rate (cm/y): &nbsp;</td>
-            <td><?php echo $sample->erosion_rate; ?></td>
+            <td><?php echo (float)$sample->erosion_rate; ?></td>
         </tr>
         <tr>
             <td align="right">Notes: &nbsp;</td>
@@ -89,7 +89,7 @@
             <th>Sample Wt (g)</th>
             <?php foreach ($sample['Analysis'] as $an): ?>
                 <td>
-                    <?php echo $an->getSampleWt(); ?>
+                    <?php echo (float)$an->getSampleWt(); ?>
                 </td>
             <?php endforeach; ?>
         </tr>
@@ -107,7 +107,7 @@
             <th>Mass Be Carrier (ug)</th>
             <?php foreach ($sample['Analysis'] as $an): ?>
                 <td>
-                    <?php echo sprintf('%.1f',$an['wt_be_carrier'] * $an['Batch']['BeCarrier']['be_conc']); ?>
+                    <?php echo sprintf('%.1f', $an['wt_be_carrier'] * $an['Batch']['BeCarrier']['be_conc']); ?>
                 </td>
             <?php endforeach; ?>
         </tr>
