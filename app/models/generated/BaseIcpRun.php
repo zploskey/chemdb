@@ -26,7 +26,6 @@ abstract class BaseIcpRun extends Doctrine_Record
         $this->setTableName('icp_run');
         $this->hasColumn('id', 'integer', 4, array(
              'type' => 'integer',
-             'fixed' => 0,
              'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
@@ -34,73 +33,50 @@ abstract class BaseIcpRun extends Doctrine_Record
              ));
         $this->hasColumn('split_id', 'integer', 4, array(
              'type' => 'integer',
-             'fixed' => 0,
              'unsigned' => true,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '4',
              ));
         $this->hasColumn('run_num', 'integer', 1, array(
              'type' => 'integer',
-             'fixed' => 0,
              'unsigned' => true,
-             'primary' => false,
              'default' => '1',
              'notnull' => true,
-             'autoincrement' => false,
              'length' => '1',
              ));
         $this->hasColumn('al_result', 'double', 53, array(
              'type' => 'double',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
              'default' => '0',
              'notnull' => true,
-             'autoincrement' => false,
              'length' => '53',
              'scale' => '30',
              ));
         $this->hasColumn('be_result', 'double', 53, array(
              'type' => 'double',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
              'default' => '0',
              'notnull' => true,
-             'autoincrement' => false,
              'length' => '53',
              'scale' => '30',
              ));
         $this->hasColumn('use_al', 'enum', 1, array(
              'type' => 'enum',
-             'fixed' => 0,
-             'unsigned' => false,
              'values' => 
              array(
               0 => 'y',
               1 => 'n',
              ),
-             'primary' => false,
              'default' => 'y',
              'notnull' => true,
-             'autoincrement' => false,
              'length' => '1',
              ));
         $this->hasColumn('use_be', 'enum', 1, array(
              'type' => 'enum',
-             'fixed' => 0,
-             'unsigned' => false,
              'values' => 
              array(
               0 => 'y',
               1 => 'n',
              ),
-             'primary' => false,
              'default' => 'y',
              'notnull' => true,
-             'autoincrement' => false,
              'length' => '1',
              ));
     }

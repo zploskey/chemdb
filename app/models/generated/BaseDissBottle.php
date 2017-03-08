@@ -21,7 +21,6 @@ abstract class BaseDissBottle extends Doctrine_Record
         $this->setTableName('diss_bottle');
         $this->hasColumn('id', 'integer', 4, array(
              'type' => 'integer',
-             'fixed' => 0,
              'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
@@ -29,11 +28,6 @@ abstract class BaseDissBottle extends Doctrine_Record
              ));
         $this->hasColumn('bottle_number', 'string', null, array(
              'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '',
              ));
     }

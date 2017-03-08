@@ -3,80 +3,32 @@ AlAms:
   columns:
     id:
       type: integer(4)
-      fixed: 0
       unsigned: true
       primary: true
       autoincrement: true
     analysis_id:
       type: integer(2)
-      fixed: 0
       unsigned: true
-      primary: false
-      notnull: false
-      autoincrement: false
     al_ams_std_id:
       type: integer(4)
-      fixed: 0
       unsigned: true
-      primary: false
-      notnull: false
-      autoincrement: false
     ams_lab_id:
       type: integer(4)
-      fixed: 0
       unsigned: true
-      primary: false
-      notnull: false
-      autoincrement: false
     date:
       type: date(25)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     lab_num:
       type: string(255)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     r_to_rstd:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     interror:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     exterror:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     truefrac:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     notes:
       type: string(700)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
   relations:
     Analysis:
       local: analysis_id
@@ -99,45 +51,20 @@ AlAmsStd:
   columns:
     id:
       type: integer(4)
-      fixed: 0
       unsigned: true
       primary: true
       autoincrement: true
     name:
       type: string(255)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     al_std_series_id:
       type: integer(4)
-      fixed: 0
       unsigned: true
-      primary: false
-      notnull: false
-      autoincrement: false
     r26to27:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     error:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     notes:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
   relations:
     AlStdSeries:
       local: al_std_series_id
@@ -152,80 +79,30 @@ AlCarrier:
   columns:
     id:
       type: integer(1)
-      fixed: 0
       unsigned: true
       primary: true
       autoincrement: true
     name:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
       notnull: true
-      autoincrement: false
     al_conc:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     del_al_conc:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     r26to27:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     r26to27_error:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     in_service_date:
       type: date(25)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     mfg_lot_no:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     owner:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     notes:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     in_use:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
   relations:
     Batch:
       local: id
@@ -236,24 +113,13 @@ AlStdSeries:
   columns:
     id:
       type: integer(4)
-      fixed: 0
       unsigned: true
       primary: true
       autoincrement: true
     code:
       type: string(60)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     notes:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
   relations:
     AlAmsStd:
       local: id
@@ -264,174 +130,80 @@ AlcheckAnalysis:
   columns:
     id:
       type: integer(3)
-      fixed: 0
       unsigned: true
       primary: true
       autoincrement: true
     sample_id:
       type: integer(4)
-      fixed: 0
       unsigned: true
-      primary: false
-      notnull: false
-      autoincrement: false
     alcheck_batch_id:
       type: integer(2)
-      fixed: 0
       unsigned: true
-      primary: false
       default: '0'
       notnull: true
-      autoincrement: false
     number_within_batch:
       type: integer(1)
-      fixed: 0
       unsigned: true
-      primary: false
       default: '0'
       notnull: true
-      autoincrement: false
     sample_name:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
       notnull: true
-      autoincrement: false
     bkr_number:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
       notnull: true
-      autoincrement: false
     wt_bkr_tare:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
       notnull: true
-      autoincrement: false
     flag_bkr_tare_avg:
       type: integer(1)
-      fixed: 0
       unsigned: true
-      primary: false
       default: '0'
       notnull: true
-      autoincrement: false
     wt_bkr_sample:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
       notnull: true
-      autoincrement: false
     wt_bkr_soln:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
-      notnull: false
-      autoincrement: false
     icp_al:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
-      notnull: false
-      autoincrement: false
     icp_ba:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
-      notnull: false
-      autoincrement: false
     icp_be:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
-      notnull: false
-      autoincrement: false
     icp_ca:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
-      notnull: false
-      autoincrement: false
     icp_fe:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
-      notnull: false
-      autoincrement: false
     icp_k:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
-      notnull: false
-      autoincrement: false
     icp_mg:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
-      notnull: false
-      autoincrement: false
     icp_mn:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
-      notnull: false
-      autoincrement: false
     icp_na:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
-      notnull: false
-      autoincrement: false
     icp_ti:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
-      notnull: false
-      autoincrement: false
     addl_dil_factor:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '1'
       notnull: true
-      autoincrement: false
     notes:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
   relations:
     Sample:
       local: sample_id
@@ -446,45 +218,19 @@ AlcheckBatch:
   columns:
     id:
       type: integer(2)
-      fixed: 0
       unsigned: true
       primary: true
       autoincrement: true
     owner:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     prep_date:
       type: date(25)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     icp_date:
       type: date(25)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     description:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     notes:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
   relations:
     AlcheckAnalysis:
       local: id
@@ -495,31 +241,17 @@ AmsCurrent:
   columns:
     id:
       type: integer(4)
-      fixed: 0
       unsigned: true
       primary: true
       autoincrement: true
     current:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     be_ams_id:
       type: integer(4)
-      fixed: 0
       unsigned: true
-      primary: false
-      notnull: false
-      autoincrement: false
     al_ams_id:
       type: integer(4)
-      fixed: 0
       unsigned: true
-      primary: false
-      notnull: false
-      autoincrement: false
   relations:
     BeAms:
       local: be_ams_id
@@ -534,25 +266,15 @@ AmsLab:
   columns:
     id:
       type: integer(4)
-      fixed: 0
       unsigned: true
       primary: true
       autoincrement: true
     name:
       type: string(255)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: ''
       notnull: true
-      autoincrement: false
     full_name:
       type: string(700)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
   relations:
     AlAms:
       local: id
@@ -567,108 +289,56 @@ Analysis:
   columns:
     id:
       type: integer(2)
-      fixed: 0
       unsigned: true
       primary: true
       autoincrement: true
     batch_id:
       type: integer(2)
-      fixed: 0
       unsigned: true
-      primary: false
       default: '0'
       notnull: true
-      autoincrement: false
     sample_id:
       type: integer(4)
-      fixed: 0
       unsigned: true
-      primary: false
-      notnull: false
-      autoincrement: false
     number_within_batch:
       type: integer(1)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
       notnull: true
-      autoincrement: false
     sample_name:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
       notnull: true
-      autoincrement: false
     sample_type:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
       notnull: true
-      autoincrement: false
     diss_bottle_id:
       type: integer(4)
-      fixed: 0
       unsigned: true
-      primary: false
-      notnull: false
-      autoincrement: false
     diss_bottle_number:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
       notnull: true
-      autoincrement: false
     wt_diss_bottle_tare:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
       notnull: true
-      autoincrement: false
     wt_diss_bottle_sample:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
       notnull: true
-      autoincrement: false
     wt_be_carrier:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
       notnull: true
-      autoincrement: false
     wt_al_carrier:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
       notnull: true
-      autoincrement: false
     wt_diss_bottle_total:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
       notnull: true
-      autoincrement: false
     notes:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
       notnull: true
-      autoincrement: false
   relations:
     Batch:
       local: batch_id
@@ -699,140 +369,66 @@ Batch:
   columns:
     id:
       type: integer(2)
-      fixed: 0
       unsigned: true
       primary: true
       autoincrement: true
     al_carrier_id:
       type: integer(1)
-      fixed: 0
       unsigned: true
-      primary: false
-      notnull: false
-      autoincrement: false
     be_carrier_id:
       type: integer(1)
-      fixed: 0
       unsigned: true
-      primary: false
-      notnull: false
-      autoincrement: false
     owner:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     description:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     start_date:
       type: date(25)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0000-00-00'
       notnull: true
-      autoincrement: false
     split_date:
       type: date(25)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0000-00-00'
       notnull: true
-      autoincrement: false
     icp_date:
       type: date(25)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0000-00-00'
       notnull: true
-      autoincrement: false
     be_carrier_name:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
       notnull: true
-      autoincrement: false
     wt_be_carrier_init:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
       notnull: true
-      autoincrement: false
     wt_be_carrier_final:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
       notnull: true
-      autoincrement: false
     al_carrier_name:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
       notnull: true
-      autoincrement: false
     wt_al_carrier_init:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
       notnull: true
-      autoincrement: false
     wt_al_carrier_final:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
       notnull: true
-      autoincrement: false
     notes:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     completed:
       type: enum(1)
-      fixed: 0
-      unsigned: false
       values:
         - y
         - n
-      primary: false
       default: n
       notnull: true
-      autoincrement: false
     spreadsheet_name:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     csv_name:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
   relations:
     AlCarrier:
       local: al_carrier_id
@@ -851,80 +447,32 @@ BeAms:
   columns:
     id:
       type: integer(4)
-      fixed: 0
       unsigned: true
       primary: true
       autoincrement: true
     analysis_id:
       type: integer(2)
-      fixed: 0
       unsigned: true
-      primary: false
-      notnull: false
-      autoincrement: false
     be_ams_std_id:
       type: integer(4)
-      fixed: 0
       unsigned: true
-      primary: false
-      notnull: false
-      autoincrement: false
     ams_lab_id:
       type: integer(4)
-      fixed: 0
       unsigned: true
-      primary: false
-      notnull: false
-      autoincrement: false
     date:
       type: date(25)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     lab_num:
       type: string(255)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     r_to_rstd:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     interror:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     exterror:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     truefrac:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     notes:
       type: string(700)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
   relations:
     Analysis:
       local: analysis_id
@@ -947,45 +495,20 @@ BeAmsStd:
   columns:
     id:
       type: integer(4)
-      fixed: 0
       unsigned: true
       primary: true
       autoincrement: true
     name:
       type: string(255)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     be_std_series_id:
       type: integer(4)
-      fixed: 0
       unsigned: true
-      primary: false
-      notnull: false
-      autoincrement: false
     r10to9:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     error:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     notes:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
   relations:
     BeStdSeries:
       local: be_std_series_id
@@ -1000,94 +523,34 @@ BeCarrier:
   columns:
     id:
       type: integer(1)
-      fixed: 0
       unsigned: true
       primary: true
       autoincrement: true
     name:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
       notnull: true
-      autoincrement: false
     be_conc:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     del_be_conc:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     al_conc:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     del_al_conc:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     r10to9:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     r10to9_error:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     in_service_date:
       type: date(25)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     mfg_lot_no:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     owner:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     notes:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     in_use:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
   relations:
     Batch:
       local: id
@@ -1098,24 +561,13 @@ BeStdSeries:
   columns:
     id:
       type: integer(4)
-      fixed: 0
       unsigned: true
       primary: true
       autoincrement: true
     code:
       type: string(60)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     notes:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
   relations:
     BeAmsStd:
       local: id
@@ -1126,17 +578,11 @@ DissBottle:
   columns:
     id:
       type: integer(4)
-      fixed: 0
       unsigned: true
       primary: true
       autoincrement: true
     bottle_number:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
   relations:
     Analysis:
       local: id
@@ -1147,63 +593,39 @@ IcpRun:
   columns:
     id:
       type: integer(4)
-      fixed: 0
       unsigned: true
       primary: true
       autoincrement: true
     split_id:
       type: integer(4)
-      fixed: 0
       unsigned: true
-      primary: false
-      notnull: false
-      autoincrement: false
     run_num:
       type: integer(1)
-      fixed: 0
       unsigned: true
-      primary: false
       default: '1'
       notnull: true
-      autoincrement: false
     al_result:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
       notnull: true
-      autoincrement: false
     be_result:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
       notnull: true
-      autoincrement: false
     use_al:
       type: enum(1)
-      fixed: 0
-      unsigned: false
       values:
         - y
         - n
-      primary: false
       default: y
       notnull: true
-      autoincrement: false
     use_be:
       type: enum(1)
-      fixed: 0
-      unsigned: false
       values:
         - y
         - n
-      primary: false
       default: y
       notnull: true
-      autoincrement: false
   relations:
     Split:
       local: split_id
@@ -1214,31 +636,16 @@ Project:
   columns:
     id:
       type: integer(4)
-      fixed: 0
       unsigned: true
       primary: true
       autoincrement: true
     name:
       type: string(255)
-      fixed: 0
-      unsigned: false
-      primary: false
       notnull: true
-      autoincrement: false
     date_added:
       type: timestamp(25)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     description:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
   relations:
     ProjectSample:
       local: id
@@ -1254,16 +661,12 @@ ProjectSample:
   columns:
     project_id:
       type: integer(4)
-      fixed: 0
       unsigned: true
       primary: true
-      autoincrement: false
     sample_id:
       type: integer(4)
-      fixed: 0
       unsigned: true
       primary: true
-      autoincrement: false
   relations:
     Project:
       local: project_id
@@ -1278,89 +681,35 @@ Sample:
   columns:
     id:
       type: integer(4)
-      fixed: 0
       unsigned: true
       primary: true
       autoincrement: true
     name:
       type: string(255)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: ''
       notnull: true
-      autoincrement: false
     latitude:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     longitude:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     altitude:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     antarctic:
       type: integer(1)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
       notnull: true
-      autoincrement: false
     shield_factor:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     depth_top:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     depth_bottom:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     density:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     erosion_rate:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     notes:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
   relations:
     AlcheckAnalysis:
       local: id
@@ -1388,79 +737,39 @@ SilCl36Analysis:
   columns:
     id:
       type: integer(4)
-      fixed: 0
       unsigned: true
       primary: true
       autoincrement: true
     sample_id:
       type: integer(4)
-      fixed: 0
       unsigned: true
-      primary: false
-      notnull: false
-      autoincrement: false
     sample_name:
       type: string(255)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: ''
       notnull: true
-      autoincrement: false
     cl36_batch_id:
       type: integer(4)
-      fixed: 0
       unsigned: true
-      primary: false
-      notnull: false
-      autoincrement: false
     calib_id:
       type: integer(4)
-      fixed: 0
       unsigned: true
-      primary: false
-      notnull: false
-      autoincrement: false
     cl37_spike_id:
       type: integer(4)
-      fixed: 0
       unsigned: true
-      primary: false
-      notnull: false
-      autoincrement: false
     sample_type:
       type: enum(6)
-      fixed: 0
-      unsigned: false
       values:
         - SAMPLE
         - CALIB
         - BLANK
-      primary: false
       default: SAMPLE
       notnull: true
-      autoincrement: false
     wt_spike:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     wt_bkr_tare:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     wt_bkr_sample:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
   relations:
     Sample:
       local: sample_id
@@ -1471,86 +780,48 @@ SilCl36Batch:
   columns:
     id:
       type: integer(4)
-      fixed: 0
       unsigned: true
       primary: true
       autoincrement: true
     owner:
       type: string(60)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     cl_carrier_id:
       type: integer(4)
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
 Split:
   tableName: split
   columns:
     id:
       type: integer(4)
-      fixed: 0
       unsigned: true
       primary: true
       autoincrement: true
     analysis_id:
       type: integer(2)
-      fixed: 0
       unsigned: true
-      primary: false
       notnull: true
-      autoincrement: false
     split_bkr_id:
       type: integer(4)
-      fixed: 0
       unsigned: true
-      primary: false
       notnull: true
-      autoincrement: false
     split_num:
       type: integer(1)
-      fixed: 0
       unsigned: true
-      primary: false
       default: '1'
       notnull: true
-      autoincrement: false
     split_bkr_name:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
     wt_split_bkr_tare:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
       notnull: true
-      autoincrement: false
     wt_split_bkr_split:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
       notnull: true
-      autoincrement: false
     wt_split_bkr_icp:
       type: double(53,30)
-      fixed: 0
-      unsigned: false
-      primary: false
       default: '0'
       notnull: true
-      autoincrement: false
   relations:
     Analysis:
       local: analysis_id
@@ -1569,17 +840,11 @@ SplitBkr:
   columns:
     id:
       type: integer(4)
-      fixed: 0
       unsigned: true
       primary: true
       autoincrement: true
     bkr_number:
       type: string()
-      fixed: 0
-      unsigned: false
-      primary: false
-      notnull: false
-      autoincrement: false
   relations:
     Split:
       local: id

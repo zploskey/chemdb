@@ -21,7 +21,6 @@ abstract class BaseSilCl36Batch extends Doctrine_Record
         $this->setTableName('sil_cl36_batch');
         $this->hasColumn('id', 'integer', 4, array(
              'type' => 'integer',
-             'fixed' => 0,
              'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
@@ -29,20 +28,10 @@ abstract class BaseSilCl36Batch extends Doctrine_Record
              ));
         $this->hasColumn('owner', 'string', 60, array(
              'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '60',
              ));
         $this->hasColumn('cl_carrier_id', 'integer', 4, array(
              'type' => 'integer',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '4',
              ));
     }

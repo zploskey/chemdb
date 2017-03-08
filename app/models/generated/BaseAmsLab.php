@@ -23,7 +23,6 @@ abstract class BaseAmsLab extends Doctrine_Record
         $this->setTableName('ams_lab');
         $this->hasColumn('id', 'integer', 4, array(
              'type' => 'integer',
-             'fixed' => 0,
              'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
@@ -31,21 +30,12 @@ abstract class BaseAmsLab extends Doctrine_Record
              ));
         $this->hasColumn('name', 'string', 255, array(
              'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
              'default' => '',
              'notnull' => true,
-             'autoincrement' => false,
              'length' => '255',
              ));
         $this->hasColumn('full_name', 'string', 700, array(
              'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '700',
              ));
     }
