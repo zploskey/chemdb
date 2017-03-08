@@ -24,24 +24,21 @@ abstract class BaseIcpRun extends Doctrine_Record
     public function setTableDefinition()
     {
         $this->setTableName('icp_run');
-        $this->hasColumn('id', 'integer', 4, array(
+        $this->hasColumn('id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
-             'length' => '4',
              ));
-        $this->hasColumn('split_id', 'integer', 4, array(
+        $this->hasColumn('split_id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
-             'length' => '4',
              ));
-        $this->hasColumn('run_num', 'integer', 1, array(
+        $this->hasColumn('run_num', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
              'default' => '1',
              'notnull' => true,
-             'length' => '1',
              ));
         $this->hasColumn('al_result', 'double', 53, array(
              'type' => 'double',

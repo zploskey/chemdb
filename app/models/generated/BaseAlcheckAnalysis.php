@@ -40,41 +40,35 @@ abstract class BaseAlcheckAnalysis extends Doctrine_Record
     public function setTableDefinition()
     {
         $this->setTableName('alcheck_analysis');
-        $this->hasColumn('id', 'integer', 3, array(
+        $this->hasColumn('id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
-             'length' => '3',
              ));
-        $this->hasColumn('sample_id', 'integer', 4, array(
+        $this->hasColumn('sample_id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
-             'length' => '4',
              ));
-        $this->hasColumn('alcheck_batch_id', 'integer', 2, array(
-             'type' => 'integer',
-             'unsigned' => true,
-             'default' => '0',
-             'notnull' => true,
-             'length' => '2',
-             ));
-        $this->hasColumn('number_within_batch', 'integer', 1, array(
+        $this->hasColumn('alcheck_batch_id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
              'default' => '0',
              'notnull' => true,
-             'length' => '1',
+             ));
+        $this->hasColumn('number_within_batch', 'integer', null, array(
+             'type' => 'integer',
+             'unsigned' => true,
+             'default' => '0',
+             'notnull' => true,
              ));
         $this->hasColumn('sample_name', 'string', null, array(
              'type' => 'string',
              'notnull' => true,
-             'length' => '',
              ));
         $this->hasColumn('bkr_number', 'string', null, array(
              'type' => 'string',
              'notnull' => true,
-             'length' => '',
              ));
         $this->hasColumn('wt_bkr_tare', 'double', 53, array(
              'type' => 'double',
@@ -83,12 +77,11 @@ abstract class BaseAlcheckAnalysis extends Doctrine_Record
              'length' => '53',
              'scale' => '30',
              ));
-        $this->hasColumn('flag_bkr_tare_avg', 'integer', 1, array(
+        $this->hasColumn('flag_bkr_tare_avg', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
              'default' => '0',
              'notnull' => true,
-             'length' => '1',
              ));
         $this->hasColumn('wt_bkr_sample', 'double', 53, array(
              'type' => 'double',
@@ -172,7 +165,6 @@ abstract class BaseAlcheckAnalysis extends Doctrine_Record
              ));
         $this->hasColumn('notes', 'string', null, array(
              'type' => 'string',
-             'length' => '',
              ));
     }
 

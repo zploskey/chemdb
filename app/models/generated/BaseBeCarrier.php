@@ -30,17 +30,15 @@ abstract class BaseBeCarrier extends Doctrine_Record
     public function setTableDefinition()
     {
         $this->setTableName('be_carrier');
-        $this->hasColumn('id', 'integer', 1, array(
+        $this->hasColumn('id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
-             'length' => '1',
              ));
         $this->hasColumn('name', 'string', null, array(
              'type' => 'string',
              'notnull' => true,
-             'length' => '',
              ));
         $this->hasColumn('be_conc', 'double', 53, array(
              'type' => 'double',
@@ -78,19 +76,15 @@ abstract class BaseBeCarrier extends Doctrine_Record
              ));
         $this->hasColumn('mfg_lot_no', 'string', null, array(
              'type' => 'string',
-             'length' => '',
              ));
         $this->hasColumn('owner', 'string', null, array(
              'type' => 'string',
-             'length' => '',
              ));
         $this->hasColumn('notes', 'string', null, array(
              'type' => 'string',
-             'length' => '',
              ));
         $this->hasColumn('in_use', 'string', null, array(
              'type' => 'string',
-             'length' => '',
              ));
     }
 

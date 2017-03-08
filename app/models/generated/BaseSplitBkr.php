@@ -19,16 +19,14 @@ abstract class BaseSplitBkr extends Doctrine_Record
     public function setTableDefinition()
     {
         $this->setTableName('split_bkr');
-        $this->hasColumn('id', 'integer', 4, array(
+        $this->hasColumn('id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
-             'length' => '4',
              ));
         $this->hasColumn('bkr_number', 'string', null, array(
              'type' => 'string',
-             'length' => '',
              ));
     }
 

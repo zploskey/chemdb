@@ -31,27 +31,23 @@ abstract class BaseAlAms extends Doctrine_Record
     public function setTableDefinition()
     {
         $this->setTableName('al_ams');
-        $this->hasColumn('id', 'integer', 4, array(
+        $this->hasColumn('id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
-             'length' => '4',
              ));
-        $this->hasColumn('analysis_id', 'integer', 2, array(
+        $this->hasColumn('analysis_id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
-             'length' => '2',
              ));
-        $this->hasColumn('al_ams_std_id', 'integer', 4, array(
+        $this->hasColumn('al_ams_std_id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
-             'length' => '4',
              ));
-        $this->hasColumn('ams_lab_id', 'integer', 4, array(
+        $this->hasColumn('ams_lab_id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
-             'length' => '4',
              ));
         $this->hasColumn('date', 'date', 25, array(
              'type' => 'date',

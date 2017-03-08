@@ -24,21 +24,19 @@ abstract class BaseBeAmsStd extends Doctrine_Record
     public function setTableDefinition()
     {
         $this->setTableName('be_ams_std');
-        $this->hasColumn('id', 'integer', 4, array(
+        $this->hasColumn('id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
-             'length' => '4',
              ));
         $this->hasColumn('name', 'string', 255, array(
              'type' => 'string',
              'length' => '255',
              ));
-        $this->hasColumn('be_std_series_id', 'integer', 4, array(
+        $this->hasColumn('be_std_series_id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
-             'length' => '4',
              ));
         $this->hasColumn('r10to9', 'double', 53, array(
              'type' => 'double',
@@ -52,7 +50,6 @@ abstract class BaseBeAmsStd extends Doctrine_Record
              ));
         $this->hasColumn('notes', 'string', null, array(
              'type' => 'string',
-             'length' => '',
              ));
     }
 

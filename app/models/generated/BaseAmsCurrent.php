@@ -22,27 +22,24 @@ abstract class BaseAmsCurrent extends Doctrine_Record
     public function setTableDefinition()
     {
         $this->setTableName('ams_current');
-        $this->hasColumn('id', 'integer', 4, array(
+        $this->hasColumn('id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
-             'length' => '4',
              ));
         $this->hasColumn('current', 'double', 53, array(
              'type' => 'double',
              'length' => '53',
              'scale' => '30',
              ));
-        $this->hasColumn('be_ams_id', 'integer', 4, array(
+        $this->hasColumn('be_ams_id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
-             'length' => '4',
              ));
-        $this->hasColumn('al_ams_id', 'integer', 4, array(
+        $this->hasColumn('al_ams_id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
-             'length' => '4',
              ));
     }
 
