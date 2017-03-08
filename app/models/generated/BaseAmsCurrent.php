@@ -24,7 +24,6 @@ abstract class BaseAmsCurrent extends Doctrine_Record
         $this->setTableName('ams_current');
         $this->hasColumn('id', 'integer', 4, array(
              'type' => 'integer',
-             'fixed' => 0,
              'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
@@ -32,30 +31,17 @@ abstract class BaseAmsCurrent extends Doctrine_Record
              ));
         $this->hasColumn('current', 'double', 53, array(
              'type' => 'double',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '53',
              'scale' => '30',
              ));
         $this->hasColumn('be_ams_id', 'integer', 4, array(
              'type' => 'integer',
-             'fixed' => 0,
              'unsigned' => true,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '4',
              ));
         $this->hasColumn('al_ams_id', 'integer', 4, array(
              'type' => 'integer',
-             'fixed' => 0,
              'unsigned' => true,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '4',
              ));
     }

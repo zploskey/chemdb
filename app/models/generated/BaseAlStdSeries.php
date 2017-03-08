@@ -22,7 +22,6 @@ abstract class BaseAlStdSeries extends Doctrine_Record
         $this->setTableName('al_std_series');
         $this->hasColumn('id', 'integer', 4, array(
              'type' => 'integer',
-             'fixed' => 0,
              'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
@@ -30,20 +29,10 @@ abstract class BaseAlStdSeries extends Doctrine_Record
              ));
         $this->hasColumn('code', 'string', 60, array(
              'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '60',
              ));
         $this->hasColumn('notes', 'string', null, array(
              'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '',
              ));
     }

@@ -29,7 +29,6 @@ abstract class BaseSilCl36Analysis extends Doctrine_Record
         $this->setTableName('sil_cl36_analysis');
         $this->hasColumn('id', 'integer', 4, array(
              'type' => 'integer',
-             'fixed' => 0,
              'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
@@ -37,93 +36,54 @@ abstract class BaseSilCl36Analysis extends Doctrine_Record
              ));
         $this->hasColumn('sample_id', 'integer', 4, array(
              'type' => 'integer',
-             'fixed' => 0,
              'unsigned' => true,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '4',
              ));
         $this->hasColumn('sample_name', 'string', 255, array(
              'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
              'default' => '',
              'notnull' => true,
-             'autoincrement' => false,
              'length' => '255',
              ));
         $this->hasColumn('cl36_batch_id', 'integer', 4, array(
              'type' => 'integer',
-             'fixed' => 0,
              'unsigned' => true,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '4',
              ));
         $this->hasColumn('calib_id', 'integer', 4, array(
              'type' => 'integer',
-             'fixed' => 0,
              'unsigned' => true,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '4',
              ));
         $this->hasColumn('cl37_spike_id', 'integer', 4, array(
              'type' => 'integer',
-             'fixed' => 0,
              'unsigned' => true,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '4',
              ));
         $this->hasColumn('sample_type', 'enum', 6, array(
              'type' => 'enum',
-             'fixed' => 0,
-             'unsigned' => false,
              'values' => 
              array(
               0 => 'SAMPLE',
               1 => 'CALIB',
               2 => 'BLANK',
              ),
-             'primary' => false,
              'default' => 'SAMPLE',
              'notnull' => true,
-             'autoincrement' => false,
              'length' => '6',
              ));
         $this->hasColumn('wt_spike', 'double', 53, array(
              'type' => 'double',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '53',
              'scale' => '30',
              ));
         $this->hasColumn('wt_bkr_tare', 'double', 53, array(
              'type' => 'double',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '53',
              'scale' => '30',
              ));
         $this->hasColumn('wt_bkr_sample', 'double', 53, array(
              'type' => 'double',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '53',
              'scale' => '30',
              ));

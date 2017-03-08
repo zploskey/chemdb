@@ -39,7 +39,6 @@ abstract class BaseBatch extends Doctrine_Record
         $this->setTableName('batch');
         $this->hasColumn('id', 'integer', 2, array(
              'type' => 'integer',
-             'fixed' => 0,
              'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
@@ -47,172 +46,99 @@ abstract class BaseBatch extends Doctrine_Record
              ));
         $this->hasColumn('al_carrier_id', 'integer', 1, array(
              'type' => 'integer',
-             'fixed' => 0,
              'unsigned' => true,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '1',
              ));
         $this->hasColumn('be_carrier_id', 'integer', 1, array(
              'type' => 'integer',
-             'fixed' => 0,
              'unsigned' => true,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '1',
              ));
         $this->hasColumn('owner', 'string', null, array(
              'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '',
              ));
         $this->hasColumn('description', 'string', null, array(
              'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '',
              ));
         $this->hasColumn('start_date', 'date', 25, array(
              'type' => 'date',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
              'default' => '0000-00-00',
              'notnull' => true,
-             'autoincrement' => false,
              'length' => '25',
              ));
         $this->hasColumn('split_date', 'date', 25, array(
              'type' => 'date',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
              'default' => '0000-00-00',
              'notnull' => true,
-             'autoincrement' => false,
              'length' => '25',
              ));
         $this->hasColumn('icp_date', 'date', 25, array(
              'type' => 'date',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
              'default' => '0000-00-00',
              'notnull' => true,
-             'autoincrement' => false,
              'length' => '25',
              ));
         $this->hasColumn('be_carrier_name', 'string', null, array(
              'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
              'notnull' => true,
-             'autoincrement' => false,
              'length' => '',
              ));
         $this->hasColumn('wt_be_carrier_init', 'double', 53, array(
              'type' => 'double',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
              'default' => '0',
              'notnull' => true,
-             'autoincrement' => false,
              'length' => '53',
              'scale' => '30',
              ));
         $this->hasColumn('wt_be_carrier_final', 'double', 53, array(
              'type' => 'double',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
              'default' => '0',
              'notnull' => true,
-             'autoincrement' => false,
              'length' => '53',
              'scale' => '30',
              ));
         $this->hasColumn('al_carrier_name', 'string', null, array(
              'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
              'notnull' => true,
-             'autoincrement' => false,
              'length' => '',
              ));
         $this->hasColumn('wt_al_carrier_init', 'double', 53, array(
              'type' => 'double',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
              'default' => '0',
              'notnull' => true,
-             'autoincrement' => false,
              'length' => '53',
              'scale' => '30',
              ));
         $this->hasColumn('wt_al_carrier_final', 'double', 53, array(
              'type' => 'double',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
              'default' => '0',
              'notnull' => true,
-             'autoincrement' => false,
              'length' => '53',
              'scale' => '30',
              ));
         $this->hasColumn('notes', 'string', null, array(
              'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '',
              ));
         $this->hasColumn('completed', 'enum', 1, array(
              'type' => 'enum',
-             'fixed' => 0,
-             'unsigned' => false,
              'values' => 
              array(
               0 => 'y',
               1 => 'n',
              ),
-             'primary' => false,
              'default' => 'n',
              'notnull' => true,
-             'autoincrement' => false,
              'length' => '1',
              ));
         $this->hasColumn('spreadsheet_name', 'string', null, array(
              'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '',
              ));
         $this->hasColumn('csv_name', 'string', null, array(
              'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '',
              ));
     }

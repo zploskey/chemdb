@@ -33,7 +33,6 @@ abstract class BaseAlAms extends Doctrine_Record
         $this->setTableName('al_ams');
         $this->hasColumn('id', 'integer', 4, array(
              'type' => 'integer',
-             'fixed' => 0,
              'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
@@ -41,96 +40,49 @@ abstract class BaseAlAms extends Doctrine_Record
              ));
         $this->hasColumn('analysis_id', 'integer', 2, array(
              'type' => 'integer',
-             'fixed' => 0,
              'unsigned' => true,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '2',
              ));
         $this->hasColumn('al_ams_std_id', 'integer', 4, array(
              'type' => 'integer',
-             'fixed' => 0,
              'unsigned' => true,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '4',
              ));
         $this->hasColumn('ams_lab_id', 'integer', 4, array(
              'type' => 'integer',
-             'fixed' => 0,
              'unsigned' => true,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '4',
              ));
         $this->hasColumn('date', 'date', 25, array(
              'type' => 'date',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '25',
              ));
         $this->hasColumn('lab_num', 'string', 255, array(
              'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '255',
              ));
         $this->hasColumn('r_to_rstd', 'double', 53, array(
              'type' => 'double',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '53',
              'scale' => '30',
              ));
         $this->hasColumn('interror', 'double', 53, array(
              'type' => 'double',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '53',
              'scale' => '30',
              ));
         $this->hasColumn('exterror', 'double', 53, array(
              'type' => 'double',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '53',
              'scale' => '30',
              ));
         $this->hasColumn('truefrac', 'double', 53, array(
              'type' => 'double',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '53',
              'scale' => '30',
              ));
         $this->hasColumn('notes', 'string', 700, array(
              'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => '700',
              ));
     }
