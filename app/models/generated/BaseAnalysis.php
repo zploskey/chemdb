@@ -36,50 +36,42 @@ abstract class BaseAnalysis extends Doctrine_Record
     public function setTableDefinition()
     {
         $this->setTableName('analysis');
-        $this->hasColumn('id', 'integer', 2, array(
+        $this->hasColumn('id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
-             'length' => '2',
              ));
-        $this->hasColumn('batch_id', 'integer', 2, array(
+        $this->hasColumn('batch_id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
              'default' => '0',
              'notnull' => true,
-             'length' => '2',
              ));
-        $this->hasColumn('sample_id', 'integer', 4, array(
+        $this->hasColumn('sample_id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
-             'length' => '4',
              ));
-        $this->hasColumn('number_within_batch', 'integer', 1, array(
+        $this->hasColumn('number_within_batch', 'integer', null, array(
              'type' => 'integer',
              'default' => '0',
              'notnull' => true,
-             'length' => '1',
              ));
         $this->hasColumn('sample_name', 'string', null, array(
              'type' => 'string',
              'notnull' => true,
-             'length' => '',
              ));
         $this->hasColumn('sample_type', 'string', null, array(
              'type' => 'string',
              'notnull' => true,
-             'length' => '',
              ));
-        $this->hasColumn('diss_bottle_id', 'integer', 4, array(
+        $this->hasColumn('diss_bottle_id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
-             'length' => '4',
              ));
         $this->hasColumn('diss_bottle_number', 'string', null, array(
              'type' => 'string',
              'notnull' => true,
-             'length' => '',
              ));
         $this->hasColumn('wt_diss_bottle_tare', 'double', 53, array(
              'type' => 'double',
@@ -119,7 +111,6 @@ abstract class BaseAnalysis extends Doctrine_Record
         $this->hasColumn('notes', 'string', null, array(
              'type' => 'string',
              'notnull' => true,
-             'length' => '',
              ));
     }
 

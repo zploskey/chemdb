@@ -22,12 +22,11 @@ abstract class BaseProject extends Doctrine_Record
     public function setTableDefinition()
     {
         $this->setTableName('project');
-        $this->hasColumn('id', 'integer', 4, array(
+        $this->hasColumn('id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
-             'length' => '4',
              ));
         $this->hasColumn('name', 'string', 255, array(
              'type' => 'string',
@@ -40,7 +39,6 @@ abstract class BaseProject extends Doctrine_Record
              ));
         $this->hasColumn('description', 'string', null, array(
              'type' => 'string',
-             'length' => '',
              ));
     }
 

@@ -23,16 +23,14 @@ abstract class BaseAlcheckBatch extends Doctrine_Record
     public function setTableDefinition()
     {
         $this->setTableName('alcheck_batch');
-        $this->hasColumn('id', 'integer', 2, array(
+        $this->hasColumn('id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
-             'length' => '2',
              ));
         $this->hasColumn('owner', 'string', null, array(
              'type' => 'string',
-             'length' => '',
              ));
         $this->hasColumn('prep_date', 'date', 25, array(
              'type' => 'date',
@@ -44,11 +42,9 @@ abstract class BaseAlcheckBatch extends Doctrine_Record
              ));
         $this->hasColumn('description', 'string', null, array(
              'type' => 'string',
-             'length' => '',
              ));
         $this->hasColumn('notes', 'string', null, array(
              'type' => 'string',
-             'length' => '',
              ));
     }
 

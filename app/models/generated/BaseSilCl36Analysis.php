@@ -27,17 +27,15 @@ abstract class BaseSilCl36Analysis extends Doctrine_Record
     public function setTableDefinition()
     {
         $this->setTableName('sil_cl36_analysis');
-        $this->hasColumn('id', 'integer', 4, array(
+        $this->hasColumn('id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
-             'length' => '4',
              ));
-        $this->hasColumn('sample_id', 'integer', 4, array(
+        $this->hasColumn('sample_id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
-             'length' => '4',
              ));
         $this->hasColumn('sample_name', 'string', 255, array(
              'type' => 'string',
@@ -45,20 +43,17 @@ abstract class BaseSilCl36Analysis extends Doctrine_Record
              'notnull' => true,
              'length' => '255',
              ));
-        $this->hasColumn('cl36_batch_id', 'integer', 4, array(
+        $this->hasColumn('cl36_batch_id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
-             'length' => '4',
              ));
-        $this->hasColumn('calib_id', 'integer', 4, array(
+        $this->hasColumn('calib_id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
-             'length' => '4',
              ));
-        $this->hasColumn('cl37_spike_id', 'integer', 4, array(
+        $this->hasColumn('cl37_spike_id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
-             'length' => '4',
              ));
         $this->hasColumn('sample_type', 'enum', 6, array(
              'type' => 'enum',

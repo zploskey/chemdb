@@ -20,12 +20,11 @@ abstract class BaseBeStdSeries extends Doctrine_Record
     public function setTableDefinition()
     {
         $this->setTableName('be_std_series');
-        $this->hasColumn('id', 'integer', 4, array(
+        $this->hasColumn('id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
-             'length' => '4',
              ));
         $this->hasColumn('code', 'string', 60, array(
              'type' => 'string',
@@ -33,7 +32,6 @@ abstract class BaseBeStdSeries extends Doctrine_Record
              ));
         $this->hasColumn('notes', 'string', null, array(
              'type' => 'string',
-             'length' => '',
              ));
     }
 

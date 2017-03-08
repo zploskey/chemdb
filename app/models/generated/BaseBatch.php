@@ -37,30 +37,25 @@ abstract class BaseBatch extends Doctrine_Record
     public function setTableDefinition()
     {
         $this->setTableName('batch');
-        $this->hasColumn('id', 'integer', 2, array(
+        $this->hasColumn('id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
-             'length' => '2',
              ));
-        $this->hasColumn('al_carrier_id', 'integer', 1, array(
+        $this->hasColumn('al_carrier_id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
-             'length' => '1',
              ));
-        $this->hasColumn('be_carrier_id', 'integer', 1, array(
+        $this->hasColumn('be_carrier_id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
-             'length' => '1',
              ));
         $this->hasColumn('owner', 'string', null, array(
              'type' => 'string',
-             'length' => '',
              ));
         $this->hasColumn('description', 'string', null, array(
              'type' => 'string',
-             'length' => '',
              ));
         $this->hasColumn('start_date', 'date', 25, array(
              'type' => 'date',
@@ -83,7 +78,6 @@ abstract class BaseBatch extends Doctrine_Record
         $this->hasColumn('be_carrier_name', 'string', null, array(
              'type' => 'string',
              'notnull' => true,
-             'length' => '',
              ));
         $this->hasColumn('wt_be_carrier_init', 'double', 53, array(
              'type' => 'double',
@@ -102,7 +96,6 @@ abstract class BaseBatch extends Doctrine_Record
         $this->hasColumn('al_carrier_name', 'string', null, array(
              'type' => 'string',
              'notnull' => true,
-             'length' => '',
              ));
         $this->hasColumn('wt_al_carrier_init', 'double', 53, array(
              'type' => 'double',
@@ -120,7 +113,6 @@ abstract class BaseBatch extends Doctrine_Record
              ));
         $this->hasColumn('notes', 'string', null, array(
              'type' => 'string',
-             'length' => '',
              ));
         $this->hasColumn('completed', 'enum', 1, array(
              'type' => 'enum',
@@ -135,11 +127,9 @@ abstract class BaseBatch extends Doctrine_Record
              ));
         $this->hasColumn('spreadsheet_name', 'string', null, array(
              'type' => 'string',
-             'length' => '',
              ));
         $this->hasColumn('csv_name', 'string', null, array(
              'type' => 'string',
-             'length' => '',
              ));
     }
 

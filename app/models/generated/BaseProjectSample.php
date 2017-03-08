@@ -20,17 +20,15 @@ abstract class BaseProjectSample extends Doctrine_Record
     public function setTableDefinition()
     {
         $this->setTableName('project_sample');
-        $this->hasColumn('project_id', 'integer', 4, array(
+        $this->hasColumn('project_id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
              'primary' => true,
-             'length' => '4',
              ));
-        $this->hasColumn('sample_id', 'integer', 4, array(
+        $this->hasColumn('sample_id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
              'primary' => true,
-             'length' => '4',
              ));
     }
 

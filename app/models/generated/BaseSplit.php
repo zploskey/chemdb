@@ -27,35 +27,30 @@ abstract class BaseSplit extends Doctrine_Record
     public function setTableDefinition()
     {
         $this->setTableName('split');
-        $this->hasColumn('id', 'integer', 4, array(
+        $this->hasColumn('id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
-             'length' => '4',
              ));
-        $this->hasColumn('analysis_id', 'integer', 2, array(
+        $this->hasColumn('analysis_id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
              'notnull' => true,
-             'length' => '2',
              ));
-        $this->hasColumn('split_bkr_id', 'integer', 4, array(
+        $this->hasColumn('split_bkr_id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
              'notnull' => true,
-             'length' => '4',
              ));
-        $this->hasColumn('split_num', 'integer', 1, array(
+        $this->hasColumn('split_num', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
              'default' => '1',
              'notnull' => true,
-             'length' => '1',
              ));
         $this->hasColumn('split_bkr_name', 'string', null, array(
              'type' => 'string',
-             'length' => '',
              ));
         $this->hasColumn('wt_split_bkr_tare', 'double', 53, array(
              'type' => 'double',

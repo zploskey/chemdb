@@ -21,12 +21,11 @@ abstract class BaseAmsLab extends Doctrine_Record
     public function setTableDefinition()
     {
         $this->setTableName('ams_lab');
-        $this->hasColumn('id', 'integer', 4, array(
+        $this->hasColumn('id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
-             'length' => '4',
              ));
         $this->hasColumn('name', 'string', 255, array(
              'type' => 'string',

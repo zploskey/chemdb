@@ -19,20 +19,18 @@ abstract class BaseSilCl36Batch extends Doctrine_Record
     public function setTableDefinition()
     {
         $this->setTableName('sil_cl36_batch');
-        $this->hasColumn('id', 'integer', 4, array(
+        $this->hasColumn('id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
-             'length' => '4',
              ));
         $this->hasColumn('owner', 'string', 60, array(
              'type' => 'string',
              'length' => '60',
              ));
-        $this->hasColumn('cl_carrier_id', 'integer', 4, array(
+        $this->hasColumn('cl_carrier_id', 'integer', null, array(
              'type' => 'integer',
-             'length' => '4',
              ));
     }
 

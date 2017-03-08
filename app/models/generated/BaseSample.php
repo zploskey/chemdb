@@ -33,12 +33,11 @@ abstract class BaseSample extends Doctrine_Record
     public function setTableDefinition()
     {
         $this->setTableName('sample');
-        $this->hasColumn('id', 'integer', 4, array(
+        $this->hasColumn('id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
              'primary' => true,
              'autoincrement' => true,
-             'length' => '4',
              ));
         $this->hasColumn('name', 'string', 255, array(
              'type' => 'string',
@@ -61,11 +60,10 @@ abstract class BaseSample extends Doctrine_Record
              'length' => '53',
              'scale' => '30',
              ));
-        $this->hasColumn('antarctic', 'integer', 1, array(
+        $this->hasColumn('antarctic', 'integer', null, array(
              'type' => 'integer',
              'default' => '0',
              'notnull' => true,
-             'length' => '1',
              ));
         $this->hasColumn('shield_factor', 'double', 53, array(
              'type' => 'double',
@@ -94,7 +92,6 @@ abstract class BaseSample extends Doctrine_Record
              ));
         $this->hasColumn('notes', 'string', null, array(
              'type' => 'string',
-             'length' => '',
              ));
     }
 
