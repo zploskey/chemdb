@@ -73,7 +73,7 @@ $config['BaseCarrier'] = array(
     array(
         'field' => 'carrier[in_use]',
         'label' => 'In use?',
-        'rules' => 'trim|htmlentities'),
+        'rules' => 'integer'),
 );
 
 $config['AlCarrier'] = array(

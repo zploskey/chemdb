@@ -24,14 +24,14 @@
         <?php echo (float)$carrier->del_be_conc; ?>
     </div>
     <div class="formblock">
-        <label>Be-10/Be-9 Ratio</label>
+        <label><sup>10</sup>Be/<sup>9</sup>Be Ratio</label>
         <?php echo (float)$carrier->r10to9; ?>
         &plusmn;
         <?php echo (float)$carrier->r10to9_error; ?>
     </div>
 <?php elseif ($element === 'al'): ?>
     <div class="formblock">
-        <label>Al-26/Al-27 Ratio</label>
+        <label><sup>26</sup>Al/<sup>27</sup>Al Ratio</label>
         <?php echo (float)$carrier->r26to27; ?>
         &plusmn;
         <?php echo (float)$carrier->r26to27_error; ?>
@@ -54,10 +54,7 @@
         <?php echo $carrier->notes; ?>
     </div>
     <div class="formblock">
-        <label>In use? (y/n)</label>
-        <?php echo $carrier->in_use; ?>
+        <label>In use?</label>
+        <input type="checkbox" disabled <?php echo $in_use ? 'checked' : ''; ?>/>
     </div>
-    <br/>
-    <input type="submit" value="Submit" />
-    <br/><br/><?php echo validation_errors(); ?><br/>
 <br/>
