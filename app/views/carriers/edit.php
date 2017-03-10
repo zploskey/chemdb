@@ -65,8 +65,8 @@
         <input type="text" name="carrier[notes]" value="<?php echo $carrier->notes; ?>"/>
     </div>
     <div class="formblock">
-        <label>In use? (y/n)</label>
-        <input type="text" name="carrier[in_use]" value="<?php echo $carrier->in_use; ?>"/>
+        <label>In use?</label>
+        <input type="checkbox" name="carrier[in_use]" value="1" <?php echo $in_use ? 'checked' : ''; ?>/>
     </div>
     <br/>
     <input type="submit" value="Submit" />

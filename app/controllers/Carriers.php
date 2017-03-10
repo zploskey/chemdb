@@ -89,12 +89,11 @@ class Carriers extends MY_Controller
 
         if ($is_refresh) {
             // validate what was submitted
-            $carrier->merge($this->input->post('carrier'));
             $valid = $this->form_validation->run($tableName);
-
-            if (!$this->input->post('in_use')) {
-                $carrier->in_use = 'y';
-            }
+            $postcarrier = $this->input->post('carrier');
+            $postcarrier['in_use'] =
+                isset($postcarrier['in_use']) ? 'YES' : 'NO';
+            $carrier->merge($postcarrier);
 
             if ($valid) {
                 $carrier->save();
@@ -103,6 +102,7 @@ class Carriers extends MY_Controller
         }
 
         $data->carrier = $carrier;
+        $data->in_use = ($carrier->in_use == 'YES');
         $data->element = $element;
         $data->longname = $longname;
         $data->main  = 'carriers/edit';
@@ -134,6 +134,7 @@ class Carriers extends MY_Controller
         $data->subtitle   = "Viewing $longname: $carrier->name";
         $data->longname   = $longname;
         $data->carrier    = $carrier;
+        $data->in_use     = ($carrier->in_use == 'YES');
         $data->main       = 'carriers/view';
         $this->load->view('template', $data);
     }
