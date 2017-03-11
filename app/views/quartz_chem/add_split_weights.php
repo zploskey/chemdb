@@ -72,7 +72,7 @@ for ($i = 0; $i < $numsamples; $i++): // main sample loop
                     ?>
                 </td>
                 <td align="center">
-                    <?php $an->DissBottle ? echo $an->DissBottle->bottle_number : ''; ?>
+                    <?php echo $an->DissBottle ? $an->DissBottle->bottle_number : ''; ?>
                 </td>
 
             <?php elseif ($s == $an->Split->count() - 1): ?>
