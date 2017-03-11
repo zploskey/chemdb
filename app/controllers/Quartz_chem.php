@@ -568,28 +568,7 @@ class Quartz_chem extends MY_Controller
         $data->batch = $batch;
         $data->bkr_list = Doctrine_Core::getTable('SplitBkr')->getList();
 
-        $data->extraHeadContent =<<<EOH
-            <script type="text/javascript">
-            $(document).ready(function() {
-
-                $("#setBkrSeq").click(function() {
-                    $(".bkr_select").each(function(i) {
-                        var start_num = $(".bkr_select:first option:selected").html().substring(3);
-                        if (isNaN(start_num)) {
-                            start_num = 1;
-                        } else {
-                            start_num = parseInt(start_num);
-                        }
-                        var n = start_num + i;
-                        if (n > 70) return false;
-                        $(this).val("AB"+n).attr("selected", "selected");
-                        return true;
-                    });
-                });
-
-            });
-            </script>
-EOH;
+        $data->extraHeadContent = '<script type="text/javascript" src="js/setBeakerSeq.js" async></script>';
         $data->title = 'Add split weights';
         $data->main = 'quartz_chem/add_split_weights';
         $this->load->view('template', $data);

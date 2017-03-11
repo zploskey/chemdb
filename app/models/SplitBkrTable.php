@@ -13,7 +13,7 @@ class SplitBkrTable extends Doctrine_Table
         return Doctrine_Query::create()
             ->from('SplitBkr b')
             ->select('b.id, b.bkr_number')
-            ->orderBy('b.id ASC')
+            ->orderBy('b.bkr_number ASC')
             ->execute();
     }
 
