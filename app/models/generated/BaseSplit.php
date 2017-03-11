@@ -41,7 +41,6 @@ abstract class BaseSplit extends Doctrine_Record
         $this->hasColumn('split_bkr_id', 'integer', null, array(
              'type' => 'integer',
              'unsigned' => true,
-             'notnull' => true,
              ));
         $this->hasColumn('split_num', 'integer', null, array(
              'type' => 'integer',
