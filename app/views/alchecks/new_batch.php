@@ -19,6 +19,7 @@ echo validation_errors();
             <?php if ($allow_num_edit): ?>
                 <input type="text" name="numsamples" size="50">
             <?php else: ?>
+                <input type="hidden" name="numsamples" value="<?php echo $nsamples; ?>">
                 <?php echo $nsamples; ?>
             <?php endif; ?>
         </td>
