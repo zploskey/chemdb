@@ -2,9 +2,8 @@
 
 <?php
 
-define('BASEPATH','.'); // mockup that this app was executed from ci
-chdir(dirname(__FILE__));
-require '../vendor/autoload.php';
-require 'config/database.php';
+error_reporting(-1);
+
+require 'bootstrap.php';
 
 Doctrine_Core::generateMigrationsFromDiff('./migrations', './schema/schema_old.yml', './schema/schema.yml');
