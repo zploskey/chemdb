@@ -802,7 +802,6 @@ Split:
     split_bkr_id:
       type: integer
       unsigned: true
-      notnull: true
     split_num:
       type: integer
       unsigned: true
