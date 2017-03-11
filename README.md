@@ -54,11 +54,19 @@ a different database you will need to change $db['default']['dbdriver'] to the
 appropriate value according to the Doctrine 1.x documentation, located at:
 http://docs.doctrine-project.org/projects/doctrine1/en/latest/en/index.html
 
-Once your database is properly configured, run the doctrine command line tool
-to create the databases and tables. From the chemdb directory, run:
+Once your database is properly configured, run the setup script to create the
+databases and tables. From the chemdb directory, run:
 
-    app/doctrine create-db
-    app/doctrine create-tables
+    app/setup
+
+Additional command line line tools are available using the doctrine script. See
+a summary of the commands by running:
+
+    app/doctrine
+
+Or for more detail:
+
+    app/doctrine help
 
 Encrypted Sessions
 ------------------
