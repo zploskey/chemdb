@@ -90,8 +90,7 @@ for ($i = 0; $i < $numsamples; $i++): // main sample loop
 
             <td>Split <?php echo $s+1; ?>:</td>
             <td>
-                <select name="split_bkr[]" class="bkr_select"
-                 onClick="javascript:setBeakerSequence();">
+                <select name="split_bkr[]" class="bkr_select">
                     <?php
                     foreach ($bkr_list as $b) {
                         echo "<option value=$b->id ";
