@@ -1,0 +1,25 @@
+#!/usr/bin/php
+<?php
+
+error_reporting(-1);
+
+require 'bootstrap.php';
+
+define('CHEMDB_MIGRATION_VERSION', 32);
+
+echo "\nCreating database...\n";
+Doctrine_Core::createDatabases();
+
+echo "Creating tables...\n";
+Doctrine_Core::createTablesFromModels('models');
+
+echo "Creating migration table...\n";
+$migration = new Doctrine_Migration();
+if (!$migration->getCurrentVersion()) {
+    echo "Setting migration version...\n";
+    $migration->setCurrentVersion(CHEMDB_MIGRATION_VERSION);
+    echo 'Migration version set to: ' . CHEMDB_MIGRATION_VERSION . "\n";
+}
+
+echo "Setup completed successfully.\n";
+exit(0);
