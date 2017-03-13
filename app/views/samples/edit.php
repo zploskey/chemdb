@@ -5,11 +5,13 @@
         (<?php echo anchor('samples/view/'.$sample->id, 'View'); ?>)
     <?php endif; ?>
 </h2></p>
+
+<br>
+<?php echo validation_errors(); ?>
 <br>
 
 <?php echo form_open(site_url("samples/edit/$arg")); ?>
     <input type="hidden" name="is_refresh" value="TRUE">
-    <p><?php echo validation_errors(); ?></p><p/>
     <div class="vEntry">
         <table>
             <tr>
