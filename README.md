@@ -74,8 +74,6 @@ Encrypted Sessions
 ChemDB uses encrypted sessions. You will need to set a unique encryption key.
 In chemdb/app/config/config.php, set $config['encryption_key'] to a 32
 character passphrase/key containing numbers and upper- and lower-case letters.
-There are various ways to generate random passphrases Feel free to use whatever
-method you like.
 
 A Note of Logins and Security
 -----------------------------
