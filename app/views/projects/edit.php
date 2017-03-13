@@ -16,7 +16,9 @@
     </div>
     <br>
     <input type="submit" value="Submit" />
-    <br><?php echo validation_errors(); ?><br>
+
+    <br><br><?php echo validation_errors(); ?><br>
+
     <div class="data">
         <table class="itemlist">
             <tr>
