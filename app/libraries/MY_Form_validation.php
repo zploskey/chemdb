@@ -64,40 +64,12 @@ class MY_Form_validation extends CI_Form_validation
         return (!preg_match("/^([\.-a-z0-9_-])+$/i", $val)) ? FALSE : TRUE;
     }
 
-    function noreq_numeric($val)
-    {
-        if ($val == '' || is_numeric($val)) {
-            return true;
-        }
-
-        $this->set_message(__FUNCTION__, 'The %s field must be a number.');
-        return false;
-    }
-
-    function noreq_abs($val)
-    {
-        if ($val != '' && is_numeric($val)) {
-            return abs($val);
-        }
-        return $val;
-    }
-
     function negis0($val)
     {
         if (is_numeric($val) && $val < 0) {
             return '0.0';
         }
         return $val;
-    }
-
-    function noreq_natural_no_zero($val)
-    {
-        return ($val == '' || $this->is_natural_no_zero($val));
-    }
-
-    function noreq_alpha_dot_dash($val)
-    {
-        return ($val == '' || $this->alpha_dot_dash($val));
     }
 
     /*
@@ -108,18 +80,9 @@ class MY_Form_validation extends CI_Form_validation
         return (is_numeric($val) && abs($val) <= 180);
     }
 
-    function noreq_latlong($val)
-    {
-        return ($val == '' || $this->latlong($val));
-    }
-
     function shield_factor($val)
     {
         return (is_numeric($val) && abs($val) <= 1);
     }
 
-    function noreq_shield_factor($val)
-    {
-        return ($val == '' || $this->shield_factor($val));
-    }
 }
