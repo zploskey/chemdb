@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d8b84c07cd78d159142d13c688089b88",
+    "content-hash": "01d0274b4fad97174d0ca04ad92ed66b",
     "packages": [
         {
             "name": "codeigniter/framework",
-            "version": "dev-3.1-stable",
+            "version": "3.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bcit-ci/CodeIgniter.git",
-                "reference": "17e2fa90070d2b0521e7ec14116b5dff71958c1a"
+                "reference": "873608df8be83420474e3cf9fc749a8ed12a6c09"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bcit-ci/CodeIgniter/zipball/17e2fa90070d2b0521e7ec14116b5dff71958c1a",
-                "reference": "17e2fa90070d2b0521e7ec14116b5dff71958c1a",
+                "url": "https://api.github.com/repos/bcit-ci/CodeIgniter/zipball/873608df8be83420474e3cf9fc749a8ed12a6c09",
+                "reference": "873608df8be83420474e3cf9fc749a8ed12a6c09",
                 "shasum": ""
             },
             "require": {
@@ -37,20 +37,20 @@
             ],
             "description": "The CodeIgniter framework",
             "homepage": "https://codeigniter.com",
-            "time": "2017-02-13 08:33:30"
+            "time": "2017-03-20T15:51:08+00:00"
         },
         {
             "name": "components/jquery",
-            "version": "3.1.1",
+            "version": "3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/components/jquery.git",
-                "reference": "09a1658378bc1f818856086396ebeab7d0ec2276"
+                "reference": "bad7f6f9b694c9473a3aa9028185760ce09bb7e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/components/jquery/zipball/09a1658378bc1f818856086396ebeab7d0ec2276",
-                "reference": "09a1658378bc1f818856086396ebeab7d0ec2276",
+                "url": "https://api.github.com/repos/components/jquery/zipball/bad7f6f9b694c9473a3aa9028185760ce09bb7e5",
+                "reference": "bad7f6f9b694c9473a3aa9028185760ce09bb7e5",
                 "shasum": ""
             },
             "type": "component",
@@ -61,7 +61,10 @@
                     ],
                     "files": [
                         "jquery.min.js",
-                        "jquery.min.map"
+                        "jquery.min.map",
+                        "jquery.slim.js",
+                        "jquery.slim.min.js",
+                        "jquery.slim.min.map"
                     ]
                 }
             },
@@ -71,13 +74,12 @@
             ],
             "authors": [
                 {
-                    "name": "John Resig",
-                    "email": "jeresig@gmail.com"
+                    "name": "JS Foundation and other contributors"
                 }
             ],
             "description": "jQuery JavaScript Library",
             "homepage": "http://jquery.com",
-            "time": "2016-09-23T06:06:29+00:00"
+            "time": "2017-03-17T13:52:40+00:00"
         },
         {
             "name": "lexpress/doctrine1",
@@ -129,9 +131,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "codeigniter/framework": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
