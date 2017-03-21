@@ -339,7 +339,7 @@ EHC;
      */
     function search_names()
     {
-        $q = $this->input->post('q');
+        $q = $this->input->get('term');
 
         if (!$q) return;
 
@@ -348,13 +348,16 @@ EHC;
                ->select('s.name')
                ->where('s.name LIKE ?', "%$q%")
                ->orderBy('s.name ASC')
-               ->execute();
+               ->fetchArray();
 
         if (!$samples) return;
 
+        $res = array();
         foreach ($samples as $s) {
-            echo "$s->name\n";
+            $res[] = $s['name'];
         }
+
+        echo json_encode($res);
     }
 
     /**
