@@ -53,11 +53,11 @@ $config['BaseCarrier'] = array(
     array(
         'field' => 'carrier[al_conc]',
         'label' => 'Al concentration',
-        'rules' => 'trim|numeric'),
+        'rules' => 'trim|is_numeric'),
     array(
         'field' => 'carrier[del_al_conc]',
         'label' => 'Al concentration uncertainty',
-        'rules' => 'trim|numeric'),
+        'rules' => 'trim|is_numeric'),
     array(
         'field' => 'carrier[in_service_date]',
         'label' => 'in-service date',
@@ -80,11 +80,11 @@ $config['AlCarrier'] = array(
     array(
         'field' => 'carrier[r26to27]',
         'label' => 'Al-26 / Al-27 ratio',
-        'rules' => 'numeric'),
+        'rules' => 'is_numeric'),
     array(
         'field' => 'carrier[r26to27_error]',
         'label' => 'Al-26 / Al-27 ratio uncertainty',
-        'rules' => 'numeric'),
+        'rules' => 'is_numeric'),
 );
 $config['AlCarrier'] =
     array_merge($config['AlCarrier'], $config['BaseCarrier']);
@@ -93,19 +93,19 @@ $config['BeCarrier'] = array(
     array(
         'field' => 'carrier[r10to9]',
         'label' => 'Be-10 / Be-9 ratio',
-        'rules' => 'numeric'),
+        'rules' => 'is_numeric'),
     array(
         'field' => 'carrier[r10to9_error]',
         'label' => 'Be-10 / Be-9 ratio uncertainty',
-        'rules' => 'numeric'),
+        'rules' => 'is_numeric'),
     array(
         'field' => 'carrier[be_conc]',
         'label' => 'Be concentration',
-        'rules' => 'trim|numeric'),
+        'rules' => 'trim|is_numeric'),
     array(
         'field' => 'carrier[del_be_conc]',
         'label' => 'Be concentration uncertainty',
-        'rules' => 'trim|numeric'),
+        'rules' => 'trim|is_numeric'),
 );
 $config['BeCarrier'] =
     array_merge($config['BeCarrier'], $config['BaseCarrier']);
@@ -130,7 +130,7 @@ $config['samples'] = array(
     array(
         'field' => 'sample[altitude]',
         'label' => 'altitude',
-        'rules' => 'trim|numeric'),
+        'rules' => 'trim|is_numeric'),
     array(
         'field' => 'sample[antarctic]',
         'field' => 'antarctic',
@@ -142,19 +142,19 @@ $config['samples'] = array(
     array(
         'field' => 'sample[depth_top]',
         'label' => 'depth top',
-        'rules' => 'trim|numeric'),
+        'rules' => 'trim|is_numeric'),
     array(
         'field' => 'sample[depth_bottom]',
         'label' => 'depth bottom',
-        'rules' => 'trim|numeric'),
+        'rules' => 'trim|is_numeric'),
     array(
         'field' => 'sample[density]',
         'label' => 'density',
-        'rules' => 'trim|numeric'),
+        'rules' => 'trim|is_numeric'),
     array(
         'field' => 'sample[erosion_rate]',
         'label' => 'erosion rate',
-        'rules' => 'trim|numeric'),
+        'rules' => 'trim|is_numeric'),
 );
 
 $config['batches'] = array(
@@ -192,19 +192,19 @@ $config['load_samples'] = array(
     array(
         'field' => 'wt_be_carrier_init',
         'label' => 'Be carrier initial weight',
-        'rules' => 'trim|numeric'),
+        'rules' => 'trim|is_numeric'),
     array(
         'field' => 'wt_be_carrier_final',
         'label' => 'Be carrier final weight',
-        'rules' => 'trim|numeric'),
+        'rules' => 'trim|is_numeric'),
     array(
         'field' => 'wt_al_carrier_init',
         'label' => 'Al carrier initial weight ',
-        'rules' => 'trim|numeric'),
+        'rules' => 'trim|is_numeric'),
     array(
         'field' => 'wt_al_carrier_final',
         'label' => 'Al carrier final wt',
-        'rules' => 'trim|numeric'),
+        'rules' => 'trim|is_numeric'),
     array(
         'field' => 'sample_name[]',
         'label' => 'sample name',
@@ -220,26 +220,26 @@ $config['load_samples'] = array(
     array(
         'field' => 'wt_diss_bottle_tare[]',
         'label' => 'Wt. bottle tare',
-        'rules' => 'trim|numeric'),
+        'rules' => 'trim|is_numeric'),
     array(
         'field' => 'wt_diss_bottle_sample[]',
         'label' => 'Wt. bottle + sample',
-        'rules' => 'trim|numeric'),
+        'rules' => 'trim|is_numeric'),
     array(
         'field' => 'wt_be_carrier[]',
         'label' => 'Wt. Be carrier soln.',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|is_numeric|abs'),
     array(
         'field' => 'wt_al_carrier[]',
         'label' => 'Wt. Al carrier soln.',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|is_numeric|abs'),
 );
 
 $config['add_solution_weights'] = array(
     array(
         'field' => 'wt_diss_bottle_total[]',
         'label' => 'total weight',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|is_numeric|abs'),
     array(
         'field' => 'batch[notes]',
         'label' => 'batch notes',
@@ -258,11 +258,11 @@ $config['add_split_weights'] = array(
     array(
         'field' => 'bkr_tare[]',
         'label' => 'beaker tare wt.',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|is_numeric|abs'),
     array(
         'field' => 'bkr_split[]',
         'label' => 'beaker + split wt.',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|is_numeric|abs'),
 );
 
 $config['add_icp_weights'] = array(
@@ -277,7 +277,7 @@ $config['add_icp_weights'] = array(
     array(
         'field' => 'tot_wts[]',
         'label' => 'beaker + ICP solution wt.',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|is_numeric|abs'),
 );
 
 $config['add_icp_results'] = array(
@@ -335,11 +335,11 @@ $config['al_sample_loading'] = array(
     array(
         'field' => 'wt_bkr_tare[]',
         'label' => 'beaker tare weight',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|is_numeric|abs'),
     array(
         'field' => 'wt_bkr_sample[]',
         'label' => 'beaker + sample weight',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|is_numeric|abs'),
     array(
         'field' => 'notes[]',
         'label' => 'notes',
@@ -350,11 +350,11 @@ $config['al_add_solution_weights'] = array(
     array(
         'field' => 'wt_bkr_soln[]',
         'label' => 'Bkr + soln.',
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|is_numeric|abs'),
     array(
         'field' => 'addl_dil_factor[]',
         'label' => "Add'l DF",
-        'rules' => 'trim|numeric|abs'),
+        'rules' => 'trim|is_numeric|abs'),
     array(
         'field' => 'notes[]',
         'label' => 'notes',
@@ -365,27 +365,27 @@ $config['al_add_icp_data'] = array(
     array(
         'field' => 'icp_be[]',
         'label' => 'ICP [Be]',
-        'rules' => 'trim|numeric|negis0'),
+        'rules' => 'trim|is_numeric|negis0'),
     array(
         'field' => 'icp_ca[]',
         'label' => 'ICP [Ca]',
-        'rules' => 'trim|numeric|negis0'),
+        'rules' => 'trim|is_numeric|negis0'),
     array(
         'field' => 'icp_ti[]',
         'label' => 'ICP [Ti]',
-        'rules' => 'trim|numeric|negis0'),
+        'rules' => 'trim|is_numeric|negis0'),
     array(
         'field' => 'icp_fe[]',
         'label' => 'ICP [Fe]',
-        'rules' => 'trim|numeric|negis0'),
+        'rules' => 'trim|is_numeric|negis0'),
     array(
         'field' => 'icp_al[]',
         'label' => 'ICP [Al]',
-        'rules' => 'trim|numeric|negis0'),
+        'rules' => 'trim|is_numeric|negis0'),
     array(
         'field' => 'icp_mg[]',
         'label' => 'ICP [Mg]',
-        'rules' => 'trim|numeric|negis0'),
+        'rules' => 'trim|is_numeric|negis0'),
     array(
         'field' => 'icp_date',
         'label' => 'ICP date',
@@ -400,15 +400,15 @@ $config['al_quick_add'] = array(
     array(
         'field' => 'icp_al',
         'label' => '[Al]',
-        'rules' => 'trim|required|numeric|abs'),
+        'rules' => 'trim|required|is_numeric|abs'),
     array(
         'field' => 'icp_fe',
         'label' => '[Fe]',
-        'rules' => 'trim|required|numeric|abs'),
+        'rules' => 'trim|required|is_numeric|abs'),
     array(
         'field' => 'icp_ti',
         'label' => '[Ti]',
-        'rules' => 'trim|required|numeric|abs'),
+        'rules' => 'trim|required|is_numeric|abs'),
 );
 
 /* End of file form_validation.php */

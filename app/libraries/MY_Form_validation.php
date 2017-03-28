@@ -3,6 +3,18 @@
 class MY_Form_validation extends CI_Form_validation
 {
     /**
+     * Use the php function is_numeric as a validator, allowing us to validate
+     * numbers in scientific notation.
+     *
+     * @param string $str
+     * @return bool
+     */
+    function is_numeric($str)
+    {
+        return is_numeric($str);
+    }
+
+    /**
      * Determines if $value already exists in the $column of $table.
      *
      * @param string $value value to check for uniqueness in DB
