@@ -80,18 +80,12 @@ class Containers extends MY_Controller
             // edit an existing container
             $container = $query->fetchOne();
 
-            if (!$container) {
+            if (! $container) {
                 show_404('page');
             }
-
-            $data->title = "Edit $longname";
-            $data->subtitle   = "Editing $longname: " . $container->$namefield;
         } else {
             // create a new container object
             $container = new $type;
-
-            $data->title = "Add $longname";
-            $data->subtitle = "Enter $longname Information:";
         }
 
         if ($is_refresh) {
@@ -101,12 +95,22 @@ class Containers extends MY_Controller
 
             if ($valid) {
                 $container->save();
-                $container = $query->where('id = ?', $container->id)->fetchOne();
+                $id = $container->id;
+                redirect("containers/view/$type/$id");
             }
         }
 
+        if ($id) {
+            $data->title = "Edit $longname";
+            $data->subtitle   = "Editing $longname";
+        } else {
+            $data->title = "Add $longname";
+            $data->subtitle = "Enter $longname Information:";
+        }
+
+        $container->$namefield = html_escape($container->$namefield);
         $data->container = $container;
-        $data->number = $namefield;
+        $data->namefield = $namefield;
         $data->type = $type;
         $data->longname = $longname;
         $data->main  = 'containers/edit';
