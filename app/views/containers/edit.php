@@ -18,8 +18,12 @@
 
     <input type="hidden" name="is_refresh" value="TRUE">
     <div class="formblock">
+        <label>ID:</label>
+        <?php echo $container->id; ?>
+    </div>
+    <div class="formblock">
         <label>Number:</label>
-        <input type="text" name="<?php echo $number; ?>" value="<?php echo $container->$number; ?>"/>
+        <input type="text" name="<?php echo $namefield; ?>" value="<?php echo $container->$namefield; ?>"/>
     </div>
     <br>
     <input type="submit" value="Submit" />

@@ -9,6 +9,10 @@
 <div class="data">
     <table>
         <tr>
+            <td align="right">ID: &nbsp;</td>
+            <td><?php echo $container->id; ?></td>
+        </tr>
+        <tr>
             <td align="right">Number: &nbsp;</td>
             <td><?php echo $number; ?></td>
         </tr>
