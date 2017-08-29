@@ -63,6 +63,8 @@ databases and tables. From the chemdb directory, run:
 
     app/setup
 
+Alternatively, you may manually create your database and then run the sql contained in /app/sql/schema.sql
+
 Additional command line line tools are available using the doctrine script. See
 a summary of the commands by running:
 
