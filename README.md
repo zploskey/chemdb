@@ -39,6 +39,10 @@ Then run the following command from the project directory:
 
     composer install
 
+If this does not work, then you probably must issue a more explict command:
+
+    php composer.phar install
+
 Basic Configuration
 -------------------
 
