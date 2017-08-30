@@ -39,6 +39,10 @@ Then run the following command from the project directory:
 
     composer install
 
+Or if you downloaded composer.phar:
+
+    php composer.phar install
+
 Basic Configuration
 -------------------
 
@@ -67,6 +71,14 @@ a summary of the commands by running:
 Or for more detail:
 
     app/doctrine help
+
+After installation, if the links on the welcome page are not working and
+returning 404 errors, then you may have to change the `$config['index_page']`
+variable from ```index.php``` to ```index.php?```. For more information see:
+https://www.codeigniter.com/user_guide/installation/troubleshooting.html
+
+Finally, be sure that the webserver/php user has permission to write files to
+the directory `app/sessions/`.
 
 Encrypted Sessions
 ------------------
