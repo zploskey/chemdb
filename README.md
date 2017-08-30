@@ -52,10 +52,16 @@ In chemdb/app/config/config.php, set
 
     $config['base_url'] = 'http://localhost/path/to/chemdb/'
 
-In chemdb/app/config/database.php, set the hostname, username, password and 
+In chemdb/app/config/database.php, set the hostname, username, password and
 database name for your SQL server. The default SQL server is mysql. If you use
 a different database you will need to change $db['default']['dbdriver'] to the
-appropriate value according to the Doctrine 1.x documentation, located at:
+appropriate value according to the Doctrine 1.x connection documentation,
+located at:
+
+http://docs.doctrine-project.org/projects/doctrine1/en/latest/en/manual/introduction-to-connections.html
+
+General Doctrine 1 documentation can be found at:
+
 http://docs.doctrine-project.org/projects/doctrine1/en/latest/en/index.html
 
 Once your database is properly configured, run the setup script to create the
