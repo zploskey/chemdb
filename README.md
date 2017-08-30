@@ -95,6 +95,15 @@ https://www.codeigniter.com/user_guide/installation/troubleshooting.html
 Finally, be sure that the webserver/php user has permission to write files to
 the directory `app/sessions/`.
 
+Logging
+-------
+
+Logging is disabled by default. To enable logging you will need to ensure that
+the user under which PHP runs has write access to the `app/logs/` directory.
+
+Enable logging by setting `$config['log_threshold']` in `app/config/config.php`
+to a non-zero value. See the comments in that section for threshold values.
+
 Encrypted Sessions
 ------------------
 
