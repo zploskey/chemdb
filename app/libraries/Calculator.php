@@ -1,5 +1,8 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
+define('CRONUS_BASE', 'http://hess.ess.washington.edu/');
+define('CRONUS_URI', CRONUS_BASE . 'cgi-bin/matweb');
+
 class Calculator {
 
     function send($submitText, $calcType) {
