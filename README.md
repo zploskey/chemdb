@@ -64,6 +64,10 @@ General Doctrine 1 documentation can be found at:
 
 http://docs.doctrine-project.org/projects/doctrine1/en/latest/en/index.html
 
+To configure your database to connect on a unix socket, set your hostname as:
+
+    $db['default']['hostname'] = 'unix(/path/to/socket)';
+
 Once your database is properly configured, run the setup script to create the
 databases and tables. From the chemdb directory, run:
 
