@@ -76,7 +76,7 @@ Or for more detail:
 
 After installation, if the links on the welcome page are not working and returning 404 errors, then you may have to change the ```$config['index_page']``` variable from ```index.php``` to ```index.php?```. For more information: https://www.codeigniter.com/user_guide/installation/troubleshooting.html
 
-Finally, be sure that the webserver user has permission to write to /app/sessions/ 
+Finally, be sure that the webserver/php user has permission to write files to the directory ```/app/sessions/```
 
 Encrypted Sessions
 ------------------
