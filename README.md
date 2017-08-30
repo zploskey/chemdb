@@ -39,7 +39,7 @@ Then run the following command from the project directory:
 
     composer install
 
-If this does not work, then you probably must issue a more explict command:
+Or if you downloaded composer.phar:
 
     php composer.phar install
 
@@ -63,8 +63,6 @@ databases and tables. From the chemdb directory, run:
 
     app/setup
 
-Alternatively, you may manually create your database and then run the sql contained in /app/sql/schema.sql
-
 Additional command line line tools are available using the doctrine script. See
 a summary of the commands by running:
 
@@ -74,9 +72,13 @@ Or for more detail:
 
     app/doctrine help
 
-After installation, if the links on the welcome page are not working and returning 404 errors, then you may have to change the ```$config['index_page']``` variable from ```index.php``` to ```index.php?```. For more information: https://www.codeigniter.com/user_guide/installation/troubleshooting.html
+After installation, if the links on the welcome page are not working and
+returning 404 errors, then you may have to change the `$config['index_page']`
+variable from ```index.php``` to ```index.php?```. For more information see:
+https://www.codeigniter.com/user_guide/installation/troubleshooting.html
 
-Finally, be sure that the webserver/php user has permission to write files to the directory ```/app/sessions/```
+Finally, be sure that the webserver/php user has permission to write files to
+the directory `app/sessions/`.
 
 Encrypted Sessions
 ------------------
