@@ -74,6 +74,10 @@ Or for more detail:
 
     app/doctrine help
 
+After installation, if the links on the welcome page are not working and returning 404 errors, then you may have to change the ```$config['index_page']``` variable from ```index.php``` to ```index.php?```. For more information: https://www.codeigniter.com/user_guide/installation/troubleshooting.html
+
+Finally, be sure that the webserver user has permission to write to /app/sessions/ 
+
 Encrypted Sessions
 ------------------
 
