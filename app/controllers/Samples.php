@@ -327,7 +327,7 @@ EHC;
         }
         $submitText = implode("\n", $tmp);
 
-        $html = $this->calculator->send($submitText, $calcType);
+        $html = $this->calculator::send($submitText, $calcType);
         echo $html;
     }
 
