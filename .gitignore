@@ -4,6 +4,8 @@
 
 vendor/
 app/sessions/*
+app/config/database.php
+app/config/config.php
 
 app/cache/*
 !app/cache/index.html

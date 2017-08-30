@@ -48,7 +48,12 @@ Basic Configuration
 
 You will need to edit configuration files to initially set up the application.
 
-In chemdb/app/config/config.php, set
+Copy site-specific configuration files to their appropriate locations:
+
+    cp app/config/config.php.changeme app/config/config.php
+    cp app/config/database.php.changeme app/config/database.php
+
+In app/config/config.php, set the base URL of the site:
 
     $config['base_url'] = 'http://localhost/path/to/chemdb/'
 
