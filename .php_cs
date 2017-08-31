@@ -61,7 +61,7 @@ return PhpCsFixer\Config::create()
     ->setFinder(
         PhpCsFixer\Finder::create()
             ->in('app')
-            ->exclude('app/views/errors')
+            ->exclude('views/errors')
             ->exclude('cache')
             ->exclude('config')
             ->exclude('logs')
