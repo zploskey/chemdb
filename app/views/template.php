@@ -10,9 +10,7 @@
         <?php echo link_tag('vendor/components/jqueryui/themes/base/jquery-ui.css'); ?>
         <?php echo link_tag('css/style.css'); ?>
         <script type="text/javascript">
-        //<![CDATA[
-        base_url = '<?php echo base_url(); ?>';
-        //]]>
+            var base_url = "<?php echo base_url(); ?>";
         </script>
         <script type="text/javascript" src="vendor/components/jquery/jquery.min.js"></script>
         <script type="text/javascript" src="vendor/components/jqueryui/jquery-ui.min.js"></script>
