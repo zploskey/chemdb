@@ -118,7 +118,7 @@ $config['samples'] = array(
     array(
         'field' => 'proj[]',
         'label' => 'project',
-        'rules' => 'trim|natural_no_zero'),
+        'rules' => 'trim|is_natural_no_zero'),
     array(
         'field' => 'sample[latitude]',
         'label' => 'latitude',
