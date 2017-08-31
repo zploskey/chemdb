@@ -15,9 +15,9 @@ class Containers extends MY_Controller
     /**
      * Loads a page listing containers of links to the container types.
      *
-     * @param mixed $type
-     * @param mixed $sort_by
-     * @param mixed $sort_dir
+     * @param string $type Container type
+     * @param string $sort_by Container property to sort by
+     * @param string $sort_dir Sort direction ('asc' or 'desc')
      **/
     public function index($type = '', $sort_by = 'id', $sort_dir = 'asc')
     {
@@ -60,8 +60,8 @@ class Containers extends MY_Controller
      * Displays the edit form and evaluates submits. If the submit validates properly,
      * it makes change to container in database and redirects.
      *
-     * @param mixed $type
-     * @param mixed $id
+     * @param string $type Container type
+     * @param int $id Container id
      */
     public function edit($type, $id = 0)
     {
@@ -123,8 +123,8 @@ class Containers extends MY_Controller
     /**
      * Shows the data for a container.
      *
-     * @param mixed $type
-     * @param mixed $id
+     * @param string $type Container type
+     * @param int $id Container id
      */
     public function view($type, $id)
     {
