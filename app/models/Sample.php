@@ -105,11 +105,9 @@ class Sample extends BaseSample
                 list($expLine, $eroLine) = $this->getCalcInput($BeAMS, $AlAMS, $useIcpBe[$a]);
                 if ($expLine != '' && $eroLine != '') {
                     $exp_text[$a][] = $expLine;
-                    $all_exp .= $expLine . '
-                    ';
+                    $all_exp .= "$expLine\n";
                     $ero_text[$a][] = $eroLine;
-                    $all_ero .= $eroLine . '
-                    ';
+                    $all_ero .= "$eroLine\n";
                 }
                 ++$i;
             }
