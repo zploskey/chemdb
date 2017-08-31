@@ -58,8 +58,7 @@ class Projects extends MY_Controller
      * Displays the edit form and evaluates submits. If the submit validates properly,
      * it makes change to project in database and redirects.
      *
-     * @param int id The id of the project to edit. Default is zero for a new project.
-     * @param mixed $id
+     * @param int $id Project id
      */
     public function edit($id = 0)
     {
@@ -146,7 +145,7 @@ class Projects extends MY_Controller
     /**
      * Shows the project information.
      *
-     * @param mixed $id
+     * @param int $id Project id
      */
     public function view($id)
     {
