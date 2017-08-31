@@ -4,5 +4,4 @@
  */
 class DissBottleTable extends Doctrine_Table
 {
-
 }

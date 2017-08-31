@@ -12,10 +12,12 @@ class Project extends BaseProject
     public function setUp()
     {
         parent::setUp();
-        $this->hasMany('Sample', array(
+        $this->hasMany(
+            'Sample',
+            array(
                 'refClass' => 'ProjectSample',
-                'local' => 'project_id',
-                'foreign' => 'sample_id',
+                'local'    => 'project_id',
+                'foreign'  => 'sample_id',
             )
         );
     }

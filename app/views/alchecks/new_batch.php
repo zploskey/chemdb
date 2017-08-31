@@ -1,7 +1,10 @@
 <?php
-echo form_open('alchecks/new_batch', '',
+echo form_open(
+    'alchecks/new_batch',
+    '',
     array('batch_id' => $batch->id,
-          'refresh'  => true));
+          'refresh'  => true, )
+);
 
 echo validation_errors();
 ?>
@@ -44,7 +47,7 @@ echo validation_errors();
 </table>
 <?php echo form_close(); ?>
 
-<?php if (!is_null($batch->id)): ?>
+<?php if (null !== $batch->id): ?>
 
 <?php echo form_open('alchecks/sample_loading', '', array('batch_id' => $batch->id)); ?>
 <p align="center"><input type="submit" value="Begin loading samples"></p>
@@ -53,4 +56,4 @@ echo validation_errors();
 
 <?php endif; ?>
 
-<p align="center"><?php echo anchor('alchecks', "Back to options"); ?></p>
+<p align="center"><?php echo anchor('alchecks', 'Back to options'); ?></p>

@@ -2,7 +2,6 @@
 
 class Alchecks extends MY_Controller
 {
-
     public function index()
     {
         // generate html for the batch listboxes
@@ -10,7 +9,7 @@ class Alchecks extends MY_Controller
         $data->allBatchOptions = '';
         foreach (Doctrine_Core::getTable('AlcheckBatch')->findAllBatches() as $b) {
             $tmpOpt = "<option value=$b->id>$b->id $b->owner $b->prep_date "
-                    . substr($b->description, 0, 80);
+                    .substr($b->description, 0, 80);
             $data->allBatchOptions .= $tmpOpt;
         }
 
@@ -87,7 +86,7 @@ class Alchecks extends MY_Controller
         $batch = Doctrine_Core::getTable('AlcheckBatch')
                ->getJoinQuery($batch_id)->fetchOne();
 
-        if (! $batch) {
+        if (!$batch) {
             show_404('page');
         }
 
@@ -146,12 +145,12 @@ class Alchecks extends MY_Controller
                     } else {
                         $a['Sample'] = null;
                     }
-                } unset($a);
+                }
+                unset($a);
                 $batch->save(); // commit it to the database
             } else {
                 $data->errors = true;
             }
-
         } else {
             // loading for the first view
             $sample_name = array();
@@ -167,7 +166,7 @@ class Alchecks extends MY_Controller
         // calculate sample weights
         $data->wt_sample = array();
         foreach ($batch->AlcheckAnalysis as $a) {
-           $data->wt_sample[] = $a['wt_bkr_sample'] - $a['wt_bkr_tare'];
+            $data->wt_sample[] = $a['wt_bkr_sample'] - $a['wt_bkr_tare'];
         }
 
         // for autocomplete to work we need to load the script
@@ -189,7 +188,7 @@ class Alchecks extends MY_Controller
         $batch = Doctrine_Core::getTable('AlcheckBatch')
             ->getJoinQuery($batch_id)->fetchOne();
 
-        if (! $batch) {
+        if (!$batch) {
             show_404('page');
         }
 
@@ -241,7 +240,7 @@ class Alchecks extends MY_Controller
         $batch = Doctrine_Core::getTable('AlcheckBatch')
             ->getJoinQuery($batch_id)->fetchOne();
 
-        if (! $batch) {
+        if (!$batch) {
             show_404('page');
         }
 
@@ -267,7 +266,8 @@ class Alchecks extends MY_Controller
                 }
                 $a['notes'] = $notes[$i];
                 ++$i;
-            } unset($a);
+            }
+            unset($a);
 
             if ($valid) {
                 $batch->save();
@@ -286,12 +286,12 @@ class Alchecks extends MY_Controller
             $df = $a['addl_dil_factor'] * safe_divide($soln_wt, $sample_wt);
             // variables to pass
             foreach ($elements as $el) {
-                 $data->{"qtz_$el"}[] = $df * $a["icp_$el"];
+                $data->{"qtz_$el"}[] = $df * $a["icp_$el"];
             }
             $data->sample_name[] = (isset($a['Sample'])) ? $a['Sample']['name'] : $a['sample_name'];
         }
 
-        if ($batch['icp_date'] === NULL) {
+        if ($batch['icp_date'] === null) {
             $batch['icp_date'] = date('Y-m-d');
         }
 
@@ -309,7 +309,7 @@ class Alchecks extends MY_Controller
         $batch = Doctrine_Core::getTable('AlcheckBatch')
             ->getJoinQuery($batch_id)->fetchOne();
 
-        if (! $batch) {
+        if (!$batch) {
             show_404('page');
         }
 
@@ -327,7 +327,7 @@ class Alchecks extends MY_Controller
             $df = $a['addl_dil_factor'] * safe_divide($soln_wt, $sample_wt[$i]);
             // variables to pass
             foreach ($elements as $el) {
-                 $data->{"qtz_$el"}[] = $df * $a["icp_$el"];
+                $data->{"qtz_$el"}[] = $df * $a["icp_$el"];
             }
             $sample_name[] = (isset($a['Sample'])) ? $a['Sample']['name'] : $a['sample_name'];
         }
@@ -335,12 +335,11 @@ class Alchecks extends MY_Controller
         for ($a = 0; $a < $nsamples; $a++) {
             //figure out qtz Al concentration
             if ($data->qtz_al[$a] > 250) {
-                $color = "red";
+                $color = 'red';
             } elseif ($data->qtz_al[$a] > 150) {
-                $color = "yellow";
-            }
-            else {
-                $color = "green";
+                $color = 'yellow';
+            } else {
+                $color = 'green';
             }
             $data->color[] = $color;
         }
@@ -393,13 +392,13 @@ class Alchecks extends MY_Controller
 
             if ($num_named != 0) {
                 if ($num_named > 1) {
-                    die("Error: Multiple samples named " . $an->sample_name);
+                    die('Error: Multiple samples named '.$an->sample_name);
                 }
                 // Found a single sample
                 $an->Sample = $samples[0];
             }
 
-            if (! $batch_id) {
+            if (!$batch_id) {
                 // create the dummy batch
                 $batch = new AlcheckBatch;
                 $batch->owner = 'NONE';
@@ -419,7 +418,7 @@ class Alchecks extends MY_Controller
             if ($analysis_id) {
                 $n = $batch->AlcheckAnalysis->count();
                 $an->id = $batch->AlcheckAnalysis->end()->id;
-                $batch->AlcheckAnalysis[$n-1] = $an;
+                $batch->AlcheckAnalysis[$n - 1] = $an;
             } else {
                 $batch->AlcheckAnalysis[] = $an;
             }
@@ -434,7 +433,7 @@ class Alchecks extends MY_Controller
 
             if ($close) {
                 // they clicked done, close the window
-                echo "<script>window.close();</script>";
+                echo '<script>window.close();</script>';
             }
         }
 

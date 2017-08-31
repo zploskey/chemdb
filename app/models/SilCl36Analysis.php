@@ -12,5 +12,4 @@
  */
 class SilCl36Analysis extends BaseSilCl36Analysis
 {
-
 }

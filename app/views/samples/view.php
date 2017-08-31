@@ -1,5 +1,5 @@
 <?php $this->load->view('samples/nav'); ?>
-<p><h2><?php echo $subtitle; ?> (<?php echo anchor('samples/edit/'.$sample->id,'Edit'); ?>)</h2></p>
+<p><h2><?php echo $subtitle; ?> (<?php echo anchor('samples/edit/'.$sample->id, 'Edit'); ?>)</h2></p>
 <br>
 <div class="data">
     <table>
@@ -13,7 +13,7 @@
             <?php
             if (isset($projects)) {
                 foreach ($projects as $p) {
-                    echo anchor('projects/view/'.$p['id'], $p['name']) . '<br/>';
+                    echo anchor('projects/view/'.$p['id'], $p['name']).'<br/>';
                 }
             }
             ?>

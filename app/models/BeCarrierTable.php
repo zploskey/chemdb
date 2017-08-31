@@ -7,6 +7,7 @@ class BeCarrierTable extends Doctrine_Table
     /**
      * Generates an html option list containing carrier names and values of
      * the corresponding carrier id.
+     * @param mixed $carrier_id
      * @return string $options
      */
     public function getSelectOptions($carrier_id)
@@ -22,7 +23,7 @@ class BeCarrierTable extends Doctrine_Table
             if ($c->id == $carrier_id) {
                 $options .= ' selected';
             }
-           $options .= "> $c->name";
+            $options .= "> $c->name";
         }
 
         return $options;

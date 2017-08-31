@@ -20,6 +20,7 @@ class AlcheckBatchTable extends Doctrine_Table
 
     /**
      * Generates a query to grab analyses and sample names, sorted ascending.
+     * @param mixed $batch_id
      * @return Doctrine_Query
      */
     public function getJoinQuery($batch_id)

@@ -5,5 +5,4 @@
  */
 class AlCarrier extends BaseAlCarrier
 {
-
 }

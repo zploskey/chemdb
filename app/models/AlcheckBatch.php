@@ -2,5 +2,4 @@
 
 class AlcheckBatch extends BaseAlcheckBatch
 {
-
 }

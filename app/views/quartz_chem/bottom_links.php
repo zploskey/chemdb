@@ -1,7 +1,9 @@
 <table width="800">
-    <?php echo form_open(site_url('quartz_chem/intermediate_report'),
-        array('target' => '_blank'),
-        array('batch_id' => $batch->id)) ?>
+    <?php echo form_open(
+    site_url('quartz_chem/intermediate_report'),
+        array('target'   => '_blank'),
+        array('batch_id' => $batch->id)
+) ?>
         <tr>
             <td align="center">
                 <input type=submit value="Print hardcopy backup of weights in a new window">

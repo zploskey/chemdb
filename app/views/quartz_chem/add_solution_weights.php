@@ -1,5 +1,8 @@
-<?php echo form_open(site_url('quartz_chem/add_solution_weights'), '',
-    array('batch_id' => $batch->id, 'is_refresh' => 'TRUE')); ?>
+<?php echo form_open(
+    site_url('quartz_chem/add_solution_weights'),
+    '',
+    array('batch_id' => $batch->id, 'is_refresh' => 'TRUE')
+); ?>
 
 <table width="800" class="arial10">
     <tr>

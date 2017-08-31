@@ -12,5 +12,4 @@
  */
 class BeStdSeries extends BaseBeStdSeries
 {
-
 }

@@ -5,5 +5,4 @@
  */
 class BeCarrier extends BaseBeCarrier
 {
-
 }

@@ -2,12 +2,10 @@
 
 /**
  * BeAms
- *
  */
 class BeAms extends BaseBeAms
 {
-
-    public function getConcBe10($useIcpBe=false)
+    public function getConcBe10($useIcpBe = false)
     {
         $an = $this->Analysis; // the associated analysis
         $bec = $an->Batch->BeCarrier; // our Be carrier
@@ -59,5 +57,4 @@ class BeAms extends BaseBeAms
 
         return array($be10_conc, $be10_err);
     }
-
 }

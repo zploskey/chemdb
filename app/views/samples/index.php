@@ -23,7 +23,7 @@
                     <th>Actions</th>
                 </tr>
 
-                <?php foreach($samples as $s): ?>
+                <?php foreach ($samples as $s): ?>
 
                     <tr>
                         <td class="name"><?php echo $s->name; ?></td>

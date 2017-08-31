@@ -5,34 +5,31 @@
  * Methods appear in the same order as they are listed in the front page for
  * the Quartz Chemistry section.
  */
-
 class Quartz_chem extends MY_Controller
 {
-
     const MSG_QUERY_FAILED = 'Batch query failed.';
 
     /**
      * Supplies data for the Al/Be Chemistry index page. Populates select boxes
      * with batches that the user can select to modify on the other pages.
      * @param void
-     * @return void
      */
     public function index()
     {
         $batch_id = (int)$this->input->post('batch_id');
-        if ($this->input->post('is_lock') === "true") {
+        if ($this->input->post('is_lock') === 'true') {
             Doctrine_Core::getTable('Batch')->lock($batch_id);
         }
 
         $batches = Doctrine_Core::getTable('Batch')->findAllBatches();
-        $data  = new stdClass();
+        $data = new stdClass();
         $data->open_batches = '';
         $data->all_batches = '';
 
         // build option tags for the select boxes
         foreach ($batches as $b) {
             $opt = "<option value=$b->id>$b->id $b->owner $b->start_date "
-                . substr($b->description, 0, 65);
+                .substr($b->description, 0, 65);
             $data->all_batches .= $opt;
             if ($b->completed == 'n') {
                 $data->open_batches .= $opt;
@@ -49,7 +46,6 @@ class Quartz_chem extends MY_Controller
      * Form for adding a batch or for editing the batch information after it
      * has been added.
      * @param void
-     * @return void
      */
     public function new_batch()
     {
@@ -105,7 +101,6 @@ class Quartz_chem extends MY_Controller
     /**
      * Shows the sample loading page.
      * @param void
-     * @return void
      **/
     public function load_samples()
     {
@@ -149,7 +144,8 @@ class Quartz_chem extends MY_Controller
                 $analysis->wt_diss_bottle_sample = $wt_diss_bottle_sample[$a];
                 $analysis->wt_be_carrier = $wt_be_carrier[$a];
                 $analysis->wt_al_carrier = $wt_al_carrier[$a];
-            } unset($analysis);
+            }
+            unset($analysis);
 
             if ($is_valid) {
                 // data is valid
@@ -167,7 +163,8 @@ class Quartz_chem extends MY_Controller
                     } else {
                         $a->sample_id = null;
                     }
-                } unset($a);
+                }
+                unset($a);
 
                 $batch->save();
                 $batch = Doctrine_Core::getTable('Batch')->findWithCarriers($batch_id);
@@ -189,7 +186,7 @@ class Quartz_chem extends MY_Controller
             $an = $batch->Analysis[$a];
             // create diss bottle dropdown options for each sample
             $html = '';
-            foreach($diss_bottles as $bottle) {
+            foreach ($diss_bottles as $bottle) {
                 $html .= '<option value='.$bottle->id;
                 if ($bottle->id == $an->diss_bottle_id) {
                     $html .= ' selected';
@@ -210,19 +207,20 @@ class Quartz_chem extends MY_Controller
             $precheck = Doctrine_Query::create()
                 ->from('AlcheckAnalysis a, a.AlcheckBatch b')
                 ->select('a.icp_al, a.icp_fe, a.icp_ti, a.wt_bkr_tare, a.wt_bkr_sample, '
-                    . 'a.wt_bkr_soln, b.prep_date')
+                    .'a.wt_bkr_soln, b.prep_date')
                 ->where('a.sample_name = ?', $sample_name)
                 ->andWhere("a.sample_name != ''")
                 ->orderBy('b.prep_date DESC')
                 ->limit(1)
                 ->fetchOne();
 
-            if ($precheck AND $batch->AlCarrier) {
+            if ($precheck and $batch->AlCarrier) {
                 // there's data, calculate the concentrations
                 $prechecks[$a]['show'] = true;
                 $temp_df = safe_divide(
                     ($precheck['wt_bkr_soln'] - $precheck['wt_bkr_tare']),
-                    ($precheck['wt_bkr_sample'] - $precheck['wt_bkr_tare']));
+                    ($precheck['wt_bkr_sample'] - $precheck['wt_bkr_tare'])
+                );
 
                 $temp_al = $precheck['icp_al'] * $temp_df * $temp_sample_wt / 1000;
                 $temp_fe = $precheck['icp_fe'] * $temp_df * $temp_sample_wt / 1000;
@@ -239,7 +237,7 @@ class Quartz_chem extends MY_Controller
                 $temp_ti = '--';
                 $temp_tot_al = '--';
 
-                if ($batch->AlCarrier AND $an->wt_al_carrier > 0) {
+                if ($batch->AlCarrier and $an->wt_al_carrier > 0) {
                     $temp_tot_al = $an->wt_al_carrier * $batch->AlCarrier->al_conc / 1000;
                 }
             }
@@ -254,16 +252,16 @@ class Quartz_chem extends MY_Controller
 
         $data = new stdClass();
         // get previous carrier weights
-        $data->be_prev = Doctrine_Core::getTable('Batch')->findPrevBeCarrierWt(
-                                    $batch->be_carrier_id, $batch->start_date);
-        $data->al_prev = Doctrine_Core::getTable('Batch')->findPrevAlCarrierWt(
-                                    $batch->al_carrier_id, $batch->start_date);
+        $data->be_prev = Doctrine_Core::getTable('Batch')
+            ->findPrevBeCarrierWt($batch->be_carrier_id, $batch->start_date);
+        $data->al_prev = Doctrine_Core::getTable('Batch')
+            ->findPrevAlCarrierWt($batch->al_carrier_id, $batch->start_date);
 
         // create the lists of carrier options
         $data->be_carrier_options = Doctrine_Core::getTable('BeCarrier')
-                                    ->getSelectOptions($batch->be_carrier_id);
+            ->getSelectOptions($batch->be_carrier_id);
         $data->al_carrier_options = Doctrine_Core::getTable('AlCarrier')
-                                    ->getSelectOptions($batch->al_carrier_id);
+            ->getSelectOptions($batch->al_carrier_id);
 
         // set display variables
         $data->batch = $batch;
@@ -301,7 +299,6 @@ class Quartz_chem extends MY_Controller
     /**
      * Produces a sheet to track the progress of samples through the rest of the process.
      * @param void
-     * @return void
      */
     public function print_tracking_sheet()
     {
@@ -321,12 +318,11 @@ class Quartz_chem extends MY_Controller
         $numsamples = $batch->Analysis->count();
         $HF_additions = array();
         for ($a = 0; $a < $numsamples; $a++) {
-
             $pquery = Doctrine_Query::create()
                 ->from('AlcheckAnalysis a')
                 ->leftJoin('a.AlcheckBatch b')
                 ->select('a.sample_name, a.icp_al, a.icp_fe, a.icp_ti, a.wt_bkr_tare, '
-                    . 'a.wt_bkr_sample, a.wt_bkr_soln, b.prep_date')
+                    .'a.wt_bkr_sample, a.wt_bkr_soln, b.prep_date')
                 ->where('a.alcheck_batch_id = b.id')
                 ->orderBy('b.prep_date DESC')
                 ->limit(1);
@@ -355,16 +351,22 @@ class Quartz_chem extends MY_Controller
                 }
 
                 $temp_al = $precheck['icp_al'] * $temp_df * $tmpa[$a]['tmpSampleWt'] / 1000;
-                $tmpa[$a]['tot_fe'] = sprintf('%.2f',
-                    $precheck['icp_fe'] * $temp_df * $tmpa[$a]['tmpSampleWt'] / 1000);
-                $tmpa[$a]['tot_ti'] = sprintf('%.2f',
-                    $precheck['icp_ti'] * $temp_df * $tmpa[$a]['tmpSampleWt'] / 1000);
+                $tmpa[$a]['tot_fe'] = sprintf(
+                    '%.2f',
+                    $precheck['icp_fe'] * $temp_df * $tmpa[$a]['tmpSampleWt'] / 1000
+                );
+                $tmpa[$a]['tot_ti'] = sprintf(
+                    '%.2f',
+                    $precheck['icp_ti'] * $temp_df * $tmpa[$a]['tmpSampleWt'] / 1000
+                );
                 $tmpa[$a]['tot_al'] = sprintf('%.2f', $temp_al
                     + ($batch->Analysis[$a]->wt_al_carrier * $batch->AlCarrier->al_conc) / 1000);
             } elseif ($batch->Analysis[$a]->sample_type === 'BLANK') {
                 if ($batch->Analysis[$a]->wt_al_carrier > 0) {
-                    $tmpa[$a]['tot_al'] = sprintf('%.2f',
-                        ($batch->Analysis[$a]->wt_al_carrier * $batch->AlCarrier->al_conc) / 1000);
+                    $tmpa[$a]['tot_al'] = sprintf(
+                        '%.2f',
+                        ($batch->Analysis[$a]->wt_al_carrier * $batch->AlCarrier->al_conc) / 1000
+                    );
                 } else {
                     $tmpa[$a]['tot_al'] = ' -- ';
                 }
@@ -387,7 +389,8 @@ class Quartz_chem extends MY_Controller
                 }
                 $an_data['mlHf'] = $blankHFVolume;
             }
-        } unset($an_data);
+        }
+        unset($an_data);
 
         $data = new stdClass();
         $data->batch = $batch;
@@ -529,7 +532,6 @@ class Quartz_chem extends MY_Controller
 
     /**
      * Form for submitting ICP weighings.
-     * @return void
      */
     public function add_icp_weights()
     {
@@ -558,7 +560,7 @@ class Quartz_chem extends MY_Controller
 
         // For the case when it's a new icp run, change from the default to today's date.
         // It will be saved when valid data is submitted on the form.
-        if ($batch->icp_date === '0000-00-00')  {
+        if ($batch->icp_date === '0000-00-00') {
             $batch->icp_date = date('Y-m-d');
         }
 
@@ -595,11 +597,9 @@ class Quartz_chem extends MY_Controller
         $this->load->view('template', $data);
     }
 
-   /**
-    * Form to input ICP results.
-    *
-    * @return void
-    **/
+    /**
+     * Form to input ICP results.
+     **/
     public function add_icp_results()
     {
         $submit = (bool)$this->input->post('submit');
@@ -643,10 +643,10 @@ class Quartz_chem extends MY_Controller
                 foreach ($lines as $ln) {
                     if (preg_match($valid_regexp, $ln)) {
                         $tmp = preg_split($split_regexp, trim($ln));
-                        $key = strval(array_shift($tmp));
+                        $key = (string) (array_shift($tmp));
                         // make the key of the final array the beaker number, one for be and one for al
                         ${$arr}[$key] = $tmp;
-                    } elseif ($ln !== "") {
+                    } elseif ($ln !== '') {
                         die("Error in $element input on line: $ln");
                     }
                 }
@@ -681,19 +681,19 @@ class Quartz_chem extends MY_Controller
             }
             if ($len_be != $nSplits) {
                 die("The number of splits in the database ($nSplits) does not "
-                  . "match the number submitted ($len_be)");
+                  ."match the number submitted ($len_be)");
             }
 
             // test that all submitted split beakers exist
             $bkrs = array_unique(array_keys(array_push($al_arr, $be_arr)));
             $missing = Doctrine_Core::getTable('SplitBkr')->findMissingBkrs($bkrs);
             if (count($missing) != 0) {
-                echo "The beakers ";
+                echo 'The beakers ';
                 // comma separated list, true indicates we want an 'and' before last element
                 echo comma_str($missing, true);
                 die(' were not found in the database.<br>'
-                  . 'Please ensure that you have spelled all '
-                  . 'their names correctly or add them to the database.');
+                  .'Please ensure that you have spelled all '
+                  .'their names correctly or add them to the database.');
             }
 
             // data looks good, insert it into the database
@@ -716,10 +716,9 @@ class Quartz_chem extends MY_Controller
         $this->load->view('template', $data);
     }
 
-   /**
-    * Page to select whether to use an ICP result in calculations or not.
-    * @return void
-    */
+    /**
+     * Page to select whether to use an ICP result in calculations or not.
+     */
     public function icp_quality_control()
     {
         // Retrieve intial postdata
@@ -758,7 +757,6 @@ class Quartz_chem extends MY_Controller
 
     /**
      * Does calculations and prints an intermediate report on the samples.
-     * @return void
      */
     public function intermediate_report()
     {
@@ -767,7 +765,7 @@ class Quartz_chem extends MY_Controller
             ->getReportArray($batch_id);
         $this->_dieIfQueryFailed($data->batch);
         $data->title = 'Intermediate hard copy of weighings -- '
-                     . 'Al - Be extraction from quartz';
+                     .'Al - Be extraction from quartz';
         $data->todays_date = date('Y-m-d');
         $data->main = 'quartz_chem/intermediate_report';
         $this->load->view('quartz_chem/report_template', $data);
@@ -775,7 +773,6 @@ class Quartz_chem extends MY_Controller
 
     /**
      * Generates the final report for the batch.
-     * @return void
      */
     public function final_report()
     {
@@ -793,11 +790,10 @@ class Quartz_chem extends MY_Controller
         $this->load->view('quartz_chem/report_template', $data);
     }
 
-    private function _dieIfQueryFailed($obj, $msg=self::MSG_QUERY_FAILED)
+    private function _dieIfQueryFailed($obj, $msg = self::MSG_QUERY_FAILED)
     {
         if (!$obj) {
             die($msg);
         }
-        return;
     }
 }

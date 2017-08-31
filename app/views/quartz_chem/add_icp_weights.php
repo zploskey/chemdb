@@ -1,8 +1,11 @@
-<?php echo form_open(site_url('quartz_chem/add_icp_weights'), '',
+<?php echo form_open(
+    site_url('quartz_chem/add_icp_weights'),
+    '',
     array( // hidden POST variables
-        'batch_id' => $batch->id,
-        'is_refresh' => 'true'
-    )); ?>
+        'batch_id'   => $batch->id,
+        'is_refresh' => 'true',
+    )
+); ?>
 
 <table width="800" class="arial10">
     <tr>
@@ -26,7 +29,7 @@
 
 <?php
 if ($errors) {
-    echo validation_errors() . '<hr>';
+    echo validation_errors().'<hr>';
 }
 ?>
 
@@ -67,7 +70,7 @@ if ($errors) {
                 <td colspan="3"></td>
             <?php endif; ?>
 
-            <td>Split <?php echo $s+1; ?>:</td>
+            <td>Split <?php echo $s + 1; ?>:</td>
             <td><?php echo $batch->Analysis[$i]->Split[$s]->SplitBkr->bkr_number; ?></td>
             <td><?php echo (float)$batch->Analysis[$i]->Split[$s]->wt_split_bkr_tare; ?></td>
             <td><?php echo form_input('tot_wts[]', (float)$batch->Analysis[$i]->Split[$s]->wt_split_bkr_icp); ?></td>

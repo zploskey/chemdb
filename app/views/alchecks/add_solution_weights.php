@@ -1,7 +1,9 @@
-<?php echo form_open('alchecks/add_solution_weights', '',
+<?php echo form_open(
+    'alchecks/add_solution_weights',
+    '',
     array( // hidden variables
-        'refresh' => 'true',
-        'batch_id' => $batch->id)
+        'refresh'  => 'true',
+        'batch_id' => $batch->id, )
 ); ?>
 
 Batch ID: <?php echo $batch->id; ?><br/>
@@ -12,7 +14,7 @@ Batch description: <?php echo $batch->description; ?><br/>
 
 <?php
 if ($errors) {
-    echo '<hr>' . validation_errors();
+    echo '<hr>'.validation_errors();
 }
 ?>
 

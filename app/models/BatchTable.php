@@ -27,6 +27,7 @@ class BatchTable extends Doctrine_Table
     /**
      * Fetches a batch object with Al and Be carrier data.
      *
+     * @param mixed $id
      * @return Batch
      **/
     public function findWithCarriers($id)
@@ -42,7 +43,6 @@ class BatchTable extends Doctrine_Table
     }
 
     /**
-     *
      * @return Batch
      */
     public function findAllBatches()
@@ -81,9 +81,9 @@ class BatchTable extends Doctrine_Table
     }
 
     /**
-    * Fetches a Batch object with the final beryllium carrier weight and start
-    * date fields populated. The object will always have a start_date that is
-    * older than the start date of the passed to this function.
+     * Fetches a Batch object with the final beryllium carrier weight and start
+     * date fields populated. The object will always have a start_date that is
+     * older than the start date of the passed to this function.
      * @param int $carrier_id
      * @param string $start_date a valid MySQL date format
      * @return Batch
@@ -132,9 +132,8 @@ class BatchTable extends Doctrine_Table
         $batch = $this->findCompleteById($id);
         if (!$batch) {
             throw new Exception('Batch not found.');
-        } else {
-            return $batch->getReportArray($stats);
         }
+        return $batch->getReportArray($stats);
     }
 
     /**
@@ -149,5 +148,4 @@ class BatchTable extends Doctrine_Table
             ->where('id = ?', $id)
             ->execute();
     }
-
 }

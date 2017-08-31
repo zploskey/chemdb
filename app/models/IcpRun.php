@@ -5,5 +5,4 @@
  */
 class IcpRun extends BaseIcpRun
 {
-
 }

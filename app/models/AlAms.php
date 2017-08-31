@@ -2,7 +2,6 @@
 
 /**
  * AlAms
- *
  */
 class AlAms extends BaseAlAms
 {

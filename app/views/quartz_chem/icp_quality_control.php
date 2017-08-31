@@ -1,5 +1,8 @@
-<?php echo form_open('quartz_chem/icp_quality_control', '',
-    array('batch_id' => $batch['id'], 'refresh' => true)) // hidden vars ?>
+<?php echo form_open(
+    'quartz_chem/icp_quality_control',
+    '',
+    array('batch_id' => $batch['id'], 'refresh' => true)
+) // hidden vars?>
 
 <table width="800" class="arial10">
     <tr>
@@ -19,7 +22,9 @@
     <tr><td><hr></td></tr>
 </table>
 
-<?php if ($errors) echo validation_errors(); ?>
+<?php if ($errors) {
+    echo validation_errors();
+} ?>
 
 <table width="800" class="arial8">
 <?php
@@ -55,7 +60,7 @@ for ($a = 0; $a < $batch['nsamples']; $a++):
         <?php endif; ?>
 
         <?php for ($r = 0; $r < $an['Split'][$s]['nruns']; $r++): // ICP run loop
-            $run = &$an['Split'][$s]['IcpRun'][$r];  ?>
+            $run = &$an['Split'][$s]['IcpRun'][$r]; ?>
 
             <?php if ($r == 0):; ?>
                 <td>Split <?php echo $an['Split'][$s]['split_num']; ?></td>
@@ -68,17 +73,17 @@ for ($a = 0; $a < $batch['nsamples']; $a++):
             <td><?php printf('%.4f', $run['be_result']); ?></td>
             <td><?php printf('%.1f', $run['be_tot']); ?></td>
             <td>
-                <input type="checkbox" value="<?php echo $run['id']; ?>" name="use_be[]" <?php echo ($run['use_be']=="y")?'checked':''; ?>>
+                <input type="checkbox" value="<?php echo $run['id']; ?>" name="use_be[]" <?php echo ($run['use_be'] == 'y') ? 'checked' : ''; ?>>
             </td>
             <td><?php printf('%.4f', $run['al_result']); ?></td>
             <td><?php printf('%.1f', $run['al_tot']); ?></td>
             <td>
-                <input type="checkbox" value="<?php echo $run['id']; ?>" name="use_al[]" <?php echo ($run['use_al']=="y")?'checked':''; ?>>
+                <input type="checkbox" value="<?php echo $run['id']; ?>" name="use_al[]" <?php echo ($run['use_al'] == 'y') ? 'checked' : ''; ?>>
             </td>
         </tr>
-        <?php endfor; // runs; ?>
+        <?php endfor; // runs;?>
 
-    <?php endfor; // splits ?>
+    <?php endfor; // splits?>
 
     <!-- Row 6: Averages -->
     <tr>
@@ -116,17 +121,19 @@ for ($a = 0; $a < $batch['nsamples']; $a++):
         <td colspan="2"><?php printf('%.1f', $an['al_recovery']); ?></td>
     </tr>
 
-    <?php if ( ($a % 2) != 0): ?>
+    <?php if (($a % 2) != 0): ?>
         <tr><td colspan="11"><hr></td></tr>
         <tr>
             <td colspan="11" align="center">
                 <input type="submit" value="Save and refresh">
             </td>
         </tr>
-        <?php if ($a != $batch['nsamples'] - 1) echo $cols; ?>
+        <?php if ($a != $batch['nsamples'] - 1) {
+                echo $cols;
+            } ?>
     <?php endif; ?>
 
-<?php endfor; // analyses ?>
+<?php endfor; // analyses?>
 
 <tr><td colspan="11"><hr></td></tr>
 

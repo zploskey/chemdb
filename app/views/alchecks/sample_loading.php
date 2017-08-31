@@ -1,7 +1,9 @@
-<?php echo form_open('alchecks/sample_loading', '',
+<?php echo form_open(
+    'alchecks/sample_loading',
+    '',
     array( // hidden variables
-        'refresh' => 'true',
-        'batch_id' => $batch->id)
+        'refresh'  => 'true',
+        'batch_id' => $batch->id, )
 ); ?>
 
 Batch ID: <?php echo $batch->id; ?><br/>
@@ -12,7 +14,7 @@ Batch description: <?php echo $batch->description; ?><br/>
 
 <?php
 if ($errors) {
-    echo '<hr>' . validation_errors();
+    echo '<hr>'.validation_errors();
 }
 ?>
 
@@ -63,18 +65,18 @@ if ($errors) {
 
         <td>
             <?php echo form_input(array(
-                'size' => '8',
-                'name' => 'wt_bkr_sample[]',
-                'value' => (float)$an->wt_bkr_sample)); ?>
+                'size'  => '8',
+                'name'  => 'wt_bkr_sample[]',
+                'value' => (float)$an->wt_bkr_sample, )); ?>
         </td>
 
         <td align="center"><?php printf('%.4f', $wt_sample[$a]); ?></td>
 
         <td align="left">
             <?php echo form_input(array(
-                'name' => 'notes[]',
+                'name'  => 'notes[]',
                 'value' => $an->notes,
-                'size' => 20)); ?>
+                'size'  => 20, )); ?>
         </td>
     </tr>
 

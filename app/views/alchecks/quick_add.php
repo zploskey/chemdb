@@ -1,6 +1,6 @@
 <?php echo form_open('alchecks/quick_add'); ?>
 
-<?php if ($batch_id): // a batch has already been created, keep track of its id ?>
+<?php if ($batch_id): // a batch has already been created, keep track of its id?>
     <input type="hidden" name="batch_id" value="<?php echo $batch_id; ?>">
     <?php if ($analysis): ?>
         <input type="hidden" name="analysis_id" value="<?php echo $analysis->id; ?>">
@@ -32,7 +32,7 @@
     <td colspan="4"><hr>
     <?php
     if ($errors) {
-        echo validation_errors() . '<hr>';
+        echo validation_errors().'<hr>';
     }
     ?>
     </td>

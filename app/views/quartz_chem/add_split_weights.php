@@ -64,7 +64,7 @@ for ($i = 0; $i < $numsamples; $i++): // main sample loop
                 <td><?php echo $an->id; ?></td>
                 <td>
                     <?php
-                    if ($an->Sample->name != NULL) {
+                    if ($an->Sample->name != null) {
                         echo $an->Sample->name;
                     } else {
                         echo $an->sample_name;
@@ -88,7 +88,7 @@ for ($i = 0; $i < $numsamples; $i++): // main sample loop
 
             <?php endif; ?>
 
-            <td>Split <?php echo $s+1; ?>:</td>
+            <td>Split <?php echo $s + 1; ?>:</td>
             <td>
                 <select name="split_bkr[]" class="bkr_select">
                     <?php
@@ -119,9 +119,9 @@ for ($i = 0; $i < $numsamples; $i++): // main sample loop
             </td>
         </tr>
 
-        <?php endfor; // split loop ?>
+        <?php endfor; // split loop?>
 
-<?php endfor; // sample loop ?>
+<?php endfor; // sample loop?>
 
     <tr><td colspan="8"><hr></td></tr>
 </table>

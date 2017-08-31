@@ -4,5 +4,4 @@
  */
 class SplitTable extends Doctrine_Table
 {
-
 }

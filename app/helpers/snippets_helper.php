@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if (!defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 
 /*
  * Helper function to divide without division by zero.
@@ -10,9 +12,8 @@ function safe_divide($num, $den)
 {
     if ($den == 0) {
         return 0;
-    } else {
-        return (double)$num / $den;
     }
+    return (float)$num / $den;
 }
 
 /**
@@ -21,6 +22,8 @@ function safe_divide($num, $den)
  * Changes 'asc' to 'desc' OR 'desc' to 'asc'.  Assumes that the default value is a descending sort
  * if no second parameter is passed. Also converts the returned value to lower case.
  *
+ * @param mixed $cur
+ * @param mixed $default
  * @return string
  **/
 function switch_sort($cur, $default = 'asc')
@@ -51,6 +54,7 @@ function switch_sort($cur, $default = 'asc')
  * Yields: "blue, red, green and yellow"
  *
  * @param array $arr array of elements with string representations
+ * @param mixed $do_and
  * @return string $str comma separated list, including an and before the last element
  * @author cosmolab
  **/
@@ -58,11 +62,11 @@ function comma_str($arr, $do_and = false)
 {
     $len = count($arr);
     $str = '';
-    for($i = 0; $i < $len; $i++) {
+    for ($i = 0; $i < $len; $i++) {
         // don't print a comma before the first item
         if ($i != 0) {
             // put and before the last item
-            if ($do_and AND $i == $len - 1) {
+            if ($do_and and $i == $len - 1) {
                 $str .= ' and ';
             } else {
                 // everywhere else we print a comma before the item
@@ -82,7 +86,7 @@ function getRealIp()
     } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
         // ip is passed from proxy
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    }  else {
+    } else {
         $ip = $_SERVER['REMOTE_ADDR'];
     }
 
@@ -125,6 +129,8 @@ function sse($vals, $xbar)
  * as a second parameter.
  * By default returns the sample standard deviation of $vals. You can change
  * the degrees of freedom w/ the second argument.
+ * @param mixed $vals
+ * @param mixed $dof
  */
 function meanStdDev($vals, $dof = 1)
 {
@@ -132,7 +138,7 @@ function meanStdDev($vals, $dof = 1)
     if ($n == 1) {
         return 0;
     } elseif ($n - $dof <= 0) {
-        return NULL;
+        return null;
     }
     $xbar = array_sum($vals) / $n;
     return array($xbar, sqrt(sse($vals, $xbar) / ($n - $dof)));

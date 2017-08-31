@@ -12,5 +12,4 @@
  */
 class AlStdSeries extends BaseAlStdSeries
 {
-
 }

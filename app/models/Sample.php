@@ -5,23 +5,23 @@
  */
 class Sample extends BaseSample
 {
-
     /**
-    * Calculate Be10 and 26Al concentrations and error, compile them with sample
-    * information, and return the input string for the CRONUS calculator for
-    * this sample and its AMS measurement. The passed parameters and this sample
-    * should be fully populated with data before calling this function.
-    *
-    * These calculations are based on:
-    *
-    * Converting Al and Be isotope ratio measurements to nuclide concentrations in quartz.
-    * Greg Balco, May 8, 2006
-    * http://hess.ess.washington.edu/math/docs/common/ams_data_reduction.pdf
-    * @param $BeAMS BeAms object
-    * @param $AlAMS AlAms object
-    * @return array of strings array($ageCalcInput, $eroCalcInput)
-    */
-    public function getCalcInput($BeAMS, $AlAMS=NULL, $useIcpBe=FALSE)
+     * Calculate Be10 and 26Al concentrations and error, compile them with sample
+     * information, and return the input string for the CRONUS calculator for
+     * this sample and its AMS measurement. The passed parameters and this sample
+     * should be fully populated with data before calling this function.
+     *
+     * These calculations are based on:
+     *
+     * Converting Al and Be isotope ratio measurements to nuclide concentrations in quartz.
+     * Greg Balco, May 8, 2006
+     * http://hess.ess.washington.edu/math/docs/common/ams_data_reduction.pdf
+     * @param $BeAMS BeAms object
+     * @param $AlAMS AlAms object
+     * @param mixed $useIcpBe
+     * @return array of strings array($ageCalcInput, $eroCalcInput)
+     */
+    public function getCalcInput($BeAMS, $AlAMS = null, $useIcpBe = false)
     {
         if (isset($BeAMS)) {
             $an = $BeAMS->Analysis;
@@ -29,7 +29,8 @@ class Sample extends BaseSample
             $an = $AlAMS->Analysis;
         } else {
             throw new IllegalArgumentException(
-                'At least one argument must be an AMS measurement.');
+                'At least one argument must be an AMS measurement.'
+            );
         }
 
         $batch = $an->Batch;
@@ -58,21 +59,21 @@ class Sample extends BaseSample
         }
 
         $entries = array(
-            'name' => substr($this->name, 0, 24),
-            'latitude' => $this->latitude,
-            'longitude' => $this->longitude,
-            'altitude' => $this->altitude,
+            'name'          => substr($this->name, 0, 24),
+            'latitude'      => $this->latitude,
+            'longitude'     => $this->longitude,
+            'altitude'      => $this->altitude,
             'pressure_flag' => $pressure_flag,
-            'thickness' => $this->getThickness(),
-            'density' => $this->density,
+            'thickness'     => $this->getThickness(),
+            'density'       => $this->density,
             'shield_factor' => $this->shield_factor,
-            'erosion_rate' => $this->erosion_rate,
-            'be10_conc' => $be10_conc,
-            'be10_err' => $be10_err,
-            'be_calc_code' => $be_calc_code,
-            'al26_conc' => $al26_conc,
-            'al26_err' => $al26_err,
-            'al_calc_code' => $al_calc_code,
+            'erosion_rate'  => $this->erosion_rate,
+            'be10_conc'     => $be10_conc,
+            'be10_err'      => $be10_err,
+            'be_calc_code'  => $be_calc_code,
+            'al26_conc'     => $al26_conc,
+            'al26_err'      => $al26_err,
+            'al_calc_code'  => $al_calc_code,
         );
 
         // generate age input
@@ -84,10 +85,11 @@ class Sample extends BaseSample
     }
 
     /**
-    * Get an array with entries for each analysis and each analysis can have multiple
-    * AMS results array(array(ams_result_text, ams_result_text, ...), array(...), ...).
-    * @return array(string)
-    */
+     * Get an array with entries for each analysis and each analysis can have multiple
+     * AMS results array(array(ams_result_text, ams_result_text, ...), array(...), ...).
+     * @param mixed $useIcpBe
+     * @return array(string)
+     */
     public function getCalcInputs($useIcpBe)
     {
         $ero_text = $exp_text = array(array());
@@ -124,10 +126,11 @@ class Sample extends BaseSample
             ++$a;
         }
 
-        return array('age' => $exp_text,
+        return array('age'     => $exp_text,
                      'erosion' => $ero_text,
                      'all_exp' => trim($all_exp),
-                     'all_ero' => trim($all_ero));
+                     'all_ero' => trim($all_ero),
+        );
     }
 
     /**
@@ -145,10 +148,12 @@ class Sample extends BaseSample
     public function setUp()
     {
         parent::setUp();
-        $this->hasMany('Project', array(
+        $this->hasMany(
+            'Project',
+            array(
                 'refClass' => 'ProjectSample',
-                'local' => 'sample_id',
-                'foreign' => 'project_id',
+                'local'    => 'sample_id',
+                'foreign'  => 'project_id',
             )
         );
     }

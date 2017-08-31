@@ -42,7 +42,7 @@
     </tr>
 </table>
 <hr>
-<p align="center"><?php echo form_submit('submit','Save and refresh'); ?></p>
+<p align="center"><?php echo form_submit('submit', 'Save and refresh'); ?></p>
 <hr>
 <?php echo form_close(); ?>
 

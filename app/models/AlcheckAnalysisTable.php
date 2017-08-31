@@ -1,7 +1,6 @@
 <?php
 /**
  * undocumented class
- *
  **/
 class AlcheckAnalysisTable extends Doctrine_Table
 {

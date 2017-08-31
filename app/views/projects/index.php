@@ -16,7 +16,7 @@
                 <th>Actions</th>
             </tr>
 
-            <?php foreach($projects as $p): ?>
+            <?php foreach ($projects as $p): ?>
 
                 <tr>
                     <td class="name"><?php echo $p->name; ?></td>
@@ -36,5 +36,7 @@
     </p>
 </div>
 <div class="pagination">
-    <?php if ($paginate) echo $pagstring; ?>
+    <?php if ($paginate) {
+        echo $pagstring;
+    } ?>
 </div>

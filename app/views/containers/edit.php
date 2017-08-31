@@ -6,8 +6,8 @@
 
         if ($container->id) {
             echo ' ('
-                . anchor("containers/view/$type/$container->id", 'View')
-                . ')';
+                .anchor("containers/view/$type/$container->id", 'View')
+                .')';
         }
         ?>
     </h2>

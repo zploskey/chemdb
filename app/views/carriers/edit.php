@@ -6,8 +6,8 @@
 
         if ($carrier->id) {
             echo ' ('
-                . anchor("carriers/view/$element/$carrier->id", 'View')
-                . ')';
+                .anchor("carriers/view/$element/$carrier->id", 'View')
+                .')';
         }
         ?>
     </h2>

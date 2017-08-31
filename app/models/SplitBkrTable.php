@@ -5,7 +5,6 @@
 class SplitBkrTable extends Doctrine_Table
 {
     /**
-     *
      * @return Doctrine_Collection of SplitBkr
      */
     public function getList()
@@ -20,6 +19,7 @@ class SplitBkrTable extends Doctrine_Table
     /**
      * Finds and returns an array of beakers missing from the database.
      *
+     * @param mixed $bkrList
      * @return array of missing beaker names
      **/
     public function findMissingBkrs($bkrList)
@@ -40,5 +40,4 @@ class SplitBkrTable extends Doctrine_Table
         }
         return $ret;
     }
-
 }

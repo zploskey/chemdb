@@ -12,5 +12,4 @@
  */
 class BeAmsStd extends BaseBeAmsStd
 {
-
 }

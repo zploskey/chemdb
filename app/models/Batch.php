@@ -5,8 +5,7 @@
  */
 class Batch extends BaseBatch
 {
-
-    public function getBlank($type='Be')
+    public function getBlank($type = 'Be')
     {
         // first find our blank
         foreach ($this->Analysis as $tmpan) {
@@ -16,7 +15,7 @@ class Batch extends BaseBatch
             }
         }
 
-        if (isset($blank) && $type=='Al' && $blank->wt_al_carrier == '0') {
+        if (isset($blank) && $type == 'Al' && $blank->wt_al_carrier == '0') {
             // try to find the most recent Aluminum blank with this carrier
             $blank = Doctrine_Core::getTable('Analysis')
                 ->createQuery('a')
@@ -87,7 +86,7 @@ class Batch extends BaseBatch
                 $s['wt_icp'] = $s['wt_split_bkr_icp'] - $s['wt_split_bkr_tare'];
                 $s['tot_df'] = safe_divide($s['wt_icp'], $s['wt_split']) * $a['wt_HF_soln'];
             }
-            
+
             if (isset($batch['BeCarrier'])) {
                 $a['wt_be'] = $a['wt_be_carrier'] * $batch['BeCarrier']['be_conc'];
             } else {
@@ -106,7 +105,7 @@ class Batch extends BaseBatch
                 ->from('AlcheckAnalysis a')
                 ->leftJoin('a.AlcheckBatch b')
                 ->select('a.sample_name, a.icp_al, a.icp_fe, a.icp_ti, a.wt_bkr_tare, '
-                       . 'a.wt_bkr_sample, a.wt_bkr_soln, b.prep_date')
+                       .'a.wt_bkr_sample, a.wt_bkr_soln, b.prep_date')
                 ->where('a.sample_name = ?', $a['sample_name'])
                 ->andWhere('a.alcheck_batch_id = b.id')
                 ->orderBy('b.prep_date DESC')
@@ -139,7 +138,6 @@ class Batch extends BaseBatch
             if ($stats) {
                 $this->calcAnalysisStats($a);
             }
-
         } // end analysis loop
         unset($a);
 
@@ -174,8 +172,10 @@ class Batch extends BaseBatch
                     $temp_tot_be += $r['be_tot'];
                     ++$n_be;
                 }
-            } unset($r);
-        } unset($s);
+            }
+            unset($r);
+        }
+        unset($s);
         $a['al_avg'] = safe_divide($temp_tot_al, $n_al);
         $a['be_avg'] = safe_divide($temp_tot_be, $n_be);
 
@@ -219,14 +219,14 @@ class Batch extends BaseBatch
             if ($nsplits == 0) {
                 // no splits in db, add the splits and their icp runs too
                 for ($s = 1; $s <= 2; $s++) {
-                     $newsplit = new Split();
-                     $newsplit->split_num = $s;
-                     for ($r = 1; $r <= 2; $r++) {
-                         $newrun = new IcpRun();
-                         $newrun->run_num = $r;
-                         $newsplit->IcpRun[] = $newrun;
-                     } // run loop
-                     $this->Analysis[$a]->Split[] = $newsplit;
+                    $newsplit = new Split();
+                    $newsplit->split_num = $s;
+                    for ($r = 1; $r <= 2; $r++) {
+                        $newrun = new IcpRun();
+                        $newrun->run_num = $r;
+                        $newsplit->IcpRun[] = $newrun;
+                    } // run loop
+                    $this->Analysis[$a]->Split[] = $newsplit;
                 } // split loop
                 $changes = true;
             }
@@ -247,12 +247,12 @@ class Batch extends BaseBatch
         $nrows = 0;
         foreach ($this['Analysis'] as $a) {
             foreach ($a['Split'] as $s) {
-                $bkr_text = "\n" . $s['SplitBkr']['bkr_number'];
+                $bkr_text = "\n".$s['SplitBkr']['bkr_number'];
                 $al_text .= $bkr_text;
                 $be_text .= $bkr_text;
                 foreach ($s['IcpRun'] as $r) {
-                    $al_text .= ' ' . $r['al_result'];
-                    $be_text .= ' ' . $r['be_result'];
+                    $al_text .= ' '.$r['al_result'];
+                    $be_text .= ' '.$r['be_result'];
                 }
                 ++$nrows;
             }
@@ -266,6 +266,8 @@ class Batch extends BaseBatch
      *
      * @param array @al_arr Al ICP results
      * @param array @be_arr Be ICP results
+     * @param mixed $al_arr
+     * @param mixed $be_arr
      * @return Batch $this, allows method chaining
      **/
     public function &setIcpResults($al_arr, $be_arr)
@@ -311,8 +313,10 @@ class Batch extends BaseBatch
                         $s->IcpRun[$r]->use_be = 'y';
                     }
                 }
-            } unset($s);
-        } unset($a);
+            }
+            unset($s);
+        }
+        unset($a);
 
         return $this;
     }
@@ -330,14 +334,13 @@ class Batch extends BaseBatch
      */
     public function &setIcpOKs($use_be, $use_al)
     {
-        if ( !is_array($use_be) || !is_array($use_al)) {
+        if (!is_array($use_be) || !is_array($use_al)) {
             throw new InvalidArgumentException('Both arguments must be arrays.');
         }
 
         foreach ($this->Analysis as &$an) {
             foreach ($an->Split as &$sp) {
                 foreach ($sp->IcpRun as &$run) {
-
                     if (in_array($run->id, $use_be)) {
                         $run->use_be = 'y';
                     } else {
@@ -349,10 +352,11 @@ class Batch extends BaseBatch
                     } else {
                         $run->use_al = 'n';
                     }
-
                 }
-            } unset($sp);
-        } unset($an);
+            }
+            unset($sp);
+        }
+        unset($an);
 
         return $this;
     }

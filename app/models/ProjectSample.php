@@ -5,5 +5,4 @@
  */
 class ProjectSample extends BaseProjectSample
 {
-
 }

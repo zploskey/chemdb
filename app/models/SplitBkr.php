@@ -5,5 +5,4 @@
  */
 class SplitBkr extends BaseSplitBkr
 {
-
 }

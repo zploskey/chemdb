@@ -2,7 +2,6 @@
 
 class Analysis extends BaseAnalysis
 {
-
     public function getMassIcp($element)
     {
         $element = strtolower($element);
@@ -24,8 +23,8 @@ class Analysis extends BaseAnalysis
     {
         list($M_element) = $this->getMassIcp($el);
         $lcEl = strtolower($el);
-        $M_carrier = $this['wt_' . $lcEl . '_carrier'] * 1e-6
-            * $this['Batch'][$el . 'Carrier'][$lcEl . '_conc'];
+        $M_carrier = $this['wt_'.$lcEl.'_carrier'] * 1e-6
+            * $this['Batch'][$el.'Carrier'][$lcEl.'_conc'];
         return safe_divide($M_element, $M_carrier) * 100;
     }
 
@@ -33,7 +32,8 @@ class Analysis extends BaseAnalysis
     {
         return safe_divide(
             array_shift(getMassIcp($element)) * 1e-6,
-            $this->getSampleWt());
+            $this->getSampleWt()
+        );
     }
 
     public function getSolnWt()
@@ -43,10 +43,9 @@ class Analysis extends BaseAnalysis
 
     public function getSampleWt()
     {
-        if ($this->sample_type == "BLANK") {
+        if ($this->sample_type == 'BLANK') {
             return 0;
         }
         return $this->wt_diss_bottle_sample - $this->wt_diss_bottle_tare;
     }
-
 }

@@ -22,13 +22,13 @@
         <?php
         for ($s = 1; $s <= $batch['max_nsplits']; $s++) {
             for ($r = 1; $r <= $batch['max_nruns']; $r++) {
-                echo '<td align="center">Split ' . $s . '<br>Run ' . $r;
+                echo '<td align="center">Split '.$s.'<br>Run '.$r;
             }
         }
 
         for ($s = 1; $s <= $batch['max_nsplits']; $s++) {
             for ($r = 1; $r <= $batch['max_nruns']; $r++) {
-                echo '<td align="center">Split ' . $s . '<br>Run ' . $r;
+                echo '<td align="center">Split '.$s.'<br>Run '.$r;
                 echo '<td>OK?</td>';
             }
         }
@@ -44,7 +44,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan="<?php echo (6 + $batch['max_nsplits'] * $batch['max_nruns'] * 3); ?>"><hr></td>
+        <td colspan="<?php echo 6 + $batch['max_nsplits'] * $batch['max_nruns'] * 3; ?>"><hr></td>
     </td>
 
 <?php foreach ($batch['Analysis'] as $a): ?>
@@ -102,14 +102,14 @@
         <td>&plusmn;</td>
         <td><?php echo sprintf('%.1f', $a['al_sd']); ?></td>
 
-        <td><?php echo sprintf('%.1f',$a['al_pct_err']); ?></td>
+        <td><?php echo sprintf('%.1f', $a['al_pct_err']); ?></td>
 
         <td><?php echo sprintf('%.1f', $a['al_recovery']); ?></td>
     </tr>
 
 <?php endforeach; ?>
 
-    <tr><td colspan="<?php echo (6 + $batch['max_nsplits'] * $batch['max_nruns'] * 3); ?>">
+    <tr><td colspan="<?php echo 6 + $batch['max_nsplits'] * $batch['max_nruns'] * 3; ?>">
     <hr><hr></td>
     </tr>
 </table>
@@ -136,13 +136,13 @@
         <?php
         for ($s = 1; $s <= $batch['max_nsplits']; $s++) {
             for ($r = 1; $r <= $batch['max_nruns']; $r++) {
-                echo '<td align="center">Split ' . "$s<br>Run$r";
+                echo '<td align="center">Split '."$s<br>Run$r";
             }
         }
 
         for ($s = 1; $s <= $batch['max_nsplits']; $s++) {
             for ($r = 1; $r <= $batch['max_nruns']; $r++) {
-                echo '<td align="center">Split ' . "$s<br>Run$r";
+                echo '<td align="center">Split '."$s<br>Run$r";
                 echo '<td>OK?</td>';
             }
         }
@@ -158,7 +158,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan="<?php echo (6 + $batch['max_nsplits'] * $batch['max_nruns'] * 3); ?>"><hr></td>
+        <td colspan="<?php echo 6 + $batch['max_nsplits'] * $batch['max_nruns'] * 3; ?>"><hr></td>
     </td>
 
 <?php foreach ($batch['Analysis'] as $a): ?>
@@ -222,6 +222,6 @@
 <?php endforeach; ?>
 
 
-<tr><td colspan="<?php echo (6 + $batch['max_nsplits'] * $batch['max_nruns'] * 3); ?>"><hr><hr></td></tr>
+<tr><td colspan="<?php echo 6 + $batch['max_nsplits'] * $batch['max_nruns'] * 3; ?>"><hr><hr></td></tr>
 
 </table>

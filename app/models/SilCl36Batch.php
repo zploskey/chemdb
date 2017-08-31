@@ -12,5 +12,4 @@
  */
 class SilCl36Batch extends BaseSilCl36Batch
 {
-
 }

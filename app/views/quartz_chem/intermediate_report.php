@@ -216,7 +216,9 @@
             '<td>', (float)$s['wt_split_bkr_icp'], '</td></tr>';
     }
 
-    if ($first) echo '</tr>';
+    if ($first) {
+        echo '</tr>';
+    }
     ?>
 
 <?php endforeach; ?>

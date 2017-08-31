@@ -9,7 +9,7 @@ class MY_Form_validation extends CI_Form_validation
      * @param string $str
      * @return bool
      */
-    function is_numeric($str)
+    public function is_numeric($str)
     {
         return is_numeric($str);
     }
@@ -23,9 +23,9 @@ class MY_Form_validation extends CI_Form_validation
      * @param int $id the
      * @return bool $id true if the value is unique
      */
-    function is_unique_or_existing($value, $table, $column, $id)
+    public function is_unique_or_existing($value, $table, $column, $id)
     {
-        if (isset($id) AND ($id <= 0)) {
+        if (isset($id) and ($id <= 0)) {
             return false;
         }
         $result = Doctrine_Query::create()
@@ -36,27 +36,29 @@ class MY_Form_validation extends CI_Form_validation
 
         if ($result->count() == 0) {
             return true; // it's a unique name
-        } else {
-            // There was a match, find out if it is just the submitted item or
-            // a dupe. Assuming that the database had just 1 match, this loop
-            // should only execute once, but let's be safe just in case.
-            foreach ($result as $row) {
-                if ($row->id != $id) {
-                    // id mismatch, this would have created a multiple
-                    return false;
-                }
-            }
-            // this is an edit, let it pass
-            return true;
         }
+        // There was a match, find out if it is just the submitted item or
+        // a dupe. Assuming that the database had just 1 match, this loop
+        // should only execute once, but let's be safe just in case.
+        foreach ($result as $row) {
+            if ($row->id != $id) {
+                // id mismatch, this would have created a multiple
+                return false;
+            }
+        }
+        // this is an edit, let it pass
+        return true;
     }
 
-    function valid_date($date) {
+    public function valid_date($date)
+    {
         $tdate = trim($date);
 
-        if (! preg_match('/^\d\d\d\d[-]\d\d[-]\d\d$/', $tdate) ) {
-            $this->set_message(__FUNCTION__,
-                'The %s field must be of the form YYYY-MM-DD.');
+        if (!preg_match('/^\d\d\d\d[-]\d\d[-]\d\d$/', $tdate)) {
+            $this->set_message(
+                __FUNCTION__,
+                'The %s field must be of the form YYYY-MM-DD.'
+            );
             return false;
         }
 
@@ -71,12 +73,12 @@ class MY_Form_validation extends CI_Form_validation
         return false;
     }
 
-    function alpha_dot_dash($val)
+    public function alpha_dot_dash($val)
     {
-        return preg_match('/^[\.-a-z0-9_-]+$/i', $val) ? TRUE : FALSE;
+        return preg_match('/^[\.-a-z0-9_-]+$/i', $val) ? true : false;
     }
 
-    function negis0($val)
+    public function negis0($val)
     {
         if (is_numeric($val) && $val < 0) {
             return '0.0';
@@ -87,14 +89,13 @@ class MY_Form_validation extends CI_Form_validation
     /*
      * Returns true if value is not greater than 180.
      */
-    function latlong($val)
+    public function latlong($val)
     {
-        return (is_numeric($val) && abs($val) <= 180);
+        return is_numeric($val) && abs($val) <= 180;
     }
 
-    function shield_factor($val)
+    public function shield_factor($val)
     {
-        return (is_numeric($val) && abs($val) <= 1);
+        return is_numeric($val) && abs($val) <= 1;
     }
-
 }

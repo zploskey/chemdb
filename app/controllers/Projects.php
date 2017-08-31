@@ -2,15 +2,12 @@
 
 class Projects extends MY_Controller
 {
-
     /**
      * Loads a page listing projects.
      *
      * Uses pagination if there are many projects.
-     *
-     * @return void
      **/
-    function index()
+    public function index()
     {
         // Pagination url: projects/index/sort_by/sort_dir/page
         //     URI number:     1   /  2  /   3   /    4   / 5
@@ -43,14 +40,14 @@ class Projects extends MY_Controller
         $this->pagination->initialize($config);
 
         $data = array(
-            'title'        => 'Manage Projects',
-            'main'         => 'projects/index',
-            'projects'     => $projects,
-            'paginate'     => ($nrows > $num_per_page),
-            'pagination'   => $this->pagination->create_links(),
-            'alt_sort_dir' => switch_sort($sort_dir),  // a little trick I put in the snippet helper
-            'sort_by'      => $sort_by,
-            'page'         => $page,
+            'title'         => 'Manage Projects',
+            'main'          => 'projects/index',
+            'projects'      => $projects,
+            'paginate'      => ($nrows > $num_per_page),
+            'pagination'    => $this->pagination->create_links(),
+            'alt_sort_dir'  => switch_sort($sort_dir),  // a little trick I put in the snippet helper
+            'sort_by'       => $sort_by,
+            'page'          => $page,
             'alt_sort_page' => $alt_sort_page,
         );
 
@@ -62,8 +59,9 @@ class Projects extends MY_Controller
      * it makes change to project in database and redirects.
      *
      * @param int id The id of the project to edit. Default is zero for a new project.
+     * @param mixed $id
      */
-    function edit($id = 0)
+    public function edit($id = 0)
     {
         $is_refresh = $this->input->post('is_refresh');
 
@@ -77,10 +75,12 @@ class Projects extends MY_Controller
                 ->fetchOne();
 
             // If the project doesn't exist we 404.
-            if ( ! $proj) {
+            if (!$proj) {
                 show_404('page');
             }
-            if (isset($proj->Sample)) $data->samples = $proj->Sample;
+            if (isset($proj->Sample)) {
+                $data->samples = $proj->Sample;
+            }
 
             // there is a project, set the display values
             $data->title = 'Edit Project';
@@ -137,7 +137,6 @@ class Projects extends MY_Controller
                 $proj->save();
                 redirect('projects/edit/'.$proj->id);
             }
-
         }
         $data->proj = $proj;
         $data->main = 'projects/edit';
@@ -147,16 +146,16 @@ class Projects extends MY_Controller
     /**
      * Shows the project information.
      *
-     * @return void
+     * @param mixed $id
      */
-    function view($id)
+    public function view($id)
     {
         $proj = Doctrine_Query::create()
             ->from('Project p, p.Sample')
             ->where('p.id = ?', $id)
             ->fetchOne();
 
-        if ( ! $proj) {
+        if (!$proj) {
             show_404('page');
         }
 
@@ -164,7 +163,7 @@ class Projects extends MY_Controller
         $data->title = 'View Project';
         $data->subtitle = 'Viewing '.$proj->name;
         $data->proj = $proj;
-        $data->main  = 'projects/view';
+        $data->main = 'projects/view';
         $this->load->view('template', $data);
     }
 
@@ -172,7 +171,7 @@ class Projects extends MY_Controller
     // CALLBACKS:
     // ----------
 
-    function _sample_exists($val)
+    public function _sample_exists($val)
     {
         $val = trim($val);
         if ($val == '') {
@@ -180,7 +179,7 @@ class Projects extends MY_Controller
         }
 
         $sample = Doctrine_Query::create()
-            ->from("Sample s")
+            ->from('Sample s')
             ->where('s.name = ?', $val)
             ->fetchOne();
 
@@ -191,5 +190,4 @@ class Projects extends MY_Controller
         $this->form_validation->set_message('_sample_exists', 'This %s does not exist in the database.');
         return false;
     }
-
 }

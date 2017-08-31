@@ -31,7 +31,7 @@
                     <th>Actions</th>
                 </tr>
 
-                <?php foreach($carriers as $c): ?>
+                <?php foreach ($carriers as $c): ?>
 
                     <tr>
                         <td><?php echo $c->id; ?></td>
@@ -39,8 +39,8 @@
                         <td>
                             <span class="actionbar">
                                 <ul>
-                                    <li><?php echo anchor("carriers/view/$element/" . $c->id, 'View'); ?></li>
-                                    <li><?php echo anchor("carriers/edit/$element/" . $c->id, 'Edit'); ?></li>
+                                    <li><?php echo anchor("carriers/view/$element/".$c->id, 'View'); ?></li>
+                                    <li><?php echo anchor("carriers/edit/$element/".$c->id, 'Edit'); ?></li>
                                 </ul>
                             </span>
                         </td>
@@ -54,7 +54,7 @@
     <?php else: ?>
 
         <br>
-        No <?php echo strtolower($longname) . 's'; ?> found.<br><br>
+        No <?php echo strtolower($longname).'s'; ?> found.<br><br>
         Would you like to <?php echo anchor("carriers/edit/$element", 'add'); ?> one?
 
     <?php endif; ?>

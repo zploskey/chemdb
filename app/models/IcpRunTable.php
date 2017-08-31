@@ -9,6 +9,7 @@ class IcpRunTable extends Doctrine_Table
      * than $nRemainingRuns.
      * @param Split &$split reference to a split object
      * @param int $nRemaingRuns
+     * @param mixed $nRemainingRuns
      */
     public function removeExcessRuns(&$split, $nRemainingRuns)
     {
@@ -18,5 +19,4 @@ class IcpRunTable extends Doctrine_Table
             ->addWhere('run_num > ?', $nRemainingRuns)
             ->execute();
     }
-
 }

@@ -12,5 +12,4 @@
  */
 class AmsLab extends BaseAmsLab
 {
-
 }

@@ -12,5 +12,4 @@
  */
 class AlAmsStd extends BaseAlAmsStd
 {
-
 }

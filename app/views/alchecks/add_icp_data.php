@@ -1,7 +1,10 @@
 <?php
-echo form_open('alchecks/add_icp_data', '',
+echo form_open(
+    'alchecks/add_icp_data',
+    '',
                array('batch_id' => $batch->id,
-                     'refresh'  => true));
+                     'refresh'  => true, )
+);
 ?>
 
 Batch ID: <?php echo $batch->id; ?><br/>
@@ -11,7 +14,9 @@ Batch owner: <?php echo $batch->owner; ?><br/>
 Number of samples: <?php echo $nsamples; ?><br/>
 Batch description: <?php echo $batch->description; ?><br/>
 
-<?php if ($errors) echo '<hr>' . validation_errors(); ?>
+<?php if ($errors) {
+    echo '<hr>'.validation_errors();
+} ?>
 
 <table width="800">
     <tr>

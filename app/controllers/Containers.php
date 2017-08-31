@@ -2,26 +2,27 @@
 
 class Containers extends MY_Controller
 {
-
     protected $LONGNAME_MAP = array(
         'SplitBkr'   => 'Split Beaker',
         'DissBottle' => 'Dissolution Bottle',
     );
 
     protected $NAMEFIELD_MAP = array(
-        'SplitBkr' => 'bkr_number',
+        'SplitBkr'   => 'bkr_number',
         'DissBottle' => 'bottle_number',
     );
 
     /**
      * Loads a page listing containers of links to the container types.
      *
-     * @return void
+     * @param mixed $type
+     * @param mixed $sort_by
+     * @param mixed $sort_dir
      **/
-    function index($type = '', $sort_by = 'id', $sort_dir = 'asc')
+    public function index($type = '', $sort_by = 'id', $sort_dir = 'asc')
     {
         if ($type) {
-            if (! in_array($type, array_keys($this->LONGNAME_MAP))) {
+            if (!in_array($type, array_keys($this->LONGNAME_MAP))) {
                 show_404('page');
             }
 
@@ -37,13 +38,13 @@ class Containers extends MY_Controller
                 ->execute();
 
             $data = array(
-                'title' => 'Manage ' . $this->LONGNAME_MAP[$type] . 's',
-                'containers' => $containers,
-                'sort_by' => $sort_by,
-                'sort_dir' => $sort_dir,
+                'title'        => 'Manage '.$this->LONGNAME_MAP[$type].'s',
+                'containers'   => $containers,
+                'sort_by'      => $sort_by,
+                'sort_dir'     => $sort_dir,
                 'alt_sort_dir' => switch_sort($sort_dir),
-                'longname' => $this->LONGNAME_MAP[$type],
-                'number' => $namefield,
+                'longname'     => $this->LONGNAME_MAP[$type],
+                'number'       => $namefield,
             );
         } else {
             $data = array('title' => 'Manage Containers');
@@ -59,12 +60,14 @@ class Containers extends MY_Controller
      * Displays the edit form and evaluates submits. If the submit validates properly,
      * it makes change to container in database and redirects.
      *
+     * @param mixed $type
+     * @param mixed $id
      */
-    function edit($type, $id = 0)
+    public function edit($type, $id = 0)
     {
         $is_refresh = $this->input->post('is_refresh');
 
-        if (! in_array($type, array_keys($this->LONGNAME_MAP))) {
+        if (!in_array($type, array_keys($this->LONGNAME_MAP))) {
             show_404('page');
         }
 
@@ -80,7 +83,7 @@ class Containers extends MY_Controller
             // edit an existing container
             $container = $query->fetchOne();
 
-            if (! $container) {
+            if (!$container) {
                 show_404('page');
             }
         } else {
@@ -102,7 +105,7 @@ class Containers extends MY_Controller
 
         if ($id) {
             $data->title = "Edit $longname";
-            $data->subtitle   = "Editing $longname";
+            $data->subtitle = "Editing $longname";
         } else {
             $data->title = "Add $longname";
             $data->subtitle = "Enter $longname Information:";
@@ -113,37 +116,37 @@ class Containers extends MY_Controller
         $data->namefield = $namefield;
         $data->type = $type;
         $data->longname = $longname;
-        $data->main  = 'containers/edit';
+        $data->main = 'containers/edit';
         $this->load->view('template', $data);
     }
 
     /**
      * Shows the data for a container.
      *
-     * @return void
+     * @param mixed $type
+     * @param mixed $id
      */
-    function view($type, $id)
+    public function view($type, $id)
     {
-        if (! in_array($type, array_keys($this->LONGNAME_MAP))) {
+        if (!in_array($type, array_keys($this->LONGNAME_MAP))) {
             show_404('page');
         }
 
         $longname = $this->LONGNAME_MAP[$type];
         $container = Doctrine_Core::getTable($type)->find($id);
 
-        if ( ! $container) {
+        if (!$container) {
             show_404('page');
         }
         $namefield = $this->NAMEFIELD_MAP[$type];
         $data = new stdClass();
-        $data->title      = 'View Container';
-        $data->type       = $type;
-        $data->number     = $container->$namefield;
-        $data->subtitle   = "Viewing $longname: $data->number";
-        $data->longname   = $longname;
-        $data->container  = $container;
-        $data->main       = 'containers/view';
+        $data->title = 'View Container';
+        $data->type = $type;
+        $data->number = $container->$namefield;
+        $data->subtitle = "Viewing $longname: $data->number";
+        $data->longname = $longname;
+        $data->container = $container;
+        $data->main = 'containers/view';
         $this->load->view('template', $data);
     }
-
 }

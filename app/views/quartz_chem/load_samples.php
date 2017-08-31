@@ -42,7 +42,7 @@
             <?php
             if ($batch->BeCarrier) {
                 echo (float)$batch->BeCarrier->be_conc;
-                if (!is_null($batch->BeCarrier->del_be_conc)) {
+                if (null !== $batch->BeCarrier->del_be_conc) {
                     echo ' &plusmn; ', (float)$batch->BeCarrier->del_be_conc;
                 }
                 echo ' ug/g';
@@ -52,9 +52,9 @@
         <td>
             [Al]:
             <?php
-            if($batch->AlCarrier) {
+            if ($batch->AlCarrier) {
                 echo (float)$batch->AlCarrier->al_conc;
-                if (!is_null($batch->AlCarrier->del_al_conc)) {
+                if (null !== $batch->AlCarrier->del_al_conc) {
                     echo ' &plusmn; ', (float)$batch->AlCarrier->del_al_conc;
                 }
                 echo ' ug/g';
@@ -107,19 +107,14 @@
     <tr><td colspan="4"><hr></td></tr>
 </table>
 
-<?php if ($errors) {
-    echo validation_errors();
-} ?>
+<?php echo $errors ? validation_errors() : ''; ?>
 
 <table width="800" class="arial8">
     <tr>
         <td colspan="3" class="arial12">Sample information:</td>
         <td colspan="7" class="arial10">
             <i>Open new window to create Al/Fe/Ti concentrations for samples not in database:
-                <?php echo anchor('alchecks/quick_add',
-                    'click here',
-                    array('target' => 'dummy_alcheck_window')
-                ); ?>
+                <?php echo anchor('alchecks/quick_add', 'click here', array('target' => 'dummy_alcheck_window')); ?>
             </i>
         </td>
     </tr>
@@ -137,7 +132,7 @@
     </tr>
 
     <!-- Display all the analysis information -->
-    <?php for ($i = 0; $i < $num_analyses; $i++): // main display loop ?>
+    <?php for ($i = 0; $i < $num_analyses; $i++): // main display loop?>
         <tr><td colspan="10"><hr></td></tr>
         <tr>
             <td> <?php echo $batch->Analysis[$i]->id; ?> </td>
@@ -226,7 +221,7 @@
         </tr>
 
         <!-- Print save and refresh button every two rows -->
-        <?php if ( ($i % 2) != 0): ?>
+        <?php if (($i % 2) != 0): ?>
             <tr>
                 <td colspan="11"><hr></td>
             </tr>
@@ -236,7 +231,7 @@
                 </td>
             </tr>
         <?php endif; ?>
-    <?php endfor; // main display loop ?>
+    <?php endfor; // main display loop?>
 
     <tr><td colspan="10"><hr></td></tr>
 </table>

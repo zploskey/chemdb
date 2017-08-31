@@ -2,8 +2,7 @@
 
 class Samples extends MY_Controller
 {
-
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->load->library('session');
@@ -12,10 +11,8 @@ class Samples extends MY_Controller
 
     /**
      * Loads a page listing samples.
-     *
-     * @return void
      **/
-    function index()
+    public function index()
     {
         $query = $this->_handle_query_session();
         $paginated_data = $this->_paginate($query);
@@ -23,8 +20,7 @@ class Samples extends MY_Controller
         $display_data = array(
             'title'            => 'Manage Samples',
             'main'             => 'samples/index',
-            'extraHeadContent' =>
-                '<script type="text/javascript" src="js/sample_search.js"></script>',
+            'extraHeadContent' => '<script type="text/javascript" src="js/sample_search.js"></script>',
         );
 
         $data = array_merge($display_data, $paginated_data);
@@ -38,7 +34,7 @@ class Samples extends MY_Controller
      *
      * @return $query the user's query string
      */
-    function _handle_query_session()
+    public function _handle_query_session()
     {
         $query = $this->input->post('query');
         $is_continuation = $this->uri->segment(3);
@@ -59,9 +55,10 @@ class Samples extends MY_Controller
      *      URI number:     1   /  2  /   3   /    4   / 5
      *        Defaults: samples/index /  name  /  desc  / 0
      *
+     * @param mixed $query
      * @return $data array with pagination settings and sample list included
      **/
-    function _paginate($query)
+    public function _paginate($query)
     {
         $sort_by = $this->uri->segment(3, 'name');
         $sort_dir = strtolower($this->uri->segment(4, 'asc'));
@@ -94,7 +91,7 @@ class Samples extends MY_Controller
         $data = array(
             'samples'          => $samples,
             'paginate'         => ($nrows > $num_per_page),
-            'pagination'       => 'Go to page: ' . $this->pagination->create_links(),
+            'pagination'       => 'Go to page: '.$this->pagination->create_links(),
             'sort_by'          => $sort_by,
             'alt_sort_dir'     => switch_sort($sort_dir),
             'page'             => $page,
@@ -108,8 +105,9 @@ class Samples extends MY_Controller
      * Displays the edit form and evaluates submits. If the submit validates properly,
      * it makes change to sample in database and redirects.
      *
+     * @param mixed $id
      */
-    function edit($id = 0)
+    public function edit($id = 0)
     {
         $is_refresh = $this->input->post('is_refresh');
 
@@ -126,7 +124,9 @@ class Samples extends MY_Controller
                 show_404('page');
             }
 
-            if (isset($sample->Project)) $data->project = $sample->Project;
+            if (isset($sample->Project)) {
+                $data->project = $sample->Project;
+            }
 
             $data->title = 'Edit Sample';
             $data->subtitle = 'Editing '.$sample->name;
@@ -163,12 +163,11 @@ class Samples extends MY_Controller
                         $off++;
                         continue;
                     }
-                    $sample['ProjectSample'][$i-$off]['project_id'] = $proj[$i];
-                    $sample['ProjectSample'][$i-$off]['sample_id'] = $sample->id;
+                    $sample['ProjectSample'][$i - $off]['project_id'] = $proj[$i];
+                    $sample['ProjectSample'][$i - $off]['sample_id'] = $sample->id;
                 }
                 $sample->save();
                 $sample = $query->where('s.id = ?', $sample->id)->fetchOne();
-
             }
         }
 
@@ -182,7 +181,7 @@ class Samples extends MY_Controller
             }
         }
         $projects = Doctrine_Core::getTable('Project')->getList();
-        $defaultSelect = "<option></option>";
+        $defaultSelect = '<option></option>';
         foreach ($projects as $p) {
             $defaultOption = "<option value=$p->id>$p->name</option>";
             $selected = "<option value=$p->id selected>$p->name</option>";
@@ -198,7 +197,7 @@ class Samples extends MY_Controller
             $defaultSelect .= $defaultOption;
         }
         $data->defaultSelect = $defaultSelect;
-        $data->projOptions   = $projOptions;
+        $data->projOptions = $projOptions;
 
         // set up some javascript to add more project select boxes
         $data->extraHeadContent = <<<EHC
@@ -209,7 +208,7 @@ class Samples extends MY_Controller
 EHC;
 
         $data->sample = $sample;
-        $data->main   = 'samples/edit';
+        $data->main = 'samples/edit';
         $this->load->view('template', $data);
     }
 
@@ -217,13 +216,13 @@ EHC;
      * Shows the data for a sample and allows the user to calculate exposure ages for
      * a given analysis and AMS measurement.
      *
-     * @return void
+     * @param mixed $id
      */
-    function view($id)
+    public function view($id)
     {
         $sample = Doctrine_Core::getTable('Sample')->fetchViewdataById($id);
 
-        if ( ! $sample) {
+        if (!$sample) {
             show_404('page');
         }
 
@@ -235,7 +234,8 @@ EHC;
         $data->nAnalyses = $sample->Analysis->count();
 
         // callback to convert from g to ug and round to 2 decimal places
-        function convAndRound($x) {
+        function convAndRound($x)
+        {
             return sprintf('%.1f', round($x * 1e6, 1));
         }
 
@@ -251,7 +251,7 @@ EHC;
             $ppmAl = safe_divide($massAl[0] * 1e-6, $an->getSampleWt());
             $ppmAl = sprintf('%.3e', $ppmAl);
             // and we'll show in value x 10^(superscript) style
-            $data->ppmAl[] = str_replace('e',' &times; 10<sup>', $ppmAl) . '</sup>';
+            $data->ppmAl[] = str_replace('e', ' &times; 10<sup>', $ppmAl).'</sup>';
             $data->yieldBe[] = sprintf('%.3f', $an->getPctYield('Be'));
             if (!$calcsExist) {
                 $calcsExist = isset($an->BeAms[0]->BeAmsStd) || isset($an->AlAms[0]->AlAmsStd);
@@ -259,18 +259,19 @@ EHC;
         }
 
         $data->calcsExist = $calcsExist;
-        $data->title      = 'View Sample';
-        $data->subtitle   = 'Viewing ' . $sample->name;
-        $data->sample     = $sample;
-        $data->main       = 'samples/view';
+        $data->title = 'View Sample';
+        $data->subtitle = 'Viewing '.$sample->name;
+        $data->sample = $sample;
+        $data->main = 'samples/view';
         $this->load->view('template', $data);
     }
 
     /**
      *  Sends a request to the CRONUS calculator for dating and displays the results
      *  in a new window.
+     * @param mixed $id
      */
-    function submit_to_calc($id)
+    public function submit_to_calc($id)
     {
         $sample = Doctrine_Core::getTable('Sample')->fetchViewdataById($id);
         $nAnalyses = $sample->Analysis->count();
@@ -330,13 +331,14 @@ EHC;
      * A callback function for javascript auto-completion of sample names.
      * Prints all the names that contain the query ($_POST['q']), each
      * followed by a newline character.
-     * @return void
      */
-    function search_names()
+    public function search_names()
     {
         $q = $this->input->get('term');
 
-        if (!$q) return;
+        if (!$q) {
+            return;
+        }
 
         $samples = Doctrine_Query::create()
                ->from('Sample s')
@@ -345,7 +347,9 @@ EHC;
                ->orderBy('s.name ASC')
                ->fetchArray();
 
-        if (!$samples) return;
+        if (!$samples) {
+            return;
+        }
 
         $res = array();
         foreach ($samples as $s) {
@@ -358,16 +362,18 @@ EHC;
     /**
      * Validates the antarctic checkbox. Returns true if the value is 1.
      *
+     * @param mixed $val
      * @return bool
      **/
-    function _valid_antarctic($val)
+    public function _valid_antarctic($val)
     {
         if (!isset($val) || $val == 1) {
             return true;
         }
-        $this->form_validation->set_message('sample[antarctic]',
-            'The %s field must be checked (set to 1) or not selected at all.');
+        $this->form_validation->set_message(
+            'sample[antarctic]',
+            'The %s field must be checked (set to 1) or not selected at all.'
+        );
         return false;
     }
-
 }
