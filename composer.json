@@ -16,6 +16,10 @@
         "components/jqueryui": "^1.12",
         "components/normalize.css": "^3.0"
     },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.0",
+        "phpunit/phpunit": ">=4.8"
+    },
     "autoload": {
         "psr-0": {
             "sfYaml": "vendor/lexpress/doctrine1/lib/Doctrine/Parser/sfYaml"
