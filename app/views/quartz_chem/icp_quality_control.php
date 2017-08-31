@@ -64,7 +64,7 @@ for ($a = 0; $a < $batch['nsamples']; $a++):
 
             <?php if ($r == 0):; ?>
                 <td>Split <?php echo $an['Split'][$s]['split_num']; ?></td>
-                <td><?php echo $an['Split'][$s]['SplitBkr']['bkr_number']; ?></td>
+                <td><?php echo @$an['Split'][$s]['SplitBkr']['bkr_number']; ?></td>
             <?php else: ?>
                 <td colspan="4"></td>
             <?php endif; ?>
