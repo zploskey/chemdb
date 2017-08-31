@@ -56,7 +56,6 @@ function switch_sort($cur, $default = 'asc')
  * @param array $arr array of elements with string representations
  * @param mixed $do_and
  * @return string $str comma separated list, including an and before the last element
- * @author cosmolab
  **/
 function comma_str($arr, $do_and = false)
 {
