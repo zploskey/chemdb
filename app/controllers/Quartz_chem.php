@@ -800,26 +800,4 @@ class Quartz_chem extends MY_Controller
         }
         return;
     }
-
-    // ----------
-    // CALLBACKS:
-    // ----------
-
-    /**
-     * Returns true if $data is a valid date in YYYY-MM-DD format. Otherwise an
-     * error message is set, and the function returns false.
-     * @param string $date date in YYYY-MM-DD format
-     * @access private
-     */
-    function _valid_date($date)
-    {
-        if ($this->form_validation->valid_date($date)) {
-            return true;
-        }
-
-        $this->form_validation->set_message('_valid_date',
-            'The %s field must be a valid date in the format YYYY-MM-DD.');
-        return false;
-    }
-
 }

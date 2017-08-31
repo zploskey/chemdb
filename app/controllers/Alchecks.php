@@ -444,21 +444,4 @@ class Alchecks extends MY_Controller
         $data->title = 'Dummy Al check';
         $this->load->view('template', $data);
     }
-
-    // CALLBACKS
-
-    /**
-     * @param string $date date in YYYY-MM-DD format
-     */
-    function _valid_date($date)
-    {
-        if ($this->form_validation->valid_date($date)) {
-            return true;
-        }
-
-        $this->form_validation->set_message('_valid_date',
-            'The %s field must be a valid date in the format YYYY-MM-DD.');
-        return false;
-    }
-
 }
