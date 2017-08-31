@@ -1,10 +1,4 @@
-<?php echo form_open(
-    'alchecks/add_solution_weights',
-    '',
-    array( // hidden variables
-        'refresh'  => 'true',
-        'batch_id' => $batch->id, )
-); ?>
+<?php echo form_open('alchecks/add_solution_weights', '', array('refresh' => 'true', 'batch_id' => $batch->id)); ?>
 
 Batch ID: <?php echo $batch->id; ?><br/>
 Batch date: <?php echo $batch->prep_date; ?><br/>
@@ -12,11 +6,7 @@ Batch owner: <?php echo $batch->owner; ?><br/>
 Number of samples: <?php echo $nsamples; ?><br/>
 Batch description: <?php echo $batch->description; ?><br/>
 
-<?php
-if ($errors) {
-    echo '<hr>'.validation_errors();
-}
-?>
+<?php echo $errors ? '<hr>'.validation_errors() : ''; ?>
 
 <table width="800">
     <tr>

@@ -1,11 +1,5 @@
 <?php
-echo form_open(
-    'alchecks/new_batch',
-    '',
-    array('batch_id' => $batch->id,
-          'refresh'  => true, )
-);
-
+echo form_open('alchecks/new_batch', '', array('batch_id' => $batch->id, 'refresh' => true));
 echo validation_errors();
 ?>
 <table width="800">
