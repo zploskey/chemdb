@@ -10,9 +10,9 @@ class Carriers extends MY_Controller
     /**
      * Loads a page listing carriers of links to the carrier types.
      *
-     * @param mixed $element
-     * @param mixed $sort_by
-     * @param mixed $sort_dir
+     * @param string $element Element abbreviation (lower case)
+     * @param string $sort_by Carrier property to sort by
+     * @param string $sort_dir Sort direction; 'asc' for ascending, 'desc' for descending
      **/
     public function index($element = '', $sort_by = 'id', $sort_dir = 'asc')
     {
@@ -53,8 +53,8 @@ class Carriers extends MY_Controller
      * Displays the edit form and evaluates submits. If the submit validates properly,
      * it makes change to carrier in database and redirects.
      *
-     * @param mixed $element
-     * @param mixed $id
+     * @param string $element Element abbreviation (lower case)
+     * @param int $id Carrier id
      */
     public function edit($element, $id = 0)
     {
@@ -115,8 +115,8 @@ class Carriers extends MY_Controller
     /**
      * Shows the data for a carrier.
      *
-     * @param mixed $element
-     * @param mixed $id
+     * @param string $element Element abbreviation (lower case)
+     * @param int $id Carrier id
      */
     public function view($element, $id)
     {
