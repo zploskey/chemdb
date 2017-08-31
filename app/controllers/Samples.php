@@ -182,10 +182,10 @@ class Samples extends MY_Controller
             }
         }
         $projects = Doctrine_Core::getTable('Project')->getList();
-        $defaultSelect = '<option>';
+        $defaultSelect = "<option></option>";
         foreach ($projects as $p) {
-            $defaultOption = "<option value=$p->id>$p->name";
-            $selected = "<option value=$p->id selected>$p->name";
+            $defaultOption = "<option value=$p->id>$p->name</option>";
+            $selected = "<option value=$p->id selected>$p->name</option>";
             if ($nprojs) {
                 for ($i = 0; $i < $nprojs; $i++) {
                     if ($sample['Project'][$i]['id'] == $p['id']) {
@@ -203,14 +203,9 @@ class Samples extends MY_Controller
         // set up some javascript to add more project select boxes
         $data->extraHeadContent = <<<EHC
             <script type="text/javascript">
-            var options='<select name="proj[]">$defaultSelect</select><br/>';
-            $(document).ready(function() {
-                $("#add_select").click(function(event) {
-                    event.preventDefault();
-                    $(options).insertBefore("#add_select");
-                });
-            });
+                var defaultSelect = "$defaultSelect";
             </script>
+            <script type="text/javascript" src="js/editSample.js"></script>
 EHC;
 
         $data->sample = $sample;

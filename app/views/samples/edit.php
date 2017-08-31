@@ -24,8 +24,7 @@
                 <td>
                     <?php
                     foreach ($projOptions as $po) {
-                        $first = false;
-                        echo '<select name="proj[]">', $po, '</select><br/>';
+                        echo '<select name="proj[]">', $po, "</select>\n<br/>\n";
                     }
                     ?>
                     <button id="add_select">Link a new project</button>
