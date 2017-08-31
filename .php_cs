@@ -6,8 +6,10 @@ return PhpCsFixer\Config::create()
         '@PSR2' => true,
         'align_multiline_comment' => true,
         'array_syntax' => true,
-        'binary_operator_spaces' => true,
-        'concat_space' => true,
+        'binary_operator_spaces' => array(
+            'align_double_arrow' => true,
+        ),
+        'concat_space' => array('spacing' => 'none'),
         'dir_constant' => true,
         'include' => true,
         'is_null' => true,
@@ -26,11 +28,15 @@ return PhpCsFixer\Config::create()
         'no_singleline_whitespace_before_semicolons' => true,
         'no_spaces_around_offset' => true,
         'no_trailing_comma_in_singleline_array' => true,
+        'no_trailing_comma_in_list_call' => true,
         'no_whitespace_in_blank_line' => true,
-        'not_operator_with_successor_space' => true,
-        'non_printable_character' => array('use_escape_sequences_in_strings' => true),
+        'no_unneeded_control_parentheses' => true,
+        'no_unused_imports' => true,
+        'no_useless_else' => true,
+        'no_useless_return' => true,
         'normalize_index_brace' => true,
         'object_operator_without_whitespace' => true,
+        'ordered_imports' => true,
         'phpdoc_add_missing_param_annotation' => true,
         'phpdoc_indent' => true,
         'phpdoc_no_empty_return' => true,
@@ -48,12 +54,14 @@ return PhpCsFixer\Config::create()
         'ternary_operator_spaces' => true,
         'trailing_comma_in_multiline_array' => true,
         'trim_array_spaces' => true,
+        'unary_operator_spaces' => true,
         'visibility_required' => true,
         'whitespace_after_comma_in_array' => true,
     ))
     ->setFinder(
         PhpCsFixer\Finder::create()
             ->in('app')
+            ->exclude('app/views/errors')
             ->exclude('cache')
             ->exclude('config')
             ->exclude('logs')
