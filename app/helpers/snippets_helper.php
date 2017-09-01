@@ -22,9 +22,9 @@ function safe_divide($num, $den)
  * Changes 'asc' to 'desc' OR 'desc' to 'asc'.  Assumes that the default value is a descending sort
  * if no second parameter is passed. Also converts the returned value to lower case.
  *
- * @param mixed $cur
- * @param mixed $default
- * @return string
+ * @param string $cur Current sort direction ('desc' or 'asc')
+ * @param string $default Default sort direction
+ * @return string Opposite sort direction
  **/
 function switch_sort($cur, $default = 'asc')
 {
@@ -53,9 +53,10 @@ function switch_sort($cur, $default = 'asc')
  *
  * Yields: "blue, red, green and yellow"
  *
- * @param array $arr array of elements with string representations
- * @param mixed $do_and
- * @return string $str comma separated list, including an and before the last element
+ * @param array $arr Strings to convert to a comma and space separated string
+ * @param bool $do_and Should the last comma be converted to " and"
+ * @return string $str Comma separated list, optionally including " and "
+ *                     before the last element.
  **/
 function comma_str($arr, $do_and = false)
 {
@@ -97,8 +98,8 @@ function getRealIp()
 
 /**
  * Squares a number (an int or float).
- * @param mixed $x
- * @param mixed $x * $x
+ * @param number $x Number to square
+ * @param number $x * $x
  */
 function square($x)
 {
@@ -107,14 +108,21 @@ function square($x)
 
 /**
  * A poor man's sum of squares.
- * @param array $vals of float
- * @return float
+ * @param array $vals Numeric values
+ * @return number
  **/
 function sum_of_squares($vals)
 {
     return array_sum(array_map('square', $vals));
 }
 
+/**
+ * Sum of squared errors.
+ *
+ * @param array $vals Numeric values
+ * @param float $xbar Mean value of $vals
+ * @return float Sum of squared errors of $vals
+ */
 function sse($vals, $xbar)
 {
     foreach ($vals as $x) {
@@ -128,8 +136,10 @@ function sse($vals, $xbar)
  * as a second parameter.
  * By default returns the sample standard deviation of $vals. You can change
  * the degrees of freedom w/ the second argument.
- * @param mixed $vals
- * @param mixed $dof
+ *
+ * @param array $vals Numeric values
+ * @param int $dof Degrees of freedom
+ * @return float Mean standard deviation
  */
 function meanStdDev($vals, $dof = 1)
 {
@@ -143,17 +153,35 @@ function meanStdDev($vals, $dof = 1)
     return array($xbar, sqrt(sse($vals, $xbar) / ($n - $dof)));
 }
 
+/**
+ * Mean of data set using safe_divide.
+ *
+ * @param array $vals Numeric values
+ * @return float Mean of $vals
+ */
 function mean($vals)
 {
     return safe_divide(array_sum($vals), count($vals));
 }
 
+/**
+ * Round a value to the a multiple.
+ *
+ * @param number $num Number to round
+ * @param number $toNearest Multiple to round to. Not very useful if not an int
+ */
 function roundToNearest($num, $toNearest = 5)
 {
     $nearest = abs($toNearest);
     return round(safe_divide($num, $nearest)) * $nearest;
 }
 
+/**
+ * Round a value down to the nearest multiple.
+ *
+ * @param number $num Number to round
+ * @param number $toNearest Multiple to round to. Not very useful if not an int
+ */
 function roundDownToNearest($num, $toNearest = 5)
 {
     $nearest = abs($toNearest);
