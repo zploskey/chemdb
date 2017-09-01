@@ -58,7 +58,7 @@ class Samples extends MY_Controller
      * @param mixed $query
      * @return $data array with pagination settings and sample list included
      **/
-    public function _paginate($query)
+    protected function _paginate($query)
     {
         $sort_by = $this->uri->segment(3, 'name');
         $sort_dir = strtolower($this->uri->segment(4, 'asc'));
