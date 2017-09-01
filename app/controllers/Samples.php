@@ -52,11 +52,11 @@ class Samples extends MY_Controller
 
     /**
      *   Pagination url: samples/index/sort_by/sort_dir/page
-     *      URI number:     1   /  2  /   3   /    4   / 5
-     *        Defaults: samples/index /  name  /  desc  / 0
+     *      URI number:    1    /  2  /   3   /   4    / 5
+     *        Defaults:  samples/index/  name /  asc   / 0
      *
-     * @param mixed $query
-     * @return $data array with pagination settings and sample list included
+     * @param string $query
+     * @return array $data Pagination settings and sample list
      **/
     protected function _paginate($query)
     {
@@ -105,7 +105,7 @@ class Samples extends MY_Controller
      * Displays the edit form and evaluates submits. If the submit validates properly,
      * it makes change to sample in database and redirects.
      *
-     * @param mixed $id
+     * @param int $id Sample id
      */
     public function edit($id = 0)
     {
@@ -216,7 +216,7 @@ EHC;
      * Shows the data for a sample and allows the user to calculate exposure ages for
      * a given analysis and AMS measurement.
      *
-     * @param mixed $id
+     * @param int $id Sample id
      */
     public function view($id)
     {
@@ -269,7 +269,7 @@ EHC;
     /**
      *  Sends a request to the CRONUS calculator for dating and displays the results
      *  in a new window.
-     * @param mixed $id
+     * @param int $id Sample id
      */
     public function submit_to_calc($id)
     {
@@ -362,7 +362,7 @@ EHC;
     /**
      * Validates the antarctic checkbox. Returns true if the value is 1.
      *
-     * @param mixed $val
+     * @param string $val Checkbox value
      * @return bool
      **/
     public function _valid_antarctic($val)
