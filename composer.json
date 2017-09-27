@@ -10,7 +10,7 @@
     },
     "require": {
         "php": ">=5.3.7",
-        "codeigniter/framework": "~3.1.5",
+        "codeigniter/framework": "^3.1",
         "lexpress/doctrine1": "^1.3.4",
         "components/jquery": "^3.2",
         "components/jqueryui": "^1.12",
