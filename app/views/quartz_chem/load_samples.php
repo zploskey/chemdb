@@ -45,7 +45,7 @@
                 if (null !== $batch->BeCarrier->del_be_conc) {
                     echo ' &plusmn; ', (float)$batch->BeCarrier->del_be_conc;
                 }
-                echo ' ug/g';
+                echo ' &micro;g/g';
             } ?>
         </td>
         <td></td>
@@ -57,7 +57,7 @@
                 if (null !== $batch->AlCarrier->del_al_conc) {
                     echo ' &plusmn; ', (float)$batch->AlCarrier->del_al_conc;
                 }
-                echo ' ug/g';
+                echo ' &micro;g/g';
             } ?>
         </td>
     </tr>
