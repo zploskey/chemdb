@@ -192,19 +192,19 @@ $config['load_samples'] = array(
     array(
         'field' => 'wt_be_carrier_init',
         'label' => 'Be carrier initial weight',
-        'rules' => 'trim|is_numeric'),
+        'rules' => 'strip_spaces|is_numeric'),
     array(
         'field' => 'wt_be_carrier_final',
         'label' => 'Be carrier final weight',
-        'rules' => 'trim|is_numeric'),
+        'rules' => 'strip_spaces|is_numeric'),
     array(
         'field' => 'wt_al_carrier_init',
         'label' => 'Al carrier initial weight ',
-        'rules' => 'trim|is_numeric'),
+        'rules' => 'strip_spaces|is_numeric'),
     array(
         'field' => 'wt_al_carrier_final',
         'label' => 'Al carrier final wt',
-        'rules' => 'trim|is_numeric'),
+        'rules' => 'strip_spaces|is_numeric'),
     array(
         'field' => 'sample_name[]',
         'label' => 'sample name',
@@ -220,26 +220,26 @@ $config['load_samples'] = array(
     array(
         'field' => 'wt_diss_bottle_tare[]',
         'label' => 'Wt. bottle tare',
-        'rules' => 'trim|is_numeric'),
+        'rules' => 'strip_spaces|is_numeric'),
     array(
         'field' => 'wt_diss_bottle_sample[]',
         'label' => 'Wt. bottle + sample',
-        'rules' => 'trim|is_numeric'),
+        'rules' => 'strip_spaces|is_numeric'),
     array(
         'field' => 'wt_be_carrier[]',
         'label' => 'Wt. Be carrier soln.',
-        'rules' => 'trim|is_numeric|abs'),
+        'rules' => 'strip_spaces|is_numeric|abs'),
     array(
         'field' => 'wt_al_carrier[]',
         'label' => 'Wt. Al carrier soln.',
-        'rules' => 'trim|is_numeric|abs'),
+        'rules' => 'strip_spaces|is_numeric|abs'),
 );
 
 $config['add_solution_weights'] = array(
     array(
         'field' => 'wt_diss_bottle_total[]',
         'label' => 'total weight',
-        'rules' => 'trim|is_numeric|abs'),
+        'rules' => 'strip_spaces|is_numeric|abs'),
     array(
         'field' => 'batch[notes]',
         'label' => 'batch notes',
@@ -258,11 +258,11 @@ $config['add_split_weights'] = array(
     array(
         'field' => 'bkr_tare[]',
         'label' => 'beaker tare wt.',
-        'rules' => 'trim|is_numeric|abs'),
+        'rules' => 'strip_spaces|is_numeric|abs'),
     array(
         'field' => 'bkr_split[]',
         'label' => 'beaker + split wt.',
-        'rules' => 'trim|is_numeric|abs'),
+        'rules' => 'strip_spaces|is_numeric|abs'),
 );
 
 $config['add_icp_weights'] = array(
@@ -277,7 +277,7 @@ $config['add_icp_weights'] = array(
     array(
         'field' => 'tot_wts[]',
         'label' => 'beaker + ICP solution wt.',
-        'rules' => 'trim|is_numeric|abs'),
+        'rules' => 'strip_spaces|is_numeric|abs'),
 );
 
 $config['add_icp_results'] = array(
@@ -335,11 +335,11 @@ $config['al_sample_loading'] = array(
     array(
         'field' => 'wt_bkr_tare[]',
         'label' => 'beaker tare weight',
-        'rules' => 'trim|is_numeric|abs'),
+        'rules' => 'strip_spaces|is_numeric|abs'),
     array(
         'field' => 'wt_bkr_sample[]',
         'label' => 'beaker + sample weight',
-        'rules' => 'trim|is_numeric|abs'),
+        'rules' => 'strip_spaces|is_numeric|abs'),
     array(
         'field' => 'notes[]',
         'label' => 'notes',
@@ -350,11 +350,11 @@ $config['al_add_solution_weights'] = array(
     array(
         'field' => 'wt_bkr_soln[]',
         'label' => 'Bkr + soln.',
-        'rules' => 'trim|is_numeric|abs'),
+        'rules' => 'strip_spaces|is_numeric|abs'),
     array(
         'field' => 'addl_dil_factor[]',
         'label' => "Add'l DF",
-        'rules' => 'trim|is_numeric|abs'),
+        'rules' => 'strip_spaces|is_numeric|abs'),
     array(
         'field' => 'notes[]',
         'label' => 'notes',

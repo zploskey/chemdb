@@ -187,3 +187,14 @@ function roundDownToNearest($num, $toNearest = 5)
     $nearest = abs($toNearest);
     return floor(safe_divide($num, $nearest)) * $nearest;
 }
+
+/**
+ * Remove spaces from string.
+ *
+ * @param string $string 
+ * @return string String with spaces removed.
+ */
+function strip_spaces($string)
+{
+    return str_replace(' ', '', $string);
+}
