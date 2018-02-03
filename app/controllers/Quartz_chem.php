@@ -624,8 +624,8 @@ class Quartz_chem extends MY_Controller
             $batch->notes = $this->input->post('notes');
             $raw_al = $this->input->post('al_text');
             $raw_be = $this->input->post('be_text');
-            $al_lines = split("[\n]", $raw_al);
-            $be_lines = split("[\n]", $raw_be);
+            $al_lines = explode(PHP_EOL, $raw_al);
+            $be_lines = explode(PHP_EOL, $raw_be);
 
             // now validate our entries
             // this regexp to match a word followed by floating point numbers, just what we want
