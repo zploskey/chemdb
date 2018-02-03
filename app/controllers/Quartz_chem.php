@@ -185,15 +185,15 @@ class Quartz_chem extends MY_Controller
         for ($a = 0; $a < $num_analyses; $a++) {
             $an = $batch->Analysis[$a];
             // create diss bottle dropdown options for each sample
-            $html = '';
+            $bottle_option_html = '';
             foreach ($diss_bottles as $bottle) {
-                $html .= '<option value='.$bottle->id;
+                $bottle_option_html .= '<option value='.$bottle->id;
                 if ($bottle->id == $an->diss_bottle_id) {
-                    $html .= ' selected';
+                    $bottle_option_html .= ' selected';
                 }
-                $html .= "> $bottle->bottle_number";
+                $bottle_option_html .= "> $bottle->bottle_number";
             }
-            $diss_bottle_options[$a] = $html;
+            $diss_bottle_options[$a] = $bottle_option_html;
 
             // get cations while we're at it
             if (isset($an->Sample)) {
