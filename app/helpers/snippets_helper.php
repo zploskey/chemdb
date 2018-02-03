@@ -3,6 +3,40 @@
 }
 
 /*
+ * Cast $val to float if it is numeric (is_numeric($val) == TRUE).
+ *
+ * @param mixed $val value to possibly modify
+ * @return mixed $val value cast to float if it is was numeric
+ */
+function floatcast($val)
+{
+    if (is_numeric($val)) {
+        return (float)$val;
+    } else {
+        return $val;
+    }
+}
+
+/*
+ * Call htmlspecialchars and floatcast on contents of $obj.
+ *
+ * @param array $obj
+ * @return array $obj
+ */
+function prep_for_output($obj)
+{
+    $iterated = FALSE;
+    foreach ($obj as $key => $val) {
+        $obj[$key] = htmlspecialchars(floatcast($val));
+        $iterated = TRUE;
+    }
+    if (!$iterated) {
+        $obj = htmlspecialchars(floatcast($obj));
+    }
+    return $obj;
+}
+
+/*
  * Helper function to divide without division by zero.
  * @param double|int $num numerator
  * @param double|int $den denominator
