@@ -195,8 +195,6 @@ class Quartz_chem extends MY_Controller
             }
             $diss_bottle_options[$a] = $html;
 
-            $temp_sample_wt = $an->getSampleWt();
-
             // get cations while we're at it
             if (isset($an->Sample)) {
                 $sample_name = $an->Sample->name;
@@ -222,9 +220,10 @@ class Quartz_chem extends MY_Controller
                     ($precheck['wt_bkr_sample'] - $precheck['wt_bkr_tare'])
                 );
 
-                $temp_al = $precheck['icp_al'] * $temp_df * $temp_sample_wt / 1000;
-                $temp_fe = $precheck['icp_fe'] * $temp_df * $temp_sample_wt / 1000;
-                $temp_ti = $precheck['icp_ti'] * $temp_df * $temp_sample_wt / 1000;
+                $sample_wt = $an->getSampleWt();
+                $temp_al = $precheck['icp_al'] * $temp_df * $sample_wt / 1000;
+                $temp_fe = $precheck['icp_fe'] * $temp_df * $sample_wt / 1000;
+                $temp_ti = $precheck['icp_ti'] * $temp_df * $sample_wt / 1000;
                 $temp_tot_al = $temp_al +
                     ($an->wt_al_carrier * $batch->AlCarrier->al_conc) / 1000;
 
