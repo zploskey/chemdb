@@ -28,9 +28,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * This will be used as the Doctrine connection name.
  */
 $active_group = 'default';
-$db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'chemdb_user';
-$db['default']['password'] = 'chosen password';
+$db['default']['hostname'] = 'db';
+$db['default']['username'] = 'chemdb';
+$db['default']['password'] = 'chemdb';
 $db['default']['database'] = 'chemdb';
 $db['default']['dbdriver'] = 'mysql';
 
