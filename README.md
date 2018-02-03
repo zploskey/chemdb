@@ -57,7 +57,7 @@ Copy site-specific configuration template files to their appropriate locations:
     cp app/config/config.php.changeme app/config/config.php
     cp app/config/database.php.changeme app/config/database.php
 
-The changeme files may be updated in future releases
+The changeme files may be updated in future releases.
 
 In `app/config/config.php`, set the base URL of the site:
 
