@@ -18,22 +18,35 @@ function floatcast($val)
 }
 
 /*
- * Call htmlspecialchars and floatcast on contents of $obj.
+ * Call htmlspecialchars and floatcast on contents of $arraylike.
+ * Works with nested arrays and Doctrine_Records.
  *
- * @param array $obj
- * @return array $obj
+ * @param mixed $arraylike
+ * @return mixed $arraylike
  */
-function prep_for_output($obj)
+function prep_for_output($arraylike)
 {
-    $iterated = FALSE;
-    foreach ($obj as $key => $val) {
-        $obj[$key] = htmlspecialchars(floatcast($val));
-        $iterated = TRUE;
+    $is_doctrine_record = $arraylike instanceof Doctrine_Record;
+    if ($is_doctrine_record) {
+        $arr = $arraylike->toArray();
+    } else {
+        $arr = $arraylike;
     }
-    if (!$iterated) {
-        $obj = htmlspecialchars(floatcast($obj));
+
+    foreach ($arr as $key => $val) {
+        if (is_array($val) || is_object($val))
+        {
+            $arr[$key] = prep_for_output($val);
+        } elseif ($val) {
+            $arr[$key] = htmlspecialchars(floatcast($val));
+        }
     }
-    return $obj;
+
+    if ($is_doctrine_record) {
+        $arr = $arraylike->merge($arr);
+    }
+
+    return $arr;
 }
 
 /*
