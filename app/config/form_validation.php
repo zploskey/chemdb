@@ -20,7 +20,7 @@ $config['projects'] = array(
     array(
         'field' => 'description',
         'label' => 'description',
-        'rules' => 'trim|htmlentities'),
+        'rules' => 'trim'),
     array(
         'field' => 'samp',
         'label' => 'sample',

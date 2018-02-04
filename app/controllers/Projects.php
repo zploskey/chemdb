@@ -42,10 +42,10 @@ class Projects extends MY_Controller
         $data = array(
             'title'         => 'Manage Projects',
             'main'          => 'projects/index',
-            'projects'      => $projects,
+            'projects'      => prep_for_output($projects),
             'paginate'      => ($nrows > $num_per_page),
             'pagination'    => $this->pagination->create_links(),
-            'alt_sort_dir'  => switch_sort($sort_dir),  // a little trick I put in the snippet helper
+            'alt_sort_dir'  => switch_sort($sort_dir),
             'sort_by'       => $sort_by,
             'page'          => $page,
             'alt_sort_page' => $alt_sort_page,
@@ -137,7 +137,7 @@ class Projects extends MY_Controller
                 redirect('projects/edit/'.$proj->id);
             }
         }
-        $data->proj = $proj;
+        $data->proj = prep_for_output($proj);
         $data->main = 'projects/edit';
         $this->load->view('template', $data);
     }
@@ -161,7 +161,7 @@ class Projects extends MY_Controller
         $data = new stdClass();
         $data->title = 'View Project';
         $data->subtitle = 'Viewing '.$proj->name;
-        $data->proj = $proj;
+        $data->proj = prep_for_output($proj);
         $data->main = 'projects/view';
         $this->load->view('template', $data);
     }
