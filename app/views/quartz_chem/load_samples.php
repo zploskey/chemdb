@@ -41,9 +41,9 @@
             [Be]:
             <?php
             if ($batch->BeCarrier) {
-                echo (float)$batch->BeCarrier->be_conc;
+                echo $batch->BeCarrier->be_conc;
                 if (null !== $batch->BeCarrier->del_be_conc) {
-                    echo ' &plusmn; ', (float)$batch->BeCarrier->del_be_conc;
+                    echo ' &plusmn; ', $batch->BeCarrier->del_be_conc;
                 }
                 echo ' &micro;g/g';
             } ?>
@@ -53,9 +53,9 @@
             [Al]:
             <?php
             if ($batch->AlCarrier) {
-                echo (float)$batch->AlCarrier->al_conc;
+                echo $batch->AlCarrier->al_conc;
                 if (null !== $batch->AlCarrier->del_al_conc) {
-                    echo ' &plusmn; ', (float)$batch->AlCarrier->del_al_conc;
+                    echo ' &plusmn; ', $batch->AlCarrier->del_al_conc;
                 }
                 echo ' &micro;g/g';
             } ?>
@@ -144,7 +144,7 @@
             <td>
                 <select name="sample_type[]" class="type">
 
-                    <?php if (strcmp(trim(strtoupper($batch->Analysis[$i]->sample_type)), 'BLANK') == 0): ?>
+                    <?php if (strtoupper(trim($batch->Analysis[$i]->sample_type)) == 'BLANK'): ?>
                         <option value="SAMPLE">Sample</option>
                         <option value="BLANK" selected>Blank</option>
                     <?php else: ?>

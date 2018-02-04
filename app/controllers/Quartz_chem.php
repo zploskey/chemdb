@@ -94,7 +94,7 @@ class Quartz_chem extends MY_Controller
         // set the rest of the view data
         $data->title = 'Add a batch';
         $data->main = 'quartz_chem/new_batch';
-        $data->batch = $this->_prepBatchForOutput($batch);
+        $data->batch = prep_for_output($batch);
         $this->load->view('template', $data);
     }
 
@@ -249,7 +249,7 @@ class Quartz_chem extends MY_Controller
             ->getSelectOptions($batch->al_carrier_id);
 
         // set display variables
-        $data->batch = $this->_prepBatchForOutput($batch);
+        $data->batch = prep_for_output($batch);
         $data->num_analyses = $num_analyses;
         $data->prechecks = $prechecks;
         $data->diss_bottle_options = $diss_bottle_options;
@@ -377,7 +377,7 @@ class Quartz_chem extends MY_Controller
         unset($an_data);
 
         $data = new stdClass();
-        $data->batch = $this->_prepBatchForOutput($batch);
+        $data->batch = prep_for_output($batch);
         $data->tmpa = $tmpa;
         $data->user = $this->get_remote_user_html();
         $this->load->view('quartz_chem/print_tracking_sheet', $data);
@@ -434,7 +434,7 @@ class Quartz_chem extends MY_Controller
         $data->numsamples = $batch->Analysis->count();
         $data->title = 'Add total solution weights';
         $data->main = 'quartz_chem/add_solution_weights';
-        $data->batch = $this->_prepBatchForOutput($batch);
+        $data->batch = prep_for_output($batch);
         $this->load->view('template', $data);
     }
 
@@ -483,29 +483,26 @@ class Quartz_chem extends MY_Controller
             }
 
             if ($is_valid) {
+                // add a new split if requested
+                for ($i = 0; $i < $numsamples; $i++) {
+                    if ($this->input->post('a'.$i)) {
+                        $tmp = new Split();
+                        $tmp->split_num = $batch->Analysis[$i]->Split->count() + 1;
+                        $batch->Analysis[$i]->Split[] = $tmp;
+                        break;
+                    }
+                }
+
                 $batch->save();
             } else {
                 $errors = true;
             }
-
-            // add a new split if requested
-            for ($i = 0; $i < $numsamples; $i++) {
-                if ($this->input->post('a'.$i)) {
-                    $tmp = new Split();
-                    $tmp->split_num = $batch->Analysis[$i]->Split->count() + 1;
-                    $batch->Analysis[$i]->Split[] = $tmp;
-                    $batch->save();
-                    break;
-                }
-            }
-
-            $batch = $query->fetchOne();
         }
 
         $data = new stdClass;
         $data->errors = $errors;
         $data->numsamples = $numsamples;
-        $data->batch = $this->_prepBatchForOutput($batch);
+        $data->batch = prep_for_output($batch);
         $data->bkr_list = Doctrine_Core::getTable('SplitBkr')->getList();
 
         $data->extraHeadContent = '<script src="js/setBeakerSeq.js" async></script>';
@@ -575,7 +572,7 @@ class Quartz_chem extends MY_Controller
         $data = new stdClass();
         $data->errors = $errors;
         $data->numsamples = $numsamples;
-        $data->batch = $this->_prepBatchForOutput($batch);
+        $data->batch = prep_for_output($batch);
         $data->title = 'Add ICP solution weights';
         $data->main = 'quartz_chem/add_icp_weights';
         $this->load->view('template', $data);
@@ -694,7 +691,7 @@ class Quartz_chem extends MY_Controller
             $data->nrows = 10;
         }
 
-        $data->batch = $this->_prepBatchForOutput($batch);
+        $data->batch = prep_for_output($batch);
         $data->title = 'ICP Results Uploading';
         $data->main = 'quartz_chem/add_icp_results';
         $this->load->view('template', $data);
@@ -728,7 +725,7 @@ class Quartz_chem extends MY_Controller
         }
 
         $data = new stdClass();
-        $batch = $this->_prepBatchForOutput($batch);
+        $batch = prep_for_output($batch);
         $data->batch = $batch->getReportArray(true);
         $data->errors = $errors;
         $data->title = 'ICP Quality Control';
@@ -745,14 +742,16 @@ class Quartz_chem extends MY_Controller
      */
     public function intermediate_report()
     {
+        $data = array();
         $batch_id = (int)$this->uri->segment(3, $this->input->post('batch_id'));
-        $data->batch = Doctrine_Core::getTable('Batch')
+        $batchReportArray = Doctrine_Core::getTable('Batch')
             ->getReportArray($batch_id);
-        $this->_dieIfQueryFailed($data->batch);
-        $data->title = 'Intermediate hard copy of weighings -- '
-                     .'Al - Be extraction from quartz';
-        $data->todays_date = date('Y-m-d');
-        $data->main = 'quartz_chem/intermediate_report';
+        $this->_dieIfQueryFailed($batchReportArray);
+        $data['batch'] = prep_for_output($batchReportArray);
+        $data['title'] = 'Intermediate hard copy of weighings -- '
+                       . 'Al - Be extraction from quartz';
+        $data['todays_date'] = date('Y-m-d');
+        $data['main'] = 'quartz_chem/intermediate_report';
         $this->load->view('quartz_chem/report_template', $data);
     }
 
@@ -779,20 +778,5 @@ class Quartz_chem extends MY_Controller
         if (!$obj) {
             die($msg);
         }
-    }
-
-    private function _prepBatchForOutput($batch)
-    {
-        prep_for_output($batch);
-        foreach ($batch->Analysis as $analysis) {
-            prep_for_output($analysis);
-            foreach ($analysis->Split as $split) {
-                prep_for_output($split);
-                foreach ($split->IcpRun as $run) {
-                    prep_for_output($run);
-                }
-            }
-        }
-        return $batch;
     }
 }
