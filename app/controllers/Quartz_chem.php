@@ -283,12 +283,11 @@ class Quartz_chem extends MY_Controller
             $btnId = '';
         }
         $data->extraHeadContent = '
-            <script type="text/javascript" src="js/sample_search.js" async>
+            <script src="js/sample_search.js" async></script>
+            <script>
+              var clickedButtonId = "'.$btnId.'";
             </script>
-            <script type="text/javascript">
-                var clickedButtonId = "'.$btnId.'";
-            </script>
-            <script type="text/javascript" src="js/loadSamples.js"></script>';
+            <script src="js/loadSamples.js"></script>';
 
         $data->title = 'Sample weighing and carrier addition';
         $data->main = 'quartz_chem/load_samples';
@@ -523,7 +522,7 @@ class Quartz_chem extends MY_Controller
         $data->batch = $batch;
         $data->bkr_list = Doctrine_Core::getTable('SplitBkr')->getList();
 
-        $data->extraHeadContent = '<script type="text/javascript" src="js/setBeakerSeq.js" async></script>';
+        $data->extraHeadContent = '<script src="js/setBeakerSeq.js" async></script>';
         $data->title = 'Add split weights';
         $data->main = 'quartz_chem/add_split_weights';
         $this->load->view('template', $data);

@@ -180,7 +180,7 @@ $config['load_samples'] = array(
     array(
         'field' => 'notes',
         'label' => 'notes',
-        'rules' => 'trim|htmlentities'),
+        'rules' => 'trim'),
     array(
         'field' => 'be_carrier_id',
         'label' => 'beryllium carrier id',
@@ -243,14 +243,14 @@ $config['add_solution_weights'] = array(
     array(
         'field' => 'batch[notes]',
         'label' => 'batch notes',
-        'rules' => 'trim|htmlentities'),
+        'rules' => 'trim'),
 );
 
 $config['add_split_weights'] = array(
     array(
         'field' => 'batch[notes]',
         'label' => 'batch notes',
-        'rules' => 'trim|htmlentities'),
+        'rules' => 'trim'),
     array(
         'field' => 'split_bkr[]',
         'label' => 'split beaker ID',
@@ -269,7 +269,7 @@ $config['add_icp_weights'] = array(
     array(
         'field' => 'batch[notes]',
         'label' => 'batch notes',
-        'rules' => 'trim|htmlentities'),
+        'rules' => 'trim'),
     array(
         'field' => 'batch[icp_date]',
         'label' => 'ICP date',
@@ -284,7 +284,7 @@ $config['add_icp_results'] = array(
     array(
         'field' => 'notes',
         'label' => 'notes',
-        'rules' => 'trim|htmlentities'),
+        'rules' => 'trim'),
 );
 
 $config['icp_quality_control'] = array(
@@ -299,7 +299,7 @@ $config['icp_quality_control'] = array(
     array(
         'field' => 'notes',
         'label' => 'notes',
-        'rules' => 'trim|htmlentities'),
+        'rules' => 'trim'),
 );
 
 // Aluminum checks

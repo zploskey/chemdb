@@ -20,7 +20,7 @@ class Samples extends MY_Controller
         $display_data = array(
             'title'            => 'Manage Samples',
             'main'             => 'samples/index',
-            'extraHeadContent' => '<script type="text/javascript" src="js/sample_search.js"></script>',
+            'extraHeadContent' => '<script src="js/sample_search.js"></script>',
         );
 
         $data = array_merge($display_data, $paginated_data);
@@ -201,10 +201,10 @@ class Samples extends MY_Controller
 
         // set up some javascript to add more project select boxes
         $data->extraHeadContent = <<<EHC
-            <script type="text/javascript">
+            <script>
                 var defaultSelect = "$defaultSelect";
             </script>
-            <script type="text/javascript" src="js/editSample.js"></script>
+            <script src="js/editSample.js"></script>
 EHC;
 
         $data->sample = $sample;

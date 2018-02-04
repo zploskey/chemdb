@@ -96,7 +96,7 @@ class Projects extends MY_Controller
 
         // set up some javascript to add more project select boxes
         $data->extraHeadContent =
-            '<script type="text/javascript" src="js/sample_search.js"></script>';
+            '<script src="js/sample_search.js"></script>';
 
         // validate anything that was submitted
         if ($is_refresh) {

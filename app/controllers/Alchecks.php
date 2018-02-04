@@ -171,7 +171,7 @@ class Alchecks extends MY_Controller
 
         // for autocomplete to work we need to load the script
         $data->extraHeadContent =
-            '<script type="text/javascript" src="js/sample_search.js"></script>';
+            '<script src="js/sample_search.js"></script>';
         $data->sample_name = $sample_name;
         $data->nsamples = $nsamples;
         $data->batch = $batch;
