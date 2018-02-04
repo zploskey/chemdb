@@ -89,7 +89,7 @@ class Samples extends MY_Controller
         $this->pagination->initialize($config);
 
         $data = array(
-            'samples'          => $samples,
+            'samples'          => prep_for_output($samples),
             'paginate'         => ($nrows > $num_per_page),
             'pagination'       => 'Go to page: '.$this->pagination->create_links(),
             'sort_by'          => $sort_by,
@@ -154,7 +154,6 @@ class Samples extends MY_Controller
             }
 
             if ($valid) {
-                $sample->merge($this->input->post('sample'));
                 $sample->unlink('Project');
                 $sample->save();
                 $off = 0;
@@ -167,7 +166,6 @@ class Samples extends MY_Controller
                     $sample['ProjectSample'][$i - $off]['sample_id'] = $sample->id;
                 }
                 $sample->save();
-                $sample = $query->where('s.id = ?', $sample->id)->fetchOne();
             }
         }
 
@@ -207,7 +205,7 @@ class Samples extends MY_Controller
             <script src="js/editSample.js"></script>
 EHC;
 
-        $data->sample = $sample;
+        $data->sample = prep_for_output($sample);
         $data->main = 'samples/edit';
         $this->load->view('template', $data);
     }
@@ -261,7 +259,7 @@ EHC;
         $data->calcsExist = $calcsExist;
         $data->title = 'View Sample';
         $data->subtitle = 'Viewing '.$sample->name;
-        $data->sample = $sample;
+        $data->sample = prep_for_output($sample);
         $data->main = 'samples/view';
         $this->load->view('template', $data);
     }
