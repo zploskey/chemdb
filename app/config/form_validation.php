@@ -165,11 +165,11 @@ $config['batches'] = array(
     array(
         'field' => 'description',
         'label' => 'description',
-        'rules' => 'trim|htmlentities'),
+        'rules' => 'trim'),
     array(
         'field' => 'owner',
         'label' => 'Initials',
-        'rules' => 'trim|htmlentities'),
+        'rules' => 'trim'),
     array(
         'field' => 'numsamples',
         'label' => '# of samples',

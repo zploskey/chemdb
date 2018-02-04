@@ -94,7 +94,7 @@ class Quartz_chem extends MY_Controller
         // set the rest of the view data
         $data->title = 'Add a batch';
         $data->main = 'quartz_chem/new_batch';
-        $data->batch = $batch;
+        $data->batch = $this->_prepBatchForOutput($batch);
         $this->load->view('template', $data);
     }
 
@@ -117,33 +117,19 @@ class Quartz_chem extends MY_Controller
         // if this is a refresh we need to validate the data
         if ($refresh) {
             $is_valid = $this->form_validation->run('load_samples');
+            $post = $this->input->post();
+            $batch->merge($post);
 
-            // grab the submitted batch data
-            $batch->notes = $this->input->post('notes');
-            $batch->be_carrier_id = $this->input->post('be_carrier_id');
-            $batch->al_carrier_id = $this->input->post('al_carrier_id');
-            $batch->wt_be_carrier_init = $this->input->post('wt_be_carrier_init');
-            $batch->wt_al_carrier_init = $this->input->post('wt_al_carrier_init');
-            $batch->wt_be_carrier_final = $this->input->post('wt_be_carrier_final');
-            $batch->wt_al_carrier_final = $this->input->post('wt_al_carrier_final');
-            // and array fields for each analysis
-            $sample_name = $this->input->post('sample_name');
-            $sample_type = $this->input->post('sample_type');
-            $diss_bottle_id = $this->input->post('diss_bottle_id');
-            $wt_diss_bottle_tare = $this->input->post('wt_diss_bottle_tare');
-            $wt_diss_bottle_sample = $this->input->post('wt_diss_bottle_sample');
-            $wt_be_carrier = $this->input->post('wt_be_carrier');
-            $wt_al_carrier = $this->input->post('wt_al_carrier');
-
-            for ($a = 0; $a < $num_analyses; $a++) { // analysis loop
+            // array fields for each analysis
+            for ($a = 0; $a < $num_analyses; $a++) {
                 $analysis = &$batch->Analysis[$a];
-                $analysis->sample_name = $sample_name[$a];
-                $analysis->sample_type = $sample_type[$a];
-                $analysis->diss_bottle_id = $diss_bottle_id[$a];
-                $analysis->wt_diss_bottle_tare = $wt_diss_bottle_tare[$a];
-                $analysis->wt_diss_bottle_sample = $wt_diss_bottle_sample[$a];
-                $analysis->wt_be_carrier = $wt_be_carrier[$a];
-                $analysis->wt_al_carrier = $wt_al_carrier[$a];
+                $analysis->sample_name = $post['sample_name'][$a];
+                $analysis->sample_type = $post['sample_type'][$a];
+                $analysis->diss_bottle_id = @$post['diss_bottle_id'][$a];
+                $analysis->wt_diss_bottle_tare = $post['wt_diss_bottle_tare'][$a];
+                $analysis->wt_diss_bottle_sample = $post['wt_diss_bottle_sample'][$a];
+                $analysis->wt_be_carrier = $post['wt_be_carrier'][$a];
+                $analysis->wt_al_carrier = $post['wt_al_carrier'][$a];
             }
             unset($analysis);
 
@@ -263,7 +249,7 @@ class Quartz_chem extends MY_Controller
             ->getSelectOptions($batch->al_carrier_id);
 
         // set display variables
-        $data->batch = $batch;
+        $data->batch = $this->_prepBatchForOutput($batch);
         $data->num_analyses = $num_analyses;
         $data->prechecks = $prechecks;
         $data->diss_bottle_options = $diss_bottle_options;
@@ -391,7 +377,7 @@ class Quartz_chem extends MY_Controller
         unset($an_data);
 
         $data = new stdClass();
-        $data->batch = $batch;
+        $data->batch = $this->_prepBatchForOutput($batch);
         $data->tmpa = $tmpa;
         $data->user = $this->get_remote_user_html();
         $this->load->view('quartz_chem/print_tracking_sheet', $data);
@@ -448,7 +434,7 @@ class Quartz_chem extends MY_Controller
         $data->numsamples = $batch->Analysis->count();
         $data->title = 'Add total solution weights';
         $data->main = 'quartz_chem/add_solution_weights';
-        $data->batch = $batch;
+        $data->batch = $this->_prepBatchForOutput($batch);
         $this->load->view('template', $data);
     }
 
@@ -519,7 +505,7 @@ class Quartz_chem extends MY_Controller
         $data = new stdClass;
         $data->errors = $errors;
         $data->numsamples = $numsamples;
-        $data->batch = $batch;
+        $data->batch = $this->_prepBatchForOutput($batch);
         $data->bkr_list = Doctrine_Core::getTable('SplitBkr')->getList();
 
         $data->extraHeadContent = '<script src="js/setBeakerSeq.js" async></script>';
@@ -589,7 +575,7 @@ class Quartz_chem extends MY_Controller
         $data = new stdClass();
         $data->errors = $errors;
         $data->numsamples = $numsamples;
-        $data->batch = $batch;
+        $data->batch = $this->_prepBatchForOutput($batch);
         $data->title = 'Add ICP solution weights';
         $data->main = 'quartz_chem/add_icp_weights';
         $this->load->view('template', $data);
@@ -708,7 +694,7 @@ class Quartz_chem extends MY_Controller
             $data->nrows = 10;
         }
 
-        $data->batch = $batch;
+        $data->batch = $this->_prepBatchForOutput($batch);
         $data->title = 'ICP Results Uploading';
         $data->main = 'quartz_chem/add_icp_results';
         $this->load->view('template', $data);
@@ -742,6 +728,7 @@ class Quartz_chem extends MY_Controller
         }
 
         $data = new stdClass();
+        $batch = $this->_prepBatchForOutput($batch);
         $data->batch = $batch->getReportArray(true);
         $data->errors = $errors;
         $data->title = 'ICP Quality Control';
@@ -781,7 +768,6 @@ class Quartz_chem extends MY_Controller
         $data->batch = Doctrine_Core::getTable('Batch')
             ->getReportArray($batch_id, true);
         $this->_dieIfQueryFailed($data->batch);
-
         $data->title = 'Final report -- Al - Be extraction from quartz';
         $data->todays_date = date('Y-m-d');
         $data->main = 'quartz_chem/final_report';
@@ -793,5 +779,20 @@ class Quartz_chem extends MY_Controller
         if (!$obj) {
             die($msg);
         }
+    }
+
+    private function _prepBatchForOutput($batch)
+    {
+        prep_for_output($batch);
+        foreach ($batch->Analysis as $analysis) {
+            prep_for_output($analysis);
+            foreach ($analysis->Split as $split) {
+                prep_for_output($split);
+                foreach ($split->IcpRun as $run) {
+                    prep_for_output($run);
+                }
+            }
+        }
+        return $batch;
     }
 }
