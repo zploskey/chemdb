@@ -65,11 +65,11 @@ $config['BaseCarrier'] = array(
     array(
         'field' => 'carrier[mfg_lot_no]',
         'label' => 'manufacturer lot no.',
-        'rules' => 'trim|htmlentities'),
+        'rules' => 'trim'),
     array(
         'field' => 'carrier[notes]',
         'label' => 'notes',
-        'rules' => 'trim|htmlentities'),
+        'rules' => 'trim'),
     array(
         'field' => 'carrier[in_use]',
         'label' => 'In use?',
@@ -320,7 +320,7 @@ $config['al_new_batch'] = array(
     array(
         'field' => 'description',
         'label' => 'description',
-        'rules' => 'trim|htmlentities'),
+        'rules' => 'trim'),
 );
 
 $config['al_sample_loading'] = array(
@@ -331,7 +331,7 @@ $config['al_sample_loading'] = array(
     array(
         'field' => 'bkr_number[]',
         'label' => 'beaker number',
-        'rules' => 'trim|htmlentities'), // this is a string in the db...
+        'rules' => 'trim'), // this is a string in the db...
     array(
         'field' => 'wt_bkr_tare[]',
         'label' => 'beaker tare weight',
@@ -343,7 +343,7 @@ $config['al_sample_loading'] = array(
     array(
         'field' => 'notes[]',
         'label' => 'notes',
-        'rules' => 'trim|htmlentities'),
+        'rules' => 'trim'),
 );
 
 $config['al_add_solution_weights'] = array(
@@ -358,7 +358,7 @@ $config['al_add_solution_weights'] = array(
     array(
         'field' => 'notes[]',
         'label' => 'notes',
-        'rules' => 'trim|htmlentities')
+        'rules' => 'trim')
 );
 
 $config['al_add_icp_data'] = array(
