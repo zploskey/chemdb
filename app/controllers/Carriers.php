@@ -17,6 +17,7 @@ class Carriers extends MY_Controller
     public function index($element = '', $sort_by = 'id', $sort_dir = 'asc')
     {
         $element = strtolower($element);
+
         if ($element) {
             if (!in_array($element, array_keys($this->ELEMENT_NAME))) {
                 show_404('page');
@@ -104,7 +105,7 @@ class Carriers extends MY_Controller
             }
         }
 
-        $data->carrier = $carrier;
+        $data->carrier = prep_for_output($carrier);
         $data->in_use = ($carrier->in_use == 'YES');
         $data->element = $element;
         $data->longname = $longname;
@@ -135,9 +136,9 @@ class Carriers extends MY_Controller
         $data = new stdClass();
         $data->title = 'View Carrier';
         $data->element = $element;
-        $data->subtitle = "Viewing $longname: $carrier->name";
+        $data->subtitle = "Viewing $longname: " . htmlspecialchars($carrier->name);
         $data->longname = $longname;
-        $data->carrier = $carrier;
+        $data->carrier = prep_for_output($carrier);
         $data->in_use = ($carrier->in_use == 'YES');
         $data->main = 'carriers/view';
         $this->load->view('template', $data);

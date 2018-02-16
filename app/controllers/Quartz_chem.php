@@ -764,10 +764,11 @@ class Quartz_chem extends MY_Controller
 
         // do all our calculations, pass true to do a complete report
         $data = new stdClass();
-        $data->batch = Doctrine_Core::getTable('Batch')
+        $batch = Doctrine_Core::getTable('Batch')
             ->getReportArray($batch_id, true);
-        $this->_dieIfQueryFailed($data->batch);
+        $this->_dieIfQueryFailed($batch);
         $data->title = 'Final report -- Al - Be extraction from quartz';
+        $data->batch = prep_for_output($batch);
         $data->todays_date = date('Y-m-d');
         $data->main = 'quartz_chem/final_report';
         $this->load->view('quartz_chem/report_template', $data);

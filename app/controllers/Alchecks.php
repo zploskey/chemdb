@@ -9,7 +9,7 @@ class Alchecks extends MY_Controller
         $data->allBatchOptions = '';
         foreach (Doctrine_Core::getTable('AlcheckBatch')->findAllBatches() as $b) {
             $tmpOpt = "<option value=$b->id>$b->id $b->owner $b->prep_date "
-                    .substr($b->description, 0, 80);
+                    .substr(htmlspecialchars($b->description), 0, 80);
             $data->allBatchOptions .= $tmpOpt;
         }
 
@@ -69,7 +69,7 @@ class Alchecks extends MY_Controller
             }
         }
 
-        $data->batch = $batch;
+        $data->batch = prep_for_output($batch);
         $data->batch_id = $batch_id;
         $data->nsamples = $nsamples;
         $data->title = 'Start new Al check batch';
@@ -174,7 +174,7 @@ class Alchecks extends MY_Controller
             '<script src="js/sample_search.js"></script>';
         $data->sample_name = $sample_name;
         $data->nsamples = $nsamples;
-        $data->batch = $batch;
+        $data->batch = prep_for_output($batch);
         $data->title = 'Stage 1 of new Al check batch';
         $data->main = 'alchecks/sample_loading';
         $this->load->view('template', $data);
@@ -226,7 +226,7 @@ class Alchecks extends MY_Controller
         $data->soln_wt = $soln_wt;
         $data->tot_df = $tot_df;
         $data->nsamples = $nsamples;
-        $data->batch = $batch;
+        $data->batch = prep_for_output($batch);
         $data->title = 'Add ICP weights to existing batch';
         $data->main = 'alchecks/add_solution_weights';
         $this->load->view('template', $data);
@@ -296,7 +296,7 @@ class Alchecks extends MY_Controller
         }
 
         $data->nsamples = $nsamples;
-        $data->batch = $batch;
+        $data->batch = prep_for_output($batch);
         $data->title = 'Add Be/Al/Ca/Fe/Ti/Mg/K concentrations';
         $data->main = 'alchecks/add_icp_data';
         $this->load->view('template', $data);
@@ -347,9 +347,9 @@ class Alchecks extends MY_Controller
         $data->nsamples = $nsamples;
         $data->sample_name = $sample_name;
         $data->sample_wt = $sample_wt;
-        $data->batch = $batch;
+        $data->batch = prep_for_output($batch);
         if (isset($_SERVER['REMOTE_USER'])) {
-            $user = htmlentities($_SERVER['REMOTE_USER']);
+            $user = htmlspecialchars($_SERVER['REMOTE_USER']);
         } else {
             $user = '';
         }
@@ -437,7 +437,7 @@ class Alchecks extends MY_Controller
             }
         }
 
-        $data->analysis = $an;
+        $data->analysis = prep_for_output($an);
         $data->batch_id = $batch_id;
         $data->main = 'alchecks/quick_add';
         $data->title = 'Dummy Al check';
