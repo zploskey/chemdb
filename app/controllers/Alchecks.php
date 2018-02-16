@@ -8,8 +8,9 @@ class Alchecks extends MY_Controller
         $data = new stdClass();
         $data->allBatchOptions = '';
         foreach (Doctrine_Core::getTable('AlcheckBatch')->findAllBatches() as $b) {
+            $b = prep_for_output($b);
             $tmpOpt = "<option value=$b->id>$b->id $b->owner $b->prep_date "
-                    .substr(htmlspecialchars($b->description), 0, 80);
+                    .substr($b->description, 0, 80);
             $data->allBatchOptions .= $tmpOpt;
         }
 
@@ -71,7 +72,7 @@ class Alchecks extends MY_Controller
 
         $data->batch = prep_for_output($batch);
         $data->batch_id = $batch_id;
-        $data->nsamples = $nsamples;
+        $data->nsamples = htmlspecialchars($nsamples);
         $data->title = 'Start new Al check batch';
         $data->main = 'alchecks/new_batch';
         $this->load->view('template', $data);

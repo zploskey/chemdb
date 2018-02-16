@@ -14,7 +14,7 @@ echo validation_errors();
         <td>Number of samples in batch:</td>
         <td>
             <?php if ($allow_num_edit): ?>
-                <input type="text" name="numsamples" size="50">
+                <input type="text" name="numsamples" size="50" value="<?php echo $nsamples; ?>">
             <?php else: ?>
                 <input type="hidden" name="numsamples" value="<?php echo $nsamples; ?>">
                 <?php echo $nsamples; ?>
