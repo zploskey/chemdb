@@ -23,7 +23,7 @@ echo validation_errors();
     </tr>
     <tr>
         <td>Your initials:</td>
-        <td><?php echo form_input('owner', $batch->owner); ?></td>
+        <td><input type="text" name="owner" value="<?php echo $batch->owner; ?>"></td>
     </tr>
     <tr>
         <td>Batch description:</td>
