@@ -52,12 +52,12 @@ for ($a = 0; $a < $nsamples; $a++):
         <td align="center"><?php echo $an['number_within_batch']; ?></td>
         <td><?php echo $sample_name[$a]; ?></td>
         <td align="center"><?php echo $an['bkr_number']; ?></td>
-        <td align="center"><input type=text name=icp_be[] value=<?php echo (float)$an['icp_be']; ?> size=4></td>
-        <td align="center"><input type=text name=icp_mg[] value=<?php echo (float)$an['icp_mg']; ?> size=4></td>
-        <td align="center"><input type=text name=icp_al[] value=<?php echo (float)$an['icp_al']; ?> size=4></td>
-        <td align="center"><input type=text name=icp_ca[] value=<?php echo (float)$an['icp_ca']; ?> size=4></td>
-        <td align="center"><input type=text name=icp_ti[] value=<?php echo (float)$an['icp_ti']; ?> size=4></td>
-        <td align="center"><input type=text name=icp_fe[] value=<?php echo (float)$an['icp_fe']; ?> size=4></td>
+        <td align="center"><input type=text name=icp_be[] value=<?php echo $an['icp_be']; ?> size=4></td>
+        <td align="center"><input type=text name=icp_mg[] value=<?php echo $an['icp_mg']; ?> size=4></td>
+        <td align="center"><input type=text name=icp_al[] value=<?php echo $an['icp_al']; ?> size=4></td>
+        <td align="center"><input type=text name=icp_ca[] value=<?php echo $an['icp_ca']; ?> size=4></td>
+        <td align="center"><input type=text name=icp_ti[] value=<?php echo $an['icp_ti']; ?> size=4></td>
+        <td align="center"><input type=text name=icp_fe[] value=<?php echo $an['icp_fe']; ?> size=4></td>
         <td align="center"><?php echo sprintf('%.2f', $qtz_be[$a]); ?></td>
         <td align="center"><?php echo sprintf('%.2f', $qtz_mg[$a]); ?></td>
         <td align="center"><?php echo sprintf('%.2f', $qtz_al[$a]); ?></td>

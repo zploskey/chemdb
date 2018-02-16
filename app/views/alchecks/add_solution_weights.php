@@ -42,11 +42,11 @@ Batch description: <?php echo $batch->description; ?><br/>
         <td align="center"><?php echo $an['bkr_number']; ?></td>
         <td align="center"><?php echo sprintf('%.4f', $sample_wt[$a]); ?></td>
          <td align="center">
-            <input type="text" name="wt_bkr_soln[]" value="<?php echo (float)$an->wt_bkr_soln; ?>" size="8">
+            <input type="text" name="wt_bkr_soln[]" value="<?php echo $an->wt_bkr_soln; ?>" size="8">
         </td>
         <td><?php echo sprintf('%.4f', $soln_wt[$a]); ?></td>
         <td align="center">
-            <input type="text" size="2" name='addl_dil_factor[]' value="<?php echo (float)$an->addl_dil_factor; ?>" size="5">
+            <input type="text" size="2" name='addl_dil_factor[]' value="<?php echo $an->addl_dil_factor; ?>" size="5">
         </td>
         <td align="center"><?php echo sprintf('%.2f', $tot_df[$a]); ?></td>
         <td><input type="text" name="notes[]" value="<?php echo $an->notes; ?>" size="36"></td>
