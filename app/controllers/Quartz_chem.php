@@ -163,6 +163,8 @@ class Quartz_chem extends MY_Controller
         // initialize carrier weights and Alcheck data arrays
         $be_tot_wt = 0;
         $al_tot_wt = 0;
+        $target_be_carrier_volume = array();
+        $target_al_carrier_volume = array();
         $diss_bottle_options = array();
         $prechecks = array();
         // get all the dissolution bottle numbers
@@ -233,6 +235,29 @@ class Quartz_chem extends MY_Controller
 
             $be_tot_wt += $an->wt_be_carrier;
             $al_tot_wt += $an->wt_al_carrier;
+
+            // calculate additional carrier volume needed to reach target
+            $target_mass_mg = 250.0; // mg... TODO: make this a setting
+            if ($batch->BeCarrier) {
+                $target_be_carrier_volume[] = $this->_calcCarrierVolumeNeeded(
+                    $batch->BeCarrier->be_conc, $an->wt_be_carrier, $target_mass_mg
+                );
+            } else {
+                $target_be_carrier_volume[] = 0;
+            }
+
+            $target_mass_mg = 1000.0; // mg ... TODO: make this a setting
+            // the sample may already have Al in it... subtract that from the target
+            if ($prechecks[$a]['m_al'] > 0) {
+                $target_mass_mg -= $prechecks[$a]['m_al'];
+            }
+            if ($batch->AlCarrier) {
+                $target_al_carrier_volume[] = $this->_calcCarrierVolumeNeeded(
+                    $batch->AlCarrier->al_conc, $an->wt_al_carrier, $target_mass_mg
+                );
+            } else {
+                $target_al_carrier_volume[] = 0;
+            }
         }
 
         $data = new stdClass();
@@ -262,6 +287,8 @@ class Quartz_chem extends MY_Controller
         $data->al_diff = $data->al_diff_wt - $al_tot_wt;
         $data->be_tot_wt = $be_tot_wt;
         $data->al_tot_wt = $al_tot_wt;
+        $data->target_be_carrier_volume = $target_be_carrier_volume;
+        $data->target_al_carrier_volume = $target_al_carrier_volume;
 
         // Set up our javascript
         $btnId = $this->input->post('hash');
@@ -772,6 +799,13 @@ class Quartz_chem extends MY_Controller
         $data->todays_date = date('Y-m-d');
         $data->main = 'quartz_chem/final_report';
         $this->load->view('quartz_chem/report_template', $data);
+    }
+
+    private function _calcCarrierVolumeNeeded($conc_ppm, $mass_carrier_mg, $target_mass_mg)
+    {
+        $cur_target_mg = $target_mass_mg / $conc_ppm - $mass_carrier_mg;
+        $vol_needed_microg = $cur_target_mg * 1000;
+        return $vol_needed_microg;
     }
 
     private function _dieIfQueryFailed($obj, $msg = self::MSG_QUERY_FAILED)

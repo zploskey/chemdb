@@ -112,7 +112,7 @@
 <table width="800" class="arial8">
     <tr>
         <td colspan="3" class="arial12">Sample information:</td>
-        <td colspan="7" class="arial10">
+        <td colspan="9" class="arial10">
             <i>Open new window to create Al/Fe/Ti concentrations for samples not in database:
                 <?php echo anchor('alchecks/quick_add', 'click here', array('target' => 'dummy_alcheck_window')); ?>
             </i>
@@ -124,16 +124,18 @@
         <td>Type</td>
         <td>Diss bottle ID</td>
         <td>Wt. bottle<br> tare</td>
-        <td>Wt. bottle <br>and sample</td>
+        <td>Wt. bottle<br>and sample</td>
         <td>Wt. sample</td>
-        <td>Wt. Be <br> carrier sol'n</td>
-        <td>Mass Be </td>
-        <td>Wt. Al <br> carrier sol'n</td>
+        <td>Be carrier<br/>to add<br/>(μL)</td>
+        <td>Wt. Be<br/>carrier<br/>sol'n</td>
+        <td>Mass Be<br/>(mg)</td>
+        <td>Al carrier<br/>to add<br/>(μL)</td>
+        <td>Al carrier<br/>carrier<br/>sol'n</td>
     </tr>
 
     <!-- Display all the analysis information -->
     <?php for ($i = 0; $i < $num_analyses; $i++): // main display loop?>
-        <tr><td colspan="10"><hr></td></tr>
+        <tr><td colspan="12"><hr></td></tr>
         <tr>
             <td> <?php echo $batch->Analysis[$i]->id; ?> </td>
             <td>
@@ -172,17 +174,22 @@
                 <input type=text size=8 name="wt_diss_bottle_sample[]" class="sampleWt" value="<?php echo $batch->Analysis[$i]->wt_diss_bottle_sample; ?>">
             </td>
 
-            <!-- Column 7. Sample weight -->
+            <!-- Sample weight -->
             <td>
                 <?php echo sprintf('%.4f', ($batch->Analysis[$i]->wt_diss_bottle_sample - $batch->Analysis[$i]->wt_diss_bottle_tare)); ?>
             </td>
 
-            <!-- Column 8. Be carrier wt -->
+            <!-- Be carrier to add in μL -->
+            <td>
+                <?php echo round($target_be_carrier_volume[$i]); ?>
+            </td>
+
+            <!-- Be carrier wt -->
             <td>
                 <input type=text size=8 name="wt_be_carrier[]" value="<?php echo $batch->Analysis[$i]->wt_be_carrier; ?>">
             </td>
 
-            <!-- Column 9. Be mass -->
+            <!-- Be mass -->
             <td>
                 <?php
                     if ($batch->BeCarrier) {
@@ -194,12 +201,17 @@
                 ?>
             </td>
 
-            <!-- Column 10. Al carrier wt -->
+            <!-- target al carrier volume microliters -->
+            <td>
+                <?php echo round($target_al_carrier_volume[$i]); ?>
+            </td>
+
+            <!-- Al carrier wt -->
             <td>
                 <input type=text size=8 name="wt_al_carrier[]" value="<?php echo $batch->Analysis[$i]->wt_al_carrier; ?>">
             </td>
 
-        </tr><tr><td colspan="10"></td></tr>
+        </tr><tr><td colspan="12"></td></tr>
         <tr>
             <td colspan="4">
                 <?php if ($prechecks[$i]['show']): ?>
@@ -223,17 +235,17 @@
         <!-- Print save and refresh button every two rows -->
         <?php if (($i % 2) != 0): ?>
             <tr>
-                <td colspan="11"><hr></td>
+                <td colspan="12"><hr></td>
             </tr>
             <tr>
-                <td colspan="11" align="center">
+                <td colspan="12" align="center">
                     <input type="submit" value="Save and refresh" class="ancBtn" id="ln<?php echo $i; ?>">
                 </td>
             </tr>
         <?php endif; ?>
     <?php endfor; // main display loop?>
 
-    <tr><td colspan="10"><hr></td></tr>
+    <tr><td colspan="12"><hr></td></tr>
 </table>
 
 <table width="800">
