@@ -801,11 +801,11 @@ class Quartz_chem extends MY_Controller
         $this->load->view('quartz_chem/report_template', $data);
     }
 
-    private function _calcCarrierVolumeNeeded($conc_ppm, $mass_carrier_mg, $target_mass_mg)
+    private function _calcCarrierVolumeNeeded($conc_ppm, $carrier_soln_mass_g, $target_element_mass_mg)
     {
-        $cur_target_mg = $target_mass_mg / $conc_ppm - $mass_carrier_mg;
-        $vol_needed_microg = $cur_target_mg * 1000;
-        return $vol_needed_microg;
+        $volume_soln_microliters = $carrier_soln_mass_g * 1000;
+        $volume_target_soln_microliters = $target_element_mass_mg / $conc_ppm * 1000;
+        return $volume_target_soln_microliters - $volume_soln_microliters;
     }
 
     private function _dieIfQueryFailed($obj, $msg = self::MSG_QUERY_FAILED)
