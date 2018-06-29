@@ -1,3 +1,5 @@
+CREATE DATABASE IF NOT EXISTS `chemdb`;
+USE `chemdb`;
 CREATE TABLE al_ams (id BIGINT UNSIGNED AUTO_INCREMENT, analysis_id BIGINT UNSIGNED, al_ams_std_id BIGINT UNSIGNED, ams_lab_id BIGINT UNSIGNED, date DATE, lab_num VARCHAR(255), r_to_rstd DOUBLE(53, 30), interror DOUBLE(53, 30), exterror DOUBLE(53, 30), truefrac DOUBLE(53, 30), notes TEXT, INDEX analysis_id_idx (analysis_id), INDEX al_ams_std_id_idx (al_ams_std_id), INDEX ams_lab_id_idx (ams_lab_id), PRIMARY KEY(id)) ENGINE = INNODB;
 CREATE TABLE al_ams_std (id BIGINT UNSIGNED AUTO_INCREMENT, name VARCHAR(255), al_std_series_id BIGINT UNSIGNED, r26to27 DOUBLE(53, 30), error DOUBLE(53, 30), notes TEXT, INDEX al_std_series_id_idx (al_std_series_id), PRIMARY KEY(id)) ENGINE = INNODB;
 CREATE TABLE al_carrier (id BIGINT UNSIGNED AUTO_INCREMENT, name TEXT NOT NULL, al_conc DOUBLE(53, 30), del_al_conc DOUBLE(53, 30), r26to27 DOUBLE(53, 30), r26to27_error DOUBLE(53, 30), in_service_date DATE, mfg_lot_no TEXT, owner TEXT, notes TEXT, in_use TEXT, PRIMARY KEY(id)) ENGINE = INNODB;

@@ -2,16 +2,18 @@ version: '3.1'
 
 services:
   db:
-    image: mysql:5.5
+    build:
+      context: .
+      dockerfile: ./docker/db/Dockerfile
     env_file:
       - .env
     ports:
       - "3306:3306"
     restart: always
-    volumes:
-      - ./app/sql:/docker-entrypoint-initdb.d/
   php:
-    build: .
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
     command: bash -c "php -S 0.0.0.0:8080"
     depends_on:
       - db
