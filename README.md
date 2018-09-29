@@ -98,9 +98,6 @@ returning 404 errors, then you may have to change the `$config['index_page']`
 variable from `index.php` to `index.php?`. For more information see:
 https://www.codeigniter.com/user_guide/installation/troubleshooting.html
 
-Finally, be sure that the webserver/php user has permission to write files to
-the directory `app/sessions/`.
-
 Logging
 -------
 
@@ -110,10 +107,15 @@ the user under which PHP runs has write access to the `app/logs/` directory.
 Enable logging by setting `$config['log_threshold']` in `app/config/config.php`
 to a non-zero value. See the comments in that section for threshold values.
 
-Encrypted Sessions
-------------------
+Encrypted Sessions (optional)
+-----------------------------
 
-ChemDB uses encrypted sessions. You will need to set a unique encryption key.
+ChemDB can optionally encrypt session data.
+If you are not concerned about the visibility of user search queries on the
+filesystem you can skip this step.
+Typically these files would only be readable by a privileged user
+and are transitory.
+To encrypt your sessions you will need to set a unique encryption key.
 In `app/config/config.php`, set `$config['encryption_key']` to a 32
 character passphrase/key containing numbers and upper- and lower-case letters.
 
