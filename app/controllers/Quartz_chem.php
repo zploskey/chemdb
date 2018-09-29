@@ -1,4 +1,4 @@
- <?php
+<?php
 /**
  * Business logic for the quartz chemistry pages.
  *
@@ -96,6 +96,14 @@ class Quartz_chem extends MY_Controller
         $data->main = 'quartz_chem/new_batch';
         $data->batch = prep_for_output($batch);
         $this->load->view('template', $data);
+    }
+
+    /* Helper function for load_samples(). */
+    private static function _calcCarrierVolumeNeeded($conc_ppm, $carrier_soln_mass_g, $target_element_mass_mg)
+    {
+        $volume_soln_microliters = $carrier_soln_mass_g * 1000;
+        $volume_target_soln_microliters = $target_element_mass_mg / $conc_ppm * 1000;
+        return $volume_target_soln_microliters - $volume_soln_microliters;
     }
 
     /**
@@ -220,9 +228,7 @@ class Quartz_chem extends MY_Controller
                 $prechecks[$a]['conc_ti'] = sprintf('%.1f', $precheck['icp_ti'] * $temp_df);
             } else {
                 $prechecks[$a]['show'] = false;
-                $temp_fe = '--';
-                $temp_ti = '--';
-                $temp_tot_al = '--';
+                $temp_fe = $temp_ti = $temp_tot_al = 0;
 
                 if ($batch->AlCarrier and $an->wt_al_carrier > 0) {
                     $temp_tot_al = $an->wt_al_carrier * $batch->AlCarrier->al_conc / 1000;
@@ -237,27 +243,28 @@ class Quartz_chem extends MY_Controller
             $al_tot_wt += $an->wt_al_carrier;
 
             // calculate additional carrier volume needed to reach target
-            $target_mass_mg = 250.0; // mg... TODO: make this a setting
+            $target_be_mass_mg = 250.0; // mg... TODO: make this a setting
             if ($batch->BeCarrier) {
                 $target_be_carrier_volume[] = $this->_calcCarrierVolumeNeeded(
                     $batch->BeCarrier->be_conc,
                     $an->wt_be_carrier,
-                    $target_mass_mg
+                    $target_be_mass_mg
                 );
             } else {
                 $target_be_carrier_volume[] = 0;
             }
 
-            $target_mass_mg = 1000.0; // mg ... TODO: make this a setting
-            // the sample may already have Al in it... subtract that from the target
-            if ($prechecks[$a]['m_al'] > 0) {
-                $target_mass_mg -= $prechecks[$a]['m_al'];
-            }
+            $target_al_mass_mg = 1500.0; // mg... TODO: make this a setting
             if ($batch->AlCarrier) {
+                // The sample may already have Al in it. Subtract that from the target.
+                $chk_al_mass_mg = $prechecks[$a]['m_al'] * 1000;
+                if ($chk_al_mass_mg > 0) {
+                    $target_al_mass_mg -= $chk_al_mass_mg;
+                }
                 $target_al_carrier_volume[] = $this->_calcCarrierVolumeNeeded(
                     $batch->AlCarrier->al_conc,
                     $an->wt_al_carrier,
-                    $target_mass_mg
+                    $target_al_mass_mg
                 );
             } else {
                 $target_al_carrier_volume[] = 0;
@@ -803,13 +810,6 @@ class Quartz_chem extends MY_Controller
         $data->todays_date = date('Y-m-d');
         $data->main = 'quartz_chem/final_report';
         $this->load->view('quartz_chem/report_template', $data);
-    }
-
-    private function _calcCarrierVolumeNeeded($conc_ppm, $carrier_soln_mass_g, $target_element_mass_mg)
-    {
-        $volume_soln_microliters = $carrier_soln_mass_g * 1000;
-        $volume_target_soln_microliters = $target_element_mass_mg / $conc_ppm * 1000;
-        return $volume_target_soln_microliters - $volume_soln_microliters;
     }
 
     private function _dieIfQueryFailed($obj, $msg = self::MSG_QUERY_FAILED)
