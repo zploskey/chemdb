@@ -1,12 +1,12 @@
 {
-    "description": "Cosmogenic Isotope Chemistry Database (ChemDB)",
     "name": "cosmolab/chemdb",
+    "description": "Web application for running a cosmogenic nuclide lab.",
     "type": "project",
-    "homepage": "https://github.com/cosmolab/chemdb",
+    "homepage": "https://github.com/zploskey/chemdb",
     "license": "MIT",
     "support": {
-        "source": "https://github.com/cosmolab/chemdb",
-        "issues": "https://github.com/cosmolab/chemdb/issues"
+        "source": "https://github.com/zploskey/chemdb",
+        "issues": "https://github.com/zploskey/chemdb/issues"
     },
     "require": {
         "php": ">=5.3.7",
