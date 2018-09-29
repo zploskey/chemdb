@@ -1,6 +1,7 @@
 <div class="navbar">
     <ul>
         <li><?php echo anchor('', 'Home'); ?></li> |
+        <li><?php echo anchor('ams', 'AMS'); ?></li> |
         <li><?php echo anchor('projects', 'Projects'); ?></li> |
         <li><?php echo anchor('samples', 'Samples'); ?></li> |
         <li><?php echo anchor('containers', 'Containers'); ?> |

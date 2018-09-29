@@ -1,4 +1,5 @@
 <br><br>
+<p><?php echo anchor('ams', 'Manage AMS'); ?></p>
 <p><?php echo anchor('projects', 'Manage Projects'); ?></p>
 <p><?php echo anchor('samples', 'Manage Samples'); ?></p>
 <p><?php echo anchor('containers', 'Manage Containers'); ?></p>
