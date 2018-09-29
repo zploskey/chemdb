@@ -17,7 +17,7 @@
         <p>
             <table class="itemlist">
                 <tr>
-                    <th>
+                    <th class="name">
                         <?php echo anchor("samples/index/$sort_by/$alt_sort_dir/0", 'Name'); ?>
                     </th>
                     <th>Actions</th>

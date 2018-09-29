@@ -10,7 +10,7 @@
     <p>
         <table class="itemlist">
             <tr>
-                <th>
+                <th class="name">
                     <?php echo anchor("projects/index/name/$alt_sort_dir/$alt_sort_page", 'Name'); ?>
                 </th>
                 <th>Actions</th>

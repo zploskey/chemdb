@@ -124,6 +124,15 @@ code {
     width: 400px;
 }
 
+.itemlist th.name {
+    width: 400px;
+}
+
+.itemlist th {
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
 th {
     border-top: 0px;
     border-left: 0px;

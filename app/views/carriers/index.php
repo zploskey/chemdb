@@ -25,7 +25,7 @@
                     <th>
                         <?php echo anchor("carriers/index/$element/id/$alt_sort_dir", 'ID'); ?>
                     </th>
-                    <th>
+                    <th class="name">
                         <?php echo anchor("carriers/index/$element/name/$alt_sort_dir", 'Name'); ?>
                     </th>
                     <th>Actions</th>
