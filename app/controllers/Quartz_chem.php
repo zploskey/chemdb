@@ -29,7 +29,7 @@ class Quartz_chem extends MY_Controller
         // build option tags for the select boxes
         foreach ($batches as $b) {
             $opt = "<option value=$b->id>$b->id $b->owner $b->start_date "
-                .substr($b->description, 0, 65);
+                . substr($b->description, 0, 65);
             $data->all_batches .= $opt;
             if ($b->completed == 'n') {
                 $data->open_batches .= $opt;
@@ -175,7 +175,7 @@ class Quartz_chem extends MY_Controller
             // create diss bottle dropdown options for each sample
             $bottle_option_html = '';
             foreach ($diss_bottles as $bottle) {
-                $bottle_option_html .= '<option value='.$bottle->id;
+                $bottle_option_html .= '<option value=' . $bottle->id;
                 if ($bottle->id == $an->diss_bottle_id) {
                     $bottle_option_html .= ' selected';
                 }
@@ -193,7 +193,7 @@ class Quartz_chem extends MY_Controller
             $precheck = Doctrine_Query::create()
                 ->from('AlcheckAnalysis a, a.AlcheckBatch b')
                 ->select('a.icp_al, a.icp_fe, a.icp_ti, a.wt_bkr_tare, a.wt_bkr_sample, '
-                    .'a.wt_bkr_soln, b.prep_date')
+                    . 'a.wt_bkr_soln, b.prep_date')
                 ->where('a.sample_name = ?', $sample_name)
                 ->andWhere("a.sample_name != ''")
                 ->orderBy('b.prep_date DESC')
@@ -240,7 +240,9 @@ class Quartz_chem extends MY_Controller
             $target_mass_mg = 250.0; // mg... TODO: make this a setting
             if ($batch->BeCarrier) {
                 $target_be_carrier_volume[] = $this->_calcCarrierVolumeNeeded(
-                    $batch->BeCarrier->be_conc, $an->wt_be_carrier, $target_mass_mg
+                    $batch->BeCarrier->be_conc,
+                    $an->wt_be_carrier,
+                    $target_mass_mg
                 );
             } else {
                 $target_be_carrier_volume[] = 0;
@@ -253,7 +255,9 @@ class Quartz_chem extends MY_Controller
             }
             if ($batch->AlCarrier) {
                 $target_al_carrier_volume[] = $this->_calcCarrierVolumeNeeded(
-                    $batch->AlCarrier->al_conc, $an->wt_al_carrier, $target_mass_mg
+                    $batch->AlCarrier->al_conc,
+                    $an->wt_al_carrier,
+                    $target_mass_mg
                 );
             } else {
                 $target_al_carrier_volume[] = 0;
@@ -298,7 +302,7 @@ class Quartz_chem extends MY_Controller
         $data->extraHeadContent = '
             <script src="js/sample_search.js" async></script>
             <script>
-              var clickedButtonId = "'.$btnId.'";
+              var clickedButtonId = "' . $btnId . '";
             </script>
             <script src="js/loadSamples.js"></script>';
 
@@ -333,7 +337,7 @@ class Quartz_chem extends MY_Controller
                 ->from('AlcheckAnalysis a')
                 ->leftJoin('a.AlcheckBatch b')
                 ->select('a.sample_name, a.icp_al, a.icp_fe, a.icp_ti, a.wt_bkr_tare, '
-                    .'a.wt_bkr_sample, a.wt_bkr_soln, b.prep_date')
+                    . 'a.wt_bkr_sample, a.wt_bkr_soln, b.prep_date')
                 ->where('a.alcheck_batch_id = b.id')
                 ->orderBy('b.prep_date DESC')
                 ->limit(1);
@@ -512,7 +516,7 @@ class Quartz_chem extends MY_Controller
             if ($is_valid) {
                 // add a new split if requested
                 for ($i = 0; $i < $numsamples; $i++) {
-                    if ($this->input->post('a'.$i)) {
+                    if ($this->input->post('a' . $i)) {
                         $tmp = new Split();
                         $tmp->split_num = $batch->Analysis[$i]->Split->count() + 1;
                         $batch->Analysis[$i]->Split[] = $tmp;
@@ -689,7 +693,7 @@ class Quartz_chem extends MY_Controller
             }
             if ($len_be != $nSplits) {
                 die("The number of splits in the database ($nSplits) does not "
-                  ."match the number submitted ($len_be)");
+                  . "match the number submitted ($len_be)");
             }
 
             // test that all submitted split beakers exist
@@ -700,8 +704,8 @@ class Quartz_chem extends MY_Controller
                 // comma separated list, true indicates we want an 'and' before last element
                 echo comma_str($missing, true);
                 die(' were not found in the database.<br>'
-                  .'Please ensure that you have spelled all '
-                  .'their names correctly or add them to the database.');
+                  . 'Please ensure that you have spelled all '
+                  . 'their names correctly or add them to the database.');
             }
 
             // data looks good, insert it into the database

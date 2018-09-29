@@ -23,7 +23,7 @@ class Carriers extends MY_Controller
                 show_404('page');
             }
 
-            $tableName = ucfirst($element).'Carrier';
+            $tableName = ucfirst($element) . 'Carrier';
 
             $carriers = Doctrine_Query::create()
                 ->from($tableName)
@@ -38,7 +38,7 @@ class Carriers extends MY_Controller
                 'sort_by'      => $sort_by,
                 'sort_dir'     => $sort_dir,
                 'alt_sort_dir' => switch_sort($sort_dir),
-                'longname'     => $elementName.' Carrier',
+                'longname'     => $elementName . ' Carrier',
             );
         } else {
             $data = array('title' => 'Manage Carriers');
@@ -65,13 +65,13 @@ class Carriers extends MY_Controller
             show_404('page');
         }
 
-        $tableName = ucfirst($element).'Carrier';
+        $tableName = ucfirst($element) . 'Carrier';
         $query = Doctrine_Query::create()
             ->from($tableName)
             ->where('id = ?', $id);
 
         $data = new stdClass();
-        $longname = $this->ELEMENT_NAME[$element].' Carrier';
+        $longname = $this->ELEMENT_NAME[$element] . ' Carrier';
 
         if ($id) {
             // edit an existing carrier
@@ -125,8 +125,8 @@ class Carriers extends MY_Controller
             show_404('page');
         }
 
-        $longname = $this->ELEMENT_NAME[$element].' Carrier';
-        $tableName = ucfirst($element).'Carrier';
+        $longname = $this->ELEMENT_NAME[$element] . ' Carrier';
+        $tableName = ucfirst($element) . 'Carrier';
         $carrier = Doctrine_Core::getTable($tableName)->find($id);
 
         if (!$carrier) {

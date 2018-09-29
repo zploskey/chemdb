@@ -10,7 +10,7 @@ class Alchecks extends MY_Controller
         foreach (Doctrine_Core::getTable('AlcheckBatch')->findAllBatches() as $b) {
             $b = prep_for_output($b);
             $tmpOpt = "<option value=$b->id>$b->id $b->owner $b->prep_date "
-                    .substr($b->description, 0, 80);
+                    . substr($b->description, 0, 80);
             $data->allBatchOptions .= $tmpOpt;
         }
 
@@ -393,7 +393,7 @@ class Alchecks extends MY_Controller
 
             if ($num_named != 0) {
                 if ($num_named > 1) {
-                    die('Error: Multiple samples named '.$an->sample_name);
+                    die('Error: Multiple samples named ' . $an->sample_name);
                 }
                 // Found a single sample
                 $an->Sample = $samples[0];

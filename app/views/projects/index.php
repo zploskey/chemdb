@@ -23,8 +23,8 @@
                     <td>
                         <span class="actionbar">
                             <ul>
-                                <li><?php echo anchor('projects/view/'.$p->id, 'View'); ?></li>
-                                <li><?php echo anchor('projects/edit/'.$p->id, 'Edit'); ?></li>
+                                <li><?php echo anchor('projects/view/' . $p->id, 'View'); ?></li>
+                                <li><?php echo anchor('projects/edit/' . $p->id, 'Edit'); ?></li>
                             </ul>
                         </span>
                     </td>

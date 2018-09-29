@@ -2,7 +2,7 @@
 <p><h2>
     <?php echo $subtitle; ?>
     <?php if (null !== $sample->id): ?>
-        (<?php echo anchor('samples/view/'.$sample->id, 'View'); ?>)
+        (<?php echo anchor('samples/view/' . $sample->id, 'View'); ?>)
     <?php endif; ?>
 </h2></p>
 

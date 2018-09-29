@@ -83,7 +83,7 @@ class Projects extends MY_Controller
 
             // there is a project, set the display values
             $data->title = 'Edit Project';
-            $data->subtitle = 'Editing '.$proj->name;
+            $data->subtitle = 'Editing ' . $proj->name;
             $data->arg = $id;
         } else {
             // it's a new project, create a new record object and other display values
@@ -134,7 +134,7 @@ class Projects extends MY_Controller
                     }
                 }
                 $proj->save();
-                redirect('projects/edit/'.$proj->id);
+                redirect('projects/edit/' . $proj->id);
             }
         }
         $data->proj = prep_for_output($proj);
@@ -160,7 +160,7 @@ class Projects extends MY_Controller
 
         $data = new stdClass();
         $data->title = 'View Project';
-        $data->subtitle = 'Viewing '.$proj->name;
+        $data->subtitle = 'Viewing ' . $proj->name;
         $data->proj = prep_for_output($proj);
         $data->main = 'projects/view';
         $this->load->view('template', $data);

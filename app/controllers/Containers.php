@@ -38,7 +38,7 @@ class Containers extends MY_Controller
                 ->execute();
 
             $data = array(
-                'title'        => 'Manage '.$this->LONGNAME_MAP[$type].'s',
+                'title'        => 'Manage ' . $this->LONGNAME_MAP[$type] . 's',
                 'containers'   => $containers,
                 'sort_by'      => $sort_by,
                 'sort_dir'     => $sort_dir,

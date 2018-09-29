@@ -3,7 +3,7 @@
 }
 
 define('CRONUS_BASE', 'http://hess.ess.washington.edu/');
-define('CRONUS_URI', CRONUS_BASE.'cgi-bin/matweb');
+define('CRONUS_URI', CRONUS_BASE . 'cgi-bin/matweb');
 
 class Calculator
 {
@@ -41,7 +41,7 @@ class Calculator
         $result = curl_exec($ch);
 
         if (!$result) {
-            die('Error retrieving calculator result:<br>'.curl_error($ch));
+            die('Error retrieving calculator result:<br>' . curl_error($ch));
         }
 
         curl_close($ch);

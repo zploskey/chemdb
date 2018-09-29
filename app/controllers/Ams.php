@@ -2,7 +2,6 @@
 
 class AMS extends MY_Controller
 {
-
     public function index()
     {
         $data = array(
@@ -27,5 +26,4 @@ class AMS extends MY_Controller
         $data['labs'] = $labs;
         $this->load->view('template', $data);
     }
-
 }

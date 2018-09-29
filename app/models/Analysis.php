@@ -11,7 +11,7 @@ class Analysis extends BaseAnalysis
                 if ($run["use_$element"] == 'y') {
                     // calculate Al mass from ICP measurement, in g
                     $vals[] =
-                        $this->getSolnWt() * $run["$element".'_result'] * $sp->getSolnWt()
+                        $this->getSolnWt() * $run["$element" . '_result'] * $sp->getSolnWt()
                         * 1e-6 / $sp->getSplitWt();
                 }
             }
@@ -23,8 +23,8 @@ class Analysis extends BaseAnalysis
     {
         list($M_element) = $this->getMassIcp($el);
         $lcEl = strtolower($el);
-        $M_carrier = $this['wt_'.$lcEl.'_carrier'] * 1e-6
-            * $this['Batch'][$el.'Carrier'][$lcEl.'_conc'];
+        $M_carrier = $this['wt_' . $lcEl . '_carrier'] * 1e-6
+            * $this['Batch'][$el . 'Carrier'][$lcEl . '_conc'];
         return safe_divide($M_element, $M_carrier) * 100;
     }
 

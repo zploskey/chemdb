@@ -7,7 +7,7 @@ Batch owner: <?php echo $batch->owner; ?><br/>
 Number of samples: <?php echo $nsamples; ?><br/>
 Batch description: <?php echo $batch->description; ?><br/>
 
-<?php echo $errors ? '<hr>'.validation_errors() : ''; ?>
+<?php echo $errors ? '<hr>' . validation_errors() : ''; ?>
 
 <table width="800">
     <tr>

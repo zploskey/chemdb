@@ -91,7 +91,7 @@ class Samples extends MY_Controller
         $data = array(
             'samples'          => prep_for_output($samples),
             'paginate'         => ($nrows > $num_per_page),
-            'pagination'       => 'Go to page: '.$this->pagination->create_links(),
+            'pagination'       => 'Go to page: ' . $this->pagination->create_links(),
             'sort_by'          => $sort_by,
             'alt_sort_dir'     => switch_sort($sort_dir),
             'page'             => $page,
@@ -129,7 +129,7 @@ class Samples extends MY_Controller
             }
 
             $data->title = 'Edit Sample';
-            $data->subtitle = 'Editing '.$sample->name;
+            $data->subtitle = 'Editing ' . $sample->name;
             $data->arg = $id;
         } else {
             // create a new sample object
@@ -249,7 +249,7 @@ EHC;
             $ppmAl = safe_divide($massAl[0] * 1e-6, $an->getSampleWt());
             $ppmAl = sprintf('%.3e', $ppmAl);
             // and we'll show in value x 10^(superscript) style
-            $data->ppmAl[] = str_replace('e', ' &times; 10<sup>', $ppmAl).'</sup>';
+            $data->ppmAl[] = str_replace('e', ' &times; 10<sup>', $ppmAl) . '</sup>';
             $data->yieldBe[] = sprintf('%.3f', $an->getPctYield('Be'));
             if (!$calcsExist) {
                 $calcsExist = isset($an->BeAms[0]->BeAmsStd) || isset($an->AlAms[0]->AlAmsStd);
@@ -258,7 +258,7 @@ EHC;
 
         $data->calcsExist = $calcsExist;
         $data->title = 'View Sample';
-        $data->subtitle = 'Viewing '.$sample->name;
+        $data->subtitle = 'Viewing ' . $sample->name;
         $data->sample = prep_for_output($sample);
         $data->main = 'samples/view';
         $this->load->view('template', $data);
@@ -275,7 +275,7 @@ EHC;
         $nAnalyses = $sample->Analysis->count();
         $useIcpBe = array();
         for ($i = 0; $i < $nAnalyses; $i++) {
-            $useIcpBe[$i] = ($this->input->post('analysis'.$i) == 'icp');
+            $useIcpBe[$i] = ($this->input->post('analysis' . $i) == 'icp');
         }
         $calcInputs = $sample->getCalcInputs($useIcpBe);
 
@@ -288,12 +288,12 @@ EHC;
         } else {
             $calcSel = false;
             for ($i = 0; $i < $sample->Analysis->count(); $i++) {
-                if ($this->input->post('calcAge_'.$i)) {
+                if ($this->input->post('calcAge_' . $i)) {
                     $calcType = 'age';
                     $nToCalc = $i;
                     break;
                 }
-                if ($this->input->post('calcEro_'.$i)) {
+                if ($this->input->post('calcEro_' . $i)) {
                     $calcType = 'erosion';
                     $nToCalc = $i;
                     break;

@@ -39,8 +39,8 @@
                         <td>
                             <span class="actionbar">
                                 <ul>
-                                    <li><?php echo anchor("containers/view/$type/".$c->id, 'View'); ?></li>
-                                    <li><?php echo anchor("containers/edit/$type/".$c->id, 'Edit'); ?></li>
+                                    <li><?php echo anchor("containers/view/$type/" . $c->id, 'View'); ?></li>
+                                    <li><?php echo anchor("containers/edit/$type/" . $c->id, 'Edit'); ?></li>
                                 </ul>
                             </span>
                         </td>
@@ -54,7 +54,7 @@
     <?php else: ?>
 
         <br>
-        No <?php echo strtolower($longname).'s'; ?> found.<br><br>
+        No <?php echo strtolower($longname) . 's'; ?> found.<br><br>
         Would you like to <?php echo anchor("containers/edit/$type", 'add'); ?> one?
 
     <?php endif; ?>

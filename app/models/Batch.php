@@ -105,7 +105,7 @@ class Batch extends BaseBatch
                 ->from('AlcheckAnalysis a')
                 ->leftJoin('a.AlcheckBatch b')
                 ->select('a.sample_name, a.icp_al, a.icp_fe, a.icp_ti, a.wt_bkr_tare, '
-                       .'a.wt_bkr_sample, a.wt_bkr_soln, b.prep_date')
+                       . 'a.wt_bkr_sample, a.wt_bkr_soln, b.prep_date')
                 ->where('a.sample_name = ?', $a['sample_name'])
                 ->andWhere('a.alcheck_batch_id = b.id')
                 ->orderBy('b.prep_date DESC')
@@ -247,12 +247,12 @@ class Batch extends BaseBatch
         $nrows = 0;
         foreach ($this['Analysis'] as $a) {
             foreach ($a['Split'] as $s) {
-                $bkr_text = "\n".$s['SplitBkr']['bkr_number'];
+                $bkr_text = "\n" . $s['SplitBkr']['bkr_number'];
                 $al_text .= $bkr_text;
                 $be_text .= $bkr_text;
                 foreach ($s['IcpRun'] as $r) {
-                    $al_text .= ' '.$r['al_result'];
-                    $be_text .= ' '.$r['be_result'];
+                    $al_text .= ' ' . $r['al_result'];
+                    $be_text .= ' ' . $r['be_result'];
                 }
                 ++$nrows;
             }

@@ -4,12 +4,8 @@ return PhpCsFixer\Config::create()
     ->setUsingCache(true)
     ->setRules(array(
         '@PSR2' => true,
-        'align_multiline_comment' => true,
         'array_syntax' => true,
-        'binary_operator_spaces' => array(
-            'align_double_arrow' => true,
-        ),
-        'concat_space' => array('spacing' => 'none'),
+        'concat_space' => array('spacing' => 'one'),
         'include' => true,
         'method_separation' => true,
         'native_function_casing' => true,
@@ -43,7 +39,6 @@ return PhpCsFixer\Config::create()
         'phpdoc_trim' => true,
         'phpdoc_types' => true,
         'phpdoc_var_without_name' => true,
-        'self_accessor' => true,
         'short_scalar_cast' => true,
         'single_quote' => true,
         'space_after_semicolon' => true,

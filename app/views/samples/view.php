@@ -1,5 +1,5 @@
 <?php $this->load->view('samples/nav'); ?>
-<p><h2><?php echo $subtitle; ?> (<?php echo anchor('samples/edit/'.$sample->id, 'Edit'); ?>)</h2></p>
+<p><h2><?php echo $subtitle; ?> (<?php echo anchor('samples/edit/' . $sample->id, 'Edit'); ?>)</h2></p>
 <br>
 <div class="data">
     <table>
@@ -13,7 +13,7 @@
             <?php
             if (isset($projects)) {
                 foreach ($projects as $p) {
-                    echo anchor('projects/view/'.$p['id'], $p['name']).'<br/>';
+                    echo anchor('projects/view/' . $p['id'], $p['name']) . '<br/>';
                 }
             }
             ?>
@@ -61,7 +61,7 @@
 
 <?php if ($nAnalyses > 0): ?>
 
-    <?php echo form_open('samples/submit_to_calc/'.$sample->id, array('target'=>'outputwindow')); ?>
+    <?php echo form_open('samples/submit_to_calc/' . $sample->id, array('target'=>'outputwindow')); ?>
 
     <h3>Analyses of this sample:</h3>
     <br>
@@ -80,7 +80,7 @@
             <th>Batch ID</th>
             <?php foreach ($sample['Analysis'] as $an): ?>
                 <td>
-                    <?php echo anchor('quartz_chem/final_report/'.$an['batch_id'], $an['batch_id']); ?>
+                    <?php echo anchor('quartz_chem/final_report/' . $an['batch_id'], $an['batch_id']); ?>
                 </td>
             <?php endforeach; ?>
         </tr>
@@ -175,8 +175,8 @@
                     $ai = $sample->Analysis[$i];
                     if (isset($ai->BeAms[0]->BeAmsStd) || isset($ai->AlAms[0]->AlAmsStd)) {
                         echo '<td>',
-                             form_submit('calcAge_'.$i, 'Get Exposure Age'), '<br/>',
-                             form_submit('calcEro_'.$i, 'Get Erosion Rate'),
+                             form_submit('calcAge_' . $i, 'Get Exposure Age'), '<br/>',
+                             form_submit('calcEro_' . $i, 'Get Erosion Rate'),
                              '</td>';
                     } else {
                         echo '<td></td>';

@@ -12,9 +12,8 @@ function floatcast($val)
 {
     if (is_numeric($val)) {
         return (float)$val;
-    } else {
-        return $val;
     }
+    return $val;
 }
 
 /*
@@ -34,8 +33,7 @@ function prep_for_output($arraylike)
     }
 
     foreach ($arr as $key => $val) {
-        if (is_array($val) || is_object($val))
-        {
+        if (is_array($val) || is_object($val)) {
             $arr[$key] = prep_for_output($val);
         } elseif ($val) {
             $arr[$key] = htmlspecialchars(floatcast($val));
@@ -238,7 +236,7 @@ function roundDownToNearest($num, $toNearest = 5)
 /**
  * Remove spaces from string.
  *
- * @param string $string 
+ * @param string $string
  * @return string String with spaces removed.
  */
 function strip_spaces($string)

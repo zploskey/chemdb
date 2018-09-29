@@ -2,7 +2,7 @@
 <p>
     <h2>
         <?php echo $subtitle; ?>
-        (<?php echo anchor("containers/edit/$type/".$container->id, 'Edit'); ?>)
+        (<?php echo anchor("containers/edit/$type/" . $container->id, 'Edit'); ?>)
     </h2>
 </p>
 <br>
