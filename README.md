@@ -142,5 +142,5 @@ Seeking help
 ------------
 
 If you run in to problems, find a bug, or wish to see an improvement,
-please create an issue on GitHub (https://github.com/cosmolab/chemdb/issues)
-and I will do my best to help you get it resolved.
+please [create an issue](https://github.com/zploskey/chemdb/issues)
+and I will do my best to help get it resolved.
