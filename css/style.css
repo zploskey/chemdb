@@ -9,20 +9,26 @@ body {
 }
 
 em {
- font-weight: bold;
+  font-weight: bold;
 }
 
 .pagination a {
-    text-decoration:none;
+  text-decoration:none;
 }
 
 .pagination a:hover {
-    text-decoration:underline;
+  text-decoration:underline;
 }
 
 table {
- empty-cells:show;
+  empty-cells:show;
 }
+
+textarea {
+  width: 100%;
+  resize: none;
+}
+
 .xl24
     {font-family:Arial;
     font-size:10.0pt;}

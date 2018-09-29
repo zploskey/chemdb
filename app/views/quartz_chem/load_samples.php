@@ -15,9 +15,7 @@
     <tr>
         <td colspan="4">
             Batch notes:<br>
-            <center>
-                <textarea name="notes" rows=5 cols=100><?php echo $batch->notes; ?></textarea>
-            </center>
+            <textarea name="notes" rows=5><?php echo $batch->notes; ?></textarea>
         </td>
     </tr>
     <tr>
