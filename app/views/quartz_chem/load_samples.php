@@ -213,7 +213,7 @@
         <tr>
             <td colspan="4">
                 <?php if ($prechecks[$i]['show']): ?>
-                    Concentrations in quartz:
+                    Concentrations in quartz:<br>
                     [Al] = <?php printf('%.1f', $prechecks[$i]['conc_al']); ?>
                     [Fe] = <?php printf('%.1f', $prechecks[$i]['conc_fe']); ?>
                     [Ti] = <?php printf('%.1f', $prechecks[$i]['conc_ti']); ?>
