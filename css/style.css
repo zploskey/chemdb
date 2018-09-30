@@ -178,6 +178,7 @@ span.actionbar li {
     display: inline;
 }
 
-.navbar {
+.navbar,
+.center {
     text-align: center;
 }

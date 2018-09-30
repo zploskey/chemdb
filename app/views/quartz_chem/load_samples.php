@@ -178,7 +178,7 @@
             </td>
 
             <!-- Be carrier to add in μL -->
-            <td>
+            <td class="center">
                 <?php echo round($target_be_carrier_volume[$i]); ?>
             </td>
 
@@ -200,7 +200,7 @@
             </td>
 
             <!-- target al carrier volume microliters -->
-            <td>
+            <td class="center">
                 <?php echo round($target_al_carrier_volume[$i]); ?>
             </td>
 
