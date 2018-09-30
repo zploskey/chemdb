@@ -275,11 +275,11 @@ class Quartz_chem extends MY_Controller
         // get previous carrier weights
         $be_prev = Doctrine_Core::getTable('Batch')
             ->findPrevBeCarrierWt($batch->be_carrier_id, $batch->start_date);
-        $data->be_prev = floatval($be_prev);
+        $data->be_prev = $be_prev ? prep_for_output($be_prev) : $be_prev;
 
         $al_prev = Doctrine_Core::getTable('Batch')
             ->findPrevAlCarrierWt($batch->al_carrier_id, $batch->start_date);
-        $data->al_prev = floatval($al_prev);
+        $data->al_prev = $al_prev ? prep_for_output($al_prev) : $al_prev;
 
         // create the lists of carrier options
         $data->be_carrier_options = Doctrine_Core::getTable('BeCarrier')
