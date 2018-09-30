@@ -16,9 +16,7 @@
     </tr>
     <tr>
         <td colspan="4">Batch notes:<br>
-            <center>
-                <textarea name=batch[notes] rows=5 cols=100><?php echo $batch->notes; ?></textarea>
-            </center>
+            <textarea name=batch[notes] rows=5><?php echo $batch->notes; ?></textarea>
         </td>
     </tr>
     <tr><td><hr></td></tr>
@@ -65,17 +63,14 @@
 
     <?php endfor; ?>
 
-    <tr><td colspan="6"><hr></td></tr>
 </table>
 
-    <table width="800">
-        <tr>
-            <td align="center">
-                <input type="submit" value="Save and refresh">
-            </td>
-        </tr>
-        <tr><td><hr></td></tr>
-    </table>
+<div class="center">
+  <hr>
+  <input type="submit" value="Save and refresh">
+  <hr>
+</div>
+
 <?php echo form_close(); ?>
 
 <?php $this->load->view('quartz_chem/bottom_links'); ?>

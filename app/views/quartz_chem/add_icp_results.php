@@ -37,9 +37,13 @@ AB2 0.9878 0.9504 0.9764
         <td><textarea name="be_text" rows="<?php echo $nrows; ?>" cols="48"><?php echo $be_text; ?></textarea></td>
     </tr>
 </table>
-<hr>
-<div class="center"><?php echo form_submit('submit', 'Save and refresh'); ?></div>
-<hr>
+
+<div class="center">
+  <hr>
+  <?php echo form_submit('submit', 'Save and refresh'); ?>
+  <hr>
+</div>
+
 <?php echo form_close(); ?>
 
 <?php $this->load->view('quartz_chem/bottom_links'); ?>
