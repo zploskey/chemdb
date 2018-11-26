@@ -3,6 +3,7 @@
         <title>UW-CNL-DB</title>
         <style>
         <!--
+        /* TODO: Fix the styling abomination that is this file. */
         table {
             empty-cells:show;
         }
@@ -107,7 +108,6 @@
 
         <p/>
 
-
         <table width="400" height="60" border="1" cellspacing="0" class="arial8">
             <tr><td colspan="5">Splitting:</td></tr>
             <tr>
@@ -118,7 +118,6 @@
                 <td width="80" align="center">8 ml<br>1% HNO3</td>
             </tr>
         </table>
-
 
         <!-- Drydown -->
 
@@ -184,6 +183,7 @@
                 <td width="80" align="center">Rinse<br>1 ml 0.5M<br/>H2SO4</td>
                 <td width="80" align="center">Elute Ti<br>10-12 ml<br>0.5M H2SO4</td>
                 <td width="80" align="center">Elute Be<br>10 ml<br>1.2M HCl</td>
+                <td width="80" align="center">Elute Mg<br>8 ml<br>1.2M HCl</td>
                 <td width="80" align="center">Elute Al<br>6 ml<br>3M HCl</td>
             </tr>
         </table>
