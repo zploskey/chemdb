@@ -79,7 +79,7 @@ for ($i = 0; $i < $numsamples; $i++): // main sample loop
 
                 <td colspan="2"></td>
                 <td align="center">
-                    <input type="submit" value="Add a split" name="<?php echo 'a' . $i; ?>">
+                    <input type="submit" value="Add a split" name="<?php echo 'a' . $i; ?>" tabindex="-1">
                 </td>
 
             <?php else: ?>
