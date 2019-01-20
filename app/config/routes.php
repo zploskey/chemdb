@@ -52,3 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+$route['ams'] = 'AMS';
+$route['ams/lab'] = 'AMSLabs';
+$route['ams/lab/(.+)'] = 'AMSLabs/$1';

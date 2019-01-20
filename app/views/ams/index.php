@@ -1,3 +1,3 @@
 <ul>
-    <li><?php echo anchor('ams/labs', 'Manage AMS Labs'); ?></li>
+    <li><?php echo anchor('ams/lab', 'Manage AMS Labs'); ?></li>
 </ul>

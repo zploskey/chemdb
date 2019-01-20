@@ -12,6 +12,19 @@ function in the controller they validate.
 
 */
 
+$config['AmsLab'] = array(
+    array(
+        'field' => 'lab[name]',
+        'label' => 'name',
+        'rules' => 'trim|required'
+    ),
+    array(
+        'field' => 'lab[full_name]',
+        'label' => 'full name',
+        'rules' => 'trim',
+    ),
+);
+
 $config['projects'] = array(
     array(
         'field' => 'name',
