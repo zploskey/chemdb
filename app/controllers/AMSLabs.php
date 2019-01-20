@@ -26,8 +26,9 @@ class AMSLabs extends MY_Controller
     {
         $lab = $id === null ? new AmsLab() : self::_find($id);
         if ($this->input->post()) {
+            $valid = $this->_validate();
             $lab = $lab->merge($this->input->post('lab'));
-            if ($this->_validate()) {
+            if ($valid) {
                 $lab->save();
                 redirect("ams/lab/view/$lab->id");
             }
@@ -61,7 +62,11 @@ class AMSLabs extends MY_Controller
 
     private static function _find($id)
     {
-        return Doctrine_Core::getTable('AmsLab')->find($id);
+        $lab = Doctrine_Core::getTable('AmsLab')->find($id);
+        if (!$lab) {
+            show_404();
+        }
+        return $lab;
     }
 
     private function _validate()
