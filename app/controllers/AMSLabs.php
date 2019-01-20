@@ -29,9 +29,7 @@ class AMSLabs extends MY_Controller
             $lab = $lab->merge($this->input->post('lab'));
             if ($this->_validate()) {
                 $lab->save();
-                if ($id === null) {
-                    redirect("ams/lab/edit/$lab->id");
-                }
+                redirect("ams/lab/view/$lab->id");
             }
         }
 
@@ -49,7 +47,7 @@ class AMSLabs extends MY_Controller
 
     public function view($id)
     {
-        $lab = Doctrine_Core::getTable('AmsLab')->find($id);
+        $lab = prep_for_output(self::_find($id));
         $this->load->view(
             'template',
             array(
