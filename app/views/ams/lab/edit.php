@@ -16,6 +16,8 @@
     <?php echo form_input('lab[full_name]', $lab->full_name); ?>
   </div>
 
+  <div class="formblock"><?php echo validation_errors(); ?></div>
+
   <div class="formblock center">
     <?php echo form_submit('save', 'Save'); ?>
   </div>
