@@ -3,7 +3,7 @@
 </h2>
 <div class="lab view">
   <div class="formblock">
-    <label>Name:</label>
+    <label for="name">Name:</label>
     <span name="name"><?php echo $lab->name; ?></span>
   </div>
   <div class="formblock">
