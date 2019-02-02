@@ -25,6 +25,19 @@ $config['AmsLab'] = array(
     ),
 );
 
+$config['AMSStandardSeries'] = array(
+    array(
+        'field' => 'series[code]',
+        'label' => 'code',
+        'rules' => 'trim|required'
+    ),
+    array(
+        'field' => 'series[notes]',
+        'label' => 'notes',
+        'rules' => 'trim',
+    ),
+);
+
 $config['projects'] = array(
     array(
         'field' => 'name',

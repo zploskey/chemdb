@@ -56,3 +56,6 @@ $route['translate_uri_dashes'] = FALSE;
 $route['ams'] = 'AMS';
 $route['ams/lab'] = 'AMSLabs';
 $route['ams/lab/(.+)'] = 'AMSLabs/$1';
+
+$route['ams/standard-series'] = 'AMSStandardSeries';
+$route['ams/standard-series/(.+)'] = 'AMSStandardSeries/$1';
