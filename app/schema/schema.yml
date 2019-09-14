@@ -306,10 +306,10 @@ Analysis:
       notnull: true
     sample_name:
       type: string
-      notnull: true
+      notnull: false
     sample_type:
       type: string
-      notnull: true
+      notnull: false
     diss_bottle_id:
       type: integer
       unsigned: true
@@ -384,19 +384,16 @@ Batch:
       type: string
     start_date:
       type: date(25)
-      default: '0000-00-00'
-      notnull: true
+      notnull: false
     split_date:
       type: date(25)
-      default: '0000-00-00'
-      notnull: true
+      notnull: false
     icp_date:
       type: date(25)
-      default: '0000-00-00'
-      notnull: true
+      notnull: false
     be_carrier_name:
       type: string
-      notnull: true
+      notnull: false
     wt_be_carrier_init:
       type: double(53,30)
       default: '0'
@@ -407,7 +404,7 @@ Batch:
       notnull: true
     al_carrier_name:
       type: string
-      notnull: true
+      notnull: false
     wt_al_carrier_init:
       type: double(53,30)
       default: '0'
