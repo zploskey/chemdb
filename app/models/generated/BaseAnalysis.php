@@ -101,11 +101,11 @@ abstract class BaseAnalysis extends Doctrine_Record
              ));
         $this->hasColumn('sample_name', 'string', null, array(
              'type' => 'string',
-             'notnull' => true,
+             'notnull' => false,
              ));
         $this->hasColumn('sample_type', 'string', null, array(
              'type' => 'string',
-             'notnull' => true,
+             'notnull' => false,
              ));
         $this->hasColumn('diss_bottle_id', 'integer', null, array(
              'type' => 'integer',

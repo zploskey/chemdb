@@ -82,7 +82,11 @@ class Quartz_chem extends MY_Controller
                     // new batch: create the analyses linked to this batch
                     for ($i = 1; $i <= $data->numsamples; $i++) {
                         $analysis = new Analysis();
+                        $analysis->sample_name = '';
+                        $analysis->sample_type = 'SAMPLE';
                         $analysis->number_within_batch = $i;
+                        $analysis->diss_bottle_number = '';
+                        $analysis->notes = '';
                         $batch->Analysis[] = $analysis;
                     }
                 }
@@ -702,7 +706,7 @@ class Quartz_chem extends MY_Controller
             }
 
             // test that all submitted split beakers exist
-            $bkrs = array_unique(array_keys(array_push($al_arr, $be_arr)));
+            $bkrs = array_unique(array_keys(array_merge($al_arr, $be_arr)));
             $missing = Doctrine_Core::getTable('SplitBkr')->findMissingBkrs($bkrs);
             if (count($missing) != 0) {
                 echo 'The beakers ';

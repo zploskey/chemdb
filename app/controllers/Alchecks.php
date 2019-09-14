@@ -52,10 +52,14 @@ class Alchecks extends MY_Controller
             $nsamples = $this->input->post('numsamples');
 
             if ($is_valid) {
-                for ($i = 1; $i <= $nsamples; $i++) {
-                    $tmp = new AlcheckAnalysis();
-                    $tmp->number_within_batch = $i;
-                    $batch->AlcheckAnalysis[] = $tmp;
+                if (!$is_edit) {
+                    for ($i = 1; $i <= $nsamples; $i++) {
+                        $tmp = new AlcheckAnalysis();
+                        $tmp->number_within_batch = $i;
+                        $tmp->sample_name = '';
+                        $tmp->bkr_number = '';
+                        $batch->AlcheckAnalysis[] = $tmp;
+                    }
                 }
                 $batch->save();
                 $batch_id = $batch->id;

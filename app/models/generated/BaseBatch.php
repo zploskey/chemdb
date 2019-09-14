@@ -10,9 +10,9 @@
  * @property int                             $be_carrier_id                        Type: integer
  * @property string                          $owner                                Type: string
  * @property string                          $description                          Type: string
- * @property string                          $start_date                           Type: date(25), default "0000-00-00", Date in ISO-8601 format (YYYY-MM-DD)
- * @property string                          $split_date                           Type: date(25), default "0000-00-00", Date in ISO-8601 format (YYYY-MM-DD)
- * @property string                          $icp_date                             Type: date(25), default "0000-00-00", Date in ISO-8601 format (YYYY-MM-DD)
+ * @property string                          $start_date                           Type: date(25), Date in ISO-8601 format (YYYY-MM-DD)
+ * @property string                          $split_date                           Type: date(25), Date in ISO-8601 format (YYYY-MM-DD)
+ * @property string                          $icp_date                             Type: date(25), Date in ISO-8601 format (YYYY-MM-DD)
  * @property string                          $be_carrier_name                      Type: string
  * @property double                          $wt_be_carrier_init                   Type: double(53), default "0"
  * @property double                          $wt_be_carrier_final                  Type: double(53), default "0"
@@ -32,9 +32,9 @@
  * @method int                               getBeCarrierId()                      Type: integer
  * @method string                            getOwner()                            Type: string
  * @method string                            getDescription()                      Type: string
- * @method string                            getStartDate()                        Type: date(25), default "0000-00-00", Date in ISO-8601 format (YYYY-MM-DD)
- * @method string                            getSplitDate()                        Type: date(25), default "0000-00-00", Date in ISO-8601 format (YYYY-MM-DD)
- * @method string                            getIcpDate()                          Type: date(25), default "0000-00-00", Date in ISO-8601 format (YYYY-MM-DD)
+ * @method string                            getStartDate()                        Type: date(25), Date in ISO-8601 format (YYYY-MM-DD)
+ * @method string                            getSplitDate()                        Type: date(25), Date in ISO-8601 format (YYYY-MM-DD)
+ * @method string                            getIcpDate()                          Type: date(25), Date in ISO-8601 format (YYYY-MM-DD)
  * @method string                            getBeCarrierName()                    Type: string
  * @method double                            getWtBeCarrierInit()                  Type: double(53), default "0"
  * @method double                            getWtBeCarrierFinal()                 Type: double(53), default "0"
@@ -54,9 +54,9 @@
  * @method Batch                             setBeCarrierId(int $val)              Type: integer
  * @method Batch                             setOwner(string $val)                 Type: string
  * @method Batch                             setDescription(string $val)           Type: string
- * @method Batch                             setStartDate(string $val)             Type: date(25), default "0000-00-00", Date in ISO-8601 format (YYYY-MM-DD)
- * @method Batch                             setSplitDate(string $val)             Type: date(25), default "0000-00-00", Date in ISO-8601 format (YYYY-MM-DD)
- * @method Batch                             setIcpDate(string $val)               Type: date(25), default "0000-00-00", Date in ISO-8601 format (YYYY-MM-DD)
+ * @method Batch                             setStartDate(string $val)             Type: date(25), Date in ISO-8601 format (YYYY-MM-DD)
+ * @method Batch                             setSplitDate(string $val)             Type: date(25), Date in ISO-8601 format (YYYY-MM-DD)
+ * @method Batch                             setIcpDate(string $val)               Type: date(25), Date in ISO-8601 format (YYYY-MM-DD)
  * @method Batch                             setBeCarrierName(string $val)         Type: string
  * @method Batch                             setWtBeCarrierInit(double $val)       Type: double(53), default "0"
  * @method Batch                             setWtBeCarrierFinal(double $val)      Type: double(53), default "0"
@@ -103,25 +103,22 @@ abstract class BaseBatch extends Doctrine_Record
              ));
         $this->hasColumn('start_date', 'date', 25, array(
              'type' => 'date',
-             'default' => '0000-00-00',
-             'notnull' => true,
+             'notnull' => false,
              'length' => '25',
              ));
         $this->hasColumn('split_date', 'date', 25, array(
              'type' => 'date',
-             'default' => '0000-00-00',
-             'notnull' => true,
+             'notnull' => false,
              'length' => '25',
              ));
         $this->hasColumn('icp_date', 'date', 25, array(
              'type' => 'date',
-             'default' => '0000-00-00',
-             'notnull' => true,
+             'notnull' => false,
              'length' => '25',
              ));
         $this->hasColumn('be_carrier_name', 'string', null, array(
              'type' => 'string',
-             'notnull' => true,
+             'notnull' => false,
              ));
         $this->hasColumn('wt_be_carrier_init', 'double', 53, array(
              'type' => 'double',
@@ -139,7 +136,7 @@ abstract class BaseBatch extends Doctrine_Record
              ));
         $this->hasColumn('al_carrier_name', 'string', null, array(
              'type' => 'string',
-             'notnull' => true,
+             'notnull' => false,
              ));
         $this->hasColumn('wt_al_carrier_init', 'double', 53, array(
              'type' => 'double',
