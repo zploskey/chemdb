@@ -1,4 +1,4 @@
-FROM mysql:5.5
+FROM mysql:5.7
 
 ADD ./app/sql /docker-entrypoint-initdb.d
 RUN chmod -R +rx /docker-entrypoint-initdb.d \
