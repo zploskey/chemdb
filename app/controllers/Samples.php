@@ -144,9 +144,7 @@ class Samples extends MY_Controller
             // validate what was submitted
             $valid = $this->form_validation->run('samples');
             $sample->merge($this->input->post('sample'));
-            if (!$this->input->post('antarctic')) {
-                $sample->antarctic = false;
-            }
+            $sample->antarctic = (bool)$this->input->post('sample[antarctic]') ? 1 : 0;
             $proj = $this->input->post('proj');
 
             if ($proj) {
