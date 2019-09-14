@@ -68,7 +68,6 @@ class Quartz_chem extends MY_Controller
 
         if ($this->input->post('is_refresh')) {
             $is_valid = $this->form_validation->run('batches');
-            $batch->id = $this->input->post('batch_id');
             $batch->owner = $this->input->post('owner');
             $batch->description = $this->input->post('description');
             $data->numsamples = $this->input->post('numsamples');
@@ -78,8 +77,8 @@ class Quartz_chem extends MY_Controller
             }
 
             if ($is_valid) {
-                $new_batch = (!(bool)$batch->id);
-                if ($new_batch) {
+                $batch_id = $this->input->post('batch_id');
+                if (!$batch_id) {
                     // new batch: create the analyses linked to this batch
                     for ($i = 1; $i <= $data->numsamples; $i++) {
                         $analysis = new Analysis();
@@ -336,7 +335,6 @@ class Quartz_chem extends MY_Controller
             ->leftJoin('a.DissBottle db')
             ->where('b.id = ?', $batch_id)
             ->orderBy('a.id ASC')
-            ->limit(1)
             ->fetchOne();
         $this->_dieIfQueryFailed($batch);
 
@@ -448,7 +446,6 @@ class Quartz_chem extends MY_Controller
             ->leftJoin('a.DissBottle db')
             ->where('b.id = ?', $batch_id)
             ->orderBy('a.id ASC')
-            ->limit(1)
             ->fetchOne();
         $this->_dieIfQueryFailed($batch);
 
@@ -492,8 +489,7 @@ class Quartz_chem extends MY_Controller
             ->leftJoin('s.SplitBkr sb')
             ->where('b.id = ?', $batch_id)
             ->orderBy('a.id ASC')
-            ->addOrderBy('s.split_num ASC')
-            ->limit(1);
+            ->addOrderBy('s.split_num ASC');
         $batch = $query->fetchOne();
         $this->_dieIfQueryFailed($batch);
 
@@ -570,7 +566,6 @@ class Quartz_chem extends MY_Controller
             ->where('b.id = ?', $batch_id)
             ->orderBy('a.id ASC')
             ->addOrderBy('sp.split_num')
-            ->limit(1)
             ->fetchOne();
         $this->_dieIfQueryFailed($batch);
 
@@ -582,7 +577,7 @@ class Quartz_chem extends MY_Controller
 
         // For the case when it's a new icp run, change from the default to today's date.
         // It will be saved when valid data is submitted on the form.
-        if ($batch->icp_date === '0000-00-00') {
+        if ($batch->icp_date === null || $batch->icp_date <= '1000-01-01') {
             $batch->icp_date = date('Y-m-d');
         }
 

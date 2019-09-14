@@ -76,7 +76,6 @@ class BatchTable extends Doctrine_Table
             ->orderBy('a.id ASC')
             ->addOrderBy('sp.split_num')
             ->addOrderBy('r.run_num')
-            ->limit(1)
             ->fetchOne();
     }
 

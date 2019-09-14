@@ -27,7 +27,6 @@ class Batch extends BaseBatch
                 ->andWhere('a.wt_al_carrier > ?', 0)
                 ->andWhere('b.start_date < ?', $blank->Batch->start_date)
                 ->orderBy('b.start_date DESC')
-                ->limit(1)
                 ->fetchOne();
         }
 
